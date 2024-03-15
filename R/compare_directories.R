@@ -1,4 +1,10 @@
 
+#' @import joyn
+#' @import DT
+#' @import fs
+#' @import digest
+#' @rawNamespace import(collapse, except = fdroplevels)
+#' @rawNamespace import(data.table, except = fdroplevels)
 
 # Directory info ####
 # Should we keep and improve this function or get rid of it?
