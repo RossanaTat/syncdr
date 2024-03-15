@@ -29,7 +29,7 @@ directory_info <- function(dir,
 
 }
 
-# compare directories - new version ####
+# compare directories - workhorse function ####
 compare_directories <- function(old,
                                 new,
                                 recurse = TRUE,
@@ -85,15 +85,31 @@ compare_directories <- function(old,
                                             createdCell = JS(
                                               "function(td, cellData, rowData, row, col) {
                                   if (cellData === true) {
-                                    $(td).css({'background-color': 'lightblue'});
+                                    $(td).css({'background-color': '#89CFF0'});
                                   } else {
-                                    $(td).css({'background-color': 'pink'});
+                                    $(td).css({'background-color': '#E0B0FF'});
                                   }
                                 }"
                                             )
                                        )
                                      )))
     return(list(new_files = new_only, dir_compare = dt_compare, display = table_display))
+
+  }
+
+  else if (by == "content") {
+
+    dt_compare <- dt_compare |>
+      fsubset(.joyn == "x & y") |>
+      fselect(wo_root, path_old, path_new) |>
+      ftransform(file_name = fs::path_file(wo_root),
+                 wo_root = NULL)
+
+    dt_compare |>
+      ftransform(hash_old = sapply(path_old, digest::digest),
+                             hash_new = sapply(path_new, digest::digest)) |>
+      ftransform(is_diff = (hash_old != hash_new))
+
 
   }
 
@@ -129,5 +145,7 @@ update_dir <- function(file_name,
 
 }
 
-
+# My example ####
+new <-  "C:/WBG/Packages/pipster"
+old <-  "C:/Users/wb621604/OneDrive - WBG/Desktop/pipster"
 
