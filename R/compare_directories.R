@@ -61,8 +61,13 @@ compare_directories <- function(old,
                            verbose          = FALSE)
 
   # Track files that are in new but not in old directory
-  new_only <- dt_compare |>
+  right_only <- dt_compare |>
     fsubset(.joyn == "y", wo_root) |>
+    ftransform(file_name = fs::path_file(wo_root),
+               wo_root = NULL)
+
+  left_only <- dt_compare |>
+    fsubset(.joyn == "x", wo_root) |>
     ftransform(file_name = fs::path_file(wo_root),
                wo_root = NULL)
 
@@ -93,7 +98,14 @@ compare_directories <- function(old,
                                             )
                                        )
                                      )))
-    return(list(new_files = new_only, dir_compare = dt_compare, display = table_display))
+    return(list(
+      unique_files = list(
+        right_only = right_only,
+        left_only = left_only
+      ),
+      dir_compare = dt_compare,
+      display = table_display
+    ))
 
   }
 
