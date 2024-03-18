@@ -1,5 +1,5 @@
 
-# Function to copy from new to old (in same sub-directory if recurse is TRUE) ####
+# Function to copy from new to old ####
 
 copy_to_old <- function(dir1,
                         dir2,
@@ -18,9 +18,11 @@ copy_to_old <- function(dir1,
 
   # Path of files to copy -files that are in new dir but not in old
 
-  to_copy <- dircomp$unique_files$dir2_only[, "path"]
+  to_copy<- dircomp$unique_files$dir2_only[, "path"]
+  to_copy_test <- to_copy[1:2,]
 
-  if (recurse = TRUE) {
+
+  if (recurse == TRUE) {
 
     #NOTE: Add checks! recurse TRUE should be valid only if
     #      the same subdirectory in destination folder exists
@@ -29,34 +31,38 @@ copy_to_old <- function(dir1,
     #   -moving the file to the same sub directory as it is in source
 
     # first get directory portion of new path to look for sub directories
-    new_path_dirs <- fs::path_dir(to_copy_R)
-    new_path_dirs <- gsub(new, "", new_path_dirs)
+    #new_path_dirs <- fs::path_dir(to_copy_test)
+    #new_path_dirs <- gsub(new, "", new_path_dirs)
 
-    # combine old path with sub directories takem
-    destination_path <- fs::path(old, new_path_dirs)
+    to_copy_test <- to_copy_test |>
+      ftransform(path_dir = fs::path_dir(to_copy_test$path)) |>
+      ftransform(path_dir = gsub(new, "", path_dir)) |>
+      # combine old path with sub directories
+      ftransform(destination_path = fs::path(old, path_dir))
 
     # check path exists
-    if (!dir_exists(destination_path) {
-      stop("One or more directories do not exist. Choose recurse = FALSE")
-    }
+    stopifnot(exprs = {
+      any(fs::dir_exists(to_copy_test$destination_path)) == FALSE
+    })
 
-    # Copy file
-    fs::file_copy(path = path_to_copy,
-                  new_path = destination_path,
-                  overwrite = overwrite)
+
+    # Copy the file
+    #purrr::map(to_copy_test$path,
+    #           ~ file_copy(path = .x,
+    #                       new_path = to_copy_test$destination_path, overwrite = TRUE))
+
+
+    # Apply copy_files function to each row of the dataframe
+    mapply(copy_files, to_copy_test$path, to_copy_test$destination_path)
+
   } else {
 
     # if recurse is FALSE, copy the file from new dir to old directory
 
-    fs::file_copy(path = path_to_copy,
-                  new_path = dir1,
-                  overwrite = overwrite)
+    purrr::map(to_copy_test$path,
+               ~ file_copy(path = .x, new_path = dir1, overwrite = TRUE))
 
   }
-
-
-
-
 
 }
 
@@ -65,3 +71,10 @@ copy_to_old <- function(dir1,
 
 
 # Delete files in old that are not available in new ####
+
+# Auxiliary functions ####
+
+# Create an auxiliary function to copy files
+copy_files <- function(path, destination_path) {
+  fs::file_copy(path = path, new_path = destination_path, overwrite = TRUE)
+}
