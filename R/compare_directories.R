@@ -48,8 +48,8 @@ compare_files <- function(file1, file2) {
 }
 
 # compare directories - workhorse function ####
-compare_directories <- function(dir1,
-                                dir2,
+compare_directories <- function(dir1, #path of directory 1
+                                dir2, #path of directory 2
                                 recurse = TRUE,
                                 by = "date",
                                 ...) {
@@ -65,7 +65,7 @@ compare_directories <- function(dir1,
 
   # Get info on directory 1
   info_dir1 <- directory_info(dir     = dir1,
-                                 recurse = recurse) |>
+                              recurse = recurse) |>
     ftransform(wo_root = gsub(dir1, "", path))
 
   # Get info on directory 2
@@ -158,13 +158,4 @@ compare_directories <- function(dir1,
 
 } # close function
 
-
-# My example ####
-new <-  "C:/WBG/Packages/pipster"
-old <-  "C:/Users/wb621604/OneDrive - WBG/Desktop/pipster"
-comparison_results <- compare_directories(old, new, recurse = TRUE)
-
-dir1 <- "/Users/Rossana/Desktop/pipster-1"
-dir2 <- "/Users/Rossana/Desktop/pipster"
-#comparison_results <- compare_directories(dir1, dir2, recurse = TRUE)
 

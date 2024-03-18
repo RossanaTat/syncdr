@@ -4,8 +4,8 @@ library(DT)
 
 # Function to display directory comparison in DT table ####
 
-display_dt <- function(dir1,
-                       dir2,
+display_dt <- function(dir1, # path of dir1
+                       dir2, # path of dir2
                        by = "date",
                        dircomp = NULL) {
 
