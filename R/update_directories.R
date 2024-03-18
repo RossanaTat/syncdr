@@ -6,7 +6,7 @@ copy_to_old <- function(dir1,
                         by      = "date",
                         dircomp = NULL,
                         overwrite = TRUE,
-                        recurse = TRUE) {
+                        recurse = FALSE) {
 
   if (is.null(dircomp)) {
 
@@ -18,6 +18,8 @@ copy_to_old <- function(dir1,
 
   # Path of files to copy -files that are in new dir but not in old
 
+  dir1 <- dir1
+  dir2 <- dir2
   to_copy<- dircomp$unique_files$dir2_only[, "path"]
   to_copy_test <- to_copy[1:2,]
 
@@ -40,16 +42,10 @@ copy_to_old <- function(dir1,
       # combine old path with sub directories
       ftransform(destination_path = fs::path(old, path_dir))
 
-    # check path exists
-    stopifnot(exprs = {
-      any(fs::dir_exists(to_copy_test$destination_path)) == FALSE
-    })
+    if (any(fs::dir_exists(to_copy_test$destination_path)) == FALSE) {
+      cli::abort("At least one destination path exists.")
+    }
 
-
-    # Copy the file
-    #purrr::map(to_copy_test$path,
-    #           ~ file_copy(path = .x,
-    #                       new_path = to_copy_test$destination_path, overwrite = TRUE))
 
 
     # Apply copy_files function to each row of the dataframe
