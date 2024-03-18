@@ -1,6 +1,5 @@
 
 #' @import joyn
-#' @import DT
 #' @import fs
 #' @import digest
 #' @rawNamespace import(collapse, except = fdroplevels)
@@ -229,8 +228,9 @@ compare_directories <- function(dir1,
 # My example ####
 new <-  "C:/WBG/Packages/pipster"
 old <-  "C:/Users/wb621604/OneDrive - WBG/Desktop/pipster"
-comparison_results <- compare_directories(dir1, dir2, recurse = TRUE)
+comparison_results <- compare_directories(old, new, recurse = TRUE)
 
 dir1 <- "/Users/Rossana/Desktop/pipster-1"
 dir2 <- "/Users/Rossana/Desktop/pipster"
+#comparison_results <- compare_directories(dir1, dir2, recurse = TRUE)
 
