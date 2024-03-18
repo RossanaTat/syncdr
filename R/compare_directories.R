@@ -47,68 +47,6 @@ compare_files <- function(file1, file2) {
   return(c(new = FALSE, old = TRUE))                        # Older file in dir2
 }
 
-# compare directories ac ####
-
-# compare_directories_ac <- function(dir1, dir2, recurse = FALSE) {
-#   # Check directory paths
-#   stopifnot(exprs = {
-#     fs::dir_exists(dir1)
-#     fs::dir_exists(dir2)
-#   })
-#
-#
-#   # Initialize results data.table
-#   results <- data.table(path1 = character(),
-#                         path2 = character(),
-#                         new = logical(),
-#                         old = logical())
-#
-#   # Get info of files
-#   file_list1 <- fs::dir_ls(dir1,
-#                            recurse = recurse,
-#                            type = "file") |>
-#     fs::file_info() |>
-#     # File directory without the root.
-#     ftransform(wo_root = gsub(dir1, "", path))
-#
-#   file_list2 <- fs::dir_ls(dir2,
-#                            recurse = recurse,
-#                            type = "file") |>
-#     fs::file_info() |>
-#     # File directory without the root.
-#     ftransform(wo_root = gsub(dir2, "", path))
-#
-#
-#
-#   dt_compare <- joyn::joyn(file_list1,
-#                            file_list2,
-#                            by = "wo_root",
-#                            suffixes = c("_old", "_new"),
-#                            match_type = "1:1")
-#
-#   # compare files shared in both dirs
-#   dt_sf <- dt_compare |>
-#     fsubset(.joyn == "x & y")
-#
-#   comparison <- vector("list", length = nrow(dt_sf))
-#   for (i in seq_len(nrow(dt_sf))) {
-#
-#     file_name <- fs::path_file(file_path)
-#
-#     # Skip special files (e.g., ., ..)
-#     if (fs::file_name(file_name) %in% c(".", "..")) next
-#
-#     # Check if corresponding file exists in dir2
-#
-#     # Compare files and add results to data.table
-#     comparison[i] <- compare_files(file_list$path_old[i], file_list$path_new[i])
-#
-#   }
-#
-#   return(results)
-# }
-
-
 # compare directories - workhorse function ####
 compare_directories <- function(dir1,
                                 dir2,
@@ -147,13 +85,17 @@ compare_directories <- function(dir1,
 
   # Track files that are in new but not in old directory
   dir2_only <- dt_compare |>
-    fsubset(.joyn == "y", wo_root) |>
+    fsubset(.joyn == "y", wo_root, path_new) |>
     ftransform(file_name = fs::path_file(wo_root),
+               path = path_new,
+               path_new = NULL,
                wo_root = NULL)
 
   dir1_only <- dt_compare |>
-    fsubset(.joyn == "x", wo_root) |>
+    fsubset(.joyn == "x", wo_root, path_old) |>
     ftransform(file_name = fs::path_file(wo_root),
+               path = path_old,
+               path_old = NULL,
                wo_root = NULL)
 
   # Do comparison based on by argument -If by date
@@ -166,30 +108,12 @@ compare_directories <- function(dir1,
                  wo_root = NULL,
                  is_new = modification_time_new > modification_time_old)
 
-    # visualization
-    table_display <- DT::datatable(dt_compare,
-                                   options = list(
-                                     pageLength = 10, # number of rows to display per page
-                                     columnDefs = list(
-                                       list(targets = "is_new",
-                                            createdCell = JS(
-                                              "function(td, cellData, rowData, row, col) {
-                                  if (cellData === true) {
-                                    $(td).css({'background-color': '#89CFF0'});
-                                  } else {
-                                    $(td).css({'background-color': '#E0B0FF'});
-                                  }
-                                }"
-                                            )
-                                       )
-                                     )))
     return(list(
       unique_files = list(
         dir1_only = dir1_only,
         dir2_only = dir2_only
       ),
-      dir_compare = dt_compare,
-      display = table_display
+      dir_compare = dt_compare
     ))
 
   }
@@ -202,10 +126,20 @@ compare_directories <- function(dir1,
       ftransform(file_name = fs::path_file(wo_root),
                  wo_root = NULL)
 
-    dt_compare |>
+    dt_compare <- dt_compare |>
       ftransform(hash_old = sapply(path_old, rlang::hash_file),
                              hash_new = sapply(path_new, rlang::hash_file)) |>
-      ftransform(is_diff = (hash_old != hash_new))
+      ftransform(is_diff = (hash_old != hash_new),
+                 hash_old = NULL,
+                 hash_new = NULL)
+
+    return(list(
+      unique_files = list(
+        dir1_only = dir1_only,
+        dir2_only = dir2_only
+      ),
+      dir_compare = dt_compare
+    ))
 
 
   }
