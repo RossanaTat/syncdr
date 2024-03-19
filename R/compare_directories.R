@@ -10,7 +10,7 @@ library(fs)
 library(fastverse)
 library(joyn)
 
-# Directory info ####
+# Directory info auxiliary function ####
 
 directory_info <- function(dir,
                            recurse = TRUE,
@@ -35,7 +35,7 @@ directory_info <- function(dir,
 
 }
 
-# Compare individual files ####
+# Compare individual files auxiliary function ####
 
 compare_files <- function(file1, file2) {
   if (!fs::file_exists(file2)) return(new = TRUE)  # New file in dir1
@@ -117,7 +117,7 @@ compare_directories <- function(left_path,
     fselect(path_left, path_right) |>
     ftransform(sync_status = ifelse(
       (is.na(path_left) & !is.na(path_right)), "missing in left",
-      ifelse(!is.na(path_left), "only in left", TRUE))
+      ifelse(!is.na(path_left), "only in left", "missing in left"))
       )
 
   # Compare common files by date only
@@ -139,16 +139,55 @@ compare_directories <- function(left_path,
 
   else if (isTRUE(by_date) & isTRUE(by_content)) {
 
+    common_files <- join_info |>
+      fsubset(.joyn == "x & y") |>
+      fselect(path_left, path_right, modification_time_left, modification_time_right)
 
+    common_files$is_new <- mapply(compare_files, common_files$path_left, common_files$path_right)
+
+    common_files <- common_files |>
+      fsubset(is_new == TRUE) |>
+      ftransform(hash_left  = sapply(path_left, rlang::hash_file),    #To fix: re try to replace with digest
+                 hash_right = sapply(path_right, rlang::hash_file)) |>
+      ftransform(is_diff    = (hash_left != hash_right),
+                 hash_left  = NULL,
+                 hash_right = NULL) |>
+      ftransform(sync_status = ifelse(
+        (is_new == TRUE & is_diff == TRUE), "file newer in left, with diff content from right",
+        ifelse((is_new == TRUE & is_diff == FALSE), "file newer in left, with same content as right",
+               "file older in left, with same content as right")
+      ))
 
   }
 
   else {
-    # note: content is true only
+
+    common_files <- join_info |>
+      fsubset(.joyn == "x & y") |>
+      fselect(path_left, path_right)
+
+    common_files <- common_files |>
+      ftransform(hash_left  = sapply(path_left, rlang::hash_file),    #To fix: re try to replace with digest
+                 hash_right = sapply(path_right, rlang::hash_file)) |>
+      ftransform(is_diff    = (hash_left != hash_right),
+                 hash_left  = NULL,
+                 hash_right = NULL) |>
+      ftransform(sync_status = ifelse(
+        is_diff == TRUE, "files' contents differ", "same content"
+      ))
 
   }
 
-  #return a list called sync_status with 2 elements, unique files and common files
+
+  sync_status = list(
+    common_files = common_files,
+    non_common_files = unique_files
+  )
+
+  class(sync_status) <- "syncdr_status"
+
+  return(sync_status)
+
 
 } # close function
 
