@@ -82,6 +82,18 @@ write_temporary_files <- function(file_path, num_data_points, random = TRUE) {
     return(print("file(s) succesfully written"))
 }
 
+## Example usage ####
+# create folder with no subfolders
+
+# create folder with 2 subfolders
+
+# create file within specified folder
+
+# write file with random data
+
+# write file with det. data
+
+
 ## TODO: #######################################################################
 ### Add one wrapper function to create folder-subfolder-file ####
 ### Make these functions vectorized ####
