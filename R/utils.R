@@ -2,6 +2,8 @@
 # functions to create temp folders and sub folders
 
 # function to create a temporary folder with 1 or more sub-folders
+#  -with folder being created into the current working directory
+
 create_temp_folders <- function(num_subfolders = 1,
                                 #num_subfolders = 2,
                                 name = "temp_folder") {
@@ -60,7 +62,8 @@ write_temporary_files <- function(file_path, num_data_points, random = TRUE) {
 
   #check path
   stopifnot(expr =
-              fs::dir_exists(file_path))
+              fs::dir_exists(dirname(file_path))
+            )
 
   # Get all R files in the specified folder and subfolders
   #r_files <- list.files(folder_path, pattern = "\\.R$", recursive = TRUE, full.names = TRUE)
@@ -82,5 +85,6 @@ write_temporary_files <- function(file_path, num_data_points, random = TRUE) {
 ## TODO: #######################################################################
 ### Add one wrapper function to create folder-subfolder-file ####
 ### Make these functions vectorized ####
+### Add examples on how to use these functions ####
 
 
