@@ -10,44 +10,7 @@ library(fs)
 library(fastverse)
 library(joyn)
 
-# Directory info auxiliary function ####
-
-directory_info <- function(dir,
-                           recurse = TRUE,
-                           ...) {
-
-  # List of files -also in sub-directories
-  files <- fs::dir_ls(path = dir,
-                      type = "file",
-                      recurse = recurse,
-                      ...)
-
-  # Filtering out special files
-  files <- files[!grepl("^\\.\\.$|^\\.$", files)]
-
-  # Get all dir info available in file_info
-  info_df <- fs::file_info(files) |>
-    ftransform(wo_root = gsub(dir, "", path))
-
-  # Add vriable of path without root
-
-  return(info_df)
-
-}
-
-# Compare individual files auxiliary function ####
-
-compare_files <- function(file1, file2) {
-  if (!fs::file_exists(file2)) return(new = TRUE)  # New file in dir1
-  if (!fs::file_exists(file1)) return(new = FALSE)   # Old file in dir2
-
-  # Compare creation times
-  time1 <- fs::file_info(file1)$modification_time
-  time2 <- fs::file_info(file2)$modification_time
-
-  if (time1 > time2) return(new = TRUE)  # Newer file in dir1
-  return(new = FALSE)                        # Older file in dir2
-}
+#
 
 # compare directories - workhorse function ####
 
@@ -160,7 +123,7 @@ compare_directories <- function(left_path,
 
   }
 
-  else {
+  else if (isFALSE(by_date) & isTRUE(by_content)) {
 
     common_files <- join_info |>
       fsubset(.joyn == "x & y") |>
@@ -178,10 +141,16 @@ compare_directories <- function(left_path,
 
   }
 
+  else { # if both by_date is FALSE and by_content is FALSE
+
+    common_files <- join_info |>
+      fsubset(.joyn == "x & y") |>
+      fselect(path_left, path_right)
+  }
 
   sync_status = list(
     common_files = common_files,
-    non_common_files = unique_files
+    non_common_files = non_common_files
   )
 
   class(sync_status) <- "syncdr_status"
@@ -190,6 +159,48 @@ compare_directories <- function(left_path,
 
 
 } # close function
+
+# Auxiliary functions ####
+# Q: should I move these functions to another, say, auxiliary_functions .R file?
+
+#Directory info auxiliary function ####
+
+directory_info <- function(dir,
+                           recurse = TRUE,
+                           ...) {
+
+  # List of files -also in sub-directories
+  files <- fs::dir_ls(path = dir,
+                      type = "file",
+                      recurse = recurse,
+                      ...)
+
+  # Filtering out special files
+  files <- files[!grepl("^\\.\\.$|^\\.$", files)]
+
+  # Get all dir info available in file_info
+  info_df <- fs::file_info(files) |>
+    ftransform(wo_root = gsub(dir, "", path))
+
+  # Add vriable of path without root
+
+  return(info_df)
+
+}
+
+# Compare individual files auxiliary function ####
+
+compare_files <- function(file1, file2) {
+  if (!fs::file_exists(file2)) return(new = TRUE)  # New file in dir1
+  if (!fs::file_exists(file1)) return(new = FALSE)   # Old file in dir2
+
+  # Compare creation times
+  time1 <- fs::file_info(file1)$modification_time
+  time2 <- fs::file_info(file2)$modification_time
+
+  if (time1 > time2) return(new = TRUE)  # Newer file in dir1
+  return(new = FALSE)                        # Older file in dir2
+}
 
 
 # Example paths ####
