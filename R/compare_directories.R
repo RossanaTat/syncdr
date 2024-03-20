@@ -10,7 +10,6 @@ library(fs)
 library(fastverse)
 library(joyn)
 
-#
 
 # compare directories - workhorse function ####
 
@@ -21,6 +20,33 @@ library(joyn)
 #' The sync status is returned for both:
 #' *1. NON common files, i.e., files that are either only in left or only in right
 #' *2. Common files, i.e., files that are in both directories
+#'
+#' @section possible types of sync status:
+#'
+#' Sync status is computed for both files that are available in both directories
+#' and files that are only into one directory or into the other. It is also computed either by date only,
+#' or by content only, or by date and content -depending on what you choose.
+#'
+#' Possible value of sync status -for common files:
+#'
+#' * When comparing by date: new, old, same
+#'
+#' * When comparing by date $ content: | date | content |
+#'                                      new  and diff;
+#'                                      new  and same;
+#'                                      old  and diff;
+#'                                      old  and same;
+#'                                      same and diff;
+#'                                      same and same
+#'
+#' * When comparing by content only: diff or same
+#'
+#' Possible value of sync status -for non common files:
+#'
+#' * When comparing by date: missing in left or only in right
+#'
+#'
+#'
 #' @param left_path path of one directory
 #' @param right_path path of another directory
 #' @param by_date logical: if TRUE, i.e., the default, it compares the directories based on date of modification of their common files
@@ -28,12 +54,27 @@ library(joyn)
 #'    If TRUE, it compares the directories based on whether (hashed) content of common files is same or different (ADD EXPLANATION OF 3 TYPES)
 #' @param recurse If TRUE recurse fully, if a positive number the number of levels to recurse.
 #'
-#' @return list of class "syncdr_status", with two elements:
-#'   *1. Unique files: ...TODO
-#'   *2  Common files: ...TODO
+#' @return list of class "syncdr_status", with 4 elements:
+#'   * Non-common files: paths and sync status of files only in right/only in left
+#'   * Common files: paths and sync status of files in both directories
+#'   * Path of left directory
+#'   * Path of right directory
+#'
+#' @examples
+#'
+#' sync_status_date <- compare_directories(left,
+#                                          right)
+#
+# sync_status_date_cont <- compare_directories(left,
+#                                              right,
+#                                              by_content = TRUE)
+#
+# sync_status_content_only <- compare_directories(left,
+#                                                 right,
+#                                                 by_content = TRUE,
+#                                                 by_date    = FALSE)
+#'
 
-
-# TODO(RT): explain different types of status
 
 compare_directories <- function(left_path,
                                 right_path,
@@ -70,7 +111,7 @@ compare_directories <- function(left_path,
   #   - unique files are files that are available only in left or only in right
   #   - status is either missing in left: when file is in right but not in left
   #               or     only in left: when file is
-  #   -NOTE: available in both here is not needed,
+  #   -NOTE: available in both here is not needed here,
   #          since we are filtering files that are only in left or only in right
 
   non_common_files <- join_info |>
@@ -170,7 +211,7 @@ compare_directories <- function(left_path,
 # Auxiliary functions ####
 # Q: should I move these functions to another, say, auxiliary_functions .R file?
 
-#Directory info auxiliary function ####
+# Get all info of a single directory auxiliary function ####
 
 directory_info <- function(dir,
                            recurse = TRUE,
@@ -187,9 +228,7 @@ directory_info <- function(dir,
 
   # Get all dir info available in file_info
   info_df <- fs::file_info(files) |>
-    ftransform(wo_root = gsub(dir, "", path))
-
-  # Add vriable of path without root
+    ftransform(wo_root = gsub(dir, "", path)) #add without root var
 
   return(info_df)
 
