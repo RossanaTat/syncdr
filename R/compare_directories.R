@@ -212,8 +212,8 @@ compare_files <- function(file1, file2) {
 left  <- paste0(getwd(), "/temp_folder_1")
 right <- paste0(getwd(), "/temp_folder_2")
 
-#sync_status_date <- compare_directories(left, right)
-#sync_status_date_cont <- compare_directories(left, right, by_content = TRUE)
-#sync_status_content_only <- compare_directories(left, right, by_content = TRUE, by_date = FALSE)
+# sync_status_date <- compare_directories(left, right)
+# sync_status_date_cont <- compare_directories(left, right, by_content = TRUE)
+# sync_status_content_only <- compare_directories(left, right, by_content = TRUE, by_date = FALSE)
 
 
