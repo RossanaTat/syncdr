@@ -83,7 +83,7 @@ display_sync_status <- function(
                            "function(td, cellData, rowData, row, col) {
                             var is_new = rowData[3];
                             var is_diff = rowData[4];
-                            if (is_new == true | is_diff == true) {
+                            if (is_new == true | is_diff == true | cellData.includes('only in left') ) {
                               $(td).css({'background-color': '#90EE90'});
                             } else {
                               $(td).css({'background-color': '#FBEC5D'});
