@@ -96,7 +96,8 @@ compare_directories <- function(left_path,
       ftransform(sync_status = ifelse(
         is_new == TRUE, "newer in left, older in right dir",
         "older in left, newer in right dir"
-      ))
+      )) |>
+      fselect(path_left, path_right, is_new, modification_time_left, modification_time_right, sync_status)
 
   }
 
@@ -116,10 +117,12 @@ compare_directories <- function(left_path,
                  hash_left  = NULL,
                  hash_right = NULL) |>
       ftransform(sync_status = ifelse(
-        (is_new == TRUE & is_diff == TRUE), "file newer in left, with diff content from right",
-        ifelse((is_new == TRUE & is_diff == FALSE), "file newer in left, with same content as right",
-               "file older in left, with same content as right")
-      ))
+        (is_new == TRUE & is_diff == TRUE), "newer in left, different content than right",
+        ifelse((is_new == TRUE & is_diff == FALSE), "newer in left, same content as right",
+               "older in left, same content as right")
+      )) |>
+      fselect(path_left, path_right, is_new, is_diff, sync_status)
+
 
   }
 
@@ -136,8 +139,10 @@ compare_directories <- function(left_path,
                  hash_left  = NULL,
                  hash_right = NULL) |>
       ftransform(sync_status = ifelse(
-        is_diff == TRUE, "files' contents differ", "same content"
-      ))
+        is_diff == TRUE, "different content", "same content"
+      )) |>
+      fselect(path_left, path_right, is_diff, sync_status)
+
 
   }
 
@@ -192,7 +197,7 @@ directory_info <- function(dir,
 
 compare_files <- function(file1, file2) {
   if (!fs::file_exists(file2)) return(new = TRUE)  # New file in dir1
-  if (!fs::file_exists(file1)) return(new = FALSE)   # Old file in dir2
+  if (!fs::file_exists(file1)) return(new = FALSE)   # Old file in dir1
 
   # Compare creation times
   time1 <- fs::file_info(file1)$modification_time
