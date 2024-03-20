@@ -138,6 +138,7 @@ compare_directories <- function(left_path,
         is_new == TRUE, "newer in left, older in right dir",
         "older in left, newer in right dir"
       )) |>
+      # reordering columns for better displaying
       fselect(path_left, path_right, is_new, modification_time_left, modification_time_right, sync_status)
 
   }
@@ -162,6 +163,7 @@ compare_directories <- function(left_path,
         ifelse((is_new == TRUE & is_diff == FALSE), "newer in left, same content as right",
                "older in left, same content as right")
       )) |>
+      # reordering columns for better displaying
       fselect(path_left, path_right, is_new, is_diff, sync_status)
 
 
@@ -182,6 +184,7 @@ compare_directories <- function(left_path,
       ftransform(sync_status = ifelse(
         is_diff == TRUE, "different content", "same content"
       )) |>
+      # reordering columns for better displaying
       fselect(path_left, path_right, is_diff, sync_status)
 
 
