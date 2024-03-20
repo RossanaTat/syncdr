@@ -6,29 +6,36 @@
 
 # Copy files between directories ####
 
-copy_files <- function(path_from, #Path of files to copy
-                       path_to) #Path of folder where files are copied
-  {
+copy_files_to_right <- function(left_dir,
+                                right_dir,
+                                files_to_copy) {
 
   # Check paths exist
   stopifnot(expr = {
-    fs::dir_exists(dirname(path_from))
-    fs::dir_exists(path_to)
+    all(file.exists(files_to_copy$path_from,
+                    na.rm = TRUE)) &&
+      all(file.exists(files_to_copy$path_to,
+                      na.rm = TRUE))
   })
 
-  # Get destination path
-  # Call auxiliary function
+  # Check/create source and destination path
 
+  files_to_copy <- files_to_copy |>
+    ftransform(wo_root_left = gsub(left_dir, "", path_left)) |>
+    ftransform(path_from    = path_left,
+               path_to      = fs::path(right_dir, wo_root_left))
 
-#TODO ??
-  # memo: destination path should be the combination of file path without root and path_to
+  # copy files
+  mapply(fs::file_copy,
+         files_to_copy$path_from,
+         files_to_copy$path_to,
+         MoreArgs = list(overwrite = TRUE))
 
+  return(TRUE)
 }
 
 
-# Create destination path auxiliary function ? ####
-
-# Delete file auxiliary function ####
+# Delete file auxiliary function - not sure is needed ####
 
 
 

@@ -5,11 +5,8 @@
 #  -with folder being created into the current working directory
 
 create_temp_folders <- function(num_subfolders = 1,
-                                #num_subfolders = 2,
                                 name = "temp_folder") {
 
-  # Create a temporary directory
-  #temp_dir <- tempdir()
 
   # Create a temporary directory inside the working directory
   temp_dir <- file.path(getwd(), name)
@@ -21,26 +18,9 @@ create_temp_folders <- function(num_subfolders = 1,
   folder_paths <- file.path(temp_dir, folder_names)
   lapply(folder_paths, dir.create)
 
-  # Call create_subfolders function for each folder
-  #lapply(folder_paths, create_subfolders, num_subfolders)
-
   # Return the path to the temporary directory
   return(temp_dir)
 }
-
-# Function to create subfolders and R files within a folder
-# create_subfolders <- function(folder_path, num_subfolders, file_name) {
-#
-#   subfolder_names <- paste0("subfolder", "_", 1:num_subfolders)
-#
-#
-#   subfolder_paths <- file.path(folder_path, subfolder_names)
-#
-#   lapply(subfolder_paths, dir.create)
-#
-#   lapply(subfolder_paths,
-#          function(subfolder_path) file.create(file.path(subfolder_path, paste0("file", "_", file_name, ".R"))))
-# }
 
 
 # Function to create file in folder ####
@@ -76,22 +56,56 @@ write_temporary_files <- function(file_path, num_data_points, random = TRUE) {
 
     {sample_data <- seq(1, num_data_points)}
 
-    # Write random data to each R file
+    # Write data in file
 
-    writeLines(sprintf("data <- c(%s)", paste(sample_data, collapse = ",")), file_path)
+    writeLines(sprintf("sample_data <- c(%s)", paste(sample_data, collapse = ",")), file_path)
     return(print("file(s) succesfully written"))
 }
 
 ## Example usage ####
-# create folder with no subfolders
 
-# create folder with 2 subfolders
+# create temporary folder 1 with 1 subfolder
+# create_temp_folders(name = "temp_folder_1")
+#
+# # create temporary folder 2 with 2 subfolders
+# create_temp_folders(name = "temp_folder_2", num_subfolders = 2)
+#
+# # add files
+# create_temp_file(folder_path = paste0(getwd(), "/temp_folder_1"),
+#                  file_name = "A")
+#
+# create_temp_file(folder_path = paste0(getwd(), "/temp_folder_2"),
+#                  file_name = "A")
+#
+# create_temp_file(folder_path = paste0(getwd(), "/temp_folder_2"),
+#                  file_name = "C")
+#
+# create_temp_file(folder_path = paste0(getwd(), "/temp_folder_1"),
+#                  file_name = "B")
+#
+# create_temp_file(folder_path = paste0(getwd(), "/temp_folder_1/subfolder_1"),
+#                  file_name = "D")
+#
+# create_temp_file(folder_path = paste0(getwd(), "/temp_folder_2/subfolder_1"),
+#                  file_name = "D")
+#
+#
+# # write file with some data
+# write_temporary_files(file_path = paste0(getwd(), "/temp_folder_1/file_A.R"),
+#                       num_data_points = 10, random = FALSE)
+#
+# write_temporary_files(file_path = paste0(getwd(), "/temp_folder_2/file_A.R"),
+#                       num_data_points = 10, random = FALSE)
+#
+# write_temporary_files(file_path = paste0(getwd(), "/temp_folder_1/subfolder_1/file_D.R"),
+#                       num_data_points = 10, random = TRUE)
+#
+# write_temporary_files(file_path = paste0(getwd(), "/temp_folder_2/subfolder_1/file_D.R"),
+#                       num_data_points = 10, random = TRUE)
 
-# create file within specified folder
 
-# write file with random data
 
-# write file with det. data
+
 
 
 ## TODO: #######################################################################

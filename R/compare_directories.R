@@ -155,7 +155,9 @@ compare_directories <- function(left_path,
 
   sync_status = list(
     common_files = common_files,
-    non_common_files = non_common_files
+    non_common_files = non_common_files,
+    left_path = left_path,
+    right_path = right_path
   )
 
   class(sync_status) <- "syncdr_status"
@@ -209,11 +211,21 @@ compare_files <- function(file1, file2) {
 
 
 # Example paths ####
-left  <- paste0(getwd(), "/temp_folder_1")
-right <- paste0(getwd(), "/temp_folder_2")
+left_path  <- paste0(getwd(), "/temp_folder_1")
+right_path <- paste0(getwd(), "/temp_folder_2")
 
-# sync_status_date <- compare_directories(left, right)
-# sync_status_date_cont <- compare_directories(left, right, by_content = TRUE)
-# sync_status_content_only <- compare_directories(left, right, by_content = TRUE, by_date = FALSE)
+# Example usage ####
 
-
+# sync_status_date <- compare_directories(left,
+#                                         right)
+#
+# sync_status_date_cont <- compare_directories(left,
+#                                              right,
+#                                              by_content = TRUE)
+#
+# sync_status_content_only <- compare_directories(left,
+#                                                 right,
+#                                                 by_content = TRUE,
+#                                                 by_date = FALSE)
+#
+#
