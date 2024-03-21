@@ -7,7 +7,8 @@
 partial_update_missing_files_asym_to_right(
   sync_status,
   by_date = TRUE,
-  by_content = FALSE
+  by_content = FALSE,
+  recurse = TRUE
 )
 }
 \arguments{
@@ -16,6 +17,11 @@ partial_update_missing_files_asym_to_right(
 \item{by_date}{logical, TRUE by default}
 
 \item{by_content}{logical, FALSE by default}
+
+\item{recurse}{logical, TRUE by default.
+If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
+If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
+and the file will be copied at the top level}
 }
 \value{
 print "synchronized"
@@ -25,7 +31,7 @@ update non common files in right directory based on left one -i.e., the function
 \itemize{
 \item for common_files:
 \itemize{
-\item do nothing
+\item do nothing, left unchanged
 }
 \item for non common files,
 \itemize{

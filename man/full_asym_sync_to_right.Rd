@@ -4,14 +4,25 @@
 \alias{full_asym_sync_to_right}
 \title{Full asymmetric synchronization to right}
 \usage{
-full_asym_sync_to_right(sync_status, by_date = TRUE, by_content = FALSE)
+full_asym_sync_to_right(
+  sync_status,
+  by_date = TRUE,
+  by_content = FALSE,
+  recurse = TRUE
+)
 }
 \arguments{
-\item{sync_status}{object of class 'syncdr_status' with info on sync status and comparison of directories}
+\item{sync_status}{object of class 'syncdr_status' with info on sync status
+and comparison of directories}
 
 \item{by_date}{logical, TRUE by default}
 
 \item{by_content}{logical, FALSE by default}
+
+\item{recurse}{logical, TRUE by default.
+If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
+If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
+and the file will be copied at the top level}
 }
 \value{
 print "synchronized"

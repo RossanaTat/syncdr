@@ -62,8 +62,6 @@
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @return print "synchronized"
-
-
 full_asym_sync_to_right <- function(sync_status,
                                     by_date    = TRUE,
                                     by_content = FALSE,
@@ -126,7 +124,6 @@ full_asym_sync_to_right <- function(sync_status,
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @return print "synchronized"
-
 common_files_asym_sync_to_right <- function(sync_status,
                                             by_date    = TRUE,
                                             by_content = FALSE,
@@ -169,7 +166,6 @@ common_files_asym_sync_to_right <- function(sync_status,
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @return print "synchronized"
-
 update_missing_files_asym_to_right <- function(sync_status,
                                                by_date    = TRUE,
                                                by_content = FALSE,
@@ -201,7 +197,6 @@ update_missing_files_asym_to_right <- function(sync_status,
   return(print("synchronized"))
 }
 
-
 #' Partial asymmetric asymmetric synchronization of non common files
 #'
 #' update non common files in right directory based on left one -i.e., the function will:
@@ -220,7 +215,6 @@ update_missing_files_asym_to_right <- function(sync_status,
 #'  and the file will be copied at the top level
 #' @return print "synchronized"
 #'
-
 partial_update_missing_files_asym_to_right <- function(sync_status,
                                                        by_date    = TRUE,
                                                        by_content = FALSE,
