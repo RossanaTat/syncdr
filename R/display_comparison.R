@@ -52,12 +52,12 @@ display_sync_status <- function(
                     list(targets = grep("sync_status", colnames(sync_status), value = TRUE),
                          createdCell = JS(
                            "function(td, cellData, rowData, row, col) {
-                            var is_new = rowData[3];
-                            var is_diff = rowData[4];
-                            if (is_new == true | is_diff == true | cellData.includes('only in left') ) {
-                              $(td).css({'background-color': '#90EE90'});
+                            var is_new_left = rowData[3];
+                            var is_new_right = rowData[4];
+                            if (is_new_left == true | is_new_right == true | cellData.includes('only in left') ) {
+                              $(td).css({'background-color': '#a9def9'});
                             } else {
-                              $(td).css({'background-color': '#FBEC5D'});
+                              $(td).css({'background-color': '#e4c1f9'});
                             }
                           }"
                          )
