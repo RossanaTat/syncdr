@@ -15,3 +15,60 @@
 #' * For non common files:
 #'   - if a file exists in one but not in the other it is copied to the other directory
 #'
+#' @param sync_status object of class 'syncdr_status' with info on sync status and comparison of directories
+#' @param by_date logical, TRUE by default
+#' @param by_content logical, FALSE by default
+#' @param recurse logical, TRUE by default.
+#'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
+#'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
+#'  and the file will be copied at the top level
+#' @return print "synchronized"
+
+full_symmetric_sync <- function(sync_status,
+                                by_date    = TRUE,
+                                by_content = FALSE,
+                                recurse    = TRUE) {
+
+  # Check sync_status is the result of compare_directories()
+  stopifnot(expr = {
+    inherits(sync_status, "syncdr_status")
+  })
+
+  # Update non- and common files ###############################################
+
+  # copy those that are new in left to right
+  files_to_right <- sync_status$common_files |>
+    filter_common_files(by_date    = by_date,
+                        by_content = by_content,
+                        dir = "left") |>
+    # add those that are only in left
+    rowbind(
+      filter_non_common_files(sync_status$non_common_files,
+                              dir = "left")
+    )
+
+  copy_files_to_right(left_dir      = sync_status$left_path,
+                      right_dir     = sync_status$right_path,
+                      files_to_copy = files_to_right)
+
+  # copy those that are new in right to left
+  files_to_left <- sync_status$common_files |>
+    filter_common_files(by_date    = by_date,
+                        by_content = by_content,
+                        dir = "right") |>
+    # add those that are only in right
+    rowbind(
+      filter_non_common_files(sync_status$non_common_files,
+                              dir = "right")
+    )
+
+  copy_files_to_left(left_dir      = sync_status$left_path,
+                     right_dir     = sync_status$right_path,
+                     files_to_copy = files_to_left,
+                     recurse       = recurse)
+
+  return(print("synchronized"))
+
+}
+
+#' Partial symmetric synchronization - update common files only

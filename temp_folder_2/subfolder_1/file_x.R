@@ -1,2 +1,2 @@
-# Example - LEFT
+# Example - right
 data <- runif(100)

@@ -57,12 +57,17 @@
 #'                    and comparison of directories
 #' @param by_date logical, TRUE by default
 #' @param by_content logical, FALSE by default
+#' @param recurse logical, TRUE by default.
+#'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
+#'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
+#'  and the file will be copied at the top level
 #' @return print "synchronized"
 
 
 full_asym_sync_to_right <- function(sync_status,
                                     by_date    = TRUE,
-                                    by_content = FALSE) {
+                                    by_content = FALSE,
+                                    recurse    = TRUE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -86,7 +91,8 @@ full_asym_sync_to_right <- function(sync_status,
 
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
-                      files_to_copy = files_to_copy)
+                      files_to_copy = files_to_copy,
+                      recurse       = recurse)
 
 
   # Get files to delete, i.e., missing in left
@@ -115,11 +121,16 @@ full_asym_sync_to_right <- function(sync_status,
 #' @param sync_status object of class 'syncdr_status' with info on sync status and comparison of directories
 #' @param by_date logical, TRUE by default
 #' @param by_content logical, FALSE by default
+#' @param recurse logical, TRUE by default.
+#'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
+#'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
+#'  and the file will be copied at the top level
 #' @return print "synchronized"
 
 common_files_asym_sync_to_right <- function(sync_status,
                                             by_date    = TRUE,
-                                            by_content = FALSE) {
+                                            by_content = FALSE,
+                                            recurse    = TRUE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -134,7 +145,8 @@ common_files_asym_sync_to_right <- function(sync_status,
   # Copy files
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
-                      files_to_copy = files_to_copy)
+                      files_to_copy = files_to_copy,
+                      recurse       = recurse)
 
   return(print("synchronized"))
 
@@ -152,11 +164,16 @@ common_files_asym_sync_to_right <- function(sync_status,
 #' @param sync_status object of class 'syncdr_status' with info on sync status and comparison of directories
 #' @param by_date logical, TRUE by default
 #' @param by_content logical, FALSE by default
+#' @param recurse logical, TRUE by default.
+#'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
+#'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
+#'  and the file will be copied at the top level
 #' @return print "synchronized"
 
 update_missing_files_asym_to_right <- function(sync_status,
-                                               by_date = TRUE,
-                                               by_content = FALSE) {
+                                               by_date    = TRUE,
+                                               by_content = FALSE,
+                                               recurse    = TRUE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -170,7 +187,8 @@ update_missing_files_asym_to_right <- function(sync_status,
   # Copy files
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
-                      files_to_copy = files_to_copy)
+                      files_to_copy = files_to_copy,
+                      recurse       = recurse)
 
   # Get files to delete
   files_to_delete <- sync_status$non_common_files |>
@@ -196,12 +214,17 @@ update_missing_files_asym_to_right <- function(sync_status,
 #' @param sync_status object of class 'syncdr_status' with info on sync status and comparison of directories
 #' @param by_date logical, TRUE by default
 #' @param by_content logical, FALSE by default
+#' @param recurse logical, TRUE by default.
+#'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
+#'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
+#'  and the file will be copied at the top level
 #' @return print "synchronized"
 #'
 
 partial_update_missing_files_asym_to_right <- function(sync_status,
-                                                       by_date = TRUE,
-                                                       by_content = FALSE) {
+                                                       by_date    = TRUE,
+                                                       by_content = FALSE,
+                                                       recurse    = TRUE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -215,7 +238,8 @@ partial_update_missing_files_asym_to_right <- function(sync_status,
   # Copy files
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
-                      files_to_copy = files_to_copy)
+                      files_to_copy = files_to_copy,
+                      recurse       = recurse)
 
   return(print("synchronized"))
 }
