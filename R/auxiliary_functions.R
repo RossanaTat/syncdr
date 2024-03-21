@@ -1,6 +1,13 @@
 
-# Filter files -common files only ####
-# Filter by date only; by date & content, by content only
+#' Filter files that are common between the two directories under comparison
+#'
+#' The filtering is done by date, by date and content or by content only
+#' @param sync_status object of class 'syncdr_status' with info on sync status
+#'                    and comparison of directories
+#' @param by_date logical, TRUE by default
+#' @param by_content logical, FALSE by default
+#' @return 'syncdr_status' object filtered accordingly
+#' @keywords internal
 
 filter_common_files <- function(sync_status,
                                  by_date    = TRUE,
@@ -73,7 +80,15 @@ filter_common_files <- function(sync_status,
 
 }
 
-# Aux function to filter non common files
+#' Filter files that are NOT common between the two directories under comparison
+#'
+#' The filtering is done by keeping wither files only in left or only in right directory
+#'
+#' @param sync_status object of class 'syncdr_status' with info on sync status
+#'                    and comparison of directories
+#' @param character dir, either "left", "right", "all" (both directories)
+#' @return 'syncdr_status' object filtered accordingly
+#' @keywords internal
 
 filter_non_common_files <- function(sync_status,
                                     dir = "left") {

@@ -62,6 +62,7 @@
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @return print "synchronized"
+#' @export
 full_asym_sync_to_right <- function(sync_status,
                                     by_date    = TRUE,
                                     by_content = FALSE,
@@ -124,6 +125,7 @@ full_asym_sync_to_right <- function(sync_status,
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @return print "synchronized"
+#' @export
 common_files_asym_sync_to_right <- function(sync_status,
                                             by_date    = TRUE,
                                             by_content = FALSE,
@@ -166,6 +168,7 @@ common_files_asym_sync_to_right <- function(sync_status,
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @return print "synchronized"
+#' @export
 update_missing_files_asym_to_right <- function(sync_status,
                                                by_date    = TRUE,
                                                by_content = FALSE,
@@ -214,7 +217,7 @@ update_missing_files_asym_to_right <- function(sync_status,
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @return print "synchronized"
-#'
+#' @export
 partial_update_missing_files_asym_to_right <- function(sync_status,
                                                        by_date    = TRUE,
                                                        by_content = FALSE,
