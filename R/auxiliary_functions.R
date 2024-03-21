@@ -1,7 +1,12 @@
 
-#' Filter files that are common between the two directories under comparison
+#' Filter files that are present in both directories under comparison
 #'
-#' The filtering is done by date, by date and content or by content only
+#' This function filters the common_files in "syncdr_status" object (resulting from 'compare_directories()') in the following way:
+#' (note that filtering is based on left (right) directory depending on the 'dir' argument)
+#' * by date only: filter files that are new in left (right)
+#' * by date and content: filter files that are new in left(right) AND different
+#' * by content only: filter files that are different between the two directories
+#'
 #' @param sync_status object of class 'syncdr_status' with info on sync status
 #'                    and comparison of directories
 #' @param by_date logical, TRUE by default
@@ -82,11 +87,12 @@ filter_common_files <- function(sync_status,
 
 #' Filter files that are NOT common between the two directories under comparison
 #'
-#' The filtering is done by keeping wither files only in left or only in right directory
+#' This function filters non common files in "syncdr_status" object (resulting from 'compare_directories()')
+
 #'
 #' @param sync_status object of class 'syncdr_status' with info on sync status
 #'                    and comparison of directories
-#' @param character dir, either "left", "right", "all" (both directories)
+#' @param dir character, either "left", "right", "all" (both directories)
 #' @return 'syncdr_status' object filtered accordingly
 #' @keywords internal
 

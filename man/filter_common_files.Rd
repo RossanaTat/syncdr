@@ -2,7 +2,7 @@
 % Please edit documentation in R/auxiliary_functions.R
 \name{filter_common_files}
 \alias{filter_common_files}
-\title{Filter files that are common between the two directories under comparison}
+\title{Filter files that are present in both directories under comparison}
 \usage{
 filter_common_files(
   sync_status,
@@ -23,6 +23,12 @@ and comparison of directories}
 'syncdr_status' object filtered accordingly
 }
 \description{
-The filtering is done by date, by date and content or by content only
+This function filters the common_files in "syncdr_status" object (resulting from 'compare_directories()') in the following way:
+(note that filtering is based on left (right) directory depending on the 'dir' argument)
+\itemize{
+\item by date only: filter files that are new in left (right)
+\item by date and content: filter files that are new in left(right) AND different
+\item by content only: filter files that are different between the two directories
+}
 }
 \keyword{internal}

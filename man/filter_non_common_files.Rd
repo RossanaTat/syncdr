@@ -10,12 +10,12 @@ filter_non_common_files(sync_status, dir = "left")
 \item{sync_status}{object of class 'syncdr_status' with info on sync status
 and comparison of directories}
 
-\item{character}{dir, either "left", "right", "all" (both directories)}
+\item{dir}{character, either "left", "right", "all" (both directories)}
 }
 \value{
 'syncdr_status' object filtered accordingly
 }
 \description{
-The filtering is done by keeping wither files only in left or only in right directory
+This function filters non common files in "syncdr_status" object (resulting from 'compare_directories()')
 }
 \keyword{internal}
