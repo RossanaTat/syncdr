@@ -31,7 +31,7 @@
 # !!!! Important (2) !!!!
 # Also, you must provide as input the result of compare_directories()
 # with by_date and by_content set in the same way as you pass them
-# to full_asym_sync_to_right function
+# to the asymmetric synchronization functions
 #
 # For Example:
 # sync_status <- compare_directories(left_path  = left,
@@ -72,7 +72,8 @@ full_asym_sync_to_right <- function(sync_status,
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
     filter_common_files(by_date    = by_date,
-                        by_content = by_content) #syncdr aux function
+                        by_content = by_content,
+                        dir = "left") #syncdr aux function
 
   # Add files to copy -from non common files
   files_to_copy <- files_to_copy |>
@@ -128,7 +129,8 @@ common_files_asym_sync_to_right <- function(sync_status,
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
     filter_common_files(by_date    = by_date,
-                        by_content = by_content)
+                        by_content = by_content,
+                        dir = "left")
   # Copy files
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,

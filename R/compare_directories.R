@@ -120,7 +120,7 @@ compare_directories <- function(left_path,
     fselect(path_left, path_right) |>
     ftransform(sync_status = ifelse(
       (is.na(path_left) & !is.na(path_right)), "missing in left",
-      ifelse(!is.na(path_left), "only in left", "missing in left"))
+      ifelse(!is.na(path_left), "only in left", "only in right, missing in left"))
       )
 
   # Compare common files by date only
@@ -128,17 +128,22 @@ compare_directories <- function(left_path,
 
     common_files <- join_info |>
       fsubset(.joyn == "x & y") |>
-      fselect(path_left, path_right, modification_time_left, modification_time_right)
+      fselect(path_left,
+              path_right,
+              modification_time_left,
+              modification_time_right) |>
+      ftransform(is_new_left = modification_time_left > modification_time_right,
+                 is_new_right = modification_time_right > modification_time_left)
 
-    common_files$is_new <- mapply(compare_files, common_files$path_left, common_files$path_right)
+    #common_files$is_new <- mapply(compare_files, common_files$path_left, common_files$path_right)
 
     common_files <- common_files |>
       ftransform(sync_status = ifelse(
-        is_new == TRUE, "newer in left, older in right dir",
-        "older in left, newer in right dir"
+        is_new_left & !is_new_right, "newer in left, older in right dir",
+        ifelse(!is_new_left & is_new_right, "older in left, newer in right dir", "same date")
       )) |>
       # reordering columns for better displaying
-      fselect(path_left, path_right, is_new, modification_time_left, modification_time_right, sync_status)
+      fselect(path_left, path_right, is_new_left, is_new_right, modification_time_left, modification_time_right, sync_status)
 
   }
 
@@ -146,25 +151,32 @@ compare_directories <- function(left_path,
 
     common_files <- join_info |>
       fsubset(.joyn == "x & y") |>
-      fselect(path_left, path_right, modification_time_left, modification_time_right)
+      fselect(path_left, path_right, modification_time_left, modification_time_right) |>
+      ftransform(is_new_left = modification_time_left > modification_time_right,
+                 is_new_right = modification_time_right > modification_time_left)
 
-    common_files$is_new <- mapply(compare_files, common_files$path_left, common_files$path_right)
+    #common_files$is_new <- mapply(compare_files, common_files$path_left, common_files$path_right)
 
     common_files <- common_files |>
-      fsubset(is_new == TRUE) |>
+      fsubset(is_new_left == TRUE | is_new_right == TRUE) |>
       # hash content of newer files only
       ftransform(hash_left  = sapply(path_left, rlang::hash_file),  #RT: To fix, re try to replace with digest
                  hash_right = sapply(path_right, rlang::hash_file)) |>
       ftransform(is_diff    = (hash_left != hash_right),
                  hash_left  = NULL,
                  hash_right = NULL) |>
+      # determine sync_status
       ftransform(sync_status = ifelse(
-        (is_new == TRUE & is_diff == TRUE), "newer in left, different content than right",
-        ifelse((is_new == TRUE & is_diff == FALSE), "newer in left, same content as right",
-               "older in left, same content as right")
+        is_new_left & is_diff, "newer in left, different content than right",
+        ifelse(is_new_left & !is_diff, "newer in left, same content as right",
+               ifelse(is_new_right & !is_diff, "newer in right, same content as left",
+                      ifelse(is_new_right & is_diff, "newer in right, different content than left",
+                             "same date, different content")
+               )
+        )
       )) |>
       # reordering columns for better displaying
-      fselect(path_left, path_right, is_new, is_diff, sync_status)
+      fselect(path_left, path_right, is_new_left, is_new_right, is_diff, sync_status)
 
   }
 
@@ -240,16 +252,37 @@ directory_info <- function(dir,
 
 # Compare individual files auxiliary function ####
 
+# compare_files_v0 <- function(file1, file2) {
+#   if (!fs::file_exists(file2)) return(new = TRUE)  # New file in dir1
+#   if (!fs::file_exists(file1)) return(new = FALSE)   # Old file in dir1
+#
+#   # Compare creation times
+#   time1 <- fs::file_info(file1)$modification_time
+#   time2 <- fs::file_info(file2)$modification_time
+#
+#   if (time1 > time2) return(new = TRUE)  # Newer file in dir1
+#   return(new = FALSE)                        # Older file in dir2
+# }
+
 compare_files <- function(file1, file2) {
-  if (!fs::file_exists(file2)) return(new = TRUE)  # New file in dir1
-  if (!fs::file_exists(file1)) return(new = FALSE)   # Old file in dir1
+
+  if (!fs::file_exists(file2)) return(list(new_left = TRUE, new_right = FALSE))  # New file in dir1
+  if (!fs::file_exists(file1)) return(list(new_left = FALSE, new_right = TRUE))   # Old file in dir1
 
   # Compare creation times
   time1 <- fs::file_info(file1)$modification_time
   time2 <- fs::file_info(file2)$modification_time
 
-  if (time1 > time2) return(new = TRUE)  # Newer file in dir1
-  return(new = FALSE)                        # Older file in dir2
+  if (time1 > time2) {
+    return(list(new_left = TRUE, new_right = FALSE))
+  }  # Newer file in dir1
+
+  else if (time2 > time1) {
+    return(list(new_left = FALSE, new_right = TRUE))
+  } # newer file in dir2
+
+  else {return(list(new_left = FALSE, new_right = FALSE))} # Same modification date
+
 }
 
 
