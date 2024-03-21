@@ -1,5 +1,6 @@
 # Random data
-# i come from left folder
+# Left
+
 data <- runif(40)
 
 

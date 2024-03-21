@@ -1,5 +1,9 @@
 
-# This file contains functions to perform an asymmetric synchronization
+# This file contains functions to perform an asymmetric synchronization -in other words, one-way synchronization:
+# this means that you have a master/left/leader directory and you want to ensure that changes made there are
+# reflected in a secondary/right/follower.
+# thus, right/follower directory will mirror the contents of the left/leader directory.
+# Please read the NOTE below before using the functions
 
 # ------------------------------- <<<< NOTE >>>> -------------------------------
 #
@@ -7,6 +11,7 @@
 # this means that you sync right (follower) directory
 # based on left (leader) directory
 #
+# !!!! Important (1) !!!!
 # The input should always be the result of compare_directories(),
 # with the "leader" passed to "path_left" argument, and follower to "path_right".
 #
@@ -23,7 +28,7 @@
 #                                    path_right = path_A)
 # full_asym_sync_to_right(sync_status)
 #
-#
+# !!!! Important (2) !!!!
 # Also, you must provide as input the result of compare_directories()
 # with by_date and by_content set in the same way as you pass them
 # to full_asym_sync_to_right function
@@ -48,7 +53,8 @@
 #'  * copy to right those files that are only in left
 #'  * delete in right those files that are only in right (i.e., files 'missing in left')
 #'
-#' @param sync_status object of class 'syncdr_status' with info on sync status and comparison of directories
+#' @param sync_status object of class 'syncdr_status' with info on sync status
+#'                    and comparison of directories
 #' @param by_date logical, TRUE by default
 #' @param by_content logical, FALSE by default
 #' @return print "synchronized"
@@ -136,7 +142,7 @@ common_files_asym_sync_to_right <- function(sync_status,
 #'
 #' update non common files in right directory based on left one -i.e., the function will:
 #' * for common_files:
-#'    - do nothing
+#'    - do nothing, left unchaged
 #' * for non common files,
 #'    - copy those files that are only in left to right
 #'    - delete in right those files that are only in right (i.e., files 'missing in left')
@@ -180,7 +186,7 @@ update_missing_files_asym_to_right <- function(sync_status,
 #'
 #' update non common files in right directory based on left one -i.e., the function will:
 #' * for common_files:
-#'    - do nothing
+#'    - do nothing, left unchanged
 #' * for non common files,
 #'    - copy those files that are only in left to right
 #'    - keep in right those files that are only in right (i.e., files 'missing in left')

@@ -259,7 +259,7 @@ left  <- paste0(getwd(), "/temp_folder_1")
 right <- paste0(getwd(), "/temp_folder_2")
 
 # Example usage ####
-
+#
 # sync_status_date <- compare_directories(left,
 #                                         right)
 #
@@ -272,4 +272,4 @@ right <- paste0(getwd(), "/temp_folder_2")
 #                                                 by_content = TRUE,
 #                                                 by_date = FALSE)
 #
-#
+
