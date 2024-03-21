@@ -31,6 +31,8 @@
 
 # MEMO: RT: Write documentation !
 
+
+
 full_asym_sync_to_right <- function(sync_status,
                                     by_date    = TRUE,
                                     by_content = FALSE) {
@@ -64,11 +66,9 @@ full_asym_sync_to_right <- function(sync_status,
     fselect(path_right)
 
   # Delete Files ####
-
   fs::file_delete(files_to_delete$path_right)
 
   return(print("synchronized"))
-
 }
 
 # Example usage ####
@@ -77,3 +77,10 @@ full_asym_sync_to_right <- function(sync_status,
 # full_asym_sync_to_right(sync_status = sync_status_date)
 
 
+# Asymmetric synchronization for common files only
+partial_asym_sync_to_right <- function(sync_status,
+                                       by_date    = TRUE,
+                                       by_content = FALSE) {
+
+
+}

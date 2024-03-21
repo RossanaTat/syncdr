@@ -1,20 +1,16 @@
 
-#' @import joyn
-#' @import fs
-#' @import digest
-#' @rawNamespace import(collapse, except = fdroplevels)
-#' @rawNamespace import(data.table, except = fdroplevels)
+#
+# library(joyn)
+# library(DT)
+# library(fs)
+# library(rlang)
 
+# @rawNamespace import(collapse, except = droplevels)
+# @rawNamespace import(data.table, except = droplevels)
 
-library(fs)
-library(fastverse)
-library(joyn)
-
-
-# compare directories - workhorse function ####
 
 #' Compare directories
-
+#'
 #' This function takes two directories as input, say left and right, and compares them.
 #' The goal is to return the status of synchronization -at file level- of the two directories.
 #' The sync status is returned for both:
@@ -43,8 +39,8 @@ library(joyn)
 #'
 #' Possible value of sync status -for non common files:
 #'
-#' * When comparing by date: missing in left or only in right
-#'
+#' * When comparing by date; or by date and content; or by content only:
+#'      "missing in left" or "only in right"
 #'
 #'
 #' @param left_path path of one directory
@@ -60,9 +56,16 @@ library(joyn)
 #'   * Path of left directory
 #'   * Path of right directory
 #'
-#' @examples
-#'
-#' sync_status_date <- compare_directories(left,
+#' @export
+
+#' @import fs
+#' @import data.table
+#' @import collapse
+#' @import joyn
+#' @import digest
+
+# Example usage ###
+# sync_status_date <- compare_directories(left,
 #                                          right)
 #
 # sync_status_date_cont <- compare_directories(left,
@@ -73,7 +76,7 @@ library(joyn)
 #                                                 right,
 #                                                 by_content = TRUE,
 #                                                 by_date    = FALSE)
-#'
+
 
 
 compare_directories <- function(left_path,
@@ -108,11 +111,8 @@ compare_directories <- function(left_path,
 
 
   # Unique file status:
-  #   - unique files are files that are available only in left or only in right
-  #   - status is either missing in left: when file is in right but not in left
-  #               or     only in left: when file is
-  #   -NOTE: available in both here is not needed here,
-  #          since we are filtering files that are only in left or only in right
+  # -NOTE: available in both here is not needed here,
+  #        since we are filtering files that are only in left or only in right
 
   non_common_files <- join_info |>
 
@@ -153,7 +153,8 @@ compare_directories <- function(left_path,
 
     common_files <- common_files |>
       fsubset(is_new == TRUE) |>
-      ftransform(hash_left  = sapply(path_left, rlang::hash_file),    #To fix: re try to replace with digest
+      # hash content of newer files only
+      ftransform(hash_left  = sapply(path_left, rlang::hash_file),  #RT: To fix, re try to replace with digest
                  hash_right = sapply(path_right, rlang::hash_file)) |>
       ftransform(is_diff    = (hash_left != hash_right),
                  hash_left  = NULL,
@@ -166,16 +167,16 @@ compare_directories <- function(left_path,
       # reordering columns for better displaying
       fselect(path_left, path_right, is_new, is_diff, sync_status)
 
-
   }
 
   else if (isFALSE(by_date) & isTRUE(by_content)) {
-
+    # compare by content only
     common_files <- join_info |>
       fsubset(.joyn == "x & y") |>
       fselect(path_left, path_right)
 
     common_files <- common_files |>
+      # hash content of all files
       ftransform(hash_left  = sapply(path_left, rlang::hash_file),    #To fix: re try to replace with digest
                  hash_right = sapply(path_right, rlang::hash_file)) |>
       ftransform(is_diff    = (hash_left != hash_right),
@@ -187,16 +188,17 @@ compare_directories <- function(left_path,
       # reordering columns for better displaying
       fselect(path_left, path_right, is_diff, sync_status)
 
-
   }
 
-  else { # if both by_date is FALSE and by_content is FALSE
+  else {
 
+    # if both by_date is FALSE and by_content is FALSE, just return info
     common_files <- join_info |>
       fsubset(.joyn == "x & y") |>
       fselect(path_left, path_right)
   }
 
+  # object to return
   sync_status = list(
     common_files = common_files,
     non_common_files = non_common_files,
@@ -204,10 +206,10 @@ compare_directories <- function(left_path,
     right_path = right_path
   )
 
+  # assign class 'syncdr_status'
   class(sync_status) <- "syncdr_status"
 
   return(sync_status)
-
 
 } # close function
 
@@ -253,8 +255,8 @@ compare_files <- function(file1, file2) {
 
 
 # Example paths ####
-left_path  <- paste0(getwd(), "/temp_folder_1")
-right_path <- paste0(getwd(), "/temp_folder_2")
+left  <- paste0(getwd(), "/temp_folder_1")
+right <- paste0(getwd(), "/temp_folder_2")
 
 # Example usage ####
 

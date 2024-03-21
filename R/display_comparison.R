@@ -2,21 +2,32 @@
 
 library(DT)
 
-# Function to display directory comparison in DT table ####
-
-# Example usage below:
-# sync_status <- compare_directories(left, right)
-#
-# display_sync_status(sync_status$common_files)
-
-# display_sync_status(sync_status$non_common_files)
-#
-# sync_status_date_cont <- compare_directories(left,
-#                                              right, by_content = TRUE)
-#
-# display_sync_status(sync_status_date_cont$common_files)
-# display_sync_status(sync_status_date_cont$non_common_files)
-
+#' Display status of synchronization/comparison info between two directories in DT table
+#'
+#' @param sync_status object of class `"syncdr_status"`, result of `compare_directories()`
+#' @return DT table showing the comparison between the two directories
+#'         together with their synchronization status
+#' @examples
+#' # Compare directories with 'compare_directories()'
+#' sync_status <- compare_directories(left_path, right_path)
+#' display_sync_status(sync_status$common_files)
+#' display_sync_status(sync_status$non_common_files)
+#'
+#' sync_status_date_cont <- compare_directories(left,
+#'                                              right,
+#'                                              by_content = TRUE)
+#' display_sync_status(sync_status_date_cont$common_files)
+#' display_sync_status(sync_status_date_cont$non_common_files)
+#'
+#' sync_status_content <- compare_directories(left,
+#'                                            right,
+#'                                            by_content = TRUE,
+#'                                            by_date = FALSE)
+#' display_sync_status(sync_status_content$common_files)
+#' display_sync_status(sync_status_content$non_common_files)
+#'
+#'
+#' @export
 
 
 display_sync_status <- function(

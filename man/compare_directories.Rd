@@ -2,12 +2,7 @@
 % Please edit documentation in R/compare_directories.R
 \name{compare_directories}
 \alias{compare_directories}
-\title{Compare directories
-This function takes two directories as input, say left and right, and compares them.
-The goal is to return the status of synchronization -at file level- of the two directories.
-The sync status is returned for both:
-*1. NON common files, i.e., files that are either only in left or only in right
-*2. Common files, i.e., files that are in both directories}
+\title{Compare directories}
 \usage{
 compare_directories(
   left_path,
@@ -40,7 +35,6 @@ list of class "syncdr_status", with 4 elements:
 }
 }
 \description{
-Compare directories
 This function takes two directories as input, say left and right, and compares them.
 The goal is to return the status of synchronization -at file level- of the two directories.
 The sync status is returned for both:
@@ -69,7 +63,8 @@ same and same
 
 Possible value of sync status -for non common files:
 \itemize{
-\item When comparing by date: missing in left or only in right
+\item When comparing by date; or by date and content; or by content only:
+"missing in left" or "only in right"
 }
 }
 
