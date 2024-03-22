@@ -13,7 +13,7 @@
 #' @param by_content logical, FALSE by default
 #' @return 'syncdr_status' object filtered accordingly
 #' @keywords internal
-
+#'
 filter_common_files <- function(sync_status,
                                  by_date    = TRUE,
                                  by_content = FALSE,
@@ -95,7 +95,6 @@ filter_common_files <- function(sync_status,
 #' @param dir character, either "left", "right", "all" (both directories)
 #' @return 'syncdr_status' object filtered accordingly
 #' @keywords internal
-
 filter_non_common_files <- function(sync_status,
                                     dir = "left") {
 
@@ -128,7 +127,6 @@ filter_non_common_files <- function(sync_status,
 #' @param right_path path of files in right directory
 #' @return list of hashes of left paths and hashes of right paths
 #' @keywords internal
-
 hash_files_contents <- function(left_path,
                                 right_path) {
 
