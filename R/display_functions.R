@@ -48,9 +48,11 @@ display_sync_status <- function(
 
 # Example usage:
 # Compare directories with 'compare_directories()'
-# sync_status <- compare_directories(left, right)
-# display_sync_status(sync_status$common_files)
-# display_sync_status(sync_status$non_common_files)
+# left <- paste0(getwd(), "/temp_folder_1")
+# right <- paste0(getwd(), "/temp_folder_2")
+sync_status <- compare_directories(left, right)
+display_sync_status(sync_status$common_files)
+display_sync_status(sync_status$non_common_files)
 #
 # sync_status_date_cont <- compare_directories(left,
 #                                              right,

@@ -240,15 +240,15 @@ directory_info <- function(dir,
   # List of files -also in sub-directories
   files <- fs::dir_ls(path = dir,
                       type = "file",
-                      recurse = recurse,
-                      ...)
+                      recurse = recurse)
 
   # Filtering out special files
   files <- files[!grepl("^\\.\\.$|^\\.$", files)]
 
   # Get all dir info available in file_info
   info_df <- fs::file_info(files) |>
-    ftransform(wo_root = gsub(dir, "", path)) #add without root var
+    ftransform(wo_root = gsub(dir, "", path),
+               modification_time = as.POSIXct(modification_time)) #add without root var
 
   return(info_df)
 
