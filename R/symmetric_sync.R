@@ -4,7 +4,10 @@
 # If a file is added, modified, or deleted in one directory, the corresponding action is taken in the other directory.
 # This approach is useful when you want both directories to be always up-to-date with the latest changes, regardless of where those changes originate.
 
-
+# < IMPORTANT >
+# You should always call compare_directories first, and provide its result as input
+# to any synchronization function. by_date and by_content must be set in the same way
+# when you call compare_directories and any synchronization function
 
 #' Full symmetric synchronization
 #'
@@ -26,7 +29,7 @@
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @return print "synchronized"
-#'
+#' @export
 #'
 full_symmetric_sync <- function(sync_status,
                                 by_date    = TRUE,
@@ -37,6 +40,12 @@ full_symmetric_sync <- function(sync_status,
   stopifnot(expr = {
     inherits(sync_status, "syncdr_status")
   })
+
+  # Display folder structure before synchronization
+  cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
+
+  display_dir_tree(path_left  = sync_status$left_path,
+                   path_right = sync_status$right_path)
 
   # Update non- and common files ###############################################
 
@@ -71,6 +80,13 @@ full_symmetric_sync <- function(sync_status,
                      files_to_copy = files_to_left,
                      recurse       = recurse)
 
+
+  # Display folder structure AFTER synchronization
+  cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
+
+  display_dir_tree(path_left  = sync_status$left_path,
+                   path_right = sync_status$right_path)
+
   return(print("synchronized"))
 
 }
@@ -96,8 +112,7 @@ full_symmetric_sync <- function(sync_status,
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @return print "synchronized"
-#'
-#'
+#' @export
 partial_symmetric_sync_common_files <- function(sync_status,
                                                 by_date    = TRUE,
                                                 by_content = FALSE,
@@ -107,6 +122,12 @@ partial_symmetric_sync_common_files <- function(sync_status,
   stopifnot(expr = {
     inherits(sync_status, "syncdr_status")
   })
+
+  # Display folder structure before synchronization
+  cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
+
+  display_dir_tree(path_left  = sync_status$left_path,
+                   path_right = sync_status$right_path)
 
   # Update non- and common files ###############################################
 
@@ -131,6 +152,12 @@ partial_symmetric_sync_common_files <- function(sync_status,
                      right_dir     = sync_status$right_path,
                      files_to_copy = files_to_left,
                      recurse       = recurse)
+
+  # Display folder structure AFTER synchronization
+  cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
+
+  display_dir_tree(path_left  = sync_status$left_path,
+                   path_right = sync_status$right_path)
 
   return(print("synchronized"))
 

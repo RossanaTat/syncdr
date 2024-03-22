@@ -3,10 +3,10 @@
 # library(DT)
 # library(fs)
 # library(rlang)
-
 # @rawNamespace import(collapse, except = droplevels)
 # @rawNamespace import(data.table, except = droplevels)
 
+library(collapse)
 
 #' Compare directories
 #'
@@ -56,28 +56,6 @@
 #'   * Path of right directory
 #'
 #' @export
-
-#' @import fs
-#' @import data.table
-#' @import collapse
-#' @import joyn
-#' @import digest
-
-# Example usage ###
-# sync_status_date <- compare_directories(left,
-#                                          right)
-#
-# sync_status_date_cont <- compare_directories(left,
-#                                              right,
-#                                              by_content = TRUE)
-#
-# sync_status_content_only <- compare_directories(left,
-#                                                 right,
-#                                                 by_content = TRUE,
-#                                                 by_date    = FALSE)
-
-
-
 compare_directories <- function(left_path,
                                 right_path,
                                 recurse    = TRUE,
@@ -144,7 +122,13 @@ compare_directories <- function(left_path,
       )) |>
 
       # reordering columns for better displaying
-      fselect(path_left, path_right, is_new_left, is_new_right, modification_time_left, modification_time_right, sync_status)
+      fselect(path_left,
+              path_right,
+              is_new_left,
+              is_new_right,
+              modification_time_left,
+              modification_time_right,
+              sync_status)
 
   }
 
@@ -152,7 +136,10 @@ compare_directories <- function(left_path,
 
     common_files <- join_info |>
       fsubset(.joyn == "x & y") |>
-      fselect(path_left, path_right, modification_time_left, modification_time_right) |>
+      fselect(path_left,
+              path_right,
+              modification_time_left,
+              modification_time_right) |>
       ftransform(is_new_left = modification_time_left > modification_time_right,
                  is_new_right = modification_time_right > modification_time_left)
 
@@ -161,13 +148,7 @@ compare_directories <- function(left_path,
     common_files <- common_files |>
       fsubset(is_new_left == TRUE | is_new_right == TRUE) |>
 
-      # hash content of newer files only -i.e., not with same modification date
-      # ftransform(hash_left  = sapply(path_left, rlang::hash_file),  #RT: To fix, re try to replace with digest
-      #            hash_right = sapply(path_right, rlang::hash_file)) |>
-      # ftransform(is_diff    = (hash_left != hash_right),
-      #            hash_left  = NULL,
-      #            hash_right = NULL) |>
-
+      # hash and compare content of files (that do not have same date of last modification)
       ftransform(hash_left = hash_files_contents(path_left,
                                                  path_right)$left_hash,
                  hash_right = hash_files_contents(path_left,
@@ -198,17 +179,28 @@ compare_directories <- function(left_path,
       fselect(path_left, path_right)
 
     common_files <- common_files |>
-      # hash content of all files
-      ftransform(hash_left  = sapply(path_left, rlang::hash_file),    #To fix: re try to replace with digest
-                 hash_right = sapply(path_right, rlang::hash_file)) |>
+
+      # hash and compare content of files (that do not have same date of last modification)
+      ftransform(hash_left = hash_files_contents(path_left,
+                                                 path_right)$left_hash,
+                 hash_right = hash_files_contents(path_left,
+                                                  path_right)$right_hash) |>
       ftransform(is_diff    = (hash_left != hash_right),
                  hash_left  = NULL,
                  hash_right = NULL) |>
+
+      # determine sync status
       ftransform(sync_status = ifelse(
-        is_diff == TRUE, "different content", "same content"
+        is_diff == TRUE,
+        "different content",
+        "same content"
       )) |>
+
       # reordering columns for better displaying
-      fselect(path_left, path_right, is_diff, sync_status)
+      fselect(path_left,
+              path_right,
+              is_diff,
+              sync_status)
 
   }
 
@@ -217,7 +209,8 @@ compare_directories <- function(left_path,
     # if both by_date is FALSE and by_content is FALSE, just return info
     common_files <- join_info |>
       fsubset(.joyn == "x & y") |>
-      fselect(path_left, path_right)
+      fselect(path_left,
+              path_right)
   }
 
   # object to return
@@ -261,19 +254,7 @@ directory_info <- function(dir,
 
 }
 
-# Compare individual files auxiliary function ####
-
-# compare_files_v0 <- function(file1, file2) {
-#   if (!fs::file_exists(file2)) return(new = TRUE)  # New file in dir1
-#   if (!fs::file_exists(file1)) return(new = FALSE)   # Old file in dir1
-#
-#   # Compare creation times
-#   time1 <- fs::file_info(file1)$modification_time
-#   time2 <- fs::file_info(file2)$modification_time
-#
-#   if (time1 > time2) return(new = TRUE)  # Newer file in dir1
-#   return(new = FALSE)                        # Older file in dir2
-# }
+# Compare individual files auxiliary function -not used for the moment ####
 
 compare_files <- function(file1, file2) {
 
@@ -298,21 +279,21 @@ compare_files <- function(file1, file2) {
 
 
 # Example paths ####
-left  <- paste0(getwd(), "/temp_folder_1")
-right <- paste0(getwd(), "/temp_folder_2")
+left <- left_path <- paste0(getwd(), "/temp_folder_1")
+right <- right_path <- paste0(getwd(), "/temp_folder_2")
 
-# Example usage ####
-#
-# sync_status_date <- compare_directories(left,
-#                                         right)
-#
-# sync_status_date_cont <- compare_directories(left,
-#                                              right,
-#                                              by_content = TRUE)
-#
-# sync_status_content_only <- compare_directories(left,
-#                                                 right,
-#                                                 by_content = TRUE,
-#                                                 by_date = FALSE)
+#Example usage ####
+
+sync_status_date <- compare_directories(left,
+                                        right)
+
+sync_status_date_cont <- compare_directories(left,
+                                             right,
+                                             by_content = TRUE)
+
+sync_status_content_only <- compare_directories(left,
+                                                right,
+                                                by_content = TRUE,
+                                                by_date = FALSE)
 #
 

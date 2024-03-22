@@ -122,9 +122,15 @@ filter_non_common_files <- function(sync_status,
 
 }
 
-# Hash contents TEST ! ################################################
+#' Hash content of files for two directories under comparison, say left and right
+#'
+#' @param left_path path of files in left directory
+#' @param right_path path of files in right directory
+#' @return list of hashes of left paths and hashes of right paths
+#' @keywords internal
 
-hash_files_contents <- function(left_path, right_path) {
+hash_files_contents <- function(left_path,
+                                right_path) {
 
   # Compute hash for left files
   left_hashes <- lapply(left_path,
@@ -143,4 +149,39 @@ hash_files_contents <- function(left_path, right_path) {
     ))
 }
 
+#### REFACTORING FILTER COMMON FILES ######## NEED TO BE SURE WORKS WELL !
+filter_common_files_rf <- function(sync_status,
+                                   by_date = TRUE,
+                                   by_content = FALSE,
+                                   dir = "left") {
 
+  # Check argument
+  stopifnot(dir %in% c("left", "right", "all"))
+
+  # Define date filter based on arguments
+  date_filter <- if (by_date) {
+    if (dir == "left") {
+      sync_status$is_new_left
+    } else if (dir == "right") {
+      sync_status$is_new_right
+    } else {
+      sync_status$is_new_left | sync_status$is_new_right
+    }
+  } else {
+    TRUE  # If by_date is false, include all dates
+  }
+
+  # Define content filter based on arguments
+  content_filter <- TRUE
+
+  # If by_content is true and is_diff column exists, create content filter
+  if (by_content && "is_diff" %in% colnames(sync_status)) {
+    content_filter <- sync_status$is_diff
+  }
+
+  # Apply filters
+  filtered_status <- sync_status[date_filter & content_filter,
+                                 c("path_left", "path_right", "sync_status")]
+
+  return(filtered_status)
+}
