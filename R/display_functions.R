@@ -7,29 +7,7 @@ library(DT)
 #' @param sync_status object of class `"syncdr_status"`, result of `compare_directories()`
 #' @return DT table showing the comparison between the two directories
 #'         together with their synchronization status
-#' @examples
-#' # Compare directories with 'compare_directories()'
-#' sync_status <- compare_directories(left_path, right_path)
-#' display_sync_status(sync_status$common_files)
-#' display_sync_status(sync_status$non_common_files)
-#'
-#' sync_status_date_cont <- compare_directories(left,
-#'                                              right,
-#'                                              by_content = TRUE)
-#' display_sync_status(sync_status_date_cont$common_files)
-#' display_sync_status(sync_status_date_cont$non_common_files)
-#'
-#' sync_status_content <- compare_directories(left,
-#'                                            right,
-#'                                            by_content = TRUE,
-#'                                            by_date = FALSE)
-#' display_sync_status(sync_status_content$common_files)
-#' display_sync_status(sync_status_content$non_common_files)
-#'
-#'
 #' @export
-
-
 display_sync_status <- function(
                        sync_status) {
 
@@ -66,5 +44,40 @@ display_sync_status <- function(
                 )
   )
 
+}
+
+# Example usage:
+# Compare directories with 'compare_directories()'
+# sync_status <- compare_directories(left, right)
+# display_sync_status(sync_status$common_files)
+# display_sync_status(sync_status$non_common_files)
+#
+# sync_status_date_cont <- compare_directories(left,
+#                                              right,
+#                                              by_content = TRUE)
+# display_sync_status(sync_status_date_cont$common_files)
+# display_sync_status(sync_status_date_cont$non_common_files)
+#
+# sync_status_content <- compare_directories(left,
+#                                            right,
+#                                            by_content = TRUE,
+#                                            by_date = FALSE)
+# display_sync_status(sync_status_content$common_files)
+# display_sync_status(sync_status_content$non_common_files)
+
+
+#' Display tree structure of directory before or after synchronization
+
+display_dir_tree <- function(path_left,
+                             path_right,
+                             recurse = TRUE) {
+
+  cat("Left directory structure:\n")
+  fs::dir_tree(sync_status$left_path)
+
+  cat("\nRight directory structure :\n")
+  fs::dir_tree(sync_status$right_path)
+
+  invisible(TRUE)
 
 }

@@ -1,7 +1,1 @@
-# Random data
-# Left
-
-data <- runif(40)
-
-
-
+#left B

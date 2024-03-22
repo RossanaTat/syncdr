@@ -82,8 +82,8 @@ compare_directories <- function(left_path,
                                 right_path,
                                 recurse    = TRUE,
                                 by_date    = TRUE,
-                                by_content = FALSE,
-                                ...) {
+                                by_content = FALSE){
+                                #...) {
 
   # Check directory paths
   stopifnot(exprs = {
@@ -119,8 +119,8 @@ compare_directories <- function(left_path,
     fsubset(.joyn == "y" | .joyn == "x" ) |>
     fselect(path_left, path_right) |>
     ftransform(sync_status = ifelse(
-      (is.na(path_left) & !is.na(path_right)), "missing in left",
-      ifelse(!is.na(path_left), "only in left", "only in right, missing in left"))
+      (is.na(path_left) & !is.na(path_right)), "missing in left, only in right",
+      ifelse(!is.na(path_left), "only in left", "missing in left, only in right"))
       )
 
   # Compare common files by date only

@@ -64,7 +64,7 @@ write_temporary_files <- function(file_path, num_data_points, random = TRUE) {
 
 ## Example usage ####
 
-# create temporary folder 1 with 1 subfolder
+# #create temporary folder 1 with 1 subfolder
 # create_temp_folders(name = "temp_folder_1")
 #
 # # create temporary folder 2 with 2 subfolders

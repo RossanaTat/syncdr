@@ -73,6 +73,12 @@ full_asym_sync_to_right <- function(sync_status,
     inherits(sync_status, "syncdr_status")
   })
 
+  # Display folder structure before synchronization
+  cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
+
+  display_dir_tree(path_left  = sync_status$left_path,
+                   path_right = sync_status$right_path)
+
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
     filter_common_files(by_date    = by_date,
@@ -101,6 +107,12 @@ full_asym_sync_to_right <- function(sync_status,
 
   # Delete Files ####
   fs::file_delete(files_to_delete$path_right)
+
+  # Display folder structure AFTER synchronization
+  cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
+
+  display_dir_tree(path_left  = sync_status$left_path,
+                   path_right = sync_status$right_path)
 
   return(print("synchronized"))
 }

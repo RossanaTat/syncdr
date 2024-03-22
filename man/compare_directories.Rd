@@ -9,8 +9,7 @@ compare_directories(
   right_path,
   recurse = TRUE,
   by_date = TRUE,
-  by_content = FALSE,
-  ...
+  by_content = FALSE
 )
 }
 \arguments{
