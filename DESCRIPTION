@@ -25,5 +25,7 @@ Imports:
     digest,
     DT,
     fs,
-    joyn,
+    joyn (>= 0.1.6.9003),
     rlang
+Remotes:  
+    github::randrescastaneda/joyn@DEV
