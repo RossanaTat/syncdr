@@ -142,6 +142,7 @@ compare_directories <- function(left_path,
         is_new_left & !is_new_right, "newer in left, older in right dir",
         ifelse(!is_new_left & is_new_right, "older in left, newer in right dir", "same date")
       )) |>
+
       # reordering columns for better displaying
       fselect(path_left, path_right, is_new_left, is_new_right, modification_time_left, modification_time_right, sync_status)
 
@@ -159,12 +160,22 @@ compare_directories <- function(left_path,
 
     common_files <- common_files |>
       fsubset(is_new_left == TRUE | is_new_right == TRUE) |>
-      # hash content of newer files only
-      ftransform(hash_left  = sapply(path_left, rlang::hash_file),  #RT: To fix, re try to replace with digest
-                 hash_right = sapply(path_right, rlang::hash_file)) |>
+
+      # hash content of newer files only -i.e., not with same modification date
+      # ftransform(hash_left  = sapply(path_left, rlang::hash_file),  #RT: To fix, re try to replace with digest
+      #            hash_right = sapply(path_right, rlang::hash_file)) |>
+      # ftransform(is_diff    = (hash_left != hash_right),
+      #            hash_left  = NULL,
+      #            hash_right = NULL) |>
+
+      ftransform(hash_left = hash_files_contents(path_left,
+                                                 path_right)$left_hash,
+                 hash_right = hash_files_contents(path_left,
+                                                  path_right)$right_hash) |>
       ftransform(is_diff    = (hash_left != hash_right),
                  hash_left  = NULL,
                  hash_right = NULL) |>
+
       # determine sync_status
       ftransform(sync_status = ifelse(
         is_new_left & is_diff, "newer in left, different content than right",

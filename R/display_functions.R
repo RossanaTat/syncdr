@@ -66,7 +66,11 @@ display_sync_status <- function(
 # display_sync_status(sync_status_content$non_common_files)
 
 
-#' Display tree structure of directory before or after synchronization
+#' Display tree structure of two directories under comparison
+#'
+#' @param path_left path of left directory
+#' @param path_right path of right directory
+#' @param recurse logical, default to TRUE: show also sub-directories
 
 display_dir_tree <- function(path_left,
                              path_right,

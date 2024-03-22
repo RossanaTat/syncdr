@@ -122,4 +122,25 @@ filter_non_common_files <- function(sync_status,
 
 }
 
+# Hash contents TEST ! ################################################
+
+hash_files_contents <- function(left_path, right_path) {
+
+  # Compute hash for left files
+  left_hashes <- lapply(left_path,
+                        function(path) digest::digest(object = path,
+                                                      algo = "sha256",
+                                                      file = TRUE))
+
+  # Compute hash for right files
+  right_hashes <- lapply(right_path, function(path) digest::digest(object = path,
+                                                                   algo = "sha256",
+                                                                   file = TRUE))
+
+  return(list(
+    left_hash = unlist(left_hashes),
+    right_hash = unlist(right_hashes)
+    ))
+}
+
 
