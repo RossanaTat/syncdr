@@ -3,8 +3,7 @@
 # library(DT)
 # library(fs)
 # library(rlang)
-# @rawNamespace import(collapse, except = droplevels)
-# @rawNamespace import(data.table, except = droplevels)
+
 
 library(collapse)
 

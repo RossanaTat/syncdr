@@ -26,6 +26,7 @@ Imports:
     DT,
     fs,
     joyn (>= 0.1.6.9003),
-    rlang
-Remotes:  
+    rlang,
+    stats
+Remotes: 
     github::randrescastaneda/joyn@DEV

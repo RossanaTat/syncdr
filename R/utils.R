@@ -50,7 +50,7 @@ write_temporary_files <- function(file_path, num_data_points, random = TRUE) {
 
   if (random == TRUE) {
 
-    sample_data <- runif(num_data_points)
+    sample_data <- stats::runif(num_data_points)
 
   } else
 
