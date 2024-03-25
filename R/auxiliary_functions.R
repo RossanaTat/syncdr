@@ -1,89 +1,61 @@
 
 #' Filter files that are present in both directories under comparison
 #'
-#' This function filters the common_files in "syncdr_status" object (resulting from 'compare_directories()') in the following way:
+#' This function filters common_files in "syncdr_status" object (resulting from 'compare_directories()') in the following way:
 #' (note that filtering is based on left (right) directory depending on the 'dir' argument)
-#' * by date only: filter files that are new in left (right)
-#' * by date and content: filter files that are new in left(right) AND different
+#' * by date only: filter files that are new in left (right or either left/right)
+#' * by date and content: filter files that are new in left(right  or either left/right) AND different
 #' * by content only: filter files that are different between the two directories
 #'
 #' @param sync_status object of class 'syncdr_status' with info on sync status
-#'                    and comparison of directories
+#'                    and comparison of directories (common files only)
 #' @param by_date logical, TRUE by default
 #' @param by_content logical, FALSE by default
+#' @param dir character specifying master(primary) directory, either left, right or all
 #' @return 'syncdr_status' object filtered accordingly
 #' @keywords internal
 #'
 filter_common_files <- function(sync_status,
-                                 by_date    = TRUE,
-                                 by_content = FALSE,
-                                 dir = "left") {
-  # check arg
-  stopifnot(expr = {
-    dir %in% c("left", "right" , "all")
-  })
+                                by_date    = TRUE,
+                                by_content = FALSE,
+                                dir        = "left") {
 
-  # Filter by date only #######################################################
-  if ((isTRUE(by_date) & isFALSE(by_content))) {
+  # Check argument
+  stopifnot(
+    dir %in% c("left", "right", "all")
+  )
 
-    if(dir == "left") {
-
-      sync_status <- sync_status |>
-        fsubset(is_new_left == TRUE) |>
-        fselect(path_left, path_right, sync_status)
-
-    } else if (dir == "right") {
-      sync_status <- sync_status |>
-        fsubset(is_new_right == TRUE) |>
-        fselect(path_left, path_right, sync_status)
-    }
-
-    else {
-      sync_status <- sync_status |>
-        fsubset(is_new_right == TRUE | is_new_left == TRUE) |>
-        fselect(path_left, path_right, sync_status)
-    }
-
-  }
-
-  # Filter by date & content ##################################################
-  else if (isTRUE(by_date) & isTRUE(by_content)) {
+  # Define date filter based on arguments
+  date_filter <- if (by_date) {
 
     if (dir == "left") {
-      sync_status <- sync_status |>
-        fsubset(is_new_left == TRUE & is_diff == TRUE) |>
-        fselect(path_left, path_right, sync_status)
+      sync_status$is_new_left
+    } else if (dir == "right") {
+      sync_status$is_new_right
+    } else if(dir == "all") {
+      sync_status$is_new_left | sync_status$is_new_right
     }
-
-    else if (dir == "right") {
-      sync_status <- sync_status |>
-        fsubset(is_new_right == TRUE & is_diff == TRUE) |>
-        fselect(path_left, path_right, sync_status)
-    }
-
-    else {
-      sync_status <- sync_status |>
-        fsubset((is_new_right == TRUE | is_new_left == TRUE) & is_diff == TRUE) |>
-        fselect(path_left, path_right, sync_status)
-    }
-
+    } else {
+    TRUE  # If by_date is false, include all dates
   }
 
-  # Filter by content only ####################################################
-  else if (isFALSE(by_date) & isTRUE(by_content)) {
+  # Define content filter based on arguments
+  content_filter <- if (by_content) {
+    sync_status$is_diff
+  } else {
+    TRUE
+    }
 
-    sync_status <- sync_status |>
-      fsubset(is_diff == TRUE) |>
-      fselect(path_left, path_right, sync_status)
-
-  } else
-
-    {sync_status <- sync_status |>
-      fselect(path_left, path_right, sync_status)} # if both by_date and content are FALSE
+  # Filter sync_status accordingly
+  sync_status <- sync_status |>
+    fsubset(date_filter & content_filter) |>
+    fselect(path_left,
+            path_right,
+            sync_status)
 
   return(sync_status)
-
 }
+
 
 #' Filter files that are NOT common between the two directories under comparison
 #'
@@ -147,46 +119,3 @@ hash_files_contents <- function(left_path,
     ))
 }
 
-#### REFACTORING FILTER COMMON FILES ######## NOT SURE THIS WORKS !
-filter_common_files_rf <- function(sync_status,
-                                   by_date = TRUE,
-                                   by_content = FALSE,
-                                   dir = "left") {
-
-  # Check argument
-  stopifnot(dir %in% c("left", "right", "all"))
-
-  # Define date filter based on arguments
-  date_filter <- if (by_date) {
-    if (dir == "left") {
-      sync_status$is_new_left
-    } else if (dir == "right") {
-      sync_status$is_new_right
-    } else {
-      sync_status$is_new_left | sync_status$is_new_right
-    }
-  } else {
-    TRUE  # If by_date is false, include all dates
-  }
-
-  # Define content filter based on arguments
-  content_filter <- if (by_content) {
-    sync_status$is_diff
-  } else {TRUE}
-
-  # # If by_content is true and is_diff column exists, create content filter
-  # if (by_content && "is_diff" %in% colnames(sync_status)) {
-  #   content_filter <- sync_status$is_diff
-  # }
-
-
-  # Apply filters
-  # filtered_status <- sync_status[date_filter & content_filter,
-  #                                c("path_left", "path_right", "sync_status")]
-
-  sync_status <- sync_status |>
-    fsubset(date_filter & content_filter) |>
-    fselect(path_left, path_right, sync_status)
-
-  return(sync_status)
-}

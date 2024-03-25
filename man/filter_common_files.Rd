@@ -13,21 +13,23 @@ filter_common_files(
 }
 \arguments{
 \item{sync_status}{object of class 'syncdr_status' with info on sync status
-and comparison of directories}
+and comparison of directories (common files only)}
 
 \item{by_date}{logical, TRUE by default}
 
 \item{by_content}{logical, FALSE by default}
+
+\item{dir}{character specifying master(primary) directory, either left, right or all}
 }
 \value{
 'syncdr_status' object filtered accordingly
 }
 \description{
-This function filters the common_files in "syncdr_status" object (resulting from 'compare_directories()') in the following way:
+This function filters common_files in "syncdr_status" object (resulting from 'compare_directories()') in the following way:
 (note that filtering is based on left (right) directory depending on the 'dir' argument)
 \itemize{
-\item by date only: filter files that are new in left (right)
-\item by date and content: filter files that are new in left(right) AND different
+\item by date only: filter files that are new in left (right or either left/right)
+\item by date and content: filter files that are new in left(right  or either left/right) AND different
 \item by content only: filter files that are different between the two directories
 }
 }
