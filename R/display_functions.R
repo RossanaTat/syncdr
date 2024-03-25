@@ -73,7 +73,6 @@ display_sync_status(sync_status$non_common_files)
 #' @param path_left path of left directory
 #' @param path_right path of right directory
 #' @param recurse logical, default to TRUE: show also sub-directories
-
 display_dir_tree <- function(path_left,
                              path_right,
                              recurse = TRUE) {
@@ -85,5 +84,42 @@ display_dir_tree <- function(path_left,
   fs::dir_tree(sync_status$right_path)
 
   invisible(TRUE)
+
+}
+
+##### NEW DISPLAY SYNC STATUS - ATTEMPT 1 #####################################
+display_new_test <- function(
+    sync_status) {
+
+  # Build DT table
+  DT::datatable(sync_status,
+                options = list(
+                  pageLength = 10, # number of rows to display per page
+                  columnDefs = list(
+                    list(targets = grep("^is_", colnames(sync_status), value = TRUE),
+                         createdCell = JS(
+                           "function(td, cellData, rowData, row, col) {
+                            if (cellData === true) {
+                              $(td).css({'background-color': '#c7f9cc'});
+                            } else {
+                              $(td).css({'background-color': '#fdffb6'});
+                            }
+                          }"
+                         )
+                    ),
+                    list(targets = grep("^sync", colnames(sync_status), value = TRUE),
+                         createdCell = JS(
+                           "function(td, cellData, rowData, row, col) {
+                            if ( cellData.includes('content') | cellData.includes('only in left') ) {
+                              $(td).css({'background-color': '#a9def9'});
+                            } else {
+                              $(td).css({'background-color': '#e4c1f9'});
+                            }
+                          }"
+                         )
+                    )
+                  )
+                )
+  )
 
 }
