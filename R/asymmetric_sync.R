@@ -7,11 +7,12 @@
 
 # ------------------------------- <<<< NOTE >>>> -------------------------------
 #
-# For all asymmetric functions, asymmetric synchronization goes left to right:
+# For all of the asymmetric functions below, asymmetric synchronization goes left to right:
+#
 # this means that you sync right (follower) directory
 # based on left (leader) directory
 #
-# !!!! Important (1) !!!!
+# Important (1)
 # The input should always be the result of compare_directories(),
 # with the "leader" passed to "path_left" argument, and follower to "path_right".
 #
@@ -28,7 +29,8 @@
 #                                    path_right = path_A)
 # full_asym_sync_to_right(sync_status)
 #
-# !!!! Important (2) !!!!
+#
+# Important (2)
 # Also, you must provide as input the result of compare_directories()
 # with by_date and by_content set in the same way as you pass them
 # to the asymmetric synchronization functions
@@ -175,11 +177,11 @@ common_files_asym_sync_to_right <- function(sync_status,
 
 }
 
-#' Full asymmetric asymmetric synchronization of non common files
+#' Full asymmetric synchronization of non common files
 #'
 #' update non common files in right directory based on left one -i.e., the function will:
 #' * for common_files:
-#'    - do nothing, left unchaged
+#'    - do nothing, left unchanged
 #' * for non common files,
 #'    - copy those files that are only in left to right
 #'    - delete in right those files that are only in right (i.e., files 'missing in left')

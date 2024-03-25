@@ -67,6 +67,7 @@ filter_common_files <- function(sync_status,
 #' @param dir character, either "left", "right", "all" (both directories)
 #' @return 'syncdr_status' object filtered accordingly
 #' @keywords internal
+#'
 filter_non_common_files <- function(sync_status,
                                     dir = "left") {
 
@@ -93,12 +94,13 @@ filter_non_common_files <- function(sync_status,
 
 }
 
-#' Hash content of files for two directories under comparison, say left and right
+#' Hash content of files of two directories under comparison, say left and right
 #'
 #' @param left_path path of files in left directory
 #' @param right_path path of files in right directory
-#' @return list of hashes of left paths and hashes of right paths
+#' @return list of hashes of files from left paths and hashes of files from right paths
 #' @keywords internal
+#'
 hash_files_contents <- function(left_path,
                                 right_path) {
 
@@ -119,8 +121,13 @@ hash_files_contents <- function(left_path,
     ))
 }
 
-############## OTHERS ##########################################################
-
+#' Get directory information
+#' @param dir character string, path of directory
+#' @param recurse If TRUE recurse fully, if a positive number the number of levels to recurse
+#' @return data frame with info on directory's files
+#'
+#' @keywords internal
+#'
 directory_info <- function(dir,
                            recurse = TRUE,
                            ...) {
@@ -142,51 +149,70 @@ directory_info <- function(dir,
 
 }
 
-# TO CHECK ##################################################################
-compare_modification_times <- function(modification_time_left, modification_time_right) {
+#' Compare date of last modification of two files and determine sync status
+#'
+#' @keywords internal
+#'
+compare_modification_times <- function(modification_time_left,
+                                       modification_time_right) {
 
-  is_new_left <- modification_time_left > modification_time_right
+  is_new_left  <- modification_time_left > modification_time_right
   is_new_right <- modification_time_right > modification_time_left
 
   sync_status_date <- ifelse(
     is_new_left & !is_new_right, "newer in left, older in right dir",
     ifelse(!is_new_left & is_new_right, "older in left, newer in right dir", "same date")
   )
-  return(list(is_new_left = is_new_left, is_new_right = is_new_right, sync_status_date = sync_status_date))
+
+  return(list(
+    is_new_left = is_new_left,
+    is_new_right = is_new_right,
+    sync_status_date = sync_status_date)
+    )
+
 }
 
-# Auxiliary function to compare file contents
-compare_file_contents <- function(path_left, path_right) {
+#' Compare contents of two files and determine their sync status
+#'
+#' @keywords internal
+#'
+compare_file_contents <- function(path_left,
+                                  path_right) {
 
-  hash_left <- hash_files_contents(path_left, path_right)$left_hash
-  hash_right <- hash_files_contents(path_left, path_right)$right_hash
+  hash_left <- hash_files_contents(path_left,
+                                   path_right)$left_hash
+  hash_right <- hash_files_contents(path_left,
+                                    path_right)$right_hash
+
   is_diff <- (hash_left != hash_right)
+
   sync_status_content <- ifelse(
     is_diff, "different content",
     "same content"
   )
-  return(list(is_diff = is_diff, sync_status_content = sync_status_content))
+  return(list(is_diff = is_diff,
+              sync_status_content = sync_status_content))
 }
 
 # Compare individual files auxiliary function -not used for the moment ####
-
-compare_files <- function(file1, file2) {
-
-  if (!fs::file_exists(file2)) return(list(new_left = TRUE, new_right = FALSE))  # New file in dir1
-  if (!fs::file_exists(file1)) return(list(new_left = FALSE, new_right = TRUE))   # Old file in dir1
-
-  # Compare creation times
-  time1 <- fs::file_info(file1)$modification_time
-  time2 <- fs::file_info(file2)$modification_time
-
-  if (time1 > time2) {
-    return(list(new_left = TRUE, new_right = FALSE))
-  }  # Newer file in dir1
-
-  else if (time2 > time1) {
-    return(list(new_left = FALSE, new_right = TRUE))
-  } # newer file in dir2
-
-  else {return(list(new_left = FALSE, new_right = FALSE))} # Same modification date
-
-}
+#
+# compare_files <- function(file1, file2) {
+#
+#   if (!fs::file_exists(file2)) return(list(new_left = TRUE, new_right = FALSE))  # New file in dir1
+#   if (!fs::file_exists(file1)) return(list(new_left = FALSE, new_right = TRUE))   # Old file in dir1
+#
+#   # Compare creation times
+#   time1 <- fs::file_info(file1)$modification_time
+#   time2 <- fs::file_info(file2)$modification_time
+#
+#   if (time1 > time2) {
+#     return(list(new_left = TRUE, new_right = FALSE))
+#   }  # Newer file in dir1
+#
+#   else if (time2 > time1) {
+#     return(list(new_left = FALSE, new_right = TRUE))
+#   } # newer file in dir2
+#
+#   else {return(list(new_left = FALSE, new_right = FALSE))} # Same modification date
+#
+# }

@@ -47,12 +47,13 @@ display_sync_status <- function(
 }
 
 # Example usage:
+
 # Compare directories with 'compare_directories()'
 # left <- paste0(getwd(), "/temp_folder_1")
 # right <- paste0(getwd(), "/temp_folder_2")
-sync_status <- compare_directories(left, right)
-display_sync_status(sync_status$common_files)
-display_sync_status(sync_status$non_common_files)
+# sync_status <- compare_directories(left, right)
+# display_sync_status(sync_status$common_files)
+# display_sync_status(sync_status$non_common_files)
 #
 # sync_status_date_cont <- compare_directories(left,
 #                                              right,
@@ -88,38 +89,38 @@ display_dir_tree <- function(path_left,
 }
 
 ##### NEW DISPLAY SYNC STATUS - ATTEMPT 1 #####################################
-display_new_test <- function(
-    sync_status) {
-
-  # Build DT table
-  DT::datatable(sync_status,
-                options = list(
-                  pageLength = 10, # number of rows to display per page
-                  columnDefs = list(
-                    list(targets = grep("^is_", colnames(sync_status), value = TRUE),
-                         createdCell = JS(
-                           "function(td, cellData, rowData, row, col) {
-                            if (cellData === true) {
-                              $(td).css({'background-color': '#c7f9cc'});
-                            } else {
-                              $(td).css({'background-color': '#fdffb6'});
-                            }
-                          }"
-                         )
-                    ),
-                    list(targets = grep("^sync", colnames(sync_status), value = TRUE),
-                         createdCell = JS(
-                           "function(td, cellData, rowData, row, col) {
-                            if ( cellData.includes('content') | cellData.includes('only in left') ) {
-                              $(td).css({'background-color': '#a9def9'});
-                            } else {
-                              $(td).css({'background-color': '#e4c1f9'});
-                            }
-                          }"
-                         )
-                    )
-                  )
-                )
-  )
-
-}
+# display_new <- function(
+#     sync_status) {
+#
+#   # Build DT table
+#   DT::datatable(sync_status,
+#                 options = list(
+#                   pageLength = 10, # number of rows to display per page
+#                   columnDefs = list(
+#                     list(targets = grep("^is_", colnames(sync_status), value = TRUE),
+#                          createdCell = JS(
+#                            "function(td, cellData, rowData, row, col) {
+#                             if (cellData === true) {
+#                               $(td).css({'background-color': '#c7f9cc'});
+#                             } else {
+#                               $(td).css({'background-color': '#fdffb6'});
+#                             }
+#                           }"
+#                          )
+#                     ),
+#                     list(targets = grep("^sync", colnames(sync_status), value = TRUE),
+#                          createdCell = JS(
+#                            "function(td, cellData, rowData, row, col) {
+#                             if ( cellData.includes('content') | cellData.includes('only in left') ) {
+#                               $(td).css({'background-color': '#a9def9'});
+#                             } else {
+#                               $(td).css({'background-color': '#e4c1f9'});
+#                             }
+#                           }"
+#                          )
+#                     )
+#                   )
+#                 )
+#   )
+#
+# }

@@ -43,7 +43,7 @@ The sync status is returned for both:
 \section{possible types of sync status}{
 
 
-Sync status is computed for both files that are available in both directories
+Sync status is determined for both files that are available in both directories
 and files that are only into one directory or into the other. It is also computed either by date only,
 or by content only, or by date and content -depending on what you choose.
 
@@ -62,8 +62,8 @@ same and same
 
 Possible value of sync status -for non common files:
 \itemize{
-\item When comparing by date; or by date and content; or by content only:
-"missing in left" or "only in right"
+\item When comparing by date (or by date and content; or by content only):
+"missing in left, only in right " or "only in left"
 }
 }
 

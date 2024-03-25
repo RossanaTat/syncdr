@@ -2,7 +2,7 @@
 % Please edit documentation in R/auxiliary_functions.R
 \name{hash_files_contents}
 \alias{hash_files_contents}
-\title{Hash content of files for two directories under comparison, say left and right}
+\title{Hash content of files of two directories under comparison, say left and right}
 \usage{
 hash_files_contents(left_path, right_path)
 }
@@ -12,9 +12,9 @@ hash_files_contents(left_path, right_path)
 \item{right_path}{path of files in right directory}
 }
 \value{
-list of hashes of left paths and hashes of right paths
+list of hashes of files from left paths and hashes of files from right paths
 }
 \description{
-Hash content of files for two directories under comparison, say left and right
+Hash content of files of two directories under comparison, say left and right
 }
 \keyword{internal}
