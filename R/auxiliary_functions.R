@@ -148,38 +148,45 @@ hash_files_contents <- function(left_path,
 }
 
 #### REFACTORING FILTER COMMON FILES ######## NOT SURE THIS WORKS !
-# filter_common_files_rf <- function(sync_status,
-#                                    by_date = TRUE,
-#                                    by_content = FALSE,
-#                                    dir = "left") {
-#
-#   # Check argument
-#   stopifnot(dir %in% c("left", "right", "all"))
-#
-#   # Define date filter based on arguments
-#   date_filter <- if (by_date) {
-#     if (dir == "left") {
-#       sync_status$is_new_left
-#     } else if (dir == "right") {
-#       sync_status$is_new_right
-#     } else {
-#       sync_status$is_new_left | sync_status$is_new_right
-#     }
-#   } else {
-#     TRUE  # If by_date is false, include all dates
-#   }
-#
-#   # Define content filter based on arguments
-#   content_filter <- TRUE
-#
-#   # If by_content is true and is_diff column exists, create content filter
-#   if (by_content && "is_diff" %in% colnames(sync_status)) {
-#     content_filter <- sync_status$is_diff
-#   }
-#
-#   # Apply filters
-#   filtered_status <- sync_status[date_filter & content_filter,
-#                                  c("path_left", "path_right", "sync_status")]
-#
-#   return(filtered_status)
-# }
+filter_common_files_rf <- function(sync_status,
+                                   by_date = TRUE,
+                                   by_content = FALSE,
+                                   dir = "left") {
+
+  # Check argument
+  stopifnot(dir %in% c("left", "right", "all"))
+
+  # Define date filter based on arguments
+  date_filter <- if (by_date) {
+    if (dir == "left") {
+      sync_status$is_new_left
+    } else if (dir == "right") {
+      sync_status$is_new_right
+    } else {
+      sync_status$is_new_left | sync_status$is_new_right
+    }
+  } else {
+    TRUE  # If by_date is false, include all dates
+  }
+
+  # Define content filter based on arguments
+  content_filter <- if (by_content) {
+    sync_status$is_diff
+  } else {TRUE}
+
+  # # If by_content is true and is_diff column exists, create content filter
+  # if (by_content && "is_diff" %in% colnames(sync_status)) {
+  #   content_filter <- sync_status$is_diff
+  # }
+
+
+  # Apply filters
+  # filtered_status <- sync_status[date_filter & content_filter,
+  #                                c("path_left", "path_right", "sync_status")]
+
+  sync_status <- sync_status |>
+    fsubset(date_filter & content_filter) |>
+    fselect(path_left, path_right, sync_status)
+
+  return(sync_status)
+}
