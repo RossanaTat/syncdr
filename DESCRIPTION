@@ -29,3 +29,6 @@ Imports:
     stats
 Remotes: 
     github::randrescastaneda/joyn@DEV
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
