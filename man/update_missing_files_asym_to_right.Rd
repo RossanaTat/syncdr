@@ -2,7 +2,7 @@
 % Please edit documentation in R/asymmetric_sync.R
 \name{update_missing_files_asym_to_right}
 \alias{update_missing_files_asym_to_right}
-\title{Full asymmetric asymmetric synchronization of non common files}
+\title{Full asymmetric synchronization of non common files}
 \usage{
 update_missing_files_asym_to_right(
   sync_status,
@@ -31,7 +31,7 @@ update non common files in right directory based on left one -i.e., the function
 \itemize{
 \item for common_files:
 \itemize{
-\item do nothing, left unchaged
+\item do nothing, left unchanged
 }
 \item for non common files,
 \itemize{
