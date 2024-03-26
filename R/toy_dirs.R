@@ -18,7 +18,7 @@
 toy_dirs <- function(verbose = FALSE) {
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # computations   ---------
+  # create temp dirs   ---------
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   left  <- fs::path_temp("left")
   right <- fs::path_temp("right")
