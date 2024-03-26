@@ -2,7 +2,7 @@
 % Please edit documentation in R/toy_dirs.R
 \name{toy_dirs}
 \alias{toy_dirs}
-\title{Create tow directories to test syncdr functions}
+\title{Create toy directories to test syncdr functions}
 \usage{
 toy_dirs(verbose = FALSE)
 }
@@ -10,12 +10,17 @@ toy_dirs(verbose = FALSE)
 \item{verbose}{logical: display information. Default is FALSE}
 }
 \value{
-list with directory paths for left and right
+invisible list with toy directory paths for left and right
 }
 \description{
-Create tow directories to test syncdr functions
+create directories in temp path.... (complete documentation)
+}
+\details{
+This function is a little slow because it must use \code{\link[=Sys.sleep]{Sys.sleep()}} to save
+files with the same name but different time stamp.
 }
 \examples{
 l <- toy_dirs()
 compare_directories(l$left, l$right)
+toy_dirs(verbose = TRUE)
 }

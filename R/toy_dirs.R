@@ -1,11 +1,13 @@
-#' Create tow directories to test syncdr functions
+#' Create toy directories to test syncdr functions
+#'
+#' create directories in temp path.... (complete documentation)
 #'
 #' This function is a little slow because it must use [Sys.sleep()] to save
 #' files with the same name but different time stamp.
 #'
 #' @param verbose logical: display information. Default is FALSE
 #'
-#' @return list with directory paths for left and right
+#' @return invisible list with toy directory paths for left and right
 #' @export
 #'
 #' @examples
