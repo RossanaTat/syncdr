@@ -1,7 +1,3 @@
-#' @import DT
-
-library(DT)
-
 #' Display status of synchronization/comparison info between two directories in DT table
 #'
 #' @param sync_status object of class `"syncdr_status"`, result of `compare_directories()`
