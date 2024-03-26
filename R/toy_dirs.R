@@ -1,6 +1,7 @@
 #' Create toy directories to test syncdr functions
 #'
-#' create directories in temp path.... (complete documentation)
+#' create directories in temp path.... (complete documentation). Directories are
+#' deleted when a new R session is started
 #'
 #' This function is a little slow because it must use [Sys.sleep()] to save
 #' files with the same name but different time stamp.

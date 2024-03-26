@@ -13,7 +13,8 @@ toy_dirs(verbose = FALSE)
 invisible list with toy directory paths for left and right
 }
 \description{
-create directories in temp path.... (complete documentation)
+create directories in temp path.... (complete documentation). Directories are
+deleted when a new R session is started
 }
 \details{
 This function is a little slow because it must use \code{\link[=Sys.sleep]{Sys.sleep()}} to save
