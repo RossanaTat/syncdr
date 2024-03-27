@@ -74,10 +74,14 @@ display_dir_tree <- function(path_left,
                              recurse = TRUE) {
 
   cat("Left directory structure:\n")
-  fs::dir_tree(sync_status$left_path)
+  #fs::dir_tree(sync_status$left_path)
+  fs::dir_tree(path_left)
+
 
   cat("\nRight directory structure :\n")
-  fs::dir_tree(sync_status$right_path)
+  #fs::dir_tree(sync_status$right_path)
+  fs::dir_tree(path_right)
+
 
   invisible(TRUE)
 

@@ -15,7 +15,6 @@
 #'  and the file will be copied at the top level
 #' @return invisible TRUE
 #' @keywords internal
-
 copy_files_to_right <- function(left_dir,
                                 right_dir,
                                 files_to_copy,

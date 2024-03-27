@@ -80,6 +80,16 @@ toy_dirs <- function(verbose = FALSE) {
     }
   }
 
+  # copy some common files from left to right to have some files with same content
+  fs::file_copy(path = paste0(left, "/B/B1.Rds") ,
+                new_path = paste0(right, "/B/B1.Rds"),
+                overwrite = TRUE)
+
+  fs::file_copy(path = paste0(left, "/D/D1.Rds") ,
+                new_path = paste0(right, "/D/D1.Rds"),
+                overwrite = TRUE)
+
+
   # Display directory trees
   if (verbose) {
     fs::dir_tree(left)
