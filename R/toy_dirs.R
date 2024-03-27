@@ -97,12 +97,14 @@ toy_dirs <- function(verbose = FALSE) {
   # Return   ---------
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   # invisible(list(left = left,
-  #               right = right))
-
   # Assign to environment
-  sync.env$left  <- left
-  sync.env$right <- right
+  assign(x     = "left",
+         value = left,
+         envir = sync.env)
+
+  assign(x     = "right",
+         value = right,
+         envir = sync.env)
 
   return(sync.env)
 

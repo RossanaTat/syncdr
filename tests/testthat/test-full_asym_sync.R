@@ -1,15 +1,8 @@
 
-# Test function that performs a full asymmetric synchronization ####
-
-
-
-sync_status_content   <- compare_directories(left_path = left,
-                                             right_path  = right,
-                                             by_date     = FALSE,
-                                             by_content  = TRUE)
-
+# Test function that performs a full asymmetric synchronization to right ####
 
 # ~~~~~~~~~ Update by date only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Create sync env with temp directories
 sync.env <- toy_dirs()
@@ -23,7 +16,6 @@ sync_status_date      <- compare_directories(left_path  = left,
 # Sync
 full_asym_sync_to_right(sync_status = sync_status_date)
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Non common files ####
 test_that("full asym sync to right -by date, non common files", {
@@ -70,15 +62,18 @@ test_that("full asym sync to right -by date, non common files", {
 test_that("full asym sync to right -by date only, common files", {
 
   # check files have same date status after being copied
-  to_copy <- which(
-    sync_status_date$common_files$is_new_left
-    )
-
-  res <- new_status_date$common_files[to_copy, ] |>
-    fselect(sync_status)
-
-  any(res != "same date") |>
-    expect_equal(FALSE)
+  # to_copy <- which(
+  #   sync_status_date$common_files$is_new_left
+  #   )
+  #
+  # new_status_date <- compare_directories(left,
+  #                                        right)
+  #
+  # res <- new_status_date$common_files[to_copy, ] |>
+  #   fselect(sync_status)
+  #
+  # any(res != "same date") |>
+  #   expect_equal(FALSE)
 
   # check files have some content after being copied
   to_copy_paths <- sync_status_date$common_files |>
@@ -87,13 +82,13 @@ test_that("full asym sync to right -by date only, common files", {
 
   compare_file_contents(to_copy_paths$path_left,
                         to_copy_paths$path_right)$is_diff |>
+    any() |>
     expect_equal(FALSE)
 
 })
 
 # ~~~~~~~~~ Update by date and content ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# Create sync env with temp directories
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # empty env first
 rm(list = ls(sync.env), envir = sync.env)
@@ -112,8 +107,7 @@ sync_status_date_cont <- compare_directories(left_path  = left,
 full_asym_sync_to_right(sync_status = sync_status_date_cont,
                         by_content = TRUE)
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+# Non common files ####
 test_that("full asym sync to right -by date & cont, non common files", {
 
 
@@ -158,12 +152,94 @@ test_that("full asym sync to right -by date & cont, non common files", {
 # Common files ####
 test_that("full asym sync to right -by date & cont, common files", {
 
-  # check files have some content after being copied
+  # check files have same content after being copied
   to_copy_paths <- sync_status_date_cont$common_files |>
-    fsubset(is_new_left | is_new_right) |>
+    fsubset(is_new_left & is_diff) |>
+    fselect(path_left, path_right)
+
+  compare_file_contents(to_copy_paths$path_left,
+                        to_copy_paths$path_right)$is_diff |>
+    any() |>
+    expect_equal(FALSE)
+})
+
+# ~~~~~~~~~ Update by content only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# empty env first
+rm(list = ls(sync.env), envir = sync.env)
+
+# restart
+sync.env <- toy_dirs()
+left <- sync.env$left
+right <- sync.env$right
+
+# Get sync status object (from compare_directories)
+sync_status_cont <- compare_directories(left_path  = left,
+                                        right_path = right,
+                                        by_content = TRUE,
+                                        by_date = FALSE)
+
+# sync
+full_asym_sync_to_right(sync_status = sync_status_cont,
+                        by_content  = TRUE,
+                        by_date     = FALSE)
+
+# Non common files ####
+test_that("full asym sync to right -by content only, non common files", {
+
+
+  # Compare dirs after sync
+  new_status_cont <- compare_directories(left,
+                                              right,
+                                              by_content = TRUE,
+                                         by_date = FALSE)
+
+  expect_true(
+    nrow((new_status_cont$non_common_files)) == 0
+  )
+
+  # check copied
+  fs::file_exists(path = paste0(right, "/A/A1.Rds")) |>
+    expect_true()
+
+  fs::file_exists(path = paste0(right, "/A/A2.Rds")) |>
+    expect_true()
+
+  fs::file_exists(path = paste0(right, "/A/A3.Rds")) |>
+    expect_true()
+
+  fs::file_exists(path = paste0(right, "/B/B3.Rds")) |>
+    expect_true()
+
+  # check deleted files
+  fs::file_exists(path = paste0(right, "/D/D3.Rds")) |>
+    expect_false()
+
+  fs::file_exists(path = paste0(right, "/E/E1.Rds")) |>
+    expect_false()
+
+  fs::file_exists(path = paste0(right, "/E/E2.Rds")) |>
+    expect_false()
+
+  fs::file_exists(path = paste0(right, "/E/E3.Rds")) |>
+    expect_false()
+
+
+})
+
+# Common files ####
+
+test_that("full asym sync to right -by content only, common files", {
+
+  # check files have same content after being copied
+  to_copy_paths <- sync_status_cont$common_files |>
     fsubset(is_diff) |>
     fselect(path_left, path_right)
 
- ### TO COMPLETE
+  compare_file_contents(to_copy_paths$path_left,
+                        to_copy_paths$path_right)$is_diff |>
+    any() |>
+    expect_equal(FALSE)
 })
 
