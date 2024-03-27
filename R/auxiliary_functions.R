@@ -216,3 +216,4 @@ compare_file_contents <- function(path_left,
 #   else {return(list(new_left = FALSE, new_right = FALSE))} # Same modification date
 #
 # }
+
