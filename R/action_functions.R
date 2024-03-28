@@ -43,10 +43,6 @@ copy_files_to_right <- function(left_dir,
   invisible(TRUE)
 }
 
-# copy to left - ideally we can keep only one function
-# (say, copy_from_source_to_destination), and how you specify the inputs determines the direction of the copy!
-# for now, I am keeping both to generate less confusion
-
 #' Copy files from right directory to left directory
 #'
 #' This function first checks source and destination path, and build destination path if not available,

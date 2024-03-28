@@ -68,7 +68,8 @@
 full_asym_sync_to_right <- function(sync_status,
                                     by_date    = TRUE,
                                     by_content = FALSE,
-                                    recurse    = TRUE) {
+                                    recurse    = TRUE,
+                                    verbose    = TRUE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -76,10 +77,14 @@ full_asym_sync_to_right <- function(sync_status,
   })
 
   # Display folder structure before synchronization
-  cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
 
-  display_dir_tree(path_left  = sync_status$left_path,
-                   path_right = sync_status$right_path)
+  if (verbose == TRUE) {
+
+    cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
+
+    display_dir_tree(path_left  = sync_status$left_path,
+                     path_right = sync_status$right_path)
+  }
 
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
@@ -110,12 +115,15 @@ full_asym_sync_to_right <- function(sync_status,
   # Delete Files ####
   fs::file_delete(files_to_delete$path_right)
 
-  # Display folder structure AFTER synchronization
-  cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
+  if(verbose == TRUE) {
 
-  display_dir_tree(path_left  = sync_status$left_path,
-                   path_right = sync_status$right_path)
+    # Display folder structure AFTER synchronization
+    cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
 
+    display_dir_tree(path_left  = sync_status$left_path,
+                     path_right = sync_status$right_path)
+
+  }
 
   cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
 
@@ -147,18 +155,21 @@ full_asym_sync_to_right <- function(sync_status,
 common_files_asym_sync_to_right <- function(sync_status,
                                             by_date    = TRUE,
                                             by_content = FALSE,
-                                            recurse    = TRUE) {
+                                            recurse    = TRUE,
+                                            verbose    = TRUE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
     inherits(sync_status, "syncdr_status")
   })
 
+if(verbose == TRUE) {
   # Display folder structure before synchronization
   cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
 
   display_dir_tree(path_left  = sync_status$left_path,
                    path_right = sync_status$right_path)
+}
 
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
@@ -171,11 +182,13 @@ common_files_asym_sync_to_right <- function(sync_status,
                       files_to_copy = files_to_copy,
                       recurse       = recurse)
 
-  # Display folder structure AFTER synchronization
-  cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
+  if (verbose == TRUE) {
+    # Display folder structure AFTER synchronization
+    cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
 
-  display_dir_tree(path_left  = sync_status$left_path,
-                   path_right = sync_status$right_path)
+    display_dir_tree(path_left  = sync_status$left_path,
+                     path_right = sync_status$right_path)
+  }
 
   cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
 
@@ -202,18 +215,21 @@ common_files_asym_sync_to_right <- function(sync_status,
 #' @return print "synchronized"
 #' @export
 update_missing_files_asym_to_right <- function(sync_status,
-                                               recurse    = TRUE) {
+                                               recurse    = TRUE,
+                                               verbose    = TRUE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
     inherits(sync_status, "syncdr_status")
   })
 
-  # Display folder structure before synchronization
-  cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
+  if (verbose == TRUE) {
+    # Display folder structure before synchronization
+    cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
 
-  display_dir_tree(path_left  = sync_status$left_path,
-                   path_right = sync_status$right_path)
+    display_dir_tree(path_left  = sync_status$left_path,
+                     path_right = sync_status$right_path)
+  }
 
   # Get files to copy
   files_to_copy <- sync_status$non_common_files |>
@@ -233,12 +249,13 @@ update_missing_files_asym_to_right <- function(sync_status,
   # Delete Files ####
   fs::file_delete(files_to_delete$path_right)
 
-
+  if (verbose == TRUE) {
   # Display folder structure AFTER synchronization
   cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
 
   display_dir_tree(path_left  = sync_status$left_path,
                    path_right = sync_status$right_path)
+  }
 
   cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
 
@@ -264,18 +281,21 @@ update_missing_files_asym_to_right <- function(sync_status,
 #' @return print "synchronized"
 #' @export
 partial_update_missing_files_asym_to_right <- function(sync_status,
-                                                       recurse = TRUE) {
+                                                       recurse = TRUE,
+                                                       verbose = TRUE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
     inherits(sync_status, "syncdr_status")
   })
 
-  # Display folder structure before synchronization
-  cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
+  if(verbose == TRUE) {
+    # Display folder structure before synchronization
+    cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
 
-  display_dir_tree(path_left  = sync_status$left_path,
-                   path_right = sync_status$right_path)
+    display_dir_tree(path_left  = sync_status$left_path,
+                     path_right = sync_status$right_path)
+  }
 
   # Get files to copy
   files_to_copy <- sync_status$non_common_files |>
@@ -287,14 +307,19 @@ partial_update_missing_files_asym_to_right <- function(sync_status,
                       files_to_copy = files_to_copy,
                       recurse       = recurse)
 
-  # Display folder structure AFTER synchronization
-  cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
+  if(verbose == TRUE) {
+    # Display folder structure AFTER synchronization
+    cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
 
-  display_dir_tree(path_left  = sync_status$left_path,
-                   path_right = sync_status$right_path)
+    display_dir_tree(path_left  = sync_status$left_path,
+                     path_right = sync_status$right_path)
+  }
 
   cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
 
   invisible(TRUE)
 }
+
+# Wrapper for asymmetric synchronization ####
+
 

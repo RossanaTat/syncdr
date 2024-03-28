@@ -8,7 +8,8 @@ common_files_asym_sync_to_right(
   sync_status,
   by_date = TRUE,
   by_content = FALSE,
-  recurse = TRUE
+  recurse = TRUE,
+  verbose = TRUE
 )
 }
 \arguments{
