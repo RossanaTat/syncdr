@@ -34,18 +34,21 @@
 full_symmetric_sync <- function(sync_status,
                                 by_date    = TRUE,
                                 by_content = FALSE,
-                                recurse    = TRUE) {
+                                recurse    = TRUE,
+                                verbose    = FALSE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
     inherits(sync_status, "syncdr_status")
   })
 
+  if (verbose == TRUE) {
   # Display folder structure before synchronization
   cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
 
   display_dir_tree(path_left  = sync_status$left_path,
                    path_right = sync_status$right_path)
+  }
 
   # Update non- and common files ###############################################
 
@@ -80,14 +83,18 @@ full_symmetric_sync <- function(sync_status,
                      files_to_copy = files_to_left,
                      recurse       = recurse)
 
+  if (verbose == TRUE) {
 
-  # Display folder structure AFTER synchronization
-  cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
+    # Display folder structure AFTER synchronization
+    cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
 
-  display_dir_tree(path_left  = sync_status$left_path,
-                   path_right = sync_status$right_path)
+    display_dir_tree(path_left  = sync_status$left_path,
+                     path_right = sync_status$right_path)
+  }
 
-  return(print("synchronized"))
+  cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
+
+  invisible(TRUE)
 
 }
 
@@ -99,7 +106,7 @@ full_symmetric_sync <- function(sync_status,
 #'                 it will be copied over to update the older version. If modification dates are the same, nothing is done
 #'   - if by date and content: If the file in one directory is newer AND different than the corresponding file in the other directory,
 #'                             it will be copied over to update the older version. If modification dates/contents are the same, nothing is done
-#'   - if by content only: ? TO DECIDE WHAT TO DO WITH THOSE FILES
+#'   - if by content only: ? TO DECIDE WHAT TO DO WITH THOSE FILES ?
 #' * For non common files: unchanged, i.e.,
 #'   - keep in right those that are only in right
 #'   - keep in left those that are only in left
@@ -116,19 +123,22 @@ full_symmetric_sync <- function(sync_status,
 partial_symmetric_sync_common_files <- function(sync_status,
                                                 by_date    = TRUE,
                                                 by_content = FALSE,
-                                                recurse    = TRUE) {
+                                                recurse    = TRUE,
+                                                verbose    = FALSE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
     inherits(sync_status, "syncdr_status")
   })
 
-  # Display folder structure before synchronization
-  cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
+  if(verbose == TRUE) {
 
-  display_dir_tree(path_left  = sync_status$left_path,
-                   path_right = sync_status$right_path)
+    cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
 
+    display_dir_tree(path_left  = sync_status$left_path,
+                     path_right = sync_status$right_path)
+
+  }
   # Update non- and common files ###############################################
 
   # copy those that are new in left to right
@@ -153,13 +163,16 @@ partial_symmetric_sync_common_files <- function(sync_status,
                      files_to_copy = files_to_left,
                      recurse       = recurse)
 
+  if(verbose == TRUE) {
   # Display folder structure AFTER synchronization
   cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
 
   display_dir_tree(path_left  = sync_status$left_path,
-                   path_right = sync_status$right_path)
+                   path_right = sync_status$right_path)}
 
-  return(print("synchronized"))
+  cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
+
+  invisible(TRUE)
 
 }
 

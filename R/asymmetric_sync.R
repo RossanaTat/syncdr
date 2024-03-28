@@ -156,7 +156,7 @@ common_files_asym_sync_to_right <- function(sync_status,
                                             by_date    = TRUE,
                                             by_content = FALSE,
                                             recurse    = TRUE,
-                                            verbose    = TRUE) {
+                                            verbose    = FALSE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -216,7 +216,7 @@ if(verbose == TRUE) {
 #' @export
 update_missing_files_asym_to_right <- function(sync_status,
                                                recurse    = TRUE,
-                                               verbose    = TRUE) {
+                                               verbose    = FALSE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -282,7 +282,7 @@ update_missing_files_asym_to_right <- function(sync_status,
 #' @export
 partial_update_missing_files_asym_to_right <- function(sync_status,
                                                        recurse = TRUE,
-                                                       verbose = TRUE) {
+                                                       verbose = FALSE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -319,7 +319,5 @@ partial_update_missing_files_asym_to_right <- function(sync_status,
 
   invisible(TRUE)
 }
-
-# Wrapper for asymmetric synchronization ####
 
 
