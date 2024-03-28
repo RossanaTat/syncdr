@@ -202,8 +202,6 @@ common_files_asym_sync_to_right <- function(sync_status,
 #' @return print "synchronized"
 #' @export
 update_missing_files_asym_to_right <- function(sync_status,
-                                               by_date    = TRUE,
-                                               by_content = FALSE,
                                                recurse    = TRUE) {
 
   # Check sync_status is the result of compare_directories()
@@ -266,9 +264,7 @@ update_missing_files_asym_to_right <- function(sync_status,
 #' @return print "synchronized"
 #' @export
 partial_update_missing_files_asym_to_right <- function(sync_status,
-                                                       by_date    = TRUE,
-                                                       by_content = FALSE,
-                                                       recurse    = TRUE) {
+                                                       recurse = TRUE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {

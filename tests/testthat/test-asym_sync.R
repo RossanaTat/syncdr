@@ -380,4 +380,115 @@ test_that("common files asym sync to right works -by content", {
 
 })
 
+# Test function that updates missing files only (asymmetric synchronization to right) ####
+
+# ~~~~~~~~~ Update missing files  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# empty env first
+rm(list = ls(sync.env), envir = sync.env)
+
+# restart
+sync.env <- toy_dirs()
+left <- sync.env$left
+right <- sync.env$right
+
+# Get sync status object (from compare_directories)
+sync_status <- compare_directories(left_path  = left,
+                                   right_path = right)
+
+# Sync
+update_missing_files_asym_to_right(sync_status)
+
+test_that("update missing file works", {
+
+  to_copy <- sync_status$non_common_files |>
+    fsubset(sync_status == "only in left")
+
+  to_delete <- sync_status$non_common_files |>
+    fsubset(sync_status == "only in right")
+
+  sync_status_after <- compare_directories(left,
+                                           right)
+  sync_status_after$non_common_files |>
+    nrow() |>
+    expect_equal(0)
+
+  # check delete files
+  fs::file_exists(to_delete$path_right) |>
+    any() |>
+    expect_equal(FALSE)
+
+  #check copied files
+  # check files only in left are common files after sync,
+  # and that they have same content
+
+  copied <- sync_status_after$common_files |>
+    fsubset(path_left %in% to_copy$path_left) |>
+    fselect(path_left, path_right)
+
+  compare_file_contents(copied$path_left,
+                        copied$path_right)$is_diff |>
+    any() |>
+    expect_equal(FALSE)
+
+})
+
+
+# ~~~~~~~~~ Update missing files -partial ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# empty env first
+rm(list = ls(sync.env), envir = sync.env)
+
+# restart
+sync.env <- toy_dirs()
+left <- sync.env$left
+right <- sync.env$right
+
+# Get sync status object (from compare_directories)
+sync_status <- compare_directories(left_path  = left,
+                                   right_path = right)
+
+# Sync
+partial_update_missing_files_asym_to_right(sync_status)
+
+test_that("update missing file works", {
+
+  to_copy <- sync_status$non_common_files |>
+    fsubset(sync_status == "only in left")
+
+  sync_status_after <- compare_directories(left,
+                                           right)
+
+  to_keep <- sync_status$non_common_files |>
+    fsubset(sync_status == "only in right")
+
+  # check files to keep
+  fs::file_exists(to_keep$path_right) |>
+    any() |>
+    expect_equal(TRUE)
+
+  kept_in_right <- sync_status_after$non_common_files |>
+    fselect(sync_status)
+
+  all(kept_in_right == "only in right") |>
+    expect_equal(TRUE)
+
+
+  #check copied files
+  # check files only in left are common files after sync,
+  # and that they have same content
+
+  copied <- sync_status_after$common_files |>
+    fsubset(path_left %in% to_copy$path_left) |>
+    fselect(path_left, path_right)
+
+  compare_file_contents(copied$path_left,
+                        copied$path_right)$is_diff |>
+    any() |>
+    expect_equal(FALSE)
+
+})
+
 

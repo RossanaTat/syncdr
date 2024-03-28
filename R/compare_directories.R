@@ -89,8 +89,8 @@ compare_directories <- function(left_path,
     fsubset(.joyn == "y" | .joyn == "x" ) |>
     fselect(path_left, path_right) |>
     ftransform(sync_status = ifelse(
-      (is.na(path_left) & !is.na(path_right)), "missing in left, only in right",
-      ifelse(!is.na(path_left), "only in left", "missing in left, only in right"))
+      (is.na(path_left) & !is.na(path_right)), "only in right",
+      "only in left")
       )
 
   # Compare common files by date only
