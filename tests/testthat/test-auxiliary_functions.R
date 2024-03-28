@@ -152,3 +152,77 @@ test_that("filter common files works -by cont", {
                res_all)
 
 })
+
+# Test filter non common files ####
+
+test_that("filter non common files works", {
+
+  # ---------- left dir ---------------------------
+
+  to_filter <- sync_status_content$non_common_files |>
+    fsubset(!is.na(path_left) & is.na(path_right)) |>
+    fselect(path_left, path_right)
+
+  res_left <- filter_non_common_files(sync_status_date$non_common_files,
+                                      dir = "left") |>
+    fselect(path_left, path_right)
+
+  expect_equal(to_filter,
+               res_left)
+
+  filter_non_common_files(sync_status_date_cont$non_common_files,
+                          dir = "left") |>
+    fselect(path_left, path_right) |>
+    expect_equal(res_left)
+
+  filter_non_common_files(sync_status_content$non_common_files,
+                          dir = "left") |>
+    fselect(path_left, path_right) |>
+    expect_equal(res_left)
+
+  # ---------- right dir ---------------------------
+  to_filter <- sync_status_content$non_common_files |>
+    fsubset(is.na(path_left) & !is.na(path_right)) |>
+    fselect(path_left, path_right)
+
+  res_right <- filter_non_common_files(sync_status_date$non_common_files,
+                                      dir = "right") |>
+    fselect(path_left, path_right)
+
+  expect_equal(to_filter,
+               res_right)
+
+  filter_non_common_files(sync_status_date_cont$non_common_files,
+                          dir = "right") |>
+    fselect(path_left, path_right) |>
+    expect_equal(res_right)
+
+  filter_non_common_files(sync_status_content$non_common_files,
+                          dir = "right") |>
+    fselect(path_left, path_right) |>
+    expect_equal(res_right)
+
+
+  # ---------- both dir ---------------------------
+  to_filter <- sync_status_content$non_common_files |>
+    fselect(path_left, path_right)
+
+  res <- filter_non_common_files(sync_status_date$non_common_files,
+                                       dir = "all") |>
+    fselect(path_left, path_right)
+
+  expect_equal(to_filter,
+               res)
+
+  filter_non_common_files(sync_status_date_cont$non_common_files,
+                          dir = "all") |>
+    fselect(path_left, path_right) |>
+    expect_equal(res)
+
+  filter_non_common_files(sync_status_content$non_common_files,
+                          dir = "all") |>
+    fselect(path_left, path_right) |>
+    expect_equal(res)
+
+})
+
