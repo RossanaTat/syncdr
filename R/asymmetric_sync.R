@@ -116,7 +116,11 @@ full_asym_sync_to_right <- function(sync_status,
   display_dir_tree(path_left  = sync_status$left_path,
                    path_right = sync_status$right_path)
 
-  return(print("synchronized"))
+
+  cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
+
+  invisible(TRUE)
+  #return(print("synchronized"))
 }
 
 
@@ -173,7 +177,9 @@ common_files_asym_sync_to_right <- function(sync_status,
   display_dir_tree(path_left  = sync_status$left_path,
                    path_right = sync_status$right_path)
 
-  return(print("synchronized"))
+  cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
+
+  invisible(TRUE)
 
 }
 
@@ -236,7 +242,9 @@ update_missing_files_asym_to_right <- function(sync_status,
   display_dir_tree(path_left  = sync_status$left_path,
                    path_right = sync_status$right_path)
 
-  return(print("synchronized"))
+  cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
+
+  invisible(TRUE)
 }
 
 #' Partial asymmetric asymmetric synchronization of non common files
@@ -289,6 +297,8 @@ partial_update_missing_files_asym_to_right <- function(sync_status,
   display_dir_tree(path_left  = sync_status$left_path,
                    path_right = sync_status$right_path)
 
-  return(print("synchronized"))
+  cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
+
+  invisible(TRUE)
 }
 
