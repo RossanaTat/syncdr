@@ -25,7 +25,9 @@ display_sync_status <- function(sync_status) {
                     list(targets = grep("sync_status", colnames(sync_status), value = TRUE),
                          createdCell = DT::JS(
                            "function(td, cellData, rowData, row, col) {
-                            if (cellData.includes('content') ) {
+                             if (cellData.includes('different content') ||
+                                 cellData.includes('same date') ||
+                                 cellData.includes('only in right')) {
                               $(td).css({'background-color': '#a9def9'});
                             } else {
                               $(td).css({'background-color': '#e4c1f9'});

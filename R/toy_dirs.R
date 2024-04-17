@@ -1,6 +1,6 @@
 #' Create toy directories to test syncdr functions
 #'
-#' create directories in temp path.... (complete documentation). Directories are
+#' create directories in syncdr environment. Directories are
 #' deleted when a new R session is started
 #'
 #' This function is a little slow because it must use [Sys.sleep()] to save
@@ -8,7 +8,7 @@
 #'
 #' @param verbose logical: display information. Default is FALSE
 #'
-#' @return invisible list with toy directory paths for left and right
+#' @return invisible environment with toy directory paths, i.e., left and right paths
 #' @export
 #'
 #' @examples
