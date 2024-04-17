@@ -23,6 +23,7 @@ Imports:
     collapse,
     data.table,
     digest,
+    cli,
     DT,
     fs,
     joyn (>= 0.1.6.9003),

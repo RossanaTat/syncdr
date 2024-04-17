@@ -220,15 +220,42 @@ compare_file_contents <- function(path_left,
 # TESTING NEW FUNCTIONS - Not sure about the functions below ####
 #' Hash files in directory -by content
 #'
+
 hash_files_in_dir <- function(dir_path) {
+  dir_files <- fs::dir_ls(dir_path, type = "file", recurse = TRUE)
 
-  dir_files <- fs::dir_ls(dir_path,
-                      type    = "file",
-                      recurse = TRUE)
+  # Create a data frame with file paths
+  files_df <- data.frame(path = dir_files)
 
-  hashes <- lapply(dir_files,
-                   function(path) digest::digest(object = path,
-                                                      algo = "sha256",
-                                                      file = TRUE))
-  return(hashes)
+  # Calculate hashes for each file path
+  files_df$hash <- lapply(files_df$path, function(p) {
+    digest::digest(p, algo = "sha256", file = TRUE)
+  })
+
+  return(files_df)
+}
+
+#' Search for duplicate files
+#' -by date& content or by content only
+search_duplicates <- function(dir_path,
+                              verbose = TRUE) {
+
+  # Hash files contents
+  file_hashes <- hash_files_in_dir(dir_path)
+
+  duplicates <- duplicated(file_hashes$hash) |
+    duplicated(file_hashes$hash, fromLast = TRUE)
+
+  # Step 2: Filter the dataframe to keep only rows with duplicated hashes
+  filtered_files <- file_hashes[duplicates, ]
+
+  cli::cli_h1("Duplicates in {.path {dir_path}}")
+  # add here paths of files found in filtered files
+  lapply(filtered_files$path, function(file_path) {
+    cli::cli_text(basename(file_path))
+  })
+
+  # TODO: MODIFY AND USE MAPPLY TO GET WO_ROOT FIRST
+
+  return(filtered_files)
 }
