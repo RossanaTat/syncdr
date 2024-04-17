@@ -4,7 +4,11 @@
 \alias{update_missing_files_asym_to_right}
 \title{Full asymmetric synchronization of non common files}
 \usage{
-update_missing_files_asym_to_right(sync_status, recurse = TRUE, verbose = TRUE)
+update_missing_files_asym_to_right(
+  sync_status,
+  recurse = TRUE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{sync_status}{object of class 'syncdr_status' with info on sync status and comparison of directories}

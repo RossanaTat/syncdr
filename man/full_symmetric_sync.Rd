@@ -8,7 +8,8 @@ full_symmetric_sync(
   sync_status,
   by_date = TRUE,
   by_content = FALSE,
-  recurse = TRUE
+  recurse = TRUE,
+  verbose = FALSE
 )
 }
 \arguments{

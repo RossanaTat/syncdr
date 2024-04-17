@@ -10,10 +10,10 @@ toy_dirs(verbose = FALSE)
 \item{verbose}{logical: display information. Default is FALSE}
 }
 \value{
-invisible list with toy directory paths for left and right
+invisible environment with toy directory paths, i.e., left and right paths
 }
 \description{
-create directories in temp path.... (complete documentation). Directories are
+create directories in syncdr environment. Directories are
 deleted when a new R session is started
 }
 \details{
