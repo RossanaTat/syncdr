@@ -13,6 +13,9 @@ display_dir_tree(path_left, path_right, recurse = TRUE)
 
 \item{recurse}{logical, default to TRUE: show also sub-directories}
 }
+\value{
+directories tree
+}
 \description{
 Display tree structure of two directories under comparison
 }

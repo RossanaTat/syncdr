@@ -124,7 +124,7 @@ hash_files_contents <- function(left_path,
 #' Get directory information
 #' @param dir character string, path of directory
 #' @param recurse If TRUE recurse fully, if a positive number the number of levels to recurse
-#' @return data frame with info on directory's files
+#' @return data frame with info on directory's files (all info produced by fs::file_info())
 #'
 #' @keywords internal
 #'
@@ -217,3 +217,18 @@ compare_file_contents <- function(path_left,
 #
 # }
 
+# TESTING NEW FUNCTIONS - Not sure about the functions below ####
+#' Hash files in directory -by content
+#'
+hash_files_in_dir <- function(dir_path) {
+
+  dir_files <- fs::dir_ls(dir_path,
+                      type    = "file",
+                      recurse = TRUE)
+
+  hashes <- lapply(dir_files,
+                   function(path) digest::digest(object = path,
+                                                      algo = "sha256",
+                                                      file = TRUE))
+  return(hashes)
+}

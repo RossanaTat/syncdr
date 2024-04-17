@@ -71,6 +71,9 @@ display_sync_status <- function(sync_status) {
 #' @param path_left path of left directory
 #' @param path_right path of right directory
 #' @param recurse logical, default to TRUE: show also sub-directories
+#'
+#' @return directories tree
+#' @export
 display_dir_tree <- function(path_left,
                              path_right,
                              recurse = TRUE) {
