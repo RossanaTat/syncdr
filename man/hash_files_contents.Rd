@@ -7,9 +7,9 @@
 hash_files_contents(left_path, right_path)
 }
 \arguments{
-\item{left_path}{path of files in left directory}
+\item{left_path}{path of files to hash in left directory}
 
-\item{right_path}{path of files in right directory}
+\item{right_path}{path of files to hash in right directory}
 }
 \value{
 list of hashes of files from left paths and hashes of files from right paths

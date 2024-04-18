@@ -12,7 +12,7 @@ directory_info(dir, recurse = TRUE, ...)
 \item{recurse}{If TRUE recurse fully, if a positive number the number of levels to recurse}
 }
 \value{
-data frame with info on directory's files
+data frame with info on directory's files (all info produced by fs::file_info())
 }
 \description{
 Get directory information

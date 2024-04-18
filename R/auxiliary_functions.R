@@ -94,6 +94,7 @@ filter_non_common_files <- function(sync_status,
 
 }
 
+# This function is experimental and not working well -will be eventually removed!
 #' Hash content of files of two directories under comparison, say left and right
 #'
 #' @param left_path path of files to hash in left directory
@@ -212,10 +213,13 @@ compare_modification_times <- function(modification_time_left,
 compare_file_contents <- function(path_left,
                                   path_right) {
 
-  hash_left <- hash_files_contents(path_left,
-                                   path_right)$left_hash
-  hash_right <- hash_files_contents(path_left,
-                                    path_right)$right_hash
+  # hash_left <- hash_files_contents(path_left,
+  #                                  path_right)$left_hash
+  # hash_right <- hash_files_contents(path_left,
+  #                                   path_right)$right_hash
+
+  hash_left <- hash_files(path_left)
+  hash_right <- hash_files(path_right)
 
   is_diff <- (hash_left != hash_right)
 
@@ -251,9 +255,8 @@ compare_file_contents <- function(path_left,
 # }
 
 # TESTING NEW FUNCTIONS - Not sure about the functions below ####
-#' Hash files in directory -by content
-#'
 
+#' Hash files in directory -by content
 hash_files_in_dir <- function(dir_path) {
   dir_files <- fs::dir_ls(dir_path, type = "file", recurse = TRUE)
 
@@ -293,23 +296,59 @@ search_duplicates <- function(dir_path,
   return(filtered_files)
 }
 
-# NEW HASH FILES FUNCTION
-hash_files_contents_new <- function(left_path,
-                                        right_path) {
+# NEW HASH FILES FUNCTIONS
 
-  # Compute hash for left files
-  left_hashes <- lapply(left_path,
-                        function(path) digest::digest(object = path,
-                                                      algo = "sha256",
-                                                      file = TRUE))
+# Need to better understand cli progress bars before integrating this function
+hash_files_verbose <- function(files_path) {
 
-  # Compute hash for right files
-  right_hashes <- lapply(right_path, function(path) digest::digest(object = path,
-                                                                   algo = "sha256",
-                                                                   file = TRUE))
+  # Initialize progress bars
+  pb <- cli::cli_progress_bar("Hashing files -by content",
+                               total = length(files_path))
+  # Start timing
+  start_time <- Sys.time()
 
-  return(list(
-    left_hash = unlist(left_hashes),
-    right_hash = unlist(right_hashes)
-  ))
+  # Compute hash for files
+  hashes <- lapply(files_path, function(path) {
+
+                     hash <- digest::digest(path, algo = "sha256", file = TRUE)
+
+                      cli::cli_progress_step(pb,
+                                             msg_done = {basename(path)},
+                                             spinner = TRUE)
+                      hash # cli always returns something, do not know how to silent this!
+                      # So I am returning the hash which is at least better than the cli index which is returned if I do not specify hash here
+                   })
+
+
+  # end cli progress
+  cli::cli_progress_done(pb)
+
+  # End timing & display it
+  end_time <- Sys.time()
+  total_time <- format(end_time - start_time, units = "secs")
+  #cli::cli_h3("Hashing completed! Total time spent: {total_time}")
+
+  return(unlist(hashes))
+
 }
+
+#' Hash files by content
+#' @param files_path character vector of paths of files to hash
+#' @return hashes of files
+#' @keywords internal
+hash_files <- function(files_path) {
+
+  # Hash files
+  hashes <- lapply(files_path, function(path) {
+
+    digest::digest(path, algo = "sha256", file = TRUE)
+
+  })
+
+  return(unlist(hashes))
+}
+
+
+
+
+

@@ -141,10 +141,13 @@ compare_directories <- function(left_path,
       fsubset(is_new_left == TRUE | is_new_right == TRUE) |>
 
       # hash and compare content of files (that do not have same date of last modification)
-      ftransform(hash_left = hash_files_contents(path_left,
-                                                 path_right)$left_hash,
-                 hash_right = hash_files_contents(path_left,
-                                                  path_right)$right_hash) |>
+      # ftransform(hash_left = hash_files_contents(path_left,
+      #                                            path_right)$left_hash,
+      #            hash_right = hash_files_contents(path_left,
+      #                                             path_right)$right_hash) |>
+
+      ftransform(hash_left = hash_files(path_left),
+                 hash_right = hash_files(path_right)) |>
       ftransform(is_diff    = (hash_left != hash_right),
                  hash_left  = NULL,
                  hash_right = NULL) |>
@@ -173,10 +176,15 @@ compare_directories <- function(left_path,
     common_files <- common_files |>
 
       # hash and compare content of files (that do not have same date of last modification)
-      ftransform(hash_left = hash_files_contents(path_left,
-                                                 path_right)$left_hash,
-                 hash_right = hash_files_contents(path_left,
-                                                  path_right)$right_hash) |>
+      # ftransform(hash_left = hash_files_contents(path_left,
+      #                                            path_right)$left_hash,
+      #            hash_right = hash_files_contents(path_left,
+      #                                             path_right)$right_hash) |>
+
+      ftransform(hash_left = hash_files(path_left),
+                 hash_right = hash_files(path_right)) |>
+
+
       ftransform(is_diff    = (hash_left != hash_right),
                  hash_left  = NULL,
                  hash_right = NULL) |>
