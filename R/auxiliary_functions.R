@@ -271,8 +271,13 @@ hash_files_in_dir <- function(dir_path) {
   return(files_df)
 }
 
-#' Search for duplicate files
-#' -by date& content or by content only
+#' Search for/detect duplicate files in one directory
+#' Search for files that have either same name and SAME CONTENT or different name but SAME CONTENT
+#' @param dir_path charcater of directory path
+#' @param verbose logical, if TRUE display list of duplicate files
+#' @return invisibly duplicate files
+#' @export
+#'
 search_duplicates <- function(dir_path,
                               verbose = TRUE) {
 
@@ -285,15 +290,17 @@ search_duplicates <- function(dir_path,
   # Step 2: Filter the dataframe to keep only rows with duplicated hashes
   filtered_files <- file_hashes[duplicates, ]
 
-  cli::cli_h1("Duplicates in {.path {dir_path}}")
-  # add here paths of files found in filtered files
-  lapply(filtered_files$path, function(file_path) {
-    cli::cli_text(basename(file_path))
-  })
+  if (verbose) {
+    cli::cli_h1("Duplicates in {.path {dir_path}}")
+    # add here paths of files found in filtered files
+    lapply(filtered_files$path, function(file_path) {
+      #cli::cli_text(basename(file_path))
+      cli::cli_text(paste0("*", gsub(dir_path, "", file_path)))
+    })
+  } else {cli::cli_alert_success("done! TO FIX THIS MSG")}
 
-  # TODO: MODIFY AND USE MAPPLY TO GET WO_ROOT FIRST
-
-  return(filtered_files)
+  invisible(filtered_files)
+  #return(filtered_files)
 }
 
 # NEW HASH FILES FUNCTIONS
