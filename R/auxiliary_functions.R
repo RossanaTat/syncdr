@@ -96,29 +96,62 @@ filter_non_common_files <- function(sync_status,
 
 #' Hash content of files of two directories under comparison, say left and right
 #'
-#' @param left_path path of files in left directory
-#' @param right_path path of files in right directory
+#' @param left_path path of files to hash in left directory
+#' @param right_path path of files to hash in right directory
 #' @return list of hashes of files from left paths and hashes of files from right paths
 #' @keywords internal
 #'
 hash_files_contents <- function(left_path,
                                 right_path) {
 
-  # Compute hash for left files
-  left_hashes <- lapply(left_path,
-                        function(path) digest::digest(object = path,
-                                                      algo = "sha256",
-                                                      file = TRUE))
+  # Initialize progress bars
+  pb_left <- cli::cli_progress_bar("Hashing left directory files",
+                                   total = length(left_path))
+  pb_right <- cli::cli_progress_bar("Hashing right directory files",
+                                    total = length(right_path))
 
-  # Compute hash for right files
-  right_hashes <- lapply(right_path, function(path) digest::digest(object = path,
-                                                                   algo = "sha256",
-                                                                   file = TRUE))
+  # Start timing
+  start_time <- Sys.time()
+
+  # Compute hash for left files and update progress bar
+  left_hashes <- lapply(left_path, function(path) {
+
+    hash <- digest::digest(object = path,
+                           algo = "sha256",
+                           file = TRUE)
+    cli::cli_progress_step(pb_left,
+                           msg_done = {basename(path)})  # Update progress bar step by step
+    hash  # Return the computed hash
+
+  })
+  cli::cli_progress_done(pb_left)
+  cli::cli_alert_info("Left dir files hashed!")
+
+  right_hashes <- lapply(right_path, function(path) {
+
+    hash <- digest::digest(object = path,
+                           algo = "sha256",
+                           file = TRUE)
+    cli::cli_progress_step(pb_right,
+                           msg_done = {basename(path)})  # Update progress bar step by step
+    hash  # Return the computed hash
+
+    })
+  cli::cli_progress_done(pb_right)
+
+  # End timing
+  end_time <- Sys.time()
+  total_time <- end_time - start_time
+  total_time <- format(total_time, units = "secs")
+
+  cli::cli_alert_info("Right dir files hashed!")
+  cli::cli_h2("Tot. time spent = {total_time}")
+
 
   return(list(
     left_hash = unlist(left_hashes),
     right_hash = unlist(right_hashes)
-    ))
+  ))
 }
 
 #' Get directory information
@@ -258,4 +291,25 @@ search_duplicates <- function(dir_path,
   # TODO: MODIFY AND USE MAPPLY TO GET WO_ROOT FIRST
 
   return(filtered_files)
+}
+
+# NEW HASH FILES FUNCTION
+hash_files_contents_new <- function(left_path,
+                                        right_path) {
+
+  # Compute hash for left files
+  left_hashes <- lapply(left_path,
+                        function(path) digest::digest(object = path,
+                                                      algo = "sha256",
+                                                      file = TRUE))
+
+  # Compute hash for right files
+  right_hashes <- lapply(right_path, function(path) digest::digest(object = path,
+                                                                   algo = "sha256",
+                                                                   file = TRUE))
+
+  return(list(
+    left_hash = unlist(left_hashes),
+    right_hash = unlist(right_hashes)
+  ))
 }
