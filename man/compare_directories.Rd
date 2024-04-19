@@ -2,7 +2,7 @@
 % Please edit documentation in R/compare_directories.R
 \name{compare_directories}
 \alias{compare_directories}
-\title{Compare directories}
+\title{Compare Two Directories for Synchronization Status}
 \usage{
 compare_directories(
   left_path,
@@ -13,57 +13,44 @@ compare_directories(
 )
 }
 \arguments{
-\item{left_path}{path of one directory}
+\item{left_path}{Path to the left/first directory.}
 
-\item{right_path}{path of another directory}
+\item{right_path}{Path to the right/second directory.}
 
-\item{recurse}{If TRUE recurse fully, if a positive number the number of levels to recurse.}
+\item{recurse}{If TRUE, fully recurses through subdirectories. If a positive integer, specifies the number of levels to recurse.}
 
-\item{by_date}{logical: if TRUE, i.e., the default, it compares the directories based on date of modification of their common files}
+\item{by_date}{Logical. If TRUE (default), compares directories based on the modification date of common files.}
 
-\item{by_content}{logical: default is FALSE.
-If TRUE, it compares the directories based on whether (hashed) content of common files is same or different (ADD EXPLANATION OF 3 TYPES)}
+\item{by_content}{Logical. If TRUE, compares directories based on the hashed content of common files. Default is FALSE}
 }
 \value{
-list of class "syncdr_status", with 4 elements:
+A list of class "syncdr_status" containing the following elements:
 \itemize{
-\item Non-common files: paths and sync status of files only in right/only in left
-\item Common files: paths and sync status of files in both directories
-\item Path of left directory
-\item Path of right directory
+\item Non-common files: Paths and synchronization status of files exclusive to either directory.
+\item Common files: Paths and synchronization status of files present in both directories.
+\item Path of the left directory.
+\item Path of the right directory.
 }
 }
 \description{
-This function takes two directories as input, say left and right, and compares them.
-The goal is to return the status of synchronization -at file level- of the two directories.
-The sync status is returned for both:
-*1. NON common files, i.e., files that are either only in left or only in right
-*2. Common files, i.e., files that are in both directories
+This function compares two directories, typically referred to as 'left' and 'right', to determine their synchronization status at the file level.
+The primary goal is to identify the synchronization status of files present in both directories and those exclusive to either directory.
 }
-\section{possible types of sync status}{
+\section{Sync Status Types}{
 
+The synchronization status is determined for files present in both directories, as well as for files exclusive to either directory.
+It can be computed based on modification date only, content only, or both.
 
-Sync status is determined for both files that are available in both directories
-and files that are only into one directory or into the other. It is also computed either by date only,
-or by content only, or by date and content -depending on what you choose.
-
-Possible value of sync status -for common files:
+For Common Files:
 \itemize{
-\item When comparing by date: new, old, same
-\item When comparing by date $ content: | date | content |
-new  and diff;
-new  and same;
-old  and diff;
-old  and same;
-same and diff;
-same and same
-\item When comparing by content only: diff or same
+\item When comparing by date: 'new', 'old', or 'same'.
+\item When comparing by date and content: 'new and different', 'new and same', 'old and different', 'old and same', 'same and different', or 'same and same'.
+\item When comparing by content only: 'different' or 'same'.
 }
 
-Possible value of sync status -for non common files:
+For Non-Common Files:
 \itemize{
-\item When comparing by date (or by date and content; or by content only):
-"missing in left, only in right " or "only in left"
+\item When comparing by date (or by date and content, or by content only): 'only in left' or 'only in right'.
 }
 }
 

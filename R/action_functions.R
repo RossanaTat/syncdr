@@ -1,20 +1,22 @@
-
-# Copy files between directories ####
-
-#' Copy files from left/source directory to right/destination directory
+#' Copy files from left to right directory
 #'
-#' This function first checks source and destination path, and build destination path if not available,
-#' then copies the files accordingly
+#' This function copies files from a source directory (left_dir) to a destination directory (right_dir) based on a provided data frame containing file paths and synchronization status.
 #'
-#' @param left_dir path of left/leader directory
-#' @param right_dir path of right/follower directory
-#' @param files_to_copy df containing paths of files to copy and their sync status
-#' @param recurse logical, TRUE by default.
-#'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
-#'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
-#'  and the file will be copied at the top level
-#' @return invisible TRUE
-#' @keywords internal
+#' The function performs the following steps:
+#' 1. Checks if the source and destination directories exist and creates the destination directory if it doesn't already exist.
+#' 2. Copies files from the source directory to the corresponding subdirectory in the destination directory based on the provided file paths.
+#'
+#' @param left_dir Path of the source directory (left/leader).
+#' @param right_dir Path of the destination directory (right/follower).
+#' @param files_to_copy Data frame containing paths of files to copy and their synchronization status.
+#' @param recurse Logical, default is TRUE.
+#'   - If TRUE: Files are copied into corresponding sub-directories in the destination folder. If a subdirectory doesn't exist in the destination, it will be created.
+#'   - If FALSE: Files are copied to the top level of the destination directory.
+#'
+#' @return Invisible TRUE upon successful completion of the file copying process.
+#'
+#' @export
+#'
 copy_files_to_right <- function(left_dir,
                                 right_dir,
                                 files_to_copy,
@@ -45,18 +47,24 @@ copy_files_to_right <- function(left_dir,
 
 #' Copy files from right directory to left directory
 #'
-#' This function first checks source and destination path, and build destination path if not available,
-#' then copies the files accordingly
+#' This function copies files from a right (source) directory to a left (destination) directory based on a provided data frame containing file paths and synchronization status.
 #'
-#' @param left_dir path of left directory
-#' @param right_dir path of right directory
-#' @param files_to_copy df containing paths of files to copy and their sync status
-#' @param recurse logical, TRUE by default.
-#'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
-#'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
-#'  and the file will be copied at the top level
-#' @return invisible TRUE
+#' The function performs the following steps:
+#' 1. Checks if the source (right) and destination (left) directories exist and creates the destination directory if it doesn't already exist.
+#' 2. Copies files from the right directory to the corresponding subdirectory in the left directory based on the provided file paths.
+#'
+#' @param left_dir Path of the left (destination) directory.
+#' @param right_dir Path of the right (source) directory.
+#' @param files_to_copy Data frame containing paths of files to copy and their synchronization status.
+#' @param recurse Logical, default is TRUE.
+#'   - If TRUE: Files are copied into corresponding subdirectories in the left directory. If a subdirectory doesn't exist in the left directory, it will be created.
+#'   - If FALSE: Files are copied to the top level of the left directory.
+#'
+#' @return Invisible TRUE upon successful completion of the file copying process.
+#'
 #' @keywords internal
+#'
+#'
 copy_files_to_left <- function(left_dir,
                                right_dir,
                                files_to_copy,

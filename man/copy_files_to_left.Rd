@@ -7,22 +7,29 @@
 copy_files_to_left(left_dir, right_dir, files_to_copy, recurse = TRUE)
 }
 \arguments{
-\item{left_dir}{path of left directory}
+\item{left_dir}{Path of the left (destination) directory.}
 
-\item{right_dir}{path of right directory}
+\item{right_dir}{Path of the right (source) directory.}
 
-\item{files_to_copy}{df containing paths of files to copy and their sync status}
+\item{files_to_copy}{Data frame containing paths of files to copy and their synchronization status.}
 
-\item{recurse}{logical, TRUE by default.
-If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
-If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
-and the file will be copied at the top level}
+\item{recurse}{Logical, default is TRUE.
+\itemize{
+\item If TRUE: Files are copied into corresponding subdirectories in the left directory. If a subdirectory doesn't exist in the left directory, it will be created.
+\item If FALSE: Files are copied to the top level of the left directory.
+}}
 }
 \value{
-invisible TRUE
+Invisible TRUE upon successful completion of the file copying process.
 }
 \description{
-This function first checks source and destination path, and build destination path if not available,
-then copies the files accordingly
+This function copies files from a right (source) directory to a left (destination) directory based on a provided data frame containing file paths and synchronization status.
+}
+\details{
+The function performs the following steps:
+\enumerate{
+\item Checks if the source (right) and destination (left) directories exist and creates the destination directory if it doesn't already exist.
+\item Copies files from the right directory to the corresponding subdirectory in the left directory based on the provided file paths.
+}
 }
 \keyword{internal}

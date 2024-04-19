@@ -1,59 +1,41 @@
 library(collapse)
 
-#' Compare directories
+#' Compare Two Directories for Synchronization Status
 #'
-#' This function takes two directories as input, say left and right, and compares them.
-#' The goal is to return the status of synchronization -at file level- of the two directories.
-#' The sync status is returned for both:
-#' *1. NON common files, i.e., files that are either only in left or only in right
-#' *2. Common files, i.e., files that are in both directories
-#'
-#' @section possible types of sync status:
-#'
-#' Sync status is determined for both files that are available in both directories
-#' and files that are only into one directory or into the other. It is also computed either by date only,
-#' or by content only, or by date and content -depending on what you choose.
-#'
-#' Possible value of sync status -for common files:
-#'
-#' * When comparing by date: new, old, same
-#'
-#' * When comparing by date $ content: | date | content |
-#'                                      new  and diff;
-#'                                      new  and same;
-#'                                      old  and diff;
-#'                                      old  and same;
-#'                                      same and diff;
-#'                                      same and same
-#'
-#' * When comparing by content only: diff or same
-#'
-#' Possible value of sync status -for non common files:
-#'
-#' * When comparing by date (or by date and content; or by content only):
-#'      "missing in left, only in right " or "only in left"
+#' This function compares two directories, typically referred to as 'left' and 'right', to determine their synchronization status at the file level.
+#' The primary goal is to identify the synchronization status of files present in both directories and those exclusive to either directory.
 #'
 #'
-#' @param left_path path of one directory
-#' @param right_path path of another directory
-#' @param by_date logical: if TRUE, i.e., the default, it compares the directories based on date of modification of their common files
-#' @param by_content logical: default is FALSE.
-#'    If TRUE, it compares the directories based on whether (hashed) content of common files is same or different (ADD EXPLANATION OF 3 TYPES)
-#' @param recurse If TRUE recurse fully, if a positive number the number of levels to recurse.
+#' @section Sync Status Types:
+#' The synchronization status is determined for files present in both directories, as well as for files exclusive to either directory.
+#' It can be computed based on modification date only, content only, or both.
 #'
-#' @return list of class "syncdr_status", with 4 elements:
-#'   * Non-common files: paths and sync status of files only in right/only in left
-#'   * Common files: paths and sync status of files in both directories
-#'   * Path of left directory
-#'   * Path of right directory
+#' For Common Files:
+#' * When comparing by date: 'new', 'old', or 'same'.
+#' * When comparing by date and content: 'new and different', 'new and same', 'old and different', 'old and same', 'same and different', or 'same and same'.
+#' * When comparing by content only: 'different' or 'same'.
+#'
+#' For Non-Common Files:
+#' * When comparing by date (or by date and content, or by content only): 'only in left' or 'only in right'.
+#'
+#' @param left_path Path to the left/first directory.
+#' @param right_path Path to the right/second directory.
+#' @param by_date Logical. If TRUE (default), compares directories based on the modification date of common files.
+#' @param by_content Logical. If TRUE, compares directories based on the hashed content of common files. Default is FALSE
+#' @param recurse If TRUE, fully recurses through subdirectories. If a positive integer, specifies the number of levels to recurse.
+#'
+#' @return A list of class "syncdr_status" containing the following elements:
+#'   - Non-common files: Paths and synchronization status of files exclusive to either directory.
+#'   - Common files: Paths and synchronization status of files present in both directories.
+#'   - Path of the left directory.
+#'   - Path of the right directory.
 #'
 #' @export
 compare_directories <- function(left_path,
                                 right_path,
                                 recurse    = TRUE,
                                 by_date    = TRUE,
-                                by_content = FALSE){
-                                #...) {
+                                by_content = FALSE) {
 
   # Check directory paths
   stopifnot(exprs = {
@@ -65,185 +47,81 @@ compare_directories <- function(left_path,
   info_left <- directory_info(dir     = left_path,
                               recurse = recurse)
   # Get info on directory 2, i.e., right
-  info_right <- directory_info(dir    = right_path,
-                              recurse = recurse)
+  info_right <- directory_info(dir     = right_path,
+                               recurse = recurse)
 
   # Combine info with a full join to keep all information
-  join_info  <- joyn::joyn(x                = info_left,
-                           y                = info_right,
-                           by               = "wo_root",
-                           keep_common_vars = TRUE,
-                           suffixes         = c("_left", "_right"),
-                           match_type       = "1:1",
-                           reportvar        = ".joyn",
-                           verbose          = FALSE)
+  join_info <- joyn::joyn(x                = info_left,
+                          y                = info_right,
+                          by               = "wo_root",
+                          keep_common_vars = TRUE,
+                          suffixes         = c("_left", "_right"),
+                          match_type       = "1:1",
+                          reportvar        = ".joyn",
+                          verbose          = FALSE)
 
-
-  # Unique file status:
-  # -NOTE: available in both here is not needed here,
-  #        since we are filtering files that are only in left or only in right
-
+  # Unique file status -? as data frame ?
   non_common_files <- join_info |>
-
-    # Filter non unique files
-    fsubset(.joyn == "y" | .joyn == "x" ) |>
+    fsubset(.joyn == "y" | .joyn == "x") |>
     fselect(path_left, path_right) |>
     ftransform(sync_status = ifelse(
       (is.na(path_left) & !is.na(path_right)), "only in right",
       "only in left")
-      )
+    )
 
-  # Compare common files by date only
-  if ((isTRUE(by_date) & isFALSE(by_content))) {
+  # Compare common files
+  common_files <- join_info |>
+    fsubset(.joyn == "x & y") |>
+    fselect(path_left,
+            path_right,
+            modification_time_left,
+            modification_time_right)
 
-    common_files <- join_info |>
-      fsubset(.joyn == "x & y") |>
-      fselect(path_left,
-              path_right,
-              modification_time_left,
-              modification_time_right) |>
-      ftransform(is_new_left = modification_time_left > modification_time_right,
-                 is_new_right = modification_time_right > modification_time_left)
+  # If comparing by date
+  if (by_date) {
 
-    #common_files$is_new <- mapply(compare_files, common_files$path_left, common_files$path_right)
-
-    common_files <- common_files |>
-      ftransform(sync_status = ifelse(
-        is_new_left & !is_new_right, "newer in left, older in right dir",
-        ifelse(!is_new_left & is_new_right, "older in left, newer in right dir", "same date")
-      )) |>
-
-      # reordering columns for better displaying
-      fselect(path_left,
-              path_right,
-              is_new_left,
-              is_new_right,
-              modification_time_left,
-              modification_time_right,
-              sync_status)
-
+    compared_times <- compare_modification_times(common_files$modification_time_left,
+                                                 common_files$modification_time_right)
+    common_files   <- cbind(common_files,
+                            compared_times) |>
+      ftransform(sync_status      = sync_status_date,
+                 sync_status_date = NULL)
+    #fselect(path_left, path_right, is_new_left, is_new_right, modification_time_left,
+    #        modification_time_right, sync_status)
   }
 
-  else if (isTRUE(by_date) & isTRUE(by_content)) {
+  # If comparing by content
+  if (by_content) {
 
-    common_files <- join_info |>
-      fsubset(.joyn == "x & y") |>
-      fselect(path_left,
-              path_right,
-              modification_time_left,
-              modification_time_right) |>
-      ftransform(is_new_left = modification_time_left > modification_time_right,
-                 is_new_right = modification_time_right > modification_time_left)
+    # If by_date TRUE, first filter files that are new in either left or right directory
+    if(by_date) {
+      common_files <- common_files |>
+        fsubset(is_new_left == TRUE | is_new_right == TRUE)
+      #to fix first -filter_common_files(dir = "all")
+    }
 
-    #common_files$is_new <- mapply(compare_files, common_files$path_left, common_files$path_right)
+    compared_contents <- compare_file_contents(common_files$path_left,
+                                               common_files$path_right)
 
-    common_files <- common_files |>
-      fsubset(is_new_left == TRUE | is_new_right == TRUE) |>
-
-      # hash and compare content of files (that do not have same date of last modification)
-      # ftransform(hash_left = hash_files_contents(path_left,
-      #                                            path_right)$left_hash,
-      #            hash_right = hash_files_contents(path_left,
-      #                                             path_right)$right_hash) |>
-
-      ftransform(hash_left = hash_files(path_left),
-                 hash_right = hash_files(path_right)) |>
-      ftransform(is_diff    = (hash_left != hash_right),
-                 hash_left  = NULL,
-                 hash_right = NULL) |>
-
-      # determine sync_status
-      ftransform(sync_status = ifelse(
-        is_new_left & is_diff, "newer in left, different content than right",
-        ifelse(is_new_left & !is_diff, "newer in left, same content as right",
-               ifelse(is_new_right & !is_diff, "newer in right, same content as left",
-                      ifelse(is_new_right & is_diff, "newer in right, different content than left",
-                             "same date, different content")
-               )
-        )
-      )) |>
-      # reordering columns for better displaying
-      fselect(path_left, path_right, is_new_left, is_new_right, is_diff, sync_status)
-
-  }
-
-  else if (isFALSE(by_date) & isTRUE(by_content)) {
-    # compare by content only
-    common_files <- join_info |>
-      fsubset(.joyn == "x & y") |>
-      fselect(path_left, path_right)
-
-    common_files <- common_files |>
-
-      # hash and compare content of files (that do not have same date of last modification)
-      # ftransform(hash_left = hash_files_contents(path_left,
-      #                                            path_right)$left_hash,
-      #            hash_right = hash_files_contents(path_left,
-      #                                             path_right)$right_hash) |>
-
-      ftransform(hash_left = hash_files(path_left),
-                 hash_right = hash_files(path_right)) |>
-
-
-      ftransform(is_diff    = (hash_left != hash_right),
-                 hash_left  = NULL,
-                 hash_right = NULL) |>
-
-      # determine sync status
-      ftransform(sync_status = ifelse(
-        is_diff == TRUE,
-        "different content",
-        "same content"
-      )) |>
-
-      # reordering columns for better displaying
-      fselect(path_left,
-              path_right,
-              is_diff,
-              sync_status)
-
-  }
-
-  else {
-
-    # if both by_date is FALSE and by_content is FALSE, just return info
-    common_files <- join_info |>
-      fsubset(.joyn == "x & y") |>
-      fselect(path_left,
-              path_right)
+    common_files      <- cbind(common_files,
+                               compared_contents) |>
+      ftransform(sync_status         = sync_status_content,
+                 sync_status_content = NULL)
+    #fselect(path_left, path_right, is_diff, sync_status)
   }
 
   # object to return
   sync_status = list(
-    common_files = common_files,
+    common_files     = common_files,
     non_common_files = non_common_files,
-    left_path = left_path,
-    right_path = right_path
+    left_path        = left_path,
+    right_path       = right_path
   )
 
   # assign class 'syncdr_status'
   class(sync_status) <- "syncdr_status"
 
   return(sync_status)
-
-} # close function
-
-# Example paths ####
-left <- left_path <- paste0(getwd(), "/temp_folder_1")
-right <- right_path <- paste0(getwd(), "/temp_folder_2")
-
-#Example usage ####
-# sync_status_date <- compare_directories(left,
-#                                         right)
-#
-# sync_status_date_cont <- compare_directories(left,
-#                                              right,
-#                                              by_content = TRUE)
-#
-# sync_status_content_only <- compare_directories(left,
-#                                                 right,
-#                                                 by_content = TRUE,
-#                                                 by_date = FALSE)
-#
+}
 
 

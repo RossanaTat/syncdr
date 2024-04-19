@@ -1,4 +1,5 @@
-
+# THIS FILE CAN BE DELETED -REPLACED BY TOY_DIRS
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # functions to create temp folders and sub folders
 
 # function to create a temporary folder with 1 or more sub-folders

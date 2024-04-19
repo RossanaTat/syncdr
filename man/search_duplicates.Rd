@@ -2,12 +2,20 @@
 % Please edit documentation in R/auxiliary_functions.R
 \name{search_duplicates}
 \alias{search_duplicates}
-\title{Search for duplicate files
--by date& content or by content only}
+\title{Search for/detect duplicate files in one directory
+Search for files that have either same name and SAME CONTENT or different name but SAME CONTENT}
 \usage{
 search_duplicates(dir_path, verbose = TRUE)
 }
+\arguments{
+\item{dir_path}{charcater of directory path}
+
+\item{verbose}{logical, if TRUE display list of duplicate files}
+}
+\value{
+invisibly duplicate files
+}
 \description{
-Search for duplicate files
--by date& content or by content only
+Search for/detect duplicate files in one directory
+Search for files that have either same name and SAME CONTENT or different name but SAME CONTENT
 }
