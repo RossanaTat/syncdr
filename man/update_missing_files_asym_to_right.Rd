@@ -16,7 +16,8 @@ update_missing_files_asym_to_right(
 \item{recurse}{logical, TRUE by default.
 If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
-and the file will be copied at the top level}
+and the file will be copied at the top level
+@param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
 
 \item{by_date}{logical, TRUE by default}
 

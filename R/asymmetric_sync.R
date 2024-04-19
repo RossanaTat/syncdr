@@ -64,7 +64,7 @@
 #' @param recurse Logical. If TRUE (default), files are copied to corresponding subdirectories
 #'                in the destination folder. If FALSE, files are copied to the top level of the destination folder
 #'                without creating subdirectories if they do not exist.
-#' @param verbose Logical. If TRUE (default), display directory structure before and after synchronization.
+#' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return Invisible TRUE indicating successful synchronization.
 #'
 #' @export
@@ -72,7 +72,7 @@ full_asym_sync_to_right <- function(sync_status,
                                     by_date    = TRUE,
                                     by_content = FALSE,
                                     recurse    = TRUE,
-                                    verbose    = TRUE) {
+                                    verbose    = FALSE) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -153,6 +153,7 @@ full_asym_sync_to_right <- function(sync_status,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return print "synchronized"
 #' @export
 common_files_asym_sync_to_right <- function(sync_status,
@@ -215,6 +216,8 @@ if(verbose == TRUE) {
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#'  @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
+#'
 #' @return print "synchronized"
 #' @export
 update_missing_files_asym_to_right <- function(sync_status,
@@ -281,6 +284,7 @@ update_missing_files_asym_to_right <- function(sync_status,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return print "synchronized"
 #' @export
 partial_update_missing_files_asym_to_right <- function(sync_status,

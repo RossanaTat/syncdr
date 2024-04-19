@@ -9,7 +9,7 @@ full_asym_sync_to_right(
   by_date = TRUE,
   by_content = FALSE,
   recurse = TRUE,
-  verbose = TRUE
+  verbose = FALSE
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ synchronization status and directory comparison.}
 in the destination folder. If FALSE, files are copied to the top level of the destination folder
 without creating subdirectories if they do not exist.}
 
-\item{verbose}{Logical. If TRUE (default), display directory structure before and after synchronization.}
+\item{verbose}{logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
 }
 \value{
 Invisible TRUE indicating successful synchronization.

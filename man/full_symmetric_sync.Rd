@@ -23,6 +23,8 @@ full_symmetric_sync(
 If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 and the file will be copied at the top level}
+
+\item{verbose}{logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
 }
 \value{
 print "synchronized"
