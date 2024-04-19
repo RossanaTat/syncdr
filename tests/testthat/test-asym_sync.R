@@ -1,5 +1,5 @@
 
-#Q: Why are the tests failing when I do NOT restart R?
+#Q: Why are the tests not failing when I run them in build pane, but failing when devtools::check()??
 # Test function that performs a full asymmetric synchronization to right ####
 
 # ~~~~~~~~~ Update by date only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
