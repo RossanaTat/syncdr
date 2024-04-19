@@ -4,10 +4,12 @@
 \alias{hash_files}
 \title{Hash files by content}
 \usage{
-hash_files(files_path)
+hash_files(files_path, verbose = FALSE)
 }
 \arguments{
 \item{files_path}{character vector of paths of files to hash}
+
+\item{verbose}{logical; if TRUE display progress status of hashing. Default is FALSE}
 }
 \value{
 hashes of files

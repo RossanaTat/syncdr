@@ -2,7 +2,7 @@
 % Please edit documentation in R/asymmetric_sync.R
 \name{full_asym_sync_to_right}
 \alias{full_asym_sync_to_right}
-\title{Full asymmetric synchronization to right}
+\title{Fully asymmetric synchronization to right directory}
 \usage{
 full_asym_sync_to_right(
   sync_status,
@@ -13,31 +13,35 @@ full_asym_sync_to_right(
 )
 }
 \arguments{
-\item{sync_status}{object of class 'syncdr_status' with info on sync status
-and comparison of directories}
+\item{sync_status}{An object of class 'syncdr_status' containing information about
+synchronization status and directory comparison.}
 
-\item{by_date}{logical, TRUE by default}
+\item{by_date}{Logical. If TRUE, synchronize based on file modification dates (default is TRUE).}
 
-\item{by_content}{logical, FALSE by default}
+\item{by_content}{Logical. If TRUE, synchronize based on file contents (default is FALSE).}
 
-\item{recurse}{logical, TRUE by default.
-If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
-If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
-and the file will be copied at the top level}
+\item{recurse}{Logical. If TRUE (default), files are copied to corresponding subdirectories
+in the destination folder. If FALSE, files are copied to the top level of the destination folder
+without creating subdirectories if they do not exist.}
+
+\item{verbose}{Logical. If TRUE (default), display directory structure before and after synchronization.}
 }
 \value{
-print "synchronized"
+Invisible TRUE indicating successful synchronization.
 }
 \description{
-Fully synchronize right directory based on left one -i.e., the function will:
-\itemize{
-\item for common_files:
-\itemize{
-\item if by date only: copy files that are newer in left to right
-\item if by date and content: copy files that are newer and different in left to right
-\item if by content only: copy files that are different in left to right
+This function performs a full asymmetric synchronization of the right directory
+based on the left directory. It includes the following synchronization steps:
 }
-\item copy to right those files that are only in left
-\item delete in right those files that are only in right (i.e., files 'missing in left')
+\details{
+\itemize{
+\item For common files:
+\itemize{
+\item If comparing by date only (\code{by_date = TRUE}): Copy files that are newer in the left directory to the right directory.
+\item If comparing by date and content (\code{by_date = TRUE} and \code{by_content = TRUE}): Copy files that are newer and different in the left directory to the right directory.
+\item If comparing by content only (\code{by_content = TRUE}): Copy files that are different in the left directory to the right directory.
+}
+\item Copy to the right directory those files that exist only in the left directory.
+\item Delete from the right directory those files that are exclusive in the right directory (i.e., missing in the left directory)
 }
 }

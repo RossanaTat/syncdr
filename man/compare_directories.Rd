@@ -9,7 +9,8 @@ compare_directories(
   right_path,
   recurse = TRUE,
   by_date = TRUE,
-  by_content = FALSE
+  by_content = FALSE,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ compare_directories(
 \item{by_date}{Logical. If TRUE (default), compares directories based on the modification date of common files.}
 
 \item{by_content}{Logical. If TRUE, compares directories based on the hashed content of common files. Default is FALSE}
+
+\item{verbose}{Logical. If TRUE display additional info on the comparison process. Default is FALSE}
 }
 \value{
 A list of class "syncdr_status" containing the following elements:

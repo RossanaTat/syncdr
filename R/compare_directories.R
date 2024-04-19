@@ -23,6 +23,7 @@ library(collapse)
 #' @param by_date Logical. If TRUE (default), compares directories based on the modification date of common files.
 #' @param by_content Logical. If TRUE, compares directories based on the hashed content of common files. Default is FALSE
 #' @param recurse If TRUE, fully recurses through subdirectories. If a positive integer, specifies the number of levels to recurse.
+#' @param verbose Logical. If TRUE display additional info on the comparison process. Default is FALSE
 #'
 #' @return A list of class "syncdr_status" containing the following elements:
 #'   - Non-common files: Paths and synchronization status of files exclusive to either directory.
@@ -35,7 +36,8 @@ compare_directories <- function(left_path,
                                 right_path,
                                 recurse    = TRUE,
                                 by_date    = TRUE,
-                                by_content = FALSE) {
+                                by_content = FALSE,
+                                verbose    = FALSE) {
 
   # Check directory paths
   stopifnot(exprs = {
@@ -101,7 +103,8 @@ compare_directories <- function(left_path,
     }
 
     compared_contents <- compare_file_contents(common_files$path_left,
-                                               common_files$path_right)
+                                               common_files$path_right,
+                                               verbose = verbose)
 
     common_files      <- cbind(common_files,
                                compared_contents) |>
@@ -117,6 +120,12 @@ compare_directories <- function(left_path,
     left_path        = left_path,
     right_path       = right_path
   )
+
+  # Display directories structure if verbose is TRUE
+  if(verbose) {
+    display_dir_tree(left_path)
+    display_dir_tree(right_path)
+  }
 
   # assign class 'syncdr_status'
   class(sync_status) <- "syncdr_status"
