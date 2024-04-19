@@ -1,12 +1,13 @@
-#' Filter common files in a syncdr_status object based on specified criteria.
+#' Filter common files in a syncdr_status object based on specified criteria
 #'
-#' This function filters common files within a "syncdr_status" object, which is the result of 'compare_directories()', according to the specified filtering criteria.
-#' Filtering is dependent on the 'dir' argument, determining the primary directory for comparison.
+#' This function filters common files within a "syncdr_status" object, which is the result of 'compare_directories()',
+#' according to the specified filtering criteria:
+#' Filtering is dependent on the 'dir' argument, determining the primary directory for comparison
 #'
 #' Filtering Options:
-#' - by_date: Filters files that are new in the specified primary directory ('left', 'right', or both).
-#' - by_date_and_content: Filters files that are either new or different in the specified primary directory ('left', 'right', or both).
-#' - by_content_only: Filters files that are different between the two directories.
+#' * by_date: Filters files that are new in the specified primary directory ('left', 'right', or both).
+#' * by_date_and_content: Filters files that are either new or different in the specified primary directory ('left', 'right', or both).
+#' * by_content_only: Filters files that are different between the two directories.
 #'
 #' @param sync_status An object of class 'syncdr_status' containing synchronization status and directory comparison results (common files only).
 #' @param by_date Logical; if TRUE, filters based on new files in the specified directory. Default is TRUE.
@@ -65,17 +66,20 @@ filter_common_files <- function(sync_status,
   return(sync_status)
 }
 
-#' Filter files that are NOT common between the two directories under comparison
+#' Filter files in a syncdr_status object that are NOT common between two directories compared
 #'
-#' This function filters non common files in "syncdr_status" object (resulting from 'compare_directories()')
-
+#' This function filters files that are not common between the directories compared
+#' in the 'sync_status' object resulting from 'compare_directories()'.
 #'
-#' @param sync_status object of class 'syncdr_status' with info on sync status
-#'                    and comparison of directories
-#' @param dir character, either "left", "right", "all" (both directories)
-#' @return 'syncdr_status' object filtered accordingly
+#' @param sync_status An object of class 'syncdr_status' containing information
+#'                    about synchronization status and directory comparisons.
+#' @param dir Character string specifying the directory to filter:
+#'            - "left" for files unique to the left directory
+#'            - "right" for files unique to the right directory
+#'            - "all" for files unique to either directory
+#' @return An updated 'syncdr_status' object with filtered files according to the specified criteria.
 #' @keywords internal
-#'
+#' @export
 filter_non_common_files <- function(sync_status,
                                     dir = "left") {
 
@@ -163,10 +167,15 @@ hash_files_contents <- function(left_path,
   ))
 }
 
-#' Get directory information
-#' @param dir character string, path of directory
-#' @param recurse If TRUE recurse fully, if a positive number the number of levels to recurse
-#' @return data frame with info on directory's files (all info produced by fs::file_info())
+#' Retrieve information about files in a directory
+#'
+#' This function retrieves information about files in a specified directory
+#'
+#' @param dir A character string representing the path of the directory.
+#' @param recurse Logical. If TRUE, fully recurse into subdirectories. If a positive number,
+#'               specifies the number of levels to recurse.
+#' @return A data frame containing detailed information about the files in the directory,
+#'         including all information produced by `fs::file_info()`.
 #'
 #' @keywords internal
 #'
@@ -191,7 +200,23 @@ directory_info <- function(dir,
 
 }
 
-#' Compare date of last modification of two files and determine sync status
+#' Compare modification times of two files and determine synchronization status
+#'
+#' This function compares the date of last modification of two files and determines
+#' their synchronization status
+#'
+#' @param modification_time_left modification time of the file in the left directory
+#' @param modification_time_right modification time of the file in the right directory
+#' @return A list containing the following components:
+#'   \item{is_new_left}{Logical. Indicates if the file in the left directory is newer
+#'                      (i.e., has a later modification time) than the file in the right directory}
+#'   \item{is_new_right}{Logical. Indicates if the file in the right directory is newer
+#'                       (i.e., has a later modification time) than the file in the left directory}
+#'   \item{sync_status_date}{Character. Describes the synchronization status between the
+#'                            two files based on their modification times:
+#'                            - "newer in left, older in right dir": Left file is newer than right file.
+#'                            - "older in left, newer in right dir": Right file is newer than left file.
+#'                            - "same date": Both files have the same modification time.}
 #'
 #' @keywords internal
 #'
@@ -214,7 +239,20 @@ compare_modification_times <- function(modification_time_left,
 
 }
 
-#' Compare contents of two files and determine their sync status
+#' Compare contents of two files and determine synchronization status
+#'
+#' This function compares the contents of two files located at specified paths
+#' and determines their synchronization status based on their content
+#'
+#' @param path_left A character string specifying the path to the file in the left directory.
+#' @param path_right A character string specifying the path to the file in the right directory.
+#' @return A list containing the following components:
+#'   \item{is_diff}{Logical. Indicates whether the contents of the two files are different (`TRUE`)
+#'                 or identical (`FALSE`).}
+#'   \item{sync_status_content}{Character. Describes the synchronization status between the
+#'                              two files based on their content:
+#'                              - "different content": Contents of the files are not identical.
+#'                              - "same content": Contents of the files are identical.}
 #'
 #' @keywords internal
 #'
@@ -226,7 +264,7 @@ compare_file_contents <- function(path_left,
   # hash_right <- hash_files_contents(path_left,
   #                                   path_right)$right_hash
 
-  hash_left <- hash_files(path_left)
+  hash_left  <- hash_files(path_left)
   hash_right <- hash_files(path_right)
 
   is_diff <- (hash_left != hash_right)
@@ -235,7 +273,7 @@ compare_file_contents <- function(path_left,
     is_diff, "different content",
     "same content"
   )
-  return(list(is_diff = is_diff,
+  return(list(is_diff             = is_diff,
               sync_status_content = sync_status_content))
 }
 
@@ -262,10 +300,21 @@ compare_file_contents <- function(path_left,
 #
 # }
 
-# TESTING NEW FUNCTIONS - Not sure about the functions below ####
+# ADDING NEW FUNCTIONS - Not sure about the functions below ####
 
-#' Hash files in directory -by content
+#' Hash files in a directory based on content
+#'
+#' This function calculates hashes for files in a specified directory based on their content.
+#'
+#' @param dir_path A character string of the path to the directory containing files
+#'                 for which hashes will be calculated
+#' @return A data frame containing file paths and their corresponding SHA-256 hashes.
+#'
+#' @importFrom fs dir_ls
+#' @importFrom digest digest
+#'
 hash_files_in_dir <- function(dir_path) {
+
   dir_files <- fs::dir_ls(dir_path, type = "file", recurse = TRUE)
 
   # Create a data frame with file paths
@@ -279,13 +328,20 @@ hash_files_in_dir <- function(dir_path) {
   return(files_df)
 }
 
-#' Search for/detect duplicate files in one directory
-#' Search for files that have either same name and SAME CONTENT or different name but SAME CONTENT
-#' @param dir_path charcater of directory path
-#' @param verbose logical, if TRUE display list of duplicate files
-#' @return invisibly duplicate files
-#' @export
+#' Search for duplicate files in a directory
 #'
+#' This function searches for duplicate files within a directory based on their content.
+#' Duplicate files are identified by having either the same filename and same content
+#' or different filenames but same content.
+#'
+#' @param dir_path A character string representing the path to the directory to search for duplicates
+#' @param verbose Logical. If TRUE, displays a list of duplicate files found (default is TRUE)
+#' @return A data frame containing information about duplicate files (invisible by default)
+#'
+#' @importFrom fs dir_ls
+#' @importFrom cli cli_h1 cli_text cli_alert_success
+#'
+#' @export
 search_duplicates <- function(dir_path,
                               verbose = TRUE) {
 
@@ -308,7 +364,6 @@ search_duplicates <- function(dir_path,
   } else {cli::cli_alert_success("done! TO FIX THIS MSG")}
 
   invisible(filtered_files)
-  #return(filtered_files)
 }
 
 # NEW HASH FILES FUNCTIONS

@@ -2,20 +2,20 @@
 % Please edit documentation in R/auxiliary_functions.R
 \name{search_duplicates}
 \alias{search_duplicates}
-\title{Search for/detect duplicate files in one directory
-Search for files that have either same name and SAME CONTENT or different name but SAME CONTENT}
+\title{Search for duplicate files in a directory}
 \usage{
 search_duplicates(dir_path, verbose = TRUE)
 }
 \arguments{
-\item{dir_path}{charcater of directory path}
+\item{dir_path}{A character string representing the path to the directory to search for duplicates}
 
-\item{verbose}{logical, if TRUE display list of duplicate files}
+\item{verbose}{Logical. If TRUE, displays a list of duplicate files found (default is TRUE)}
 }
 \value{
-invisibly duplicate files
+A data frame containing information about duplicate files (invisible by default)
 }
 \description{
-Search for/detect duplicate files in one directory
-Search for files that have either same name and SAME CONTENT or different name but SAME CONTENT
+This function searches for duplicate files within a directory based on their content.
+Duplicate files are identified by having either the same filename and same content
+or different filenames but same content.
 }

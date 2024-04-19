@@ -2,7 +2,7 @@
 % Please edit documentation in R/auxiliary_functions.R
 \name{filter_common_files}
 \alias{filter_common_files}
-\title{Filter common files in a syncdr_status object based on specified criteria.}
+\title{Filter common files in a syncdr_status object based on specified criteria}
 \usage{
 filter_common_files(
   sync_status,
@@ -24,8 +24,9 @@ filter_common_files(
 A 'syncdr_status' object filtered according to the specified criteria.
 }
 \description{
-This function filters common files within a "syncdr_status" object, which is the result of 'compare_directories()', according to the specified filtering criteria.
-Filtering is dependent on the 'dir' argument, determining the primary directory for comparison.
+This function filters common files within a "syncdr_status" object, which is the result of 'compare_directories()',
+according to the specified filtering criteria:
+Filtering is dependent on the 'dir' argument, determining the primary directory for comparison
 }
 \details{
 Filtering Options:

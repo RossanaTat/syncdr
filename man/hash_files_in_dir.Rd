@@ -2,10 +2,17 @@
 % Please edit documentation in R/auxiliary_functions.R
 \name{hash_files_in_dir}
 \alias{hash_files_in_dir}
-\title{Hash files in directory -by content}
+\title{Hash files in a directory based on content}
 \usage{
 hash_files_in_dir(dir_path)
 }
+\arguments{
+\item{dir_path}{A character string of the path to the directory containing files
+for which hashes will be calculated}
+}
+\value{
+A data frame containing file paths and their corresponding SHA-256 hashes.
+}
 \description{
-Hash files in directory -by content
+This function calculates hashes for files in a specified directory based on their content.
 }

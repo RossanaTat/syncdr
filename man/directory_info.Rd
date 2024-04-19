@@ -2,19 +2,21 @@
 % Please edit documentation in R/auxiliary_functions.R
 \name{directory_info}
 \alias{directory_info}
-\title{Get directory information}
+\title{Retrieve information about files in a directory}
 \usage{
 directory_info(dir, recurse = TRUE, ...)
 }
 \arguments{
-\item{dir}{character string, path of directory}
+\item{dir}{A character string representing the path of the directory.}
 
-\item{recurse}{If TRUE recurse fully, if a positive number the number of levels to recurse}
+\item{recurse}{Logical. If TRUE, fully recurse into subdirectories. If a positive number,
+specifies the number of levels to recurse.}
 }
 \value{
-data frame with info on directory's files (all info produced by fs::file_info())
+A data frame containing detailed information about the files in the directory,
+including all information produced by \code{fs::file_info()}.
 }
 \description{
-Get directory information
+This function retrieves information about files in a specified directory
 }
 \keyword{internal}

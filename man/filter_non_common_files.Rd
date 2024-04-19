@@ -2,20 +2,24 @@
 % Please edit documentation in R/auxiliary_functions.R
 \name{filter_non_common_files}
 \alias{filter_non_common_files}
-\title{Filter files that are NOT common between the two directories under comparison}
+\title{Filter files in a syncdr_status object that are NOT common between two directories compared}
 \usage{
 filter_non_common_files(sync_status, dir = "left")
 }
 \arguments{
-\item{sync_status}{object of class 'syncdr_status' with info on sync status
-and comparison of directories}
+\item{sync_status}{An object of class 'syncdr_status' containing information
+about synchronization status and directory comparisons.}
 
-\item{dir}{character, either "left", "right", "all" (both directories)}
+\item{dir}{Character string specifying the directory to filter:
+- "left" for files unique to the left directory
+- "right" for files unique to the right directory
+- "all" for files unique to either directory}
 }
 \value{
-'syncdr_status' object filtered accordingly
+An updated 'syncdr_status' object with filtered files according to the specified criteria.
 }
 \description{
-This function filters non common files in "syncdr_status" object (resulting from 'compare_directories()')
+This function filters files that are not common between the directories compared
+in the 'sync_status' object resulting from 'compare_directories()'.
 }
 \keyword{internal}
