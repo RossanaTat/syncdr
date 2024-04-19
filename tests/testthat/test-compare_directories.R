@@ -53,5 +53,5 @@ test_that("compare directories retrun sync status") {
 
 }
 
-# TO COMPLETE
+# TO COMPLETE ####
 

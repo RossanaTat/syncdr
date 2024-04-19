@@ -226,3 +226,38 @@ test_that("filter non common files works", {
 
 })
 
+# Test search of duplicate files ####
+test_that("search duplicates works as expected", {
+
+  # check it stops if path does not exist
+  invalid_path <- "iinvalid_path"
+  search_duplicates(invalid_path) |>
+    expect_error()
+
+  # create a duplicate file in left directory
+  fs::file_copy(path      = paste0(left, "/C/C1.Rds") ,
+                new_path  = paste0(left, "/C/C1_dup.Rds"),
+                overwrite = FALSE)
+
+  duplicates <- c(paste0(left, "/C/C1.Rds"),
+                  paste0(left, "/C/C1_dup.Rds"))
+
+  search_duplicates(left) |>
+    expect_no_error()
+
+  res <- search_duplicates(left)
+
+  # check class and names
+  inherits(res,
+           "data.frame") |>
+    expect_equal(TRUE)
+
+  names(res) |>
+    expect_equal(c("path", "hash"))
+
+  # checks duplicates
+  all(duplicates %in% res$path) |>
+    expect_equal(TRUE)
+
+})
+

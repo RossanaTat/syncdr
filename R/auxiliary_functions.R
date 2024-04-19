@@ -130,7 +130,7 @@ hash_files_contents <- function(left_path,
   left_hashes <- lapply(left_path, function(path) {
 
     hash <- digest::digest(object = path,
-                           algo = "sha256",
+                           algo = "xxhash32",
                            file = TRUE)
     cli::cli_progress_step(pb_left,
                            msg_done = {basename(path)})  # Update progress bar step by step
@@ -143,7 +143,7 @@ hash_files_contents <- function(left_path,
   right_hashes <- lapply(right_path, function(path) {
 
     hash <- digest::digest(object = path,
-                           algo = "sha256",
+                           algo = "xxhash32",
                            file = TRUE)
     cli::cli_progress_step(pb_right,
                            msg_done = {basename(path)})  # Update progress bar step by step
@@ -325,7 +325,7 @@ hash_files_in_dir <- function(dir_path) {
 
   # Calculate hashes for each file path
   files_df$hash <- lapply(files_df$path, function(p) {
-    digest::digest(p, algo = "sha256", file = TRUE)
+    digest::digest(p, algo = "xxhash32", file = TRUE)
   })
 
   return(files_df)
@@ -348,6 +348,11 @@ hash_files_in_dir <- function(dir_path) {
 search_duplicates <- function(dir_path,
                               verbose = TRUE) {
 
+  # check path exists
+  stopifnot(exprs = {
+    fs::dir_exists(dir_path)
+  })
+
   # Hash files contents
   file_hashes <- hash_files_in_dir(dir_path)
 
@@ -358,13 +363,16 @@ search_duplicates <- function(dir_path,
   filtered_files <- file_hashes[duplicates, ]
 
   if (verbose) {
+
     cli::cli_h1("Duplicates in {.path {dir_path}}")
     # add here paths of files found in filtered files
     lapply(filtered_files$path, function(file_path) {
       #cli::cli_text(basename(file_path))
       cli::cli_text(paste0("*", gsub(dir_path, "", file_path)))
     })
-  } else {cli::cli_alert_success("done! TO FIX THIS MSG")}
+  }
+
+  else {cli::cli_alert_success("done! TO FIX THIS MSG")}
 
   invisible(filtered_files)
 }
@@ -383,7 +391,7 @@ hash_files_verbose <- function(files_path) {
   # Compute hash for files
   hashes <- lapply(files_path, function(path) {
 
-                     hash <- digest::digest(path, algo = "sha256", file = TRUE)
+                     hash <- digest::digest(path, algo = "xxhash32", file = TRUE)
 
                       cli::cli_progress_step(pb,
                                              msg_done = {basename(path)},
@@ -424,7 +432,7 @@ hash_files <- function(files_path,
   # Compute hash for files
   hashes <- lapply(files_path, function(path) {
 
-    hash <- digest::digest(path, algo = "sha256", file = TRUE)
+    hash <- digest::digest(path, algo = "xxhash32", file = TRUE)
 
     if (verbose) {
       cli::cli_progress_step(pb,
