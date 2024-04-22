@@ -94,8 +94,24 @@ toy_dirs <- function(verbose = FALSE) {
                 new_path = paste0(right, "/C/C1.Rds"),
                 overwrite = TRUE)
 
+  # Randomly decide where to create the duplicate file
+  if (runif(1) > 0.5) {
+    # Create a duplicate file in the left directory
+    fs::file_copy(
+      path = paste0(left, "/C/C1.Rds"),
+      new_path = paste0(left, "/C/C1_duplicate.Rds"),
+      overwrite = TRUE
+    )
+  } else {
+    # Create a duplicate file in the right directory
+    fs::file_copy(
+      path = paste0(right, "/C/C1.Rds"),
+      new_path = paste0(right, "/C/C1_duplicate.Rds"),
+      overwrite = TRUE
+    )
+  }
 
-  # Display directory trees
+  # Display directory trees if verbose is TRUE
   if (verbose) {
     fs::dir_tree(left)
     fs::dir_tree(right)
