@@ -1,6 +1,11 @@
 ---
 title: "Introduction to {syncdr}"
-output: rmarkdown::html_vignette
+subtitle: "File Handling, Directory Comparison & Synchronization in R"
+author: "Rossana Tatulli"
+date: "2024-mm-dy"
+output: 
+rmarkdown::html_vignette:
+  toc: true
 vignette: >
   %\VignetteIndexEntry{Introduction to {syncdr}}
   %\VignetteEngine{knitr::rmarkdown}
@@ -15,5 +20,24 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(syncdr)
+#library(syncdr)
 ```
+
+## Why {syncdr}? 
+
+**{syncdr}** is an R package for handling and synchronizing files and directories. Its primary objectives are:
+
+1.  To provide a clear snapshot of the content and status of synchronization between two directories under comparison: including their tree structure, their common files, and files that are exclusive to either directory
+2.  To help make file handling in R easier: Enabling content-based and modification date-based file comparisons, as well as facilitating tasks such as duplicate identification, file copying, moving, and deletion *(todo: better describe this point later on depending on functionalities)* .
+
+------------------------------------------------------------------------
+
+💡\
+This article does not offer a comprehensive overview of **{syncdr}** functionalities. After familiarizing yourself with this general workflow, read the articles throughout the rest of this website..they will introduce all main features of **{syncdr}** in a structured way.
+
+---
+
+## Synchronizing with {syncdr}
+**Learn how to work with {syncdr} and compare and synchronize directories in R**
+
+### Step 1: ...

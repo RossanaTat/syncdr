@@ -15,5 +15,15 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(syncdr)
+#library(syncdr)
 ```
+
+**Notes to keep in mind when synchronizing**
+
+WRITE NOTES HERE
+
+\- ...
+
+\- ...
+
+\- and so on
