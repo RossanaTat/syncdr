@@ -8,8 +8,10 @@ rmarkdown::html_vignette:
   toc: true
 vignette: >
   %\VignetteIndexEntry{Introduction to {syncdr}}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -17,9 +19,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
 
-```{r setup}
 devtools::load_all(".")
 ```
 
@@ -56,7 +56,7 @@ right <- syncdr.env$right
 
 ```
 
-You can also quickly compare the two directories tree structure by calling `display_dir_tree()`. By default, it fully recurses -i.e., shows the directory tree of all sub-directories. However, you can also specify the number of levels to recurse using the `recurse` argument.
+You can also quickly compare the two directories' tree structure by calling `display_dir_tree()`. By default, it fully recurses -i.e., shows the directory tree of all sub-directories. However, you can also specify the number of levels to recurse using the `recurse` argument.
 
 ```{r display-toy-dirs}
 
@@ -72,11 +72,11 @@ The most important function in `syncdr` is `compare_directories()`. It takes the
 
 -   to *inspect* the synchronization status of files present in both directories as well as those exclusive to either directory
 
--   as the input for all other functions within `syncdr` that facilitate *synchronization* actions on the directories under comparison*.*
+-   as the input for all other functions within `syncdr` that allow *synchronization* between the directories under comparison*.*
 
-Note that `compare_directories()` allows you to compare the two directories in 3 ways:
+Before diving into the resulting `syncdr_status` object, let's clarify that `compare_directories()` enables to compare directories in 3 ways:
 
-1.  By **date** only -*the default:*
+1.  By **date** only -*the default:* by default, `by_date = TRUE`, so that files in both directories are compared based on the date of last modification.
 
 | sync_status (*all* *common files)* |
 |:----------------------------------:|
@@ -84,49 +84,110 @@ Note that `compare_directories()` allows you to compare the two directories in 3
 |  newer in left, olderin right dir  |
 |             same date              |
 
-2.  By **date and content**, by specifying `by_content = TRUE` (by default `by_date = TRUE` if not specifically set to FALSE)
+2.  By **date and content**. This is done by specifying `by_content = TRUE` (by default `by_date = TRUE` if not specifically set to FALSE). Files are first compared by date, and then only those that are newer in either directory will be compared by content.
 
-| sync_status (*common files that are newer in either directories, i.e., not of same date )* |
+| sync_status (*common files that are newer in either left or right, i.e., not of same date )* |
 |:--------------------------------------------------------------------------------------------:|
-|                                     different content                                      |
-|                                        same content                                        |
+|                                      different content                                       |
+|                                         same content                                         |
 
-3.  By **content** only, by specifying `by_date = FALSE` and `by_content = TRUE`
+3.  By **content** only, by specifying `by_date = FALSE` and `by_content = TRUE` . This option is however discouraged -comparing all files' contents can be slow and computationally expensive.
 
 | sync_status (*all* *common files)* |
 |:----------------------------------:|
 |         different content          |
 |            same content            |
 
-In each of these cases, the sync_status for files that are exclusive to either directory is
+Also, regardless of which options you choose, the sync_status of files that are exclusive to either directory is:
 
 | sync_status (*non* *common files)* |
 |:----------------------------------:|
 |            only in left            |
 |           only in right            |
 
-```{r step-1}
+Let's now take a closer look at the output of `compare_directories()`, which is intended to contain comprehensive information on the directories under comparison. This is a list of class `syncdr_status`, containing 4 elements: (1) common files, (2) non common files, (3) left path and (4) right path
+
+##### **1. Comparing by date**
+
+```{r by-date}
 
 # Compare by date only -the Default
-compare_directories(left, 
-                    right)
+sync_status_date <- compare_directories(left, 
+                                        right)
 
-# Compare by date and content 
-compare_directories(left, 
-                    right,
-                    by_content = TRUE)
-
-
-# Compare by content only 
-compare_directories(left, 
-                    right,
-                    by_date    = FALSE,
-                    by_content = TRUE)
-
+sync_status_date
 ```
 
-#### Exploring compare_directories() output 
+##### **2. Comparing by date and content**
+
+```{r by-date-cont}
+
+# Compare by date and content 
+sync_status_date_content <- compare_directories(left, 
+                                                right,
+                                                by_content = TRUE)
+
+sync_status_date_content
+```
+
+##### **3. Comparing by content only** 
+
+```{r by-content}
+
+# Compare by date and content 
+sync_status_content <- compare_directories(left, 
+                                            right,
+                                            by_date    = FALSE,
+                                            by_content = TRUE)
+
+sync_status_content
+```
 
 ### Step 2: Visualize Synchronization Status 
 
+The best way to read through the output of `compare_directories()` is by visualizing it with `display_sync_status()` function.
+
+For example, let's visualize the sync status of common files in left and right directories when compared by date
+
+```{r}
+
+display_sync_status(sync_status_date$common_files)
+```
+
+or let's display that of files the sync_status of files only in left or right directory
+
+```{r}
+
+display_sync_status(sync_status_date$non_common_files)
+```
+
 ### Step 3: Synchronize directories 
+
+`syncdr` enables users to perform different actions such as copying, moving, and deleting files using specific synchronization functions. Refer to the `vignette("asymmetric-synchronization")` and `vignette("symmetric-synchronization")` articles for detailed information.
+
+For the purpose of this general demonstration, we will perform a 'full asymmetric synchronization to right'. This executes the following:
+
+-   **On common files:**
+    -   If by date only (`by_date = TRUE`): Copy files that are newer in the left directory to the right directory.
+    -   If by date and content (`by_date = TRUE` and `by_content = TRUE`): Copy files that are newer and different in the left directory to the right directory.
+    -   If by content only (`by_content = TRUE`): Copy files that are different in the left directory to the right directory.
+-   **On non common files:**
+    -   Copy to the right directory those files that exist only in the left directory
+    -   Delete from the right directory those files that are exclusive in the right directory (i.e., missing in the left directory)
+
+📌As a general rule to perform any synchronization, begin by using **`compare_directories()`** with specific **`by_date`** and **`by_content`** options. Then, ensure that these same options are used when calling the synchronization function with the output of **`compare_directories()`** as input.
+
+```{r asym-sync-example}
+
+# Compare directories
+
+sync_status <- compare_directories(left,
+                                   right,
+                                   by_date = TRUE)
+
+# Synchronize directories 
+full_asym_sync_to_right(sync_status = sync_status,
+                        by_date     = TRUE,
+                        verbose     = TRUE)
+
+```
