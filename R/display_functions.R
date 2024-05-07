@@ -15,9 +15,9 @@ display_sync_status <- function(sync_status) {
                          createdCell = DT::JS(
                            "function(td, cellData, rowData, row, col) {
                             if (cellData === true) {
-                              $(td).css({'background-color': '#c7f9cc'});
+                              $(td).css({'background-color': '#F8F4FF'});
                             } else {
-                              $(td).css({'background-color': '#fdffb6'});
+                              $(td).css({'background-color': '#F0F8FF'});
                             }
                           }"
                          )
@@ -75,19 +75,22 @@ display_sync_status <- function(sync_status) {
 #' @return directories tree
 #' @export
 display_dir_tree <- function(path_left,
-                             path_right,
+                             path_right = NULL,
                              recurse = TRUE) {
 
-  cat(paste0("\033[1;38;5;170m", "(\u2190)", " Left directory structure:\n", "\033[0m"))
-  #fs::dir_tree(sync_status$left_path)
-  fs::dir_tree(path_left)
+  if (!is.null(path_left)) {
+    cat(paste0("\033[1;38;5;170m", "(\u2190)", " Left directory structure:\n", "\033[0m"))
+    #fs::dir_tree(sync_status$left_path)
+    fs::dir_tree(path_left)
+  }
 
+  if (!is.null(path_right)) {
+    cat(paste0("\033[1;38;5;170m", "(\u2192)", " Right directory structure :\n", "\033[0m"))
+    #cat()
+    #fs::dir_tree(sync_status$right_path)
+    fs::dir_tree(path_right)
 
-  cat(paste0("\033[1;38;5;170m", "(\u2192)", " Right directory structure :\n", "\033[0m"))
-  #cat()
-  #fs::dir_tree(sync_status$right_path)
-  fs::dir_tree(path_right)
-
+  }
 
   invisible(TRUE)
 

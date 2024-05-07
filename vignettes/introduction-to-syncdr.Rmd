@@ -98,7 +98,7 @@ Before diving into the resulting `syncdr_status` object, let's clarify that `com
 |         different content          |
 |            same content            |
 
-Also, regardless of which options you choose, the sync_status of files that are exclusive to either directory is:
+Also, regardless of which options you choose, the sync_status of files that are exclusive to either directory is determined too:
 
 | sync_status (*non* *common files)* |
 |:----------------------------------:|
@@ -143,6 +143,20 @@ sync_status_content <- compare_directories(left,
 sync_status_content
 ```
 
+##### (+) Comparing directories with `verbose = TRUE`
+
+When using the `compare_directories()` function, you have the option to enable verbose mode by setting `verbose = TRUE`. This will display both directories tree structure and, when comparing files by content, provide progress updates including the time spent hashing the files.
+
+```{r verbose-example}
+
+compare_directories(left,
+                    right,
+                    by_date    = FALSE,
+                    by_content = TRUE,
+                    verbose    = TRUE)
+
+```
+
 ### Step 2: Visualize Synchronization Status 
 
 The best way to read through the output of `compare_directories()` is by visualizing it with `display_sync_status()` function.
@@ -175,8 +189,6 @@ For the purpose of this general demonstration, we will perform a 'full asymmetri
     -   Copy to the right directory those files that exist only in the left directory
     -   Delete from the right directory those files that are exclusive in the right directory (i.e., missing in the left directory)
 
-📌As a general rule to perform any synchronization, begin by using **`compare_directories()`** with specific **`by_date`** and **`by_content`** options. Then, ensure that these same options are used when calling the synchronization function with the output of **`compare_directories()`** as input.
-
 ```{r asym-sync-example}
 
 # Compare directories
@@ -191,3 +203,9 @@ full_asym_sync_to_right(sync_status = sync_status,
                         verbose     = TRUE)
 
 ```
+
+------------------------------------------------------------------------
+
+**Important note:**
+
+📌As a general rule -to perform any synchronization- begin by using **`compare_directories()`** with specific **`by_date`** and **`by_content`** options. Then, ensure that these same options are used when calling the synchronization function with the output of **`compare_directories()`** as input.

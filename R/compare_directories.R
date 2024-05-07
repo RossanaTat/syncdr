@@ -123,8 +123,8 @@ compare_directories <- function(left_path,
 
   # Display directories structure if verbose is TRUE
   if(verbose) {
-    display_dir_tree(left_path)
-    display_dir_tree(right_path)
+    display_dir_tree(left_path,
+                     right_path)
   }
 
   # assign class 'syncdr_status'
