@@ -130,7 +130,7 @@ sync_status_date_content <- compare_directories(left,
 sync_status_date_content
 ```
 
-##### **3. Comparing by content only** 
+##### **3. Comparing by content only**
 
 ```{r by-content}
 
@@ -157,7 +157,7 @@ compare_directories(left,
 
 ```
 
-### Step 2: Visualize Synchronization Status 
+### Step 2: Visualize Synchronization Status
 
 The best way to read through the output of `compare_directories()` is by visualizing it with `display_sync_status()` function.
 
@@ -175,7 +175,7 @@ or let's display that of files the sync_status of files only in left or right di
 display_sync_status(sync_status_date$non_common_files)
 ```
 
-### Step 3: Synchronize directories 
+### Step 3: Synchronize directories
 
 `syncdr` enables users to perform different actions such as copying, moving, and deleting files using specific synchronization functions. Refer to the `vignette("asymmetric-synchronization")` and `vignette("symmetric-synchronization")` articles for detailed information.
 

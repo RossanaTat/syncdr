@@ -1,8 +1,8 @@
 ---
-title: "visualizations"
+title: "Visualizations"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{visualizations}
+  %\VignetteIndexEntry{Visualizations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,5 +15,60 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(syncdr)
+#library(syncdr)
+devtools::load_all(".")
+```
+
+`syncdr` provides ...
+
+Specifically, ...
+
+Here is how the table looks like with different inputs
+
+### Comparing directories by date 
+
+```{r include = FALSE}
+
+# Create syncdr env with left and right directories
+syncdr.env <- toy_dirs()
+
+# Get left and right directories' paths 
+left  <- syncdr.env$left
+right <- syncdr.env$right
+
+```
+
+```{r}
+sync_status <- compare_directories(left, 
+                                   right)
+
+display_sync_status(sync_status$common_files)
+display_sync_status(sync_status$non_common_files)
+
+```
+
+### Comparing directories by date *and* content
+
+```{r}
+
+sync_status <- compare_directories(left, 
+                                   right,
+                                   by_content = TRUE)
+
+display_sync_status(sync_status$common_files)
+display_sync_status(sync_status$non_common_files)
+
+```
+
+### Comparing directories by content  
+
+```{r}
+
+sync_status <- compare_directories(left, 
+                                   right,
+                                   by_date    = FALSE,
+                                   by_content = TRUE)
+
+display_sync_status(sync_status$common_files)
+display_sync_status(sync_status$non_common_files)
 ```
