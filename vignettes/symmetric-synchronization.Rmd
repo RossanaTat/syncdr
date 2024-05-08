@@ -30,7 +30,8 @@ This is a **two-way** synchronization: this means that you compare both director
 
 You need to use the output of `compare_directories()` as input for these functions. In doing so,
 
--   Make sure to set `by_date` and `by_content` arguments in `compare_directories()` the same way you pass them to the symmetric synchronization functions
+-   Make sure to set `by_date` and `by_content` arguments in `compare_directories()` the same way you pass them to the symmetric synchronization functions. By default, `by_date = TRUE` and `by_content = FALSE` in every sync function
+-   
 
 ## Types of symmetric synchronization
 
@@ -73,3 +74,74 @@ Similar to its asymmetric counterpart, `syncdr` enables the execution of ***spec
 : Types of symmetric synchronization
 
 Let's consider the following examples:
+
+##### \*️⃣ **Note: `verbose = TRUE`**
+
+As with asymmetric synchronization, also here you have the option to enable verbose mode by setting `verbose = TRUE`. This will display the tree structure of *both* directories BEFORE and AFTER the synchronization.
+
+**1 - Full symmetric synchronization:**
+
+**When comparing directories by date and content:**
+
+```{r include = FALSE}
+
+syncdr.env <- toy_dirs()
+
+# Get left and right directories' paths 
+left  <- syncdr.env$left
+right <- syncdr.env$right
+
+```
+
+```{r}
+
+sync_status <- compare_directories(left_path  = left,
+                                   right_path = right,
+                                   by_content = TRUE)
+
+full_symmetric_sync(sync_status,
+                    by_content = TRUE,
+                    verbose    = TRUE)
+```
+
+**When comparing directories by date only:**
+
+```{r include = FALSE}
+
+syncdr.env.1 <- toy_dirs()
+
+# Get left and right directories' paths 
+left  <- syncdr.env.1$left
+right <- syncdr.env.1$right
+
+```
+
+```{r}
+
+sync_status <- compare_directories(left_path  = left,
+                                   right_path = right)
+
+full_symmetric_sync(sync_status,
+                    verbose = TRUE)
+```
+
+**2 - Partial symmetric synchronization:**
+
+```{r include = FALSE}
+
+syncdr.env.2 <- toy_dirs()
+
+# Get left and right directories' paths 
+left  <- syncdr.env.2$left
+right <- syncdr.env.2$right
+
+```
+
+```{r}
+
+sync_status <- compare_directories(left_path  = left,
+                                   right_path = right)
+
+partial_symmetric_sync_common_files(sync_status,
+                                    verbose = TRUE)
+```

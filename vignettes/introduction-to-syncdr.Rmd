@@ -87,7 +87,7 @@ Before diving into the resulting `syncdr_status` object, let's clarify that `com
 2.  By **date and content**. This is done by specifying `by_content = TRUE` (by default `by_date = TRUE` if not specifically set to FALSE). Files are first compared by date, and then only those that are newer in either directory will be compared by content.
 
 | sync_status (*common files that are newer in either left or right, i.e., not of same date )* |
-|:----------------------------------------------------------------------:|
+|:--------------------------------------------------------------------------------------------:|
 |                                      different content                                       |
 |                                         same content                                         |
 

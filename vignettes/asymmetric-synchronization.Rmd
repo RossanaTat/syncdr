@@ -35,11 +35,11 @@ This is a **one-way** synchronization: you have a *master/leader* directory, and
 You need to use the output of `compare_directories()` as input for these functions. In doing so,
 
 -   Ensure that the "leader" directory is passed to the path_left argument and the "follower" directory to the path_right argument (more examples below)
--   Make sure to set `by_date` and `by_content` arguments in `compare_directories()` the same way you pass them to the asymmetric synchronization functions.
+-   Make sure to set `by_date` and `by_content` arguments in `compare_directories()` the same way you pass them to the asymmetric synchronization functions. By default, `by_date = TRUE` and `by_content = FALSE` in every sync function.
 
 ## Types of asymmetric synchronization
 
-`syncdr` allows to perform a ***specific set of asymmetric synchronization actions***, so that you can choose which one to execute depending on your needs:
+`syncdr` allows to perform a ***specific set of asymmetric synchronization actions***, so that you can choose which one to execute depending on your needs
 
 +--------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+
 | ::: {style="color:#0070FF"}                                        | ::: {style="color:#0070FF"}                                                                                                                                            | ::: {style="color:#0070FF"}                                                                                                     |
@@ -68,6 +68,10 @@ You need to use the output of `compare_directories()` as input for these functio
 : Types of asymmetric synchronization
 
 Let's see them in actions through the examples below:
+
+##### \*️⃣ **Note: `verbose = TRUE`**
+
+When executing any synchronization, you have the option to enable verbose mode by setting `verbose = TRUE`. This will display the tree structure of *both* directories BEFORE and AFTER the synchronization
 
 **1 - Full asymmetric synchronization:**
 
