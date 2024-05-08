@@ -179,6 +179,14 @@ display_sync_status(sync_status_date$non_common_files)
 
 `syncdr` enables users to perform different actions such as copying, moving, and deleting files using specific synchronization functions. Refer to the `vignette("asymmetric-synchronization")` and `vignette("symmetric-synchronization")` articles for detailed information.
 
+------------------------------------------------------------------------
+
+📌 **Important note:**
+
+As a general rule -to perform any synchronization- begin by using **`compare_directories()`** with specific **`by_date`** and **`by_content`** options. Then, ensure that these same options are used when calling the synchronization function with the output of **`compare_directories()`** as input.
+
+------------------------------------------------------------------------
+
 For the purpose of this general demonstration, we will perform a 'full asymmetric synchronization to right'. This executes the following:
 
 -   **On common files:**
@@ -203,9 +211,3 @@ full_asym_sync_to_right(sync_status = sync_status,
                         verbose     = TRUE)
 
 ```
-
-------------------------------------------------------------------------
-
-📌 **Important note:**
-
-As a general rule -to perform any synchronization- begin by using **`compare_directories()`** with specific **`by_date`** and **`by_content`** options. Then, ensure that these same options are used when calling the synchronization function with the output of **`compare_directories()`** as input.
