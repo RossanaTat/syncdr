@@ -12,8 +12,64 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+devtools::load_all(".")
 ```
 
 ```{r setup}
-library(syncdr)
+#library(syncdr)
 ```
+
+This article covers functions designed for symmetric synchronization between two directories.
+
+## What is symmetric synchronization?
+
+This is a **two-way** synchronization: this means that you compare both directories and update each other to reflect the latest changes: If a file is added, modified, or deleted in one directory, the corresponding action is taken in the other directory. This approach is useful when you want both directories to be always **up-to-date** with the latest changes, regardless of where those changes originate.
+
+**To keep in mind:**
+
+You need to use the output of `compare_directories()` as input for these functions. In doing so,
+
+-   Make sure to set `by_date` and `by_content` arguments in `compare_directories()` the same way you pass them to the symmetric synchronization functions
+
+## Types of symmetric synchronization
+
+Similar to its asymmetric counterpart, `syncdr` enables the execution of ***specific symmetric synchronizations*** with predefined options, allowing you to select the most suitable function based on your requirements.
+
++---------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------+
+| ::: {style="color:#0070FF"}     | ::: {style="color:#0070FF"}                                                                                                                                         | ::: {style="color:#0070FF"}                                                           |
+| Type of synchronization         | Actions on common files                                                                                                                                             | Actions on non-common files                                                           |
+| :::                             | :::                                                                                                                                                                 | :::                                                                                   |
++=================================+=====================================================================================================================================================================+=======================================================================================+
+| Full symmetric synchronization: | -   if `by_date = TRUE` only:                                                                                                                                       | if a file exists in one but not in the other directory, it is copied over accordingly |
+|                                 |                                                                                                                                                                     |                                                                                       |
+| **`full_symmetric_sync()`**     |     -   If the file in one directory is newer than the corresponding file in the other directory it will be copied over to update the older version                 |                                                                                       |
+|                                 |                                                                                                                                                                     |                                                                                       |
+|                                 |     -   If modification dates are the same, no change is made                                                                                                       |                                                                                       |
+|                                 |                                                                                                                                                                     |                                                                                       |
+|                                 | -   if `by_date = TRUE` and `by_content = TRUE`:                                                                                                                    |                                                                                       |
+|                                 |                                                                                                                                                                     |                                                                                       |
+|                                 |     -   If the file in one directory is newer AND different than the corresponding file in the other directory, it will be copied over to update the older version. |                                                                                       |
+|                                 |                                                                                                                                                                     |                                                                                       |
+|                                 |     -   If modification dates/contents are the same, no change is made                                                                                              |                                                                                       |
+|                                 |                                                                                                                                                                     |                                                                                       |
+|                                 | -   if `by_content = TRUE` only: ? TO DECIDE WHAT TO DO WITH THESE FILES ?                                                                                          |                                                                                       |
++---------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------+
+|                                 | -   if `by_date = TRUE` only:                                                                                                                                       | No changes are made:                                                                  |
+|                                 |                                                                                                                                                                     |                                                                                       |
+|                                 |     -   If the file in one directory is newer than the corresponding file in the other directory, it will be copied over to update the older version.               | -   keep in right files that are only in right                                        |
+|                                 |                                                                                                                                                                     |                                                                                       |
+|                                 |     -   If modification dates are the same, no action is executed                                                                                                   | -   keep in left those that are only in left                                          |
+|                                 |                                                                                                                                                                     |                                                                                       |
+|                                 | -   if `by_date = TRUE` and `by_content = TRUE`:                                                                                                                    |                                                                                       |
+|                                 |                                                                                                                                                                     |                                                                                       |
+|                                 |     -   If the file in one directory is newer AND different than the corresponding file in the other directory, it will be copied over to update the older version  |                                                                                       |
+|                                 |                                                                                                                                                                     |                                                                                       |
+|                                 |     -   If modification dates/contents are the same, nothing is done                                                                                                |                                                                                       |
+|                                 |                                                                                                                                                                     |                                                                                       |
+|                                 | -    if `by_content = TRUE` only: ???                                                                                                                               |                                                                                       |
++---------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------+
+
+: Types of symmetric synchronization
+
+Let's consider the following examples:
