@@ -2,7 +2,7 @@
 % Please edit documentation in R/asymmetric_sync.R
 \name{full_asym_sync_to_right}
 \alias{full_asym_sync_to_right}
-\title{Fully asymmetric synchronization to right directory}
+\title{Full asymmetric synchronization to right directory}
 \usage{
 full_asym_sync_to_right(
   sync_status,
