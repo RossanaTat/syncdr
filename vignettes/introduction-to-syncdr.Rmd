@@ -87,7 +87,7 @@ Before diving into the resulting `syncdr_status` object, let's clarify that `com
 2.  By **date and content**. This is done by specifying `by_content = TRUE` (by default `by_date = TRUE` if not specifically set to FALSE). Files are first compared by date, and then only those that are newer in either directory will be compared by content.
 
 | sync_status (*common files that are newer in either left or right, i.e., not of same date )* |
-|:--------------------------------------------------------------------------------------------:|
+|:----------------------------------------------------------------------:|
 |                                      different content                                       |
 |                                         same content                                         |
 
@@ -143,9 +143,9 @@ sync_status_content <- compare_directories(left,
 sync_status_content
 ```
 
-##### (+) Comparing directories with `verbose = TRUE`
+##### \*️⃣ **Comparing directories with `verbose = TRUE`**
 
-When using the `compare_directories()` function, you have the option to enable verbose mode by setting `verbose = TRUE`. This will display both directories tree structure and, when comparing files by content, provide progress updates including the time spent hashing the files.
+When calling `compare_directories()`, you have the option to enable verbose mode by setting `verbose = TRUE`. This will display both directories tree structure and, when comparing files by content, provide progress updates including the time spent hashing the files.
 
 ```{r verbose-example}
 
@@ -161,14 +161,14 @@ compare_directories(left,
 
 The best way to read through the output of `compare_directories()` is by visualizing it with `display_sync_status()` function.
 
-For example, let's visualize the sync status of common files in left and right directories when compared by date
+For example, let's visualize the sync status of common files in left and right directories, when compared by date
 
 ```{r}
 
 display_sync_status(sync_status_date$common_files)
 ```
 
-or let's display that of files the sync_status of files only in left or right directory
+or let's display the sync status of non common files:
 
 ```{r}
 
@@ -206,6 +206,6 @@ full_asym_sync_to_right(sync_status = sync_status,
 
 ------------------------------------------------------------------------
 
-**Important note:**
+📌 **Important note:**
 
-📌As a general rule -to perform any synchronization- begin by using **`compare_directories()`** with specific **`by_date`** and **`by_content`** options. Then, ensure that these same options are used when calling the synchronization function with the output of **`compare_directories()`** as input.
+As a general rule -to perform any synchronization- begin by using **`compare_directories()`** with specific **`by_date`** and **`by_content`** options. Then, ensure that these same options are used when calling the synchronization function with the output of **`compare_directories()`** as input.

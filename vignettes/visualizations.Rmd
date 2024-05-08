@@ -12,20 +12,17 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
 
-```{r setup}
-#library(syncdr)
 devtools::load_all(".")
 ```
 
-`syncdr` provides ...
+## Visualize synchronization status
 
-Specifically, ...
+When comparing your directories, say `left` and `right`, use `display_sync_status()` for an effective comparison visualization.
 
-Here is how the table looks like with different inputs
+As with any function from `syncdr`, you will have to call `compare_directories()` first:
 
-### Comparing directories by date 
+### Comparing directories by date
 
 ```{r include = FALSE}
 
@@ -41,6 +38,12 @@ right <- syncdr.env$right
 ```{r}
 sync_status <- compare_directories(left, 
                                    right)
+
+```
+
+`display_sync_status()` allows you to visualize the synchronization status of either (1) common files or (2) non common files, as you can see in the examples below:
+
+```{r}
 
 display_sync_status(sync_status$common_files)
 display_sync_status(sync_status$non_common_files)
@@ -60,7 +63,7 @@ display_sync_status(sync_status$non_common_files)
 
 ```
 
-### Comparing directories by content  
+### Comparing directories by content
 
 ```{r}
 
@@ -71,4 +74,20 @@ sync_status <- compare_directories(left,
 
 display_sync_status(sync_status$common_files)
 display_sync_status(sync_status$non_common_files)
+```
+
+## Visualize directories structure
+
+Moreover, you have the option to utilize `display_dir_tree()` for a swift overview of your directory(ies) structure, whether for a single directory or both simultaneously.
+
+```{r}
+
+# Tree structure or right directory
+display_dir_tree(path_left = left)
+
+# Tree structure of left directory
+display_dir_tree(path_right = right)
+
+# Tree structure of both 
+display_dir_tree(path_left = left, path_right = right, )
 ```

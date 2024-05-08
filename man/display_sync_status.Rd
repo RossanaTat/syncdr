@@ -4,10 +4,10 @@
 \alias{display_sync_status}
 \title{Display status of synchronization/comparison info between two directories in DT table}
 \usage{
-display_sync_status(sync_status)
+display_sync_status(sync_status_files)
 }
 \arguments{
-\item{sync_status}{object of class \code{"syncdr_status"}, result of \code{compare_directories()}}
+\item{sync_status_files}{object of \code{compare_directories()} output, either common_files or non_common_files}
 }
 \value{
 DT table showing the comparison between the two directories

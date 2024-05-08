@@ -4,7 +4,7 @@
 \alias{display_dir_tree}
 \title{Display tree structure of two directories under comparison}
 \usage{
-display_dir_tree(path_left, path_right, recurse = TRUE)
+display_dir_tree(path_left, path_right = NULL, recurse = TRUE)
 }
 \arguments{
 \item{path_left}{path of left directory}

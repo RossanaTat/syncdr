@@ -1,17 +1,17 @@
 #' Display status of synchronization/comparison info between two directories in DT table
 #'
-#' @param sync_status object of class `"syncdr_status"`, result of `compare_directories()`
+#' @param sync_status_files object of `compare_directories()` output, either common_files or non_common_files
 #' @return DT table showing the comparison between the two directories
 #'         together with their synchronization status
 #' @export
-display_sync_status <- function(sync_status) {
+display_sync_status <- function(sync_status_files) {
 
   # Build DT table
-  DT::datatable(sync_status,
+  DT::datatable(sync_status_files,
                 options = list(
                   pageLength = 10, # number of rows to display per page
                   columnDefs = list(
-                    list(targets = grep("^is_", colnames(sync_status), value = TRUE),
+                    list(targets = grep("^is_", colnames(sync_status_files), value = TRUE),
                          createdCell = DT::JS(
                            "function(td, cellData, rowData, row, col) {
                             if (cellData === true) {
@@ -22,7 +22,7 @@ display_sync_status <- function(sync_status) {
                           }"
                          )
                     ),
-                    list(targets = grep("sync_status", colnames(sync_status), value = TRUE),
+                    list(targets = grep("sync_status", colnames(sync_status_files), value = TRUE),
                          createdCell = DT::JS(
                            "function(td, cellData, rowData, row, col) {
                              if (cellData.includes('different content') ||
@@ -74,7 +74,7 @@ display_sync_status <- function(sync_status) {
 #'
 #' @return directories tree
 #' @export
-display_dir_tree <- function(path_left,
+display_dir_tree <- function(path_left  = NULL,
                              path_right = NULL,
                              recurse = TRUE) {
 
