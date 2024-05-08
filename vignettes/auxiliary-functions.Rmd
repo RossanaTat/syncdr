@@ -1,8 +1,8 @@
 ---
-title: "auxiliary-functions"
+title: "Auxiliary Functions"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{auxiliary-functions}
+  %\VignetteIndexEntry{Auxiliary Functions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,8 +12,37 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+devtools::load_all(".")
 ```
 
 ```{r setup}
-library(syncdr)
+#library(syncdr)
 ```
+
+`syncdr` provides some auxiliary functions that might come in handy to better understand the content of your directories, even before taking certain synchronization actions.
+
+To see some examples, let's start with `toy_dirs()`, and generate two toy directories.
+
+```{r}
+
+# Create syncdr env with left and right directories
+syncdr.env <- toy_dirs()
+
+# Get left and right directories' paths 
+left  <- syncdr.env$left
+right <- syncdr.env$right
+
+```
+
+**Search for duplicate files**
+
+One useful auxiliary function is **`search_duplicates()`**, designed to generate a list of duplicate files within your directory. Duplicate files are identified based on identical content, regardless of their filenames.
+
+```{r}
+
+# example
+search_duplicates(right)
+```
+
+*COMMENT: Before adding more aux functions, I need to better understand which functions among those that I have written should be internal vs exported (e.f., hashing files, getting directory info, see auxiliary_function.R)*

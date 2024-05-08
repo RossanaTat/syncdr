@@ -31,7 +31,6 @@ This is a **two-way** synchronization: this means that you compare both director
 You need to use the output of `compare_directories()` as input for these functions. In doing so,
 
 -   Make sure to set `by_date` and `by_content` arguments in `compare_directories()` the same way you pass them to the symmetric synchronization functions. By default, `by_date = TRUE` and `by_content = FALSE` in every sync function
--   
 
 ## Types of symmetric synchronization
 
