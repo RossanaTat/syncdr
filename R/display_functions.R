@@ -79,27 +79,16 @@ display_dir_tree <- function(path_left  = NULL,
                              recurse = TRUE) {
 
   if (!is.null(path_left)) {
-
     style_msgs(color_name = "pink",
                text = paste0("(\u2190)", "Left directory structure:\n"))
-
-    #cat(paste0("\033[1;38;5;170m", "(\u2190)", " Left directory structure:\n", "\033[0m"))
-    #fs::dir_tree(sync_status$left_path)
     fs::dir_tree(path_left)
   }
 
   if (!is.null(path_right)) {
-
     style_msgs(color_name = "pink",
                text = paste0("(\u2192)", "Right directory structure:\n"))
-
-    #cat(paste0("\033[1;38;5;170m", "(\u2192)", " Right directory structure :\n", "\033[0m"))
-
-    #fs::dir_tree(sync_status$right_path)
     fs::dir_tree(path_right)
-
   }
 
   invisible(TRUE)
-
 }

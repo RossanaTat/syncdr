@@ -34,8 +34,8 @@ full_symmetric_sync <- function(sync_status,
 
   if (verbose == TRUE) {
   # Display folder structure before synchronization
-  cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
-
+  style_msgs(color_name = "blue",
+               text = "Directories structure BEFORE synchronization:\n")
   display_dir_tree(path_left  = sync_status$left_path,
                    path_right = sync_status$right_path)
   }
@@ -76,14 +76,14 @@ full_symmetric_sync <- function(sync_status,
   if (verbose == TRUE) {
 
     # Display folder structure AFTER synchronization
-    cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
-
+    style_msgs(color_name = "blue",
+               text = "Directories structure AFTER synchronization:\n")
     display_dir_tree(path_left  = sync_status$left_path,
                      path_right = sync_status$right_path)
   }
 
-  cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
-
+  style_msgs(color_name = "green",
+             text = paste0("\u2714", " synchronized\n"))
   invisible(TRUE)
 
 }
@@ -124,8 +124,8 @@ partial_symmetric_sync_common_files <- function(sync_status,
 
   if(verbose == TRUE) {
 
-    cat("\033[1;31m\033[1mDirectory structure BEFORE synchronization:\033[0m\n")
-
+    style_msgs(color_name = "blue",
+               text = "Directories structure BEFORE synchronization:\n")
     display_dir_tree(path_left  = sync_status$left_path,
                      path_right = sync_status$right_path)
 
@@ -156,13 +156,13 @@ partial_symmetric_sync_common_files <- function(sync_status,
 
   if(verbose == TRUE) {
   # Display folder structure AFTER synchronization
-  cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
-
+  style_msgs(color_name = "blue",
+               text = "Directories structure AFTER synchronization:\n")
   display_dir_tree(path_left  = sync_status$left_path,
                    path_right = sync_status$right_path)}
 
-  cat(paste0("\033[1;32m", "\u2714", " synchronized", "\033[0m"), "\n")
-
+  style_msgs(color_name = "green",
+             text = paste0("\u2714", " synchronized\n"))
   invisible(TRUE)
 
 }
