@@ -2,7 +2,7 @@
 % Please edit documentation in R/display_functions.R
 \name{display_dir_tree}
 \alias{display_dir_tree}
-\title{Display tree structure of two directories under comparison}
+\title{Display tree structure of one (or two) directory}
 \usage{
 display_dir_tree(path_left = NULL, path_right = NULL, recurse = TRUE)
 }
@@ -17,5 +17,5 @@ display_dir_tree(path_left = NULL, path_right = NULL, recurse = TRUE)
 directories tree
 }
 \description{
-Display tree structure of two directories under comparison
+Display tree structure of one (or two) directory
 }
