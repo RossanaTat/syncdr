@@ -106,66 +106,6 @@ filter_non_common_files <- function(sync_status,
 
 }
 
-# This function is experimental and not working well -will be eventually removed!
-#' Hash content of files of two directories under comparison, say left and right
-#'
-#' @param left_path path of files to hash in left directory
-#' @param right_path path of files to hash in right directory
-#' @return list of hashes of files from left paths and hashes of files from right paths
-#' @keywords internal
-#'
-hash_files_contents <- function(left_path,
-                                right_path) {
-
-  # Initialize progress bars
-  pb_left <- cli::cli_progress_bar("Hashing left directory files",
-                                   total = length(left_path))
-  pb_right <- cli::cli_progress_bar("Hashing right directory files",
-                                    total = length(right_path))
-
-  # Start timing
-  start_time <- Sys.time()
-
-  # Compute hash for left files and update progress bar
-  left_hashes <- lapply(left_path, function(path) {
-
-    hash <- digest::digest(object = path,
-                           algo = "xxhash32",
-                           file = TRUE)
-    cli::cli_progress_step(pb_left,
-                           msg_done = {basename(path)})  # Update progress bar step by step
-    hash  # Return the computed hash
-
-  })
-  cli::cli_progress_done(pb_left)
-  cli::cli_alert_info("Left dir files hashed!")
-
-  right_hashes <- lapply(right_path, function(path) {
-
-    hash <- digest::digest(object = path,
-                           algo = "xxhash32",
-                           file = TRUE)
-    cli::cli_progress_step(pb_right,
-                           msg_done = {basename(path)})  # Update progress bar step by step
-    hash  # Return the computed hash
-
-    })
-  cli::cli_progress_done(pb_right)
-
-  # End timing
-  end_time <- Sys.time()
-  total_time <- end_time - start_time
-  total_time <- format(total_time, units = "secs")
-
-  cli::cli_alert_info("Right dir files hashed!")
-  cli::cli_h2("Tot. time spent = {total_time}")
-
-
-  return(list(
-    left_hash = unlist(left_hashes),
-    right_hash = unlist(right_hashes)
-  ))
-}
 
 #' Retrieve information about files in a directory
 #'
@@ -303,7 +243,52 @@ compare_file_contents <- function(path_left,
 #
 # }
 
-# ADDING NEW FUNCTIONS - Not sure about the functions below ####
+#' Hash files by content
+#' @param files_path character vector of paths of files to hash
+#' @param verbose logical; if TRUE display progress status of hashing. Default is FALSE
+#' @return hashes of files
+#' @keywords internal
+hash_files <- function(files_path,
+                       verbose = FALSE) {
+
+  if (verbose) {
+    # Initialize progress bars
+    pb <- cli::cli_progress_bar("Hashing files -by content",
+                                total = length(files_path))
+    # Start timing
+    start_time <- Sys.time()
+  }
+
+  # Compute hash for files
+  hashes <- lapply(files_path, function(path) {
+
+    hash <- digest::digest(path, algo = "xxhash32", file = TRUE)
+
+    if (verbose) {
+      cli::cli_progress_step(pb,
+                             msg_done = {basename(path)},
+                             spinner  = TRUE)
+    }
+    hash # cli always returns something, do not know how to silent this!
+    # So I am returning the hash which is at least better than the cli index which is returned if I do not specify hash here
+  })
+
+  if (verbose) {
+
+    # end cli progress
+    cli::cli_progress_done(pb)
+
+    # end timing & display it
+    end_time   <- Sys.time()
+    total_time <- format(end_time - start_time, units = "secs")
+    cli::cli_h2("Hashing completed! Total time spent: {.emph {total_time}}")
+
+  }
+
+  return(unlist(hashes))
+}
+
+#TRYING AN ALTERNATIVE FUNCTION BELOW
 
 #' Hash files in a directory based on content
 #'
@@ -315,7 +300,7 @@ compare_file_contents <- function(path_left,
 #'
 #' @importFrom fs dir_ls
 #' @importFrom digest digest
-#'
+#' @keywords internal
 hash_files_in_dir <- function(dir_path) {
 
   dir_files <- fs::dir_ls(dir_path, type = "file", recurse = TRUE)
@@ -372,93 +357,102 @@ search_duplicates <- function(dir_path,
     })
   }
 
-  else {cli::cli_alert_success("done! TO FIX THIS MSG")}
+  else {style_msgs(color_name = "green",
+                   text = "identification of duplicates completed!")}
 
   invisible(filtered_files)
 }
 
-# NEW HASH FILES FUNCTIONS
-
-#experimental function to understand how cli works #####
-hash_files_verbose <- function(files_path) {
-
-  # Initialize progress bars
-  pb <- cli::cli_progress_bar("Hashing files -by content",
-                               total = length(files_path))
-  # Start timing
-  start_time <- Sys.time()
-
-  # Compute hash for files
-  hashes <- lapply(files_path, function(path) {
-
-                     hash <- digest::digest(path, algo = "xxhash32", file = TRUE)
-
-                      cli::cli_progress_step(pb,
-                                             msg_done = {basename(path)},
-                                             spinner = TRUE)
-                      hash # cli always returns something, do not know how to silent this!
-                      # So I am returning the hash which is at least better than the cli index which is returned if I do not specify hash here
-                   })
 
 
-  # end cli progress
-  cli::cli_progress_done(pb)
-
-  # End timing & display it
-  end_time <- Sys.time()
-  total_time <- format(end_time - start_time, units = "secs")
-  #cli::cli_h3("Hashing completed! Total time spent: {total_time}")
-
-  return(unlist(hashes))
-
-}
-
-#' Hash files by content
-#' @param files_path character vector of paths of files to hash
-#' @param verbose logical; if TRUE display progress status of hashing. Default is FALSE
-#' @return hashes of files
-#' @keywords internal
-hash_files <- function(files_path,
-                       verbose = FALSE) {
-
-  if (verbose) {
-    # Initialize progress bars
-    pb <- cli::cli_progress_bar("Hashing files -by content",
-                                total = length(files_path))
-    # Start timing
-    start_time <- Sys.time()
-  }
-
-  # Compute hash for files
-  hashes <- lapply(files_path, function(path) {
-
-    hash <- digest::digest(path, algo = "xxhash32", file = TRUE)
-
-    if (verbose) {
-      cli::cli_progress_step(pb,
-                             msg_done = {basename(path)},
-                             spinner  = TRUE)
-    }
-    hash # cli always returns something, do not know how to silent this!
-    # So I am returning the hash which is at least better than the cli index which is returned if I do not specify hash here
-  })
-
-  if (verbose) {
-
-    # end cli progress
-    cli::cli_progress_done(pb)
-
-    # end timing & display it
-    end_time   <- Sys.time()
-    total_time <- format(end_time - start_time, units = "secs")
-    cli::cli_h2("Hashing completed! Total time spent: {.emph {total_time}}")
-
-  }
-
-  return(unlist(hashes))
-}
+#old function to understand how cli works #####
+# hash_files_verbose <- function(files_path) {
+#
+#   # Initialize progress bars
+#   pb <- cli::cli_progress_bar("Hashing files -by content",
+#                                total = length(files_path))
+#   # Start timing
+#   start_time <- Sys.time()
+#
+#   # Compute hash for files
+#   hashes <- lapply(files_path, function(path) {
+#
+#                      hash <- digest::digest(path, algo = "xxhash32", file = TRUE)
+#
+#                       cli::cli_progress_step(pb,
+#                                              msg_done = {basename(path)},
+#                                              spinner = TRUE)
+#                       hash # cli always returns something, do not know how to silent this!
+#                       # So I am returning the hash which is at least better than the cli index which is returned if I do not specify hash here
+#                    })
+#
+#
+#   # end cli progress
+#   cli::cli_progress_done(pb)
+#
+#   # End timing & display it
+#   end_time <- Sys.time()
+#   total_time <- format(end_time - start_time, units = "secs")
+#   #cli::cli_h3("Hashing completed! Total time spent: {total_time}")
+#
+#   return(unlist(hashes))
+#
+# }
 
 
-
-
-
+# This function is experimental and not working well -will be eventually removed!
+# hash_files_contents <- function(left_path,
+#                                 right_path) {
+#
+#   # Initialize progress bars
+#   pb_left <- cli::cli_progress_bar("Hashing left directory files",
+#                                    total = length(left_path))
+#   pb_right <- cli::cli_progress_bar("Hashing right directory files",
+#                                     total = length(right_path))
+#
+#   # Start timing
+#   start_time <- Sys.time()
+#
+#   # Compute hash for left files and update progress bar
+#   left_hashes <- lapply(left_path, function(path) {
+#
+#     hash <- digest::digest(object = path,
+#                            algo = "xxhash32",
+#                            file = TRUE)
+#     cli::cli_progress_step(pb_left,
+#                            msg_done = {basename(path)})  # Update progress bar step by step
+#     hash  # Return the computed hash
+#
+#   })
+#   cli::cli_progress_done(pb_left)
+#   cli::cli_alert_info("Left dir files hashed!")
+#
+#   right_hashes <- lapply(right_path, function(path) {
+#
+#     hash <- digest::digest(object = path,
+#                            algo = "xxhash32",
+#                            file = TRUE)
+#     cli::cli_progress_step(pb_right,
+#                            msg_done = {basename(path)})  # Update progress bar step by step
+#     hash  # Return the computed hash
+#
+#     })
+#   cli::cli_progress_done(pb_right)
+#
+#   # End timing
+#   end_time <- Sys.time()
+#   total_time <- end_time - start_time
+#   total_time <- format(total_time, units = "secs")
+#
+#   cli::cli_alert_info("Right dir files hashed!")
+#   cli::cli_h2("Tot. time spent = {total_time}")
+#
+#
+#   return(list(
+#     left_hash = unlist(left_hashes),
+#     right_hash = unlist(right_hashes)
+#   ))
+# }
+#
+#
+#

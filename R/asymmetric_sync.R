@@ -33,7 +33,6 @@ full_asym_sync_to_right <- function(sync_status,
   })
 
   # Display folder structure before synchronization
-
   if (verbose == TRUE) {
 
     style_msgs(color_name = "blue",

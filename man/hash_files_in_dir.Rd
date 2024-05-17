@@ -16,3 +16,4 @@ A data frame containing file paths and their corresponding SHA-256 hashes.
 \description{
 This function calculates hashes for files in a specified directory based on their content.
 }
+\keyword{internal}

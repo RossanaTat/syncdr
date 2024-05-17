@@ -1,10 +1,14 @@
-#' Apply custom style to text
+#' Apply Custom Style to Text
 #'
-#' @param color_name name of color to apply (only selected choices for now)
-#' @text test string to style
-#' @return printed text
+#' This function applies a custom color and bold style to a given text string.
+#'
+#' @param color_name Character. Name of the color to apply. Each color name is associated with a specifically chosen color code. Available options for now are "pink", "blue", "purple", and "green".
+#' @param text Character. The text string to which the style will be applied.
+#' @return The styled text is printed to the console.
 #'
 #' @keywords internal
+#' @examples
+#' style_msgs("blue", "This is a styled message.")
 #'
 style_msgs <- function(color_name,
                        #color_code,
@@ -34,13 +38,11 @@ style_msgs <- function(color_name,
   styled_text <- color_fun(text) |>
     cli::style_bold()
 
-  #todo: apply style
+  #todo: apply more styles
 
   # Return styled text
   cat(styled_text)
 }
 
 
-# Example usage:
-# style_msgs(color_name = "purple", text = "ciao! this is a test")
 

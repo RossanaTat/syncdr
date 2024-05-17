@@ -1,8 +1,8 @@
 ---
-title: "symmetric-synchronization"
+title: "Symmetric Synchronization"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{symmetric-synchronization}
+  %\VignetteIndexEntry{Symmetric Synchronization}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -67,7 +67,7 @@ Similar to its asymmetric counterpart, `syncdr` enables the execution of ***spec
 |                                 |                                                                                                                                                                     |                                                                                       |
 |                                 |     -   If modification dates/contents are the same, nothing is done                                                                                                |                                                                                       |
 |                                 |                                                                                                                                                                     |                                                                                       |
-|                                 | -    if `by_content = TRUE` only: ???                                                                                                                               |                                                                                       |
+|                                 | -   if `by_content = TRUE` only: ???                                                                                                                                |                                                                                       |
 +---------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------+
 
 : Types of symmetric synchronization

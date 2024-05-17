@@ -82,13 +82,16 @@ display_dir_tree <- function(path_left  = NULL,
     style_msgs(color_name = "pink",
                text = paste0("(\u2190)", "Left directory structure:\n"))
     fs::dir_tree(path_left)
+
   }
 
   if (!is.null(path_right)) {
     style_msgs(color_name = "pink",
                text = paste0("(\u2192)", "Right directory structure:\n"))
     fs::dir_tree(path_right)
+
   }
+
 
   invisible(TRUE)
 }
