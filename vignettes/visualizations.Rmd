@@ -22,7 +22,7 @@ When comparing your directories, say `left` and `right`, use `display_sync_statu
 
 As with any function from `syncdr`, you will have to call `compare_directories()` first:
 
-### Comparing directories by date
+### Example when comparing directories by date & content
 
 ```{r include = FALSE}
 
@@ -35,9 +35,12 @@ right <- syncdr.env$right
 
 ```
 
+
 ```{r}
+
 sync_status <- compare_directories(left, 
-                                   right)
+                                   right,
+                                   by_content = TRUE)
 
 ```
 
@@ -48,32 +51,6 @@ sync_status <- compare_directories(left,
 display_sync_status(sync_status$common_files)
 display_sync_status(sync_status$non_common_files)
 
-```
-
-### Comparing directories by date *and* content
-
-```{r}
-
-sync_status <- compare_directories(left, 
-                                   right,
-                                   by_content = TRUE)
-
-display_sync_status(sync_status$common_files)
-display_sync_status(sync_status$non_common_files)
-
-```
-
-### Comparing directories by content
-
-```{r}
-
-sync_status <- compare_directories(left, 
-                                   right,
-                                   by_date    = FALSE,
-                                   by_content = TRUE)
-
-display_sync_status(sync_status$common_files)
-display_sync_status(sync_status$non_common_files)
 ```
 
 ## Visualize directories structure

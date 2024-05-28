@@ -15,7 +15,7 @@ test_that("compare_directories throws an error with invalid dir
 })
 
 # Test output class and content -by date
-test_that("compare directories retrun sync status") {
+test_that("compare directories retrun sync status", {
 
   compare_directories(left, right) |>
     expect_no_error()
@@ -51,7 +51,7 @@ test_that("compare directories retrun sync status") {
   names(res_by_content) |>
     expect_equal(names(res_by_date))
 
-}
+})
 
 # TO COMPLETE ####
 

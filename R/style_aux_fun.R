@@ -8,7 +8,7 @@
 #'
 #' @keywords internal
 #' @examples
-#' style_msgs("blue", "This is a styled message.")
+#' syncdr:::style_msgs("blue", "This is a styled message.")
 #'
 style_msgs <- function(color_name,
                        #color_code,
