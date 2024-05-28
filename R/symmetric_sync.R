@@ -32,6 +32,11 @@ full_symmetric_sync <- function(sync_status,
     inherits(sync_status, "syncdr_status")
   })
 
+  # Inform user that sync by content only is not active and stop
+  if (by_date == FALSE & by_content == TRUE) {
+    cli::cli_abort(message = "Symmetric synchronization by content only is not active -no action will be executed, directories unchanged")
+  }
+
   if (verbose == TRUE) {
   # Display folder structure before synchronization
   style_msgs(color_name = "blue",
@@ -121,6 +126,11 @@ partial_symmetric_sync_common_files <- function(sync_status,
   stopifnot(expr = {
     inherits(sync_status, "syncdr_status")
   })
+
+  # Inform user that sync by content only is not active
+  if (by_date == FALSE & by_content == TRUE) {
+    cli::cli_abort(message = "Symmetric synchronization by content only is not active -no action will be executed, directories unchanged")
+  }
 
   if(verbose == TRUE) {
 
