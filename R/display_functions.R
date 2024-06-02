@@ -1,10 +1,19 @@
 #' Display status of synchronization/comparison info between two directories in DT table
 #'
 #' @param sync_status_files object of `compare_directories()` output, either common_files or non_common_files
+#' @param left_path A character string specifying the path to left directory.
+#' @param right_path A character string specifying the path to right directory.
 #' @return DT table showing the comparison between the two directories
 #'         together with their synchronization status
 #' @export
-display_sync_status <- function(sync_status_files) {
+display_sync_status <- function(sync_status_files,
+                                left_path,
+                                right_path) {
+
+  # clean display of paths
+  sync_status_files <- sync_status_files |>
+    fmutate(path_left = gsub(left_path, "", path_left)) |>
+    fmutate(path_right = gsub(right_path, "", path_right))
 
   # Build DT table
   DT::datatable(sync_status_files,

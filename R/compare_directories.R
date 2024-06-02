@@ -113,14 +113,14 @@ compare_directories <- function(left_path,
     #fselect(path_left, path_right, is_diff, sync_status)
   }
 
-  # clean display of paths
-  common_files <- common_files |>
-    fmutate(path_left = gsub(left_path, "", path_left)) |>
-    fmutate(path_right = gsub(right_path, "", path_right))
-
-  non_common_files <- non_common_files |>
-    fmutate(path_left = gsub(left_path, "", path_left)) |>
-    fmutate(path_right = gsub(right_path, "", path_right))
+  # # clean display of paths
+  # common_files <- common_files |>
+  #   fmutate(path_left = gsub(left_path, "", path_left)) |>
+  #   fmutate(path_right = gsub(right_path, "", path_right))
+  #
+  # non_common_files <- non_common_files |>
+  #   fmutate(path_left = gsub(left_path, "", path_left)) |>
+  #   fmutate(path_right = gsub(right_path, "", path_right))
 
   # object to return
   sync_status = list(
