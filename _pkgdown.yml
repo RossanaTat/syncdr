@@ -28,24 +28,24 @@ reference:
 - title: "utils"
 contents:
   - toy_dirs
-- title: "workhorse function"
+- title: "workhorse-function"
   contents:
   - compare_directories
 - title: "visualizations"
   contents:
   - display_sync_status
   - display_dir_tree
-- title: "asymmetric synchronization"
+- title: "asymmetric-synchronization"
   contents:
   - full_asym_sync_to_right
   - common_files_asym_sync_to_right
   - update_missing_files_asym_to_right
   - partial_update_missing_files_asym_to_right
-- title: "symmetric synchronization"
+- title: "symmetric-synchronization"
   contents:
   - full_symmetric_sync
   - partial_symmetric_sync_common_files
-- title: "auxiliary functions"
+- title: "auxiliary-functions"
   contents:
   - search_duplicates
 
