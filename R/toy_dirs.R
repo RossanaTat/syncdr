@@ -23,18 +23,6 @@ toy_dirs <- function(verbose = FALSE) {
   left  <- fs::path_temp("left")
   right <- fs::path_temp("right")
 
-  # Create empty env
-  #sync.env <-  new.env(parent = emptyenv())
-
-  # Check if sync_env already exists
-  # if (exists("sync.env", inherits = FALSE)) {
-  #   # If sync_env exists, clear it
-  #   rm(list = ls(envir = sync.env), envir = sync.env)
-  # } else {
-  #   # If sync_env does not exist, create it
-  #   sync.env <- new.env(parent = emptyenv())
-  # }
-
   set.seed(1123)
 
   # Combine all combinations using expand.grid and then create temporal object
