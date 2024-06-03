@@ -1,4 +1,27 @@
 url: https://rossanatat.github.io/syncdr/
 template:
   bootstrap: 5
+  bottswatch: cosmo
+  bslib:
+    primary: "#e4c1f9"
+
+navbar:
+  bg: primary
+  structure:
+    right:
+    - github
+  components:
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/RossanaTat/syncdr
+
+articles:
+- title: Usage
+  navbar: ~
+  contents:
+  - visualizations
+  - asymmetric-synchronization
+  - symmetric-synchronization
+  - auxiliary-functions
+
 
