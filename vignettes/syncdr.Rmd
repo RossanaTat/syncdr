@@ -165,14 +165,18 @@ For example, let's visualize the sync status of common files in left and right d
 
 ```{r}
 
-display_sync_status(sync_status_date$common_files)
+display_sync_status(sync_status_date$common_files,
+                    left_path  = left,
+                    right_path = right)
 ```
 
 or let's display the sync status of non common files:
 
 ```{r}
 
-display_sync_status(sync_status_date$non_common_files)
+display_sync_status(sync_status_date$non_common_files,
+                    left_path  = left,
+                    right_path = right)
 ```
 
 ### Step 3: Synchronize directories

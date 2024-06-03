@@ -19,10 +19,6 @@ If the sub(directory) where the file is located does not exist in destination fo
 and the file will be copied at the top level}
 
 \item{verbose}{logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
-
-\item{by_date}{logical, TRUE by default}
-
-\item{by_content}{logical, FALSE by default}
 }
 \value{
 print "synchronized"

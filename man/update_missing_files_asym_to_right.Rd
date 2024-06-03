@@ -18,10 +18,6 @@ If recurse is TRUE: when copying a file from source folder to destination folder
 If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 and the file will be copied at the top level
 @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
-
-\item{by_date}{logical, TRUE by default}
-
-\item{by_content}{logical, FALSE by default}
 }
 \value{
 print "synchronized"

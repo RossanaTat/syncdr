@@ -166,13 +166,11 @@ if(verbose == TRUE) {
 #'    - delete in right those files that are only in right (i.e., files 'missing in left')
 #'
 #' @param sync_status object of class 'syncdr_status' with info on sync status and comparison of directories
-#' @param by_date logical, TRUE by default
-#' @param by_content logical, FALSE by default
 #' @param recurse logical, TRUE by default.
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
-#'  @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
+#' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #'
 #' @return print "synchronized"
 #' @export
@@ -234,8 +232,6 @@ update_missing_files_asym_to_right <- function(sync_status,
 #'    - keep in right those files that are only in right (i.e., files 'missing in left')
 #'
 #' @param sync_status object of class 'syncdr_status' with info on sync status and comparison of directories
-#' @param by_date logical, TRUE by default
-#' @param by_content logical, FALSE by default
 #' @param recurse logical, TRUE by default.
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
