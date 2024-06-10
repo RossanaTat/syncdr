@@ -1,6 +1,8 @@
-test_that("toy_dirs creates syncdr.env", {
+# Create syncdr.env with toy dirs and files
+toy_dirs()
 
-  toy_dirs()
+# Test toy_dirs() function ####
+test_that("toy_dirs creates syncdr.env", {
 
   # Check if the environment exists
   expect_true(exists("syncdr.env",
@@ -24,4 +26,49 @@ test_that("toy_dirs creates syncdr.env", {
                             recurse = TRUE)) > 0)
   expect_true(length(dir_ls(right,
                             recurse = TRUE)) > 0)
+})
+
+# Test copy_temp_environment function ####
+test_that("copy original env works", {
+
+  # Copy the original environment
+  temp_env <- copy_temp_environment()
+
+  # Getpaths to the copied directories
+  temp_left  <- temp_env$left
+  temp_right <- temp_env$right
+
+  # Check that the directories exist
+  expect_true(fs::dir_exists(temp_left))
+  expect_true(fs::dir_exists(temp_right))
+
+  # Check that the directories are not empty
+  expect_true(length(
+    fs::dir_ls(temp_left, recurse = TRUE)) > 0
+    )
+
+  expect_true(length(
+    fs::dir_ls(temp_right, recurse = TRUE)) > 0
+    )
+
+  # Compare file structures and contents
+  original_env  <- get("syncdr.env",
+                       envir = .GlobalEnv)
+  original_left <- original_env$left
+  original_right <- original_env$right
+
+  original_files_left <- dir_ls(original_left,
+                                recurse = TRUE)
+  copied_files_left  <- dir_ls(temp_left,
+                               recurse = TRUE)
+
+  expect_equal(basename(original_files_left),
+               basename(copied_files_left))
+
+  original_files_right <- dir_ls(original_right,
+                                 recurse = TRUE)
+  copied_files_right <- dir_ls(temp_right,
+                               recurse = TRUE)
+  expect_equal(basename(original_files_right),
+               basename(copied_files_right))
 })
