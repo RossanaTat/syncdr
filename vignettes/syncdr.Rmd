@@ -20,8 +20,8 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-devtools::load_all(".")
-#library(syncdr)
+#devtools::load_all(".")
+library(syncdr)
 ```
 
 ## Why {syncdr}?

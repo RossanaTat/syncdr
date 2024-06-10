@@ -16,9 +16,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
-
-#library(syncdr)
-devtools::load_all(".")
+library(syncdr)
+#devtools::load_all(".")
 
 # Create syncdr.env
 toy_dirs()
