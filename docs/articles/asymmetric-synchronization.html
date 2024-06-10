@@ -84,21 +84,11 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co">#library(syncdr)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">syncdr</span></span></span>
-<span><span class="co">#&gt; Warning: package 'collapse' was built under R version 4.3.3</span></span>
-<span><span class="co">#&gt; collapse 2.0.14, see ?`collapse-package` or ?`collapse-documentation`</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'collapse'</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     D</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rossanatat.github.io/syncdr/">syncdr</a></span><span class="op">)</span></span>
+<span><span class="co">#devtools::load_all(".")</span></span>
 <span></span>
 <span><span class="co"># Create syncdr.env</span></span>
-<span><span class="fu"><a href="../reference/toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">syncdr.env</span> <span class="op">=</span><span class="fu"><a href="../reference/toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Get left and right directories' paths </span></span>
 <span><span class="va">left</span>  <span class="op">&lt;-</span> <span class="va">syncdr.env</span><span class="op">$</span><span class="va">left</span></span>
@@ -235,54 +225,54 @@ synchronization</p>
 <span>                                   right_path <span class="op">=</span> <span class="va">right</span>,</span>
 <span>                                   by_content <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                                   verbose    <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-29</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B1.Rds <span style="color: #B2B2B2;">[14ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-23</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B1.Rds <span style="color: #B2B2B2;">[7ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-29</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-23</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B2.Rds <span style="color: #B2B2B2;">[10ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-29</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C1.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-23</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-29</span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-23</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-29</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C3.Rds <span style="color: #B2B2B2;">[9ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-23</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C3.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-29</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D1.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-23</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-29</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-23</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D2.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Hashing completed! Total time spent: </span><span style="font-weight: bold; font-style: italic;">0.1048529 secs</span> ──</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Hashing completed! Total time spent: </span><span style="font-weight: bold; font-style: italic;">0.08914518 secs</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-75</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B1.Rds <span style="color: #B2B2B2;">[6ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-69</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-75</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-69</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B2.Rds <span style="color: #B2B2B2;">[6ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-75</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C1.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-69</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-75</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-69</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C2.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-75</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C3.Rds <span style="color: #B2B2B2;">[6ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-69</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C3.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-75</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D1.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-69</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-75</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-69</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D2.Rds <span style="color: #B2B2B2;">[6ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Hashing completed! Total time spent: </span><span style="font-weight: bold; font-style: italic;">0.08713198 secs</span> ──</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Hashing completed! Total time spent: </span><span style="font-weight: bold; font-style: italic;">0.07288003 secs</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/left</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/left</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -300,7 +290,7 @@ synchronization</p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/right</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/right</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
 <span><span class="co">#&gt; │   ├── B1.Rds</span></span>
@@ -317,14 +307,15 @@ synchronization</p>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt;     ├── E1.Rds</span></span>
 <span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
-<span></span>
+<span><span class="co">#&gt;     └── E3.Rds</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/full_asym_sync_to_right.html">full_asym_sync_to_right</a></span><span class="op">(</span>sync_status <span class="op">=</span> <span class="va">sync_status</span>,</span>
 <span>                        by_content  <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                        verbose     <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure BEFORE synchronization:</span></span></span>
 <span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/left</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/left</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -342,7 +333,7 @@ synchronization</p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/right</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/right</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
 <span><span class="co">#&gt; │   ├── B1.Rds</span></span>
@@ -362,7 +353,7 @@ synchronization</p>
 <span><span class="co">#&gt;     └── E3.Rds</span></span>
 <span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure AFTER synchronization:</span></span></span>
 <span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/left</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/left</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -380,7 +371,7 @@ synchronization</p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/right</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/right</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -398,85 +389,86 @@ synchronization</p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00FFAF; font-weight: bold;">✔ synchronized</span></span></span>
-<span><span class="co"><span style="color: #00FFAF; font-weight: bold;">#&gt; </span></span></span>
-<span></span>
+<span><span class="co"><span style="color: #00FFAF; font-weight: bold;">#&gt; </span></span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># With leader/master directory being the right directory </span></span>
 <span><span class="va">sync_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compare_directories.html">compare_directories</a></span><span class="op">(</span>left_path  <span class="op">=</span> <span class="va">right</span>,  <span class="co">#notice args changing here</span></span>
 <span>                                   right_path <span class="op">=</span> <span class="va">left</span>,</span>
 <span>                                   by_content <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                                   verbose    <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-140</span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-134</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> A1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-140</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> A2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-134</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> A2.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-140</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> A3.Rds <span style="color: #B2B2B2;">[8ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-134</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> A3.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-140</span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-134</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B1.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-140</span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-134</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-140</span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-134</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B3.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-140</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-134</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C1.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-140</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C2.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-134</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-140</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C3.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-134</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C3.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-140</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-134</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D1.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-140</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D2.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-134</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Hashing completed! Total time spent: </span><span style="font-weight: bold; font-style: italic;">0.11077 secs</span> ──</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Hashing completed! Total time spent: </span><span style="font-weight: bold; font-style: italic;">0.1255531 secs</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-210</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> A1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-204</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> A1.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-210</span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-204</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> A2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-210</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> A3.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-204</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> A3.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-210</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B1.Rds <span style="color: #B2B2B2;">[6ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-204</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-210</span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-204</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B2.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-210</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B3.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-204</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> B3.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-210</span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-204</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-210</span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-204</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C2.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-210</span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-204</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> C3.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-210</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D1.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-204</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D1.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ⠙ cli-27269-210</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D2.Rds <span style="color: #B2B2B2;">[4ms]</span></span></span>
+<span><span class="co">#&gt; ⠙ cli-27269-204</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> D2.Rds <span style="color: #B2B2B2;">[5ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Hashing completed! Total time spent: </span><span style="font-weight: bold; font-style: italic;">0.1071749 secs</span> ──</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Hashing completed! Total time spent: </span><span style="font-weight: bold; font-style: italic;">0.1378109 secs</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/right</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/right</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -494,7 +486,7 @@ synchronization</p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/left</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/left</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -510,14 +502,15 @@ synchronization</p>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
 <span><span class="co">#&gt; │   ├── D1.Rds</span></span>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span></span>
+<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/full_asym_sync_to_right.html">full_asym_sync_to_right</a></span><span class="op">(</span>sync_status <span class="op">=</span> <span class="va">sync_status</span>,      </span>
 <span>                        by_content  <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                        verbose     <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure BEFORE synchronization:</span></span></span>
 <span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/right</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/right</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -535,7 +528,7 @@ synchronization</p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/left</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/left</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -554,7 +547,7 @@ synchronization</p>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure AFTER synchronization:</span></span></span>
 <span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/right</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/right</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -572,7 +565,7 @@ synchronization</p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/left</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/left</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -593,7 +586,7 @@ synchronization</p>
 <span><span class="co"><span style="color: #00FFAF; font-weight: bold;">#&gt; </span></span></span></code></pre></div>
 <p><strong>2 - Partial asymmetric synchronization -common
 files:</strong></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">sync_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compare_directories.html">compare_directories</a></span><span class="op">(</span>left_path  <span class="op">=</span> <span class="va">left</span>,</span>
 <span>                                   right_path <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span>
@@ -602,7 +595,7 @@ files:</strong></p>
 <span>                                verbose     <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure BEFORE synchronization:</span></span></span>
 <span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_left_1718034424</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_left_1718048039</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -620,7 +613,7 @@ files:</strong></p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_right_1718034424</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_right_1718048039</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -639,7 +632,7 @@ files:</strong></p>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure AFTER synchronization:</span></span></span>
 <span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_left_1718034424</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_left_1718048039</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -657,7 +650,7 @@ files:</strong></p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_right_1718034424</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_right_1718048039</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -678,7 +671,7 @@ files:</strong></p>
 <span><span class="co"><span style="color: #00FFAF; font-weight: bold;">#&gt; </span></span></span></code></pre></div>
 <p><strong>3 - Full asymmetric synchronization -non common
 files:</strong></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">sync_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compare_directories.html">compare_directories</a></span><span class="op">(</span>left_path  <span class="op">=</span> <span class="va">left</span>,</span>
 <span>                                   right_path <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span>
@@ -687,7 +680,7 @@ files:</strong></p>
 <span>                                   verbose     <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure BEFORE synchronization:</span></span></span>
 <span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_left_1718034425</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_left_1718048039</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -705,7 +698,7 @@ files:</strong></p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_right_1718034425</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_right_1718048039</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -724,7 +717,7 @@ files:</strong></p>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure AFTER synchronization:</span></span></span>
 <span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_left_1718034425</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_left_1718048039</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -742,7 +735,7 @@ files:</strong></p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_right_1718034425</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_right_1718048039</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -763,7 +756,7 @@ files:</strong></p>
 <span><span class="co"><span style="color: #00FFAF; font-weight: bold;">#&gt; </span></span></span></code></pre></div>
 <p><strong>4 - Partial asymmetric synchronization -non common
 files:</strong></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">sync_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compare_directories.html">compare_directories</a></span><span class="op">(</span>left_path  <span class="op">=</span> <span class="va">left</span>,</span>
 <span>                                   right_path <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span>
@@ -772,7 +765,7 @@ files:</strong></p>
 <span>                                           verbose     <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure BEFORE synchronization:</span></span></span>
 <span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_left_1718034425</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_left_1718048040</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -790,7 +783,7 @@ files:</strong></p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_right_1718034425</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_right_1718048040</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -809,7 +802,7 @@ files:</strong></p>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure AFTER synchronization:</span></span></span>
 <span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_left_1718034425</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_left_1718048040</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -827,7 +820,7 @@ files:</strong></p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpRtvIMm/copy_right_1718034425</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpahFmWv/copy_right_1718048040</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
