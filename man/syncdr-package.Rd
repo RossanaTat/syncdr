@@ -8,6 +8,13 @@
 \description{
 An R package for directory comparison and updates. It provides tools to facilitate file handling, comparison and synchronization of directories.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://rossanatat.github.io/syncdr/}
+}
+
+}
 \author{
 \strong{Maintainer}: R.Andres Castaneda \email{acastanedaa@worldbank.org}
 

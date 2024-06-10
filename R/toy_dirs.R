@@ -123,3 +123,45 @@ toy_dirs <- function(verbose = FALSE) {
   invisible(TRUE)
 
 }
+
+#' Create a temporary copy of syncdr.env to test functions
+#'
+#' This function creates a copy of the original environment, allowing tests to be executed without modifying the original environment.
+#'
+#' @return A list of temporary paths `left` and `right`.
+#' @keywords internal
+#' @examples
+#' temp_env <- syncdr:::copy_temp_environment()
+#' print(temp_env$left)
+#' print(temp_env$right)
+copy_temp_environment <- function() {
+
+  # Ensure the original environment is created
+  if (!exists("syncdr.env")) {
+    cli::cli_abort(message = "Original environment not found. Please run toy_dirs() first.")
+  }
+
+  original_left  <- syncdr.env$left
+  original_right <- syncdr.env$right
+
+  # Create new temporary directories
+  temp_left  <- fs::path_temp(paste0("copy_left_",
+                                 as.integer(Sys.time())))
+  temp_right <- fs::path_temp(paste0("copy_right_",
+                                 as.integer(Sys.time())))
+
+  fs::dir_create(temp_left)
+  fs::dir_create(temp_right)
+
+  # Copy the contents of the original directories to the new temporary directories
+  fs::dir_copy(original_left,
+           temp_left,
+           overwrite = TRUE)
+  fs::dir_copy(original_right,
+           temp_right,
+           overwrite = TRUE)
+
+  return(list(left = temp_left,
+              right = temp_right))
+}
+

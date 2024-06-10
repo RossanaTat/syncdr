@@ -1,9 +1,12 @@
 
 # Test copy to right function ####
 
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+# Original paths
+left  <- syncdr.env$left
+right <- syncdr.env$right
+
+# Copy original paths to test functions on copies
+
 
 # Get sync status object (from compare_directories)
 sync_status <- compare_directories(left_path  = left,
