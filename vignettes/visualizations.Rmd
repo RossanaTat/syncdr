@@ -13,7 +13,6 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-library(syncdr)
 ```
 
 ## Visualize synchronization status
@@ -24,10 +23,12 @@ As with any function from `syncdr`, you will have to call `compare_directories()
 
 ### Example when comparing directories by date & content
 
-```{r include = FALSE}
+```{r setup}
+
+library(syncdr)
 
 # Create syncdr env with left and right directories
-syncdr.env <- toy_dirs()
+toy_dirs()
 
 # Get left and right directories' paths 
 left  <- syncdr.env$left

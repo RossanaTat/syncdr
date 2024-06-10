@@ -20,10 +20,10 @@ library(syncdr)
 
 To see some examples, let's start with `toy_dirs()`, and generate two toy directories.
 
-```{r}
+```{r setup}
 
-# Create syncdr env with left and right directories
-syncdr.env <- toy_dirs()
+# Create syncdr.env with left and right directories
+toy_dirs()
 
 # Get left and right directories' paths 
 left  <- syncdr.env$left

@@ -13,14 +13,20 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+```
+
+```{r setup}
+
 library(syncdr)
 
-syncdr.env <- toy_dirs()
+# Create syncdr.env
+toy_dirs()
 
 # Get left and right directories' paths 
 left  <- syncdr.env$left
 right <- syncdr.env$right
 ```
+
 
 This article covers functions designed for ***asymmetric synchronization*** between two directories.
 
@@ -103,7 +109,7 @@ full_asym_sync_to_right(sync_status = sync_status,
 ```{r include=FALSE}
 
 
-syncdr.env.2 <- toy_dirs()
+syncdr.env.2 <- copy_temp_environment()
 
 # Get left and right directories' paths 
 left  <- syncdr.env.2$left
@@ -123,7 +129,7 @@ common_files_asym_sync_to_right(sync_status = sync_status,
 
 ```{r include=FALSE}
 
-syncdr.env.3 <- toy_dirs()
+syncdr.env.3 <- copy_temp_environment()
 
 # Get left and right directories' paths 
 left  <- syncdr.env.3$left
@@ -145,7 +151,7 @@ update_missing_files_asym_to_right(sync_status = sync_status,
 
 ```{r include=FALSE}
 
-syncdr.env.4 <- toy_dirs()
+syncdr.env.4 <- copy_temp_environment()
 
 # Get left and right directories' paths 
 left  <- syncdr.env.4$left

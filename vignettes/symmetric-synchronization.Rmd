@@ -17,6 +17,13 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(syncdr)
+
+# Create syncdr.env
+toy_dirs()
+
+# Get left and right directories' paths 
+left  <- syncdr.env$left
+right <- syncdr.env$right
 ```
 
 This article covers functions designed for symmetric synchronization between two directories.
@@ -81,16 +88,6 @@ As with asymmetric synchronization, also here you have the option to enable verb
 
 **When comparing directories by date and content:**
 
-```{r include = FALSE}
-
-syncdr.env <- toy_dirs()
-
-# Get left and right directories' paths 
-left  <- syncdr.env$left
-right <- syncdr.env$right
-
-```
-
 ```{r}
 
 sync_status <- compare_directories(left_path  = left,
@@ -106,7 +103,7 @@ full_symmetric_sync(sync_status,
 
 ```{r include = FALSE}
 
-syncdr.env.1 <- toy_dirs()
+syncdr.env.1 <- copy_temp_environment()
 
 # Get left and right directories' paths 
 left  <- syncdr.env.1$left
@@ -127,7 +124,7 @@ full_symmetric_sync(sync_status,
 
 ```{r include = FALSE}
 
-syncdr.env.2 <- toy_dirs()
+syncdr.env.2 <- copy_temp_environment()
 
 # Get left and right directories' paths 
 left  <- syncdr.env.2$left
