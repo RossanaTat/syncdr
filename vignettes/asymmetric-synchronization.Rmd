@@ -15,9 +15,10 @@ knitr::opts_chunk$set(
 
 ```
 
-```{r }
+```{r}
 
-library(syncdr)
+#library(syncdr)
+devtools::load_all(".")
 
 # Create syncdr.env
 toy_dirs()
@@ -110,7 +111,7 @@ full_asym_sync_to_right(sync_status = sync_status,
 ```{r include=FALSE}
 
 
-syncdr.env.2 <- copy_temp_environment()
+syncdr.env.2 <- syncdr:::copy_temp_environment()
 
 # Get left and right directories' paths 
 left  <- syncdr.env.2$left

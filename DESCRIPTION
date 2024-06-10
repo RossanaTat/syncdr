@@ -22,7 +22,6 @@ LazyData: true
 Imports: 
     collapse,
     data.table,
-    syncdr,
     digest,
     cli,
     DT,
