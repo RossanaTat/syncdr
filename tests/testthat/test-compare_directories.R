@@ -3,9 +3,8 @@
 toy_dirs()
 
 # Copy temp env
-syncdr_temp <- copy_temp_environment()
-left  <- syncdr_temp$left
-right <- syncdr_temp$right
+left  <- syncdr.env$left
+right <- syncdr.env$right
 
 # Test error when invalid paths
 test_that("compare_directories throws an error with invalid dir
@@ -17,7 +16,7 @@ test_that("compare_directories throws an error with invalid dir
   expect_error(compare_directories(invalid_path, invalid_path))
 })
 
-# Test output class and content -by date
+# Test output class and content
 test_that("compare directories retrun sync status", {
 
   compare_directories(left, right) |>
@@ -55,6 +54,4 @@ test_that("compare directories retrun sync status", {
     expect_equal(names(res_by_date))
 
 })
-
-
 

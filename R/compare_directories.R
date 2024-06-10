@@ -24,6 +24,7 @@ library(collapse)
 #' @param by_content Logical. If TRUE, compares directories based on the hashed content of common files. Default is FALSE
 #' @param recurse If TRUE, fully recurses through subdirectories. If a positive integer, specifies the number of levels to recurse.
 #' @param verbose Logical. If TRUE display additional info on the comparison process. Default is FALSE
+#' @param short_paths Logical. If TRUE, remove whole path from output for cleaner display. Default is FALSE
 #'
 #' @return A list of class "syncdr_status" containing the following elements:
 #'   - Non-common files: Paths and synchronization status of files exclusive to either directory.
@@ -34,10 +35,11 @@ library(collapse)
 #' @export
 compare_directories <- function(left_path,
                                 right_path,
-                                recurse    = TRUE,
-                                by_date    = TRUE,
-                                by_content = FALSE,
-                                verbose    = FALSE) {
+                                recurse     = TRUE,
+                                by_date     = TRUE,
+                                by_content  = FALSE,
+                                verbose     = FALSE,
+                                short_paths = FALSE) {
 
   # Check directory paths
   stopifnot(exprs = {
@@ -113,14 +115,16 @@ compare_directories <- function(left_path,
     #fselect(path_left, path_right, is_diff, sync_status)
   }
 
-  # # clean display of paths
-  # common_files <- common_files |>
-  #   fmutate(path_left = gsub(left_path, "", path_left)) |>
-  #   fmutate(path_right = gsub(right_path, "", path_right))
-  #
-  # non_common_files <- non_common_files |>
-  #   fmutate(path_left = gsub(left_path, "", path_left)) |>
-  #   fmutate(path_right = gsub(right_path, "", path_right))
+  if (short_paths) {
+    # clean display of paths
+    common_files <- common_files |>
+      fmutate(path_left = gsub(left_path, "", path_left)) |>
+      fmutate(path_right = gsub(right_path, "", path_right))
+
+    non_common_files <- non_common_files |>
+      fmutate(path_left = gsub(left_path, "", path_left)) |>
+      fmutate(path_right = gsub(right_path, "", path_right))
+  }
 
   # object to return
   sync_status = list(
