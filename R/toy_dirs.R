@@ -128,7 +128,7 @@ toy_dirs <- function(verbose = FALSE) {
 #' This function creates a copy of the original environment, allowing tests to be executed without modifying the original environment.
 #'
 #' @return A list of temporary paths `left` and `right`.
-#' @keywords internal
+#' @export
 copy_temp_environment <- function() {
 
   # Ensure the original environment is created

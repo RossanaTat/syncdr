@@ -12,4 +12,3 @@ A list of temporary paths \code{left} and \code{right}.
 \description{
 This function creates a copy of the original environment, allowing tests to be executed without modifying the original environment.
 }
-\keyword{internal}
