@@ -6,9 +6,12 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Create sync env with temp directories
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+toy_dirs()
+
+# Copy temp env
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
 
 # Get sync status object (from compare_directories)
 sync_status_date      <- compare_directories(left_path  = left,
@@ -91,13 +94,10 @@ test_that("full asym sync to right -by date only, common files", {
 # ~~~~~~~~~ Update by date and content ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# empty env first
-rm(list = ls(sync.env), envir = sync.env)
-
 # restart
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
 
 # Get sync status object (from compare_directories)
 sync_status_date_cont <- compare_directories(left_path  = left,
@@ -167,13 +167,11 @@ test_that("full asym sync to right -by date & cont, common files", {
 # ~~~~~~~~~ Update by content only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# empty env first
-rm(list = ls(sync.env), envir = sync.env)
-
 # restart
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
+
 
 # Get sync status object (from compare_directories)
 sync_status_cont <- compare_directories(left_path  = left,
@@ -249,13 +247,11 @@ test_that("full asym sync to right -by content only, common files", {
 # ~~~~~~~~~ Update by date only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# empty env first
-rm(list = ls(sync.env), envir = sync.env)
-
 # restart
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
+
 
 # Get sync status object (from compare_directories)
 sync_status_date      <- compare_directories(left_path  = left,
@@ -294,13 +290,11 @@ test_that("common files asym sync to right works -by date", {
 # ~~~~~~~~~ Update by date and content  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# empty env first
-rm(list = ls(sync.env), envir = sync.env)
-
 # restart
-sync.env <- toy_dirs()
-left     <- sync.env$left
-right    <- sync.env$right
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
+
 
 # Get sync status object (from compare_directories)
 sync_status      <- compare_directories(left_path  = left,
@@ -341,13 +335,11 @@ test_that("common files asym sync to right works -by date & content", {
 # ~~~~~~~~~ Update by content only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# empty env first
-rm(list = ls(sync.env), envir = sync.env)
-
 # restart
-sync.env <- toy_dirs()
-left     <- sync.env$left
-right    <- sync.env$right
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
+
 
 # Get sync status object (from compare_directories)
 sync_status      <- compare_directories(left_path  = left,
@@ -386,13 +378,11 @@ test_that("common files asym sync to right works -by content", {
 # ~~~~~~~~~ Update missing files  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# empty env first
-rm(list = ls(sync.env), envir = sync.env)
-
 # restart
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
+
 
 # Get sync status object (from compare_directories)
 sync_status <- compare_directories(left_path  = left,
@@ -439,13 +429,10 @@ test_that("update missing file works", {
 # ~~~~~~~~~ Update missing files -partial ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# empty env first
-rm(list = ls(sync.env), envir = sync.env)
-
 # restart
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
 
 # Get sync status object (from compare_directories)
 sync_status <- compare_directories(left_path  = left,

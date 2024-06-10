@@ -1,12 +1,11 @@
 
 # Test copy to right function ####
-
-# Original paths
-left  <- syncdr.env$left
-right <- syncdr.env$right
+toy_dirs()
 
 # Copy original paths to test functions on copies
-
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
 
 # Get sync status object (from compare_directories)
 sync_status <- compare_directories(left_path  = left,
@@ -45,13 +44,10 @@ test_that("copy files to right works", {
 
 # Test copy to left function ####
 
-# empty env first
-rm(list = ls(sync.env), envir = sync.env)
-
 # restart
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
 
 # compare directories
 sync_status <- compare_directories(left,

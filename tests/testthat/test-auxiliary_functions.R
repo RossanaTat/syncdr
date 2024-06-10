@@ -1,8 +1,11 @@
 # Testing auxiliary functions
 
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+toy_dirs()
+
+# Copy original paths to test functions on copies
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
 
 # Get sync status object (from compare_directories)
 sync_status_date      <- compare_directories(left_path  = left,
@@ -102,6 +105,7 @@ test_that("filter common files works -by date&cont", {
 
   to_filter <- sync_status_date_cont$common_files |>
     fsubset(is_new_right | is_new_left) |>
+    fsubset(is_diff) |>
     fselect(path_left, path_right)
 
   res_all <- filter_common_files(sync_status_date_cont$common_files,
