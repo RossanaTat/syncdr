@@ -118,7 +118,7 @@ toy_dirs <- function(verbose = FALSE) {
          value = right,
          envir = syncdr.env)
 
-  return(sync.env)
+  return(syncdr.env)
   #invisible(TRUE)
 
 }
