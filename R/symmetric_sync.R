@@ -3,9 +3,9 @@
 #' This function updates directories in the following way:
 #' * For common files:
 #'   - if by date: If the file in one directory is newer than the corresponding file in the other directory,
-#'                 it will be copied over to update the older version. If modification dates are the same, nothing is done
+#'                 it will be copied over to update the older version. If modification dates are the same, no action is taken
 #'   - if by date and content: If the file in one directory is newer AND different than the corresponding file in the other directory,
-#'                             it will be copied over to update the older version. If modification dates/contents are the same, nothing is done
+#'                             it will be copied over to update the older version. If modification dates/contents are the same, no action is taken
 #'   - if by content only: ? TO DECIDE WHAT TO DO WITH THOSE FILES
 #' * For non common files:
 #'   - if a file exists in one but not in the other it is copied to the other directory
@@ -47,32 +47,35 @@ full_symmetric_sync <- function(sync_status,
 
   # Update non- and common files ###############################################
 
-  # copy those that are new in left to right
+  # Identify files to copy to right:
+  # -- those that are newer/different content in the left directory --
   files_to_right <- sync_status$common_files |>
     filter_common_files(by_date    = by_date,
                         by_content = by_content,
                         dir = "left") |>
-    # add those that are only in left
+  # -- and those that are only in left directory --
     rowbind(
       filter_non_common_files(sync_status$non_common_files,
                               dir = "left")
     )
 
+  # copy files from left to right folder
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
                       files_to_copy = files_to_right)
 
-  # copy those that are new in right to left
+  # Identify files to copy to left:
+  # -- those that are newer/different content in the right directory --
   files_to_left <- sync_status$common_files |>
     filter_common_files(by_date    = by_date,
                         by_content = by_content,
                         dir = "right") |>
-    # add those that are only in right
+  # -- and those that are only in right directory --
     rowbind(
       filter_non_common_files(sync_status$non_common_files,
                               dir = "right")
     )
-
+  # copy files from left to right folder
   copy_files_to_left(left_dir      = sync_status$left_path,
                      right_dir     = sync_status$right_path,
                      files_to_copy = files_to_left,

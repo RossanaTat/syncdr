@@ -35,9 +35,9 @@ This function updates directories in the following way:
 \item For common files:
 \itemize{
 \item if by date: If the file in one directory is newer than the corresponding file in the other directory,
-it will be copied over to update the older version. If modification dates are the same, nothing is done
+it will be copied over to update the older version. If modification dates are the same, no action is taken
 \item if by date and content: If the file in one directory is newer AND different than the corresponding file in the other directory,
-it will be copied over to update the older version. If modification dates/contents are the same, nothing is done
+it will be copied over to update the older version. If modification dates/contents are the same, no action is taken
 \item if by content only: ? TO DECIDE WHAT TO DO WITH THOSE FILES
 }
 \item For non common files:

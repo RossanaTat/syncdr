@@ -1,8 +1,11 @@
 # Test workhorse function ####
 
-l    <- toy_dirs()
-left <- l$left
-right<- l$right
+toy_dirs()
+
+# Copy temp env
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
 
 # Test error when invalid paths
 test_that("compare_directories throws an error with invalid dir
@@ -53,5 +56,5 @@ test_that("compare directories retrun sync status", {
 
 })
 
-# TO COMPLETE ####
+
 

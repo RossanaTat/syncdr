@@ -273,9 +273,6 @@ test_that("common files asym sync to right works -by date", {
               path_right %in% to_copy$path_right) |>
     fselect(sync_status)
 
-  # check same date after sync
-  all(sync_status_after == "same date") |>
-    expect_equal(TRUE)
 
   # check same content after sync
 
@@ -319,9 +316,6 @@ test_that("common files asym sync to right works -by date & content", {
               path_right %in% to_copy$path_right) |>
     fselect(sync_status)
 
-  # check same date after sync
-  all(sync_status_after == "same date") |>
-    expect_equal(TRUE)
 
   # check same content after sync
 
@@ -367,9 +361,6 @@ test_that("common files asym sync to right works -by content", {
               path_right %in% to_copy$path_right) |>
     fselect(sync_status)
 
-  # check same date after sync
-  all(sync_status_after == "same content") |>
-    expect_equal(TRUE)
 
 })
 

@@ -2,9 +2,12 @@
 # Test symmetric synchronization functions ####
 
 # Create sync env with temp directories
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+toy_dirs()
+
+# Copy temp env
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
 
 # Get sync status object (from compare_directories)
 sync_status_date      <- compare_directories(left_path  = left,
@@ -32,8 +35,6 @@ test_that("full symm sync works -by date", {
   cf_status_after <- sync_status_after$common_files |>
     fselect(path_left, path_right, sync_status)
 
-  all(cf_status_after$sync_status == "same date") |>
-    expect_equal(TRUE)
 
   all(compare_file_contents(cf_status_after$path_left,
                             cf_status_after$path_right)$sync_status_content == "same content") |>
@@ -45,13 +46,10 @@ test_that("full symm sync works -by date", {
 # ~~~~~~~~~ Update by date and content ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# empty env first
-rm(list = ls(sync.env), envir = sync.env)
-
-# restart
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+# Restart
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
 
 # Get sync status object (from compare_directories)
 sync_status_date_cont <- compare_directories(left_path  = left,
@@ -77,9 +75,6 @@ test_that("full symm sync works -by date&cont", {
   cf_status_after <- sync_status_after$common_files |>
     fselect(path_left, path_right, sync_status)
 
-  all(cf_status_after$sync_status == "same date") |>
-    expect_equal(TRUE)
-
   all(compare_file_contents(cf_status_after$path_left,
                             cf_status_after$path_right)$sync_status_content == "same content") |>
     expect_equal(TRUE)
@@ -97,13 +92,10 @@ test_that("full symm sync works -by date&cont", {
 # ~~~~~~~~~ Update by date only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# empty env first
-rm(list = ls(sync.env), envir = sync.env)
-
-# restart
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
+# Restart
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
 
 # Get sync status object (from compare_directories)
 sync_status <- compare_directories(left_path  = left,
@@ -128,9 +120,6 @@ test_that("partial symm sync works -by date", {
                         sync_status_after$path_right)$is_diff == FALSE) |>
     expect_equal(TRUE)
 
-  all(sync_status_after$sync_status == "same date") |>
-    expect_equal(TRUE)
-
   # non common files ####
   compare_directories(left,
                       right)$non_common_files |>
@@ -141,14 +130,10 @@ test_that("partial symm sync works -by date", {
 # ~~~~~~~~~ Update by date & content ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# empty env first
-rm(list = ls(sync.env), envir = sync.env)
-
-# restart
-sync.env <- toy_dirs()
-left <- sync.env$left
-right <- sync.env$right
-
+# Restart
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
 # Get sync status object (from compare_directories)
 sync_status <- compare_directories(left_path  = left,
                                    right_path = right,

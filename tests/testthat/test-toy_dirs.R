@@ -5,8 +5,7 @@ toy_dirs()
 test_that("toy_dirs creates syncdr.env", {
 
   # Check if the environment exists
-  expect_true(exists("syncdr.env",
-                     envir = .GlobalEnv))
+  expect_true(exists("syncdr.env"))
 
   # Check paths exist
   expect_true(exists("left",
@@ -52,8 +51,7 @@ test_that("copy original env works", {
     )
 
   # Compare file structures and contents
-  original_env  <- get("syncdr.env",
-                       envir = .GlobalEnv)
+  original_env  <- get("syncdr.env")
   original_left <- original_env$left
   original_right <- original_env$right
 

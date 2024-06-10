@@ -12,8 +12,7 @@
 #' @export
 #'
 #' @examples
-#' l <- toy_dirs()
-#' compare_directories(l$left, l$right)
+#'
 #' toy_dirs(verbose = TRUE)
 toy_dirs <- function(verbose = FALSE) {
 
@@ -130,10 +129,6 @@ toy_dirs <- function(verbose = FALSE) {
 #'
 #' @return A list of temporary paths `left` and `right`.
 #' @keywords internal
-#' @examples
-#' temp_env <- syncdr:::copy_temp_environment()
-#' print(temp_env$left)
-#' print(temp_env$right)
 copy_temp_environment <- function() {
 
   # Ensure the original environment is created

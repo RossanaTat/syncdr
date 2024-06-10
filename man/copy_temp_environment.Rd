@@ -12,9 +12,4 @@ A list of temporary paths \code{left} and \code{right}.
 \description{
 This function creates a copy of the original environment, allowing tests to be executed without modifying the original environment.
 }
-\examples{
-temp_env <- syncdr:::copy_temp_environment()
-print(temp_env$left)
-print(temp_env$right)
-}
 \keyword{internal}
