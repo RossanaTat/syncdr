@@ -49,7 +49,7 @@ To get started, let's call `syncdr` function `toy_dirs()`, which generates two t
 ```{r toy-dirs}
 
 # Create syncdr env with left and right directories
-toy_dirs()
+syncdr.env =toy_dirs()
 
 # Get left and right directories' paths 
 left  <- syncdr.env$left

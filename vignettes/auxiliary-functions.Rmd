@@ -24,7 +24,7 @@ To see some examples, let's start with `toy_dirs()`, and generate two toy direct
 ```{r setup}
 
 # Create syncdr.env with left and right directories
-toy_dirs()
+syncdr.env =toy_dirs()
 
 # Get left and right directories' paths 
 left  <- syncdr.env$left

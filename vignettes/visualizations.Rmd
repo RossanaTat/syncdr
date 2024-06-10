@@ -29,7 +29,7 @@ As with any function from `syncdr`, you will have to call `compare_directories()
 library(syncdr)
 
 # Create syncdr env with left and right directories
-toy_dirs()
+syncdr.env =toy_dirs()
 
 # Get left and right directories' paths 
 left  <- syncdr.env$left
