@@ -44,5 +44,9 @@ style_msgs <- function(color_name,
   cat(styled_text)
 }
 
-
+# Style data frames
+# style_table <- function(x,
+#                         style) {
+#
+# }
 
