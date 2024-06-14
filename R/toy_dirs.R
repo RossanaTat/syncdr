@@ -8,7 +8,7 @@
 #'
 #' @param verbose logical: display information. Default is FALSE
 #'
-#' @return invisible environment with toy directory paths, i.e., left and right paths
+#' @return syncdr environment with toy directory paths, i.e., left and right paths
 #' @export
 #'
 #' @examples
@@ -119,7 +119,8 @@ toy_dirs <- function(verbose = FALSE) {
          envir = syncdr.env)
 
   return(syncdr.env)
-  #invisible(TRUE)
+
+  #invisible(TRUE) # THIS DOES NOT WORK !!!!
 
 }
 

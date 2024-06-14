@@ -163,7 +163,7 @@ directory_info <- function(dir,
 compare_modification_times <- function(modification_time_left,
                                        modification_time_right) {
 
-  is_new_left  <- modification_time_left > modification_time_right
+  is_new_left  <- modification_time_left  > modification_time_right
   is_new_right <- modification_time_right > modification_time_left
 
   sync_status_date <- ifelse(
@@ -172,8 +172,8 @@ compare_modification_times <- function(modification_time_left,
   )
 
   return(list(
-    is_new_left = is_new_left,
-    is_new_right = is_new_right,
+    is_new_left      = is_new_left,
+    is_new_right     = is_new_right,
     sync_status_date = sync_status_date)
     )
 
@@ -269,7 +269,7 @@ hash_files <- function(files_path,
                              msg_done = {basename(path)},
                              spinner  = TRUE)
     }
-    hash # cli always returns something, do not know how to silent this!
+    #hash # cli always returns something, do not know how to silent this!
     # So I am returning the hash which is at least better than the cli index which is returned if I do not specify hash here
   })
 

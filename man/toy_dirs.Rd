@@ -10,7 +10,7 @@ toy_dirs(verbose = FALSE)
 \item{verbose}{logical: display information. Default is FALSE}
 }
 \value{
-invisible environment with toy directory paths, i.e., left and right paths
+syncdr environment with toy directory paths, i.e., left and right paths
 }
 \description{
 create directories in syncdr environment. Directories are

@@ -22,15 +22,15 @@ style_msgs <- function(color_name,
 
   # Validate the color_name argument
   color_name <- match.arg(arg = color_name,
-                     choices = c("pink", "blue", "purple", "green"),
-                     several.ok = FALSE)
+                          choices = c("pink", "blue", "purple", "green"),
+                          several.ok = FALSE)
 
   # Create custom ANSI style for colors
   color_code <- switch(color_name,
-           "pink" = "#FF1493",
-           "blue" = "#00BFFF",
-           "purple" = "#BF00FF",
-           "green" = "#06d6a0")
+                       "pink"   = "#FF1493",
+                       "blue"   = "#00BFFF",
+                       "purple" = "#BF00FF",
+                       "green"  = "#06d6a0")
 
   color_fun <- cli::make_ansi_style(color_code)
 
@@ -45,8 +45,15 @@ style_msgs <- function(color_name,
 }
 
 # Style data frames
-# style_table <- function(x,
-#                         style) {
+# style_df <- function(x,
+#                      style) {
+#
+#   # foregroung
+#
+#   # background
+#
+#
+#   #
 #
 # }
 
