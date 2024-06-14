@@ -44,32 +44,86 @@ style_msgs <- function(color_name,
   cat(styled_text)
 }
 
-#Style data frames
+# Testing new styling functions
 
 
-# Auxiliary function inspired by crayon::make_style
-# create a style or style a function
-
-#' Create style TO COMPLETE DOCUMENTATION
-#' @param ... unnamed argument - the style to apply
-#' @param bg if style applied to bkg
-#' @param colors ???
+#' #' Create style TO COMPLETE DOCUMENTATION
+#' #' @param theme character string specifying theme
+#' #' @return style list with info on TODO
+#' define_theme <- function(theme = "dark") {
 #'
-#' @return a function to be used to color strings
-#' @keywords internal
+#'   .theme <- list()
 #'
-.create_style <- function(...,
-                          bg = FALSE) {
+#'   # Fill list depending on theme
+#'   if (theme == "dark") {
+#'
+#'     .theme$highlight.row.bg <- "#E5E4E2"
+#'
+#'     .theme$colnames <- list(
+#'       bg = "#273BE2",
+#'       fg = "#F0F8FF",
+#'       decoration = "bold",
+#'       align = "center"
+#'     )
+#'
+#'     .theme$type.style <- list(
+#'       dateTime = list(fg = "#273BE2"),
+#'       logical = list(fg_true = "green", fg_false = "red")
+#'     )
+#'
+#'   } else if (theme == "light") {
+#'     .theme$highlight.row.bg <- "#FFFFFF"
+#'
+#'     .theme$colnames <- list(
+#'       bg = "#FFFFFF",
+#'       fg = "#000000",
+#'       decoration = "bold",
+#'       align = "center"
+#'     )
+#'
+#'     .theme$type.style <- list(
+#'       dateTime = list(fg = "#000000"),
+#'       logical = list(fg_true = "blue", fg_false = "orange")
+#'     )
+#'   } else {
+#'     stop("Unknown theme specified")
+#'   }
+#'
+#'   return(.theme)
+#' }
+#'
+#'
+#' # helper function to attach style attribute to df:
+#' .set_style <- function(x, style = NULL) {
+#'   if (is.null(style)) style <- .get_style()
+#'   attr(x, ".style") <- style
+#'   x
+#' }
+#'
+#'
+#' style_dfs <- function(x, theme = "dark") {
+#'
+#'   # Ensure x is a data frame or can be coerced into one
+#'
+#'
+#'   # Convert x to data frame if it's not already
+#'   x <- as.data.frame(x)
+#'
+#'   # Get or create the style
+#'   style <- define_theme(theme = theme)
+#'
+#'   # Set the style as an attribute
+#'   x <- .set_style(x, style)
+#'
+#'   return(x)
+#' }
+#'
 
-  args <- list(...)
-
-  # Extract name of style
-  style <- args[[1]]
-  style_name <- names(args)[1]
 
 
 
-}
+
+
 
 
 
