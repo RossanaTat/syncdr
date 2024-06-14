@@ -271,7 +271,7 @@ hash_files <- function(files_path,
                              msg_done = {basename(path)},
                              spinner  = TRUE)
     }
-    #hash
+    hash
   })
 
   if (verbose) {
