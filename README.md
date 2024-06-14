@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-{syncdr} is an R package designed to enhance the process of directory
+{syncdr} is an R package designed to facilitate the process of directory
 comparison and synchronization. This package provides essential tools
 for users who need to manage and synchronize their directories
 effectively.
