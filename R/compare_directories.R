@@ -71,8 +71,8 @@ compare_directories <- function(left_path,
     ftransform(sync_status = ifelse(
       (is.na(path_left) & !is.na(path_right)), "only in right",
       "only in left")
-    ) |>
-    as.data.frame()
+    )
+    #as.data.frame()
 
   # Compare common files
   common_files <- join_info |>

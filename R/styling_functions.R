@@ -44,16 +44,32 @@ style_msgs <- function(color_name,
   cat(styled_text)
 }
 
-# Style data frames
-# style_df <- function(x,
-#                      style) {
-#
-#   # foregroung
-#
-#   # background
-#
-#
-#   #
-#
-# }
+#Style data frames
+
+
+# Auxiliary function inspired by crayon::make_style
+# create a style or style a function
+
+#' Create style TO COMPLETE DOCUMENTATION
+#' @param ... unnamed argument - the style to apply
+#' @param bg if style applied to bkg
+#' @param colors ???
+#'
+#' @return a function to be used to color strings
+#' @keywords internal
+#'
+.create_style <- function(...,
+                          bg = FALSE) {
+
+  args <- list(...)
+
+  # Extract name of style
+  style <- args[[1]]
+  style_name <- names(args)[1]
+
+
+
+}
+
+
 

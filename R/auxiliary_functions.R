@@ -262,15 +262,16 @@ hash_files <- function(files_path,
   # Compute hash for files
   hashes <- lapply(files_path, function(path) {
 
-    hash <- digest::digest(path, algo = "xxhash32", file = TRUE)
+    hash <- digest::digest(path,
+                           algo = "xxhash32",
+                           file = TRUE)
 
     if (verbose) {
       cli::cli_progress_step(pb,
                              msg_done = {basename(path)},
                              spinner  = TRUE)
     }
-    #hash # cli always returns something, do not know how to silent this!
-    # So I am returning the hash which is at least better than the cli index which is returned if I do not specify hash here
+    #hash
   })
 
   if (verbose) {
@@ -280,7 +281,8 @@ hash_files <- function(files_path,
 
     # end timing & display it
     end_time   <- Sys.time()
-    total_time <- format(end_time - start_time, units = "secs")
+    total_time <- format(end_time - start_time,
+                         units = "secs")
     cli::cli_h2("Hashing completed! Total time spent: {.emph {total_time}}")
 
   }
@@ -350,10 +352,12 @@ search_duplicates <- function(dir_path,
   if (verbose) {
 
     cli::cli_h1("Duplicates in {.path {dir_path}}")
+
     # add here paths of files found in filtered files
     lapply(filtered_files$path, function(file_path) {
       #cli::cli_text(basename(file_path))
-      cli::cli_text(paste0("*", gsub(dir_path, "", file_path)))
+      cli::cli_text(paste0("*",
+                           gsub(dir_path, "", file_path)))
     })
   }
 
