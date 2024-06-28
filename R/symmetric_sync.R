@@ -25,7 +25,7 @@ full_symmetric_sync <- function(sync_status,
                                 by_date    = TRUE,
                                 by_content = FALSE,
                                 recurse    = TRUE,
-                                verbose    = FALSE) {
+                                verbose    = getOption("syncdr.verbose")) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -119,11 +119,12 @@ full_symmetric_sync <- function(sync_status,
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return print "synchronized"
 #' @export
-partial_symmetric_sync_common_files <- function(sync_status,
-                                                by_date    = TRUE,
-                                                by_content = FALSE,
-                                                recurse    = TRUE,
-                                                verbose    = FALSE) {
+partial_symmetric_sync_common_files <-
+  function(sync_status,
+           by_date    = TRUE,
+           by_content = FALSE,
+           recurse    = TRUE,
+           verbose    = getOption("syncdr.verbose")) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {

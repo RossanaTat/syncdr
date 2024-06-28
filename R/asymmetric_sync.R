@@ -35,7 +35,7 @@ full_asym_sync_to_right <- function(sync_status,
                                     by_date    = TRUE,
                                     by_content = FALSE,
                                     recurse    = TRUE,
-                                    verbose    = FALSE) {
+                                    verbose    = getOption("syncdr.verbose")) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -135,7 +135,7 @@ common_files_asym_sync_to_right <- function(sync_status,
                                             by_date    = TRUE,
                                             by_content = FALSE,
                                             recurse    = TRUE,
-                                            verbose    = FALSE) {
+                                            verbose    = getOption("syncdr.verbose")) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -202,9 +202,10 @@ if(verbose == TRUE) {
 #' right <- e$right
 #' sync_status <- compare_directories(left, right)
 #' update_missing_files_asym_to_right(sync_status = sync_status)
-update_missing_files_asym_to_right <- function(sync_status,
-                                               recurse    = TRUE,
-                                               verbose    = FALSE) {
+update_missing_files_asym_to_right <-
+  function(sync_status,
+           recurse    = TRUE,
+           verbose    = getOption("syncdr.verbose")) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -276,9 +277,10 @@ update_missing_files_asym_to_right <- function(sync_status,
 #' right <- e$right
 #' sync_status <- compare_directories(left, right)
 #' partial_update_missing_files_asym_to_right(sync_status = sync_status)
-partial_update_missing_files_asym_to_right <- function(sync_status,
-                                                       recurse = TRUE,
-                                                       verbose = FALSE) {
+partial_update_missing_files_asym_to_right <-
+  function(sync_status,
+           recurse = TRUE,
+           verbose    = getOption("syncdr.verbose")) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {

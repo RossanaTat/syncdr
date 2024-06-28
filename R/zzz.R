@@ -1,7 +1,7 @@
 .onLoad <- function(libname, pkgname) {
   op <- options()
   op.syncdr <- list(
-    syncdr.verbose       = TRUE
+    syncdr.verbose  = FALSE
   )
   toset <- !(names(op.syncdr) %in% names(op))
 
