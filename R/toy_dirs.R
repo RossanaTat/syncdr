@@ -35,7 +35,7 @@ toy_dirs <- function(verbose = FALSE) {
   names(robj) <- tcomb
 
   # Save objects as independent files according to criteria
-  for (i in seq_along(tcomb)) {
+  for (i in cli::cli_progress_along(tcomb)) {
     tc <- tcomb[i]
     l  <- substr(tc, 1, 1)
     n  <- substr(tc, 2, 2)
@@ -118,9 +118,7 @@ toy_dirs <- function(verbose = FALSE) {
          value = right,
          envir = syncdr.env)
 
-  return(syncdr.env)
-
-  #invisible(TRUE) # THIS DOES NOT WORK !!!!
+  return(invisible(syncdr.env))
 
 }
 
