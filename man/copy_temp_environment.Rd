@@ -2,7 +2,7 @@
 % Please edit documentation in R/toy_dirs.R
 \name{copy_temp_environment}
 \alias{copy_temp_environment}
-\title{Create a temporary copy of syncdr.env to test functions}
+\title{Create a temporary copy of .syncdrenv to test functions}
 \usage{
 copy_temp_environment()
 }

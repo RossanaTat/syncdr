@@ -1,20 +1,20 @@
-# Create syncdr.env with toy dirs and files
+# Create .syncdrenv with toy dirs and files
 toy_dirs()
 
 # Test toy_dirs() function ####
-test_that("toy_dirs creates syncdr.env", {
+test_that("toy_dirs creates .syncdrenv", {
 
   # Check if the environment exists
-  expect_true(exists("syncdr.env"))
+  expect_true(exists(".syncdrenv"))
 
   # Check paths exist
   expect_true(exists("left",
-                     envir = syncdr.env))
+                     envir = .syncdrenv))
   expect_true(exists("right",
-                     envir = syncdr.env))
+                     envir = .syncdrenv))
 
-  left <- syncdr.env$left
-  right <- syncdr.env$right
+  left <- .syncdrenv$left
+  right <- .syncdrenv$right
 
   # Check if the directories exist
   expect_true(fs::dir_exists(left))
@@ -51,7 +51,7 @@ test_that("copy original env works", {
     )
 
   # Compare file structures and contents
-  original_env  <- get("syncdr.env")
+  original_env  <- get(".syncdrenv")
   original_left <- original_env$left
   original_right <- original_env$right
 
