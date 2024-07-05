@@ -3,11 +3,9 @@ template:
   bootstrap: 5
   bottswatch: cosmo
   bslib:
-    primary: '#76ABDF'
-    dark: '#696969'
+    primary: '#FF0080'
 navbar:
   bg: primary
-  type: dark
   structure:
     right: github
   components:
