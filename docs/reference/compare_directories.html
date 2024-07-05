@@ -12,7 +12,7 @@ The primary goal is to identify the synchronization status of files present in b
     
     <a class="navbar-brand me-2" href="../index.html">syncdr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,6 +125,183 @@ It can be computed based on modification date only, content only, or both.</p>
 </ul><p>For Non-Common Files:</p><ul><li><p>When comparing by date (or by date and content, or by content only): 'only in left' or 'only in right'.</p></li>
 </ul></div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Compare directories with 'compare_directories()'</span></span></span>
+<span class="r-in"><span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■                       </span>  27% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  5s</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get left and right directories' paths</span></span></span>
+<span class="r-in"><span><span class="va">left</span>  <span class="op">&lt;-</span> <span class="va">e</span><span class="op">$</span><span class="va">left</span></span></span>
+<span class="r-in"><span><span class="va">right</span> <span class="op">&lt;-</span> <span class="va">e</span><span class="op">$</span><span class="va">right</span></span></span>
+<span class="r-in"><span><span class="fu">compare_directories</span><span class="op">(</span><span class="va">left</span>, <span class="va">right</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $common_files</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_left</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   modification_time_left modification_time_right is_new_left is_new_right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    2024-07-05 12:05:53     2024-07-05 12:05:54       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2024-07-05 12:05:56     2024-07-05 12:05:57       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    2024-07-05 12:05:54     2024-07-05 12:06:00       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    2024-07-05 12:05:57     2024-07-05 12:05:58       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    2024-07-05 12:05:59     2024-07-05 12:06:00       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    2024-07-05 12:05:56     2024-07-05 12:05:55        TRUE        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    2024-07-05 12:05:59     2024-07-05 12:05:58        TRUE        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         sync_status</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 older in left, newer in right dir</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 older in left, newer in right dir</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 older in left, newer in right dir</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 older in left, newer in right dir</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 older in left, newer in right dir</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 newer in left, older in right dir</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 newer in left, older in right dir</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $non_common_files</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   path_left                                               path_right sync_status</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span>                                              <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/A/A1.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/A/A2.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/A/A3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/B/B3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #BB0000;">NA</span>                                                      …icate.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> <span style="color: #BB0000;">NA</span>                                                      …/D/D3.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E1.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E2.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E3.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $left_path</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $right_path</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "syncdr_status"</span>
+<span class="r-in"><span><span class="co"># Compare by date and content</span></span></span>
+<span class="r-in"><span><span class="fu">compare_directories</span><span class="op">(</span><span class="va">left</span>, <span class="va">right</span>, by_content <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $common_files</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_left</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   modification_time_left modification_time_right is_new_left is_new_right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    2024-07-05 12:05:53     2024-07-05 12:05:54       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2024-07-05 12:05:56     2024-07-05 12:05:57       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    2024-07-05 12:05:54     2024-07-05 12:06:00       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    2024-07-05 12:05:57     2024-07-05 12:05:58       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    2024-07-05 12:05:59     2024-07-05 12:06:00       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    2024-07-05 12:05:56     2024-07-05 12:05:55        TRUE        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    2024-07-05 12:05:59     2024-07-05 12:05:58        TRUE        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         sync_status is_diff</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 different content    TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 different content    TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      same content   FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 different content    TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 different content    TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 different content    TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 different content    TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $non_common_files</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   path_left                                               path_right sync_status</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span>                                              <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/A/A1.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/A/A2.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/A/A3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/B/B3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #BB0000;">NA</span>                                                      …icate.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> <span style="color: #BB0000;">NA</span>                                                      …/D/D3.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E1.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E2.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E3.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $left_path</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $right_path</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "syncdr_status"</span>
+<span class="r-in"><span><span class="co"># Compare by content only</span></span></span>
+<span class="r-in"><span><span class="fu">compare_directories</span><span class="op">(</span><span class="va">left</span>, <span class="va">right</span>, by_content <span class="op">=</span> <span class="cn">TRUE</span>, by_date <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $common_files</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_left</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   modification_time_left modification_time_right is_diff       sync_status</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    2024-07-05 12:05:53     2024-07-05 12:05:54    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2024-07-05 12:05:56     2024-07-05 12:05:57    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    2024-07-05 12:05:54     2024-07-05 12:06:00   FALSE      same content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    2024-07-05 12:05:57     2024-07-05 12:05:58    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    2024-07-05 12:05:59     2024-07-05 12:06:00    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    2024-07-05 12:05:56     2024-07-05 12:05:55    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    2024-07-05 12:05:59     2024-07-05 12:05:58    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $non_common_files</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   path_left                                               path_right sync_status</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span>                                              <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/A/A1.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/A/A2.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/A/A3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left/B/B3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #BB0000;">NA</span>                                                      …icate.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> <span style="color: #BB0000;">NA</span>                                                      …/D/D3.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E1.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E2.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E3.Rds only in ri…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $left_path</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $right_path</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "syncdr_status"</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

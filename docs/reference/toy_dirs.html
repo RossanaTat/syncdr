@@ -12,7 +12,7 @@ deleted when a new R session is started"><!-- mathjax --><script src="https://cd
     
     <a class="navbar-brand me-2" href="../index.html">syncdr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@ deleted when a new R session is started</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>invisible environment with toy directory paths, i.e., left and right paths</p>
+<p>syncdr environment with toy directory paths, i.e., left and right paths</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -88,7 +88,8 @@ files with the same name but different time stamp.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">toy_dirs</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpqICSQh/left</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■                         </span>  20% | ETA:  8s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/left</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├── <span style="color: #0000BB; font-weight: bold;">A</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── A1.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── A2.Rds</span>
@@ -105,11 +106,15 @@ files with the same name but different time stamp.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── D1.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   └── D2.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> └── <span style="color: #0000BB; font-weight: bold;">E</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpqICSQh/right</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpwhxp9b/right</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├── <span style="color: #0000BB; font-weight: bold;">A</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── A1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── A2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │   └── A3.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├── <span style="color: #0000BB; font-weight: bold;">B</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── B1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> │   └── B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> │   └── B3.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├── <span style="color: #0000BB; font-weight: bold;">C</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── C1.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── C1_duplicate.Rds</span>
@@ -123,7 +128,7 @@ files with the same name but different time stamp.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ├── E1.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ├── E2.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     └── E3.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7fcb8ad66c08&gt;</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  53% | ETA:  6s</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

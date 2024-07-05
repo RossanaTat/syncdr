@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">syncdr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,12 +90,15 @@ before taking certain synchronization actions.</p>
 generate two toy directories.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co"># Create syncdr.env with left and right directories</span></span>
-<span><span class="va">syncdr.env</span> <span class="op">=</span><span class="fu"><a href="../reference/toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
+<span><span class="co"># Create .syncdrenv with left and right directories</span></span>
+<span><span class="va">.syncdrenv</span> <span class="op">=</span><span class="fu"><a href="../reference/toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">■■■■■■■■■                       </span>  27% | ETA:  8s</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  5s</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># Get left and right directories' paths </span></span>
-<span><span class="va">left</span>  <span class="op">&lt;-</span> <span class="va">syncdr.env</span><span class="op">$</span><span class="va">left</span></span>
-<span><span class="va">right</span> <span class="op">&lt;-</span> <span class="va">syncdr.env</span><span class="op">$</span><span class="va">right</span></span></code></pre></div>
+<span><span class="va">left</span>  <span class="op">&lt;-</span> <span class="va">.syncdrenv</span><span class="op">$</span><span class="va">left</span></span>
+<span><span class="va">right</span> <span class="op">&lt;-</span> <span class="va">.syncdrenv</span><span class="op">$</span><span class="va">right</span></span></code></pre></div>
 <p><strong>Search for duplicate files</strong></p>
 <p>One useful auxiliary function is
 <strong><code><a href="../reference/search_duplicates.html">search_duplicates()</a></code></strong>, designed to generate
@@ -105,12 +108,12 @@ default, <code>verbose = TRUE</code> will show you the list of duplicate
 files. To return it invisibly, set <code>verbose = FALSE</code>. In this
 latter case, a message will still pop up to let you know when the
 identification of duplicates is completed.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># example</span></span>
 <span><span class="fu"><a href="../reference/search_duplicates.html">search_duplicates</a></span><span class="op">(</span><span class="va">right</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Duplicates in </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpSkcIo8/rig</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Duplicates in </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpELNKRp/rig</span></span></span>
 <span><span class="co">#&gt; */C/C1.Rds</span></span>
 <span><span class="co">#&gt; */C/C1_duplicate.Rds</span></span></code></pre></div>
 <ul>

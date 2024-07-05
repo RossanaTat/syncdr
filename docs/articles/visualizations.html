@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">syncdr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,12 +103,15 @@ effective comparison visualization.</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rossanatat.github.io/syncdr/">syncdr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create syncdr env with left and right directories</span></span>
-<span><span class="va">syncdr.env</span> <span class="op">=</span><span class="fu"><a href="../reference/toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Get left and right directories' paths </span></span>
-<span><span class="va">left</span>  <span class="op">&lt;-</span> <span class="va">syncdr.env</span><span class="op">$</span><span class="va">left</span></span>
-<span><span class="va">right</span> <span class="op">&lt;-</span> <span class="va">syncdr.env</span><span class="op">$</span><span class="va">right</span></span></code></pre></div>
+<span><span class="va">.syncdrenv</span> <span class="op">=</span><span class="fu"><a href="../reference/toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">■■■■■■■■■                       </span>  27% | ETA:  8s</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  5s</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Get left and right directories' paths </span></span>
+<span><span class="va">left</span>  <span class="op">&lt;-</span> <span class="va">.syncdrenv</span><span class="op">$</span><span class="va">left</span></span>
+<span><span class="va">right</span> <span class="op">&lt;-</span> <span class="va">.syncdrenv</span><span class="op">$</span><span class="va">right</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">sync_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compare_directories.html">compare_directories</a></span><span class="op">(</span><span class="va">left</span>, </span>
 <span>                                   <span class="va">right</span>,</span>
@@ -116,13 +119,13 @@ effective comparison visualization.</p>
 <p><code><a href="../reference/display_sync_status.html">display_sync_status()</a></code> allows you to visualize the
 synchronization status of either (1) common files or (2) non common
 files, as you can see in the examples below:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/display_sync_status.html">display_sync_status</a></span><span class="op">(</span><span class="va">sync_status</span><span class="op">$</span><span class="va">common_files</span>,</span>
 <span>                    left_path  <span class="op">=</span> <span class="va">left</span>,</span>
 <span>                    right_path <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span></code></pre></div>
 <div class="datatables html-widget html-fill-item" id="htmlwidget-66ae68e0399aa5849e19" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-66ae68e0399aa5849e19">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7"],["/B/B1.Rds","/B/B2.Rds","/C/C1.Rds","/C/C2.Rds","/C/C3.Rds","/D/D1.Rds","/D/D2.Rds"],["/B/B1.Rds","/B/B2.Rds","/C/C1.Rds","/C/C2.Rds","/C/C3.Rds","/D/D1.Rds","/D/D2.Rds"],["2024-06-10T19:34:32Z","2024-06-10T19:34:35Z","2024-06-10T19:34:33Z","2024-06-10T19:34:36Z","2024-06-10T19:34:38Z","2024-06-10T19:34:35Z","2024-06-10T19:34:38Z"],["2024-06-10T19:34:33Z","2024-06-10T19:34:36Z","2024-06-10T19:34:39Z","2024-06-10T19:34:37Z","2024-06-10T19:34:39Z","2024-06-10T19:34:34Z","2024-06-10T19:34:37Z"],[false,false,false,false,false,true,true],[true,true,true,true,true,false,false],["different content","different content","same content","different content","different content","different content","different content"],[true,true,false,true,true,true,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>path_left<\/th>\n      <th>path_right<\/th>\n      <th>modification_time_left<\/th>\n      <th>modification_time_right<\/th>\n      <th>is_new_left<\/th>\n      <th>is_new_right<\/th>\n      <th>sync_status<\/th>\n      <th>is_diff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"targets":[5,6,8],"createdCell":"function(td, cellData, rowData, row, col) {\n                            if (cellData === true) {\n                              $(td).css({'background-color': '#F8F4FF'});\n                            } else {\n                              $(td).css({'background-color': '#F0F8FF'});\n                            }\n                          }"},{"targets":7,"createdCell":"function(td, cellData, rowData, row, col) {\n                             if (cellData.includes('different content') ||\n                                 cellData.includes('same date') ||\n                                 cellData.includes('only in right')) {\n                              $(td).css({'background-color': '#a9def9'});\n                            } else {\n                              $(td).css({'background-color': '#e4c1f9'});\n                            }\n                          }"},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"path_left","targets":1},{"name":"path_right","targets":2},{"name":"modification_time_left","targets":3},{"name":"modification_time_right","targets":4},{"name":"is_new_left","targets":5},{"name":"is_new_right","targets":6},{"name":"sync_status","targets":7},{"name":"is_diff","targets":8}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.createdCell","options.columnDefs.1.createdCell"],"jsHooks":[]}</script><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<script type="application/json" data-for="htmlwidget-66ae68e0399aa5849e19">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7"],["/B/B1.Rds","/B/B2.Rds","/C/C1.Rds","/C/C2.Rds","/C/C3.Rds","/D/D1.Rds","/D/D2.Rds"],["/B/B1.Rds","/B/B2.Rds","/C/C1.Rds","/C/C2.Rds","/C/C3.Rds","/D/D1.Rds","/D/D2.Rds"],["2024-07-05T10:07:14Z","2024-07-05T10:07:17Z","2024-07-05T10:07:15Z","2024-07-05T10:07:18Z","2024-07-05T10:07:20Z","2024-07-05T10:07:17Z","2024-07-05T10:07:20Z"],["2024-07-05T10:07:15Z","2024-07-05T10:07:18Z","2024-07-05T10:07:21Z","2024-07-05T10:07:19Z","2024-07-05T10:07:21Z","2024-07-05T10:07:16Z","2024-07-05T10:07:19Z"],[false,false,false,false,false,true,true],[true,true,true,true,true,false,false],["different content","different content","same content","different content","different content","different content","different content"],[true,true,false,true,true,true,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>path_left<\/th>\n      <th>path_right<\/th>\n      <th>modification_time_left<\/th>\n      <th>modification_time_right<\/th>\n      <th>is_new_left<\/th>\n      <th>is_new_right<\/th>\n      <th>sync_status<\/th>\n      <th>is_diff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"targets":[5,6,8],"createdCell":"function(td, cellData, rowData, row, col) {\n                            if (cellData === true) {\n                              $(td).css({'background-color': '#F8F4FF'});\n                            } else {\n                              $(td).css({'background-color': '#F0F8FF'});\n                            }\n                          }"},{"targets":7,"createdCell":"function(td, cellData, rowData, row, col) {\n                             if (cellData.includes('different content') ||\n                                 cellData.includes('same date') ||\n                                 cellData.includes('only in right')) {\n                              $(td).css({'background-color': '#a9def9'});\n                            } else {\n                              $(td).css({'background-color': '#e4c1f9'});\n                            }\n                          }"},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"path_left","targets":1},{"name":"path_right","targets":2},{"name":"modification_time_left","targets":3},{"name":"modification_time_right","targets":4},{"name":"is_new_left","targets":5},{"name":"is_new_right","targets":6},{"name":"sync_status","targets":7},{"name":"is_diff","targets":8}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.createdCell","options.columnDefs.1.createdCell"],"jsHooks":[]}</script><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/display_sync_status.html">display_sync_status</a></span><span class="op">(</span><span class="va">sync_status</span><span class="op">$</span><span class="va">non_common_files</span>,</span>
 <span>                    left_path  <span class="op">=</span> <span class="va">left</span>,</span>
 <span>                    right_path <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span></code></pre></div>
@@ -137,12 +140,12 @@ files, as you can see in the examples below:</p>
 <code><a href="../reference/display_dir_tree.html">display_dir_tree()</a></code> for a swift overview of your
 directory(ies) structure, whether for a single directory or both
 simultaneously.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Tree structure or right directory</span></span>
 <span><span class="fu"><a href="../reference/display_dir_tree.html">display_dir_tree</a></span><span class="op">(</span>path_left <span class="op">=</span> <span class="va">left</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmppmGDXA/left</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpidfOEy/left</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -159,12 +162,12 @@ simultaneously.</p>
 <span><span class="co">#&gt; │   ├── D1.Rds</span></span>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Tree structure of left directory</span></span>
 <span><span class="fu"><a href="../reference/display_dir_tree.html">display_dir_tree</a></span><span class="op">(</span>path_right <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmppmGDXA/right</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpidfOEy/right</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
 <span><span class="co">#&gt; │   ├── B1.Rds</span></span>
@@ -182,12 +185,12 @@ simultaneously.</p>
 <span><span class="co">#&gt;     ├── E1.Rds</span></span>
 <span><span class="co">#&gt;     ├── E2.Rds</span></span>
 <span><span class="co">#&gt;     └── E3.Rds</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Tree structure of both </span></span>
 <span><span class="fu"><a href="../reference/display_dir_tree.html">display_dir_tree</a></span><span class="op">(</span>path_left <span class="op">=</span> <span class="va">left</span>, path_right <span class="op">=</span> <span class="va">right</span>, <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmppmGDXA/left</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpidfOEy/left</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -205,7 +208,7 @@ simultaneously.</p>
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
 <span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmppmGDXA/right</span></span></span>
+<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpidfOEy/right</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
 <span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
 <span><span class="co">#&gt; │   ├── B1.Rds</span></span>

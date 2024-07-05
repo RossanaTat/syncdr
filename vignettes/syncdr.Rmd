@@ -212,7 +212,6 @@ sync_status <- compare_directories(left,
 
 # Synchronize directories 
 full_asym_sync_to_right(sync_status = sync_status,
-                        by_date     = TRUE,
-                        verbose     = TRUE)
+                        by_date     = TRUE)
 
 ```

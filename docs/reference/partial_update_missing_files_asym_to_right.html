@@ -28,7 +28,7 @@ keep in right those files that are only in right (i.e., files 'missing in left')
     
     <a class="navbar-brand me-2" href="../index.html">syncdr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,6 +113,22 @@ and the file will be copied at the top level</p></dd>
 <p>print "synchronized"</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Compare directories with 'compare_directories()'</span></span></span>
+<span class="r-in"><span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  47% | ETA:  5s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  5s</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get left and right directories' paths</span></span></span>
+<span class="r-in"><span><span class="va">left</span>  <span class="op">&lt;-</span> <span class="va">e</span><span class="op">$</span><span class="va">left</span></span></span>
+<span class="r-in"><span><span class="va">right</span> <span class="op">&lt;-</span> <span class="va">e</span><span class="op">$</span><span class="va">right</span></span></span>
+<span class="r-in"><span><span class="va">sync_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="compare_directories.html">compare_directories</a></span><span class="op">(</span><span class="va">left</span>, <span class="va">right</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">partial_update_missing_files_asym_to_right</span><span class="op">(</span>sync_status <span class="op">=</span> <span class="va">sync_status</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00FFAF; font-weight: bold;">✔ synchronized</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 

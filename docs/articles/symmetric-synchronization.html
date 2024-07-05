@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">syncdr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,12 +86,15 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rossanatat.github.io/syncdr/">syncdr</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Create syncdr.env</span></span>
-<span><span class="va">syncdr.env</span> <span class="op">=</span> <span class="fu"><a href="../reference/toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
+<span><span class="co"># Create .syncdrenv</span></span>
+<span><span class="va">.syncdrenv</span> <span class="op">=</span> <span class="fu"><a href="../reference/toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">■■■■■■■■■                       </span>  27% | ETA:  8s</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  5s</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># Get left and right directories' paths </span></span>
-<span><span class="va">left</span>  <span class="op">&lt;-</span> <span class="va">syncdr.env</span><span class="op">$</span><span class="va">left</span></span>
-<span><span class="va">right</span> <span class="op">&lt;-</span> <span class="va">syncdr.env</span><span class="op">$</span><span class="va">right</span></span></code></pre></div>
+<span><span class="va">left</span>  <span class="op">&lt;-</span> <span class="va">.syncdrenv</span><span class="op">$</span><span class="va">left</span></span>
+<span><span class="va">right</span> <span class="op">&lt;-</span> <span class="va">.syncdrenv</span><span class="op">$</span><span class="va">right</span></span></code></pre></div>
 <p>This article covers functions designed for symmetric synchronization
 between two directories.</p>
 <div class="section level2">
@@ -219,308 +222,32 @@ display the tree structure of <em>both</em> directories BEFORE and AFTER
 the synchronization.</p>
 <p><strong>1 - Full symmetric synchronization:</strong></p>
 <p><strong>When comparing directories by date and content:</strong></p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">sync_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compare_directories.html">compare_directories</a></span><span class="op">(</span>left_path  <span class="op">=</span> <span class="va">left</span>,</span>
 <span>                                   right_path <span class="op">=</span> <span class="va">right</span>,</span>
 <span>                                   by_content <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/full_symmetric_sync.html">full_symmetric_sync</a></span><span class="op">(</span><span class="va">sync_status</span>,</span>
-<span>                    by_content <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                    verbose    <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure BEFORE synchronization:</span></span></span>
-<span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/left</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; │   ├── A1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── A2.Rds</span></span>
-<span><span class="co">#&gt; │   └── A3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── B2.Rds</span></span>
-<span><span class="co">#&gt; │   └── B3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   └── D2.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/right</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   └── B2.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C1_duplicate.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── D2.Rds</span></span>
-<span><span class="co">#&gt; │   └── D3.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt;     ├── E1.Rds</span></span>
-<span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
-<span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure AFTER synchronization:</span></span></span>
-<span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/left</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; │   ├── A1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── A2.Rds</span></span>
-<span><span class="co">#&gt; │   └── A3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── B2.Rds</span></span>
-<span><span class="co">#&gt; │   └── B3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C1_duplicate.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── D2.Rds</span></span>
-<span><span class="co">#&gt; │   └── D3.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt;     ├── E1.Rds</span></span>
-<span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
-<span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/right</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; │   ├── A1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── A2.Rds</span></span>
-<span><span class="co">#&gt; │   └── A3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── B2.Rds</span></span>
-<span><span class="co">#&gt; │   └── B3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C1_duplicate.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── D2.Rds</span></span>
-<span><span class="co">#&gt; │   └── D3.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt;     ├── E1.Rds</span></span>
-<span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
+<span>                    by_content <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00FFAF; font-weight: bold;">✔ synchronized</span></span></span>
 <span><span class="co"><span style="color: #00FFAF; font-weight: bold;">#&gt; </span></span></span></code></pre></div>
 <p><strong>When comparing directories by date only:</strong></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">sync_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compare_directories.html">compare_directories</a></span><span class="op">(</span>left_path  <span class="op">=</span> <span class="va">left</span>,</span>
-<span>                                   right_path <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/full_symmetric_sync.html">full_symmetric_sync</a></span><span class="op">(</span><span class="va">sync_status</span>,</span>
-<span>                    verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure BEFORE synchronization:</span></span></span>
-<span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/copy_left_1718048058</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; │   ├── A1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── A2.Rds</span></span>
-<span><span class="co">#&gt; │   └── A3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── B2.Rds</span></span>
-<span><span class="co">#&gt; │   └── B3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C1_duplicate.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── D2.Rds</span></span>
-<span><span class="co">#&gt; │   └── D3.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt;     ├── E1.Rds</span></span>
-<span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
-<span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/copy_right_1718048058</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; │   ├── A1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── A2.Rds</span></span>
-<span><span class="co">#&gt; │   └── A3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── B2.Rds</span></span>
-<span><span class="co">#&gt; │   └── B3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C1_duplicate.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── D2.Rds</span></span>
-<span><span class="co">#&gt; │   └── D3.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt;     ├── E1.Rds</span></span>
-<span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
-<span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure AFTER synchronization:</span></span></span>
-<span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/copy_left_1718048058</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; │   ├── A1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── A2.Rds</span></span>
-<span><span class="co">#&gt; │   └── A3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── B2.Rds</span></span>
-<span><span class="co">#&gt; │   └── B3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C1_duplicate.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── D2.Rds</span></span>
-<span><span class="co">#&gt; │   └── D3.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt;     ├── E1.Rds</span></span>
-<span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
-<span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/copy_right_1718048058</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; │   ├── A1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── A2.Rds</span></span>
-<span><span class="co">#&gt; │   └── A3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── B2.Rds</span></span>
-<span><span class="co">#&gt; │   └── B3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C1_duplicate.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── D2.Rds</span></span>
-<span><span class="co">#&gt; │   └── D3.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt;     ├── E1.Rds</span></span>
-<span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
-<span><span class="co">#&gt; <span style="color: #00FFAF; font-weight: bold;">✔ synchronized</span></span></span>
-<span><span class="co"><span style="color: #00FFAF; font-weight: bold;">#&gt; </span></span></span></code></pre></div>
-<p><strong>2 - Partial symmetric synchronization:</strong></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">sync_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compare_directories.html">compare_directories</a></span><span class="op">(</span>left_path  <span class="op">=</span> <span class="va">left</span>,</span>
 <span>                                   right_path <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/partial_symmetric_sync_common_files.html">partial_symmetric_sync_common_files</a></span><span class="op">(</span><span class="va">sync_status</span>,</span>
-<span>                                    verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure BEFORE synchronization:</span></span></span>
-<span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/copy_left_1718048059</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; │   ├── A1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── A2.Rds</span></span>
-<span><span class="co">#&gt; │   └── A3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── B2.Rds</span></span>
-<span><span class="co">#&gt; │   └── B3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C1_duplicate.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── D2.Rds</span></span>
-<span><span class="co">#&gt; │   └── D3.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt;     ├── E1.Rds</span></span>
-<span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
-<span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/copy_right_1718048059</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; │   ├── A1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── A2.Rds</span></span>
-<span><span class="co">#&gt; │   └── A3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── B2.Rds</span></span>
-<span><span class="co">#&gt; │   └── B3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C1_duplicate.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── D2.Rds</span></span>
-<span><span class="co">#&gt; │   └── D3.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt;     ├── E1.Rds</span></span>
-<span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
-<span><span class="co">#&gt; <span style="color: #00D7FF; font-weight: bold;">Directories structure AFTER synchronization:</span></span></span>
-<span><span class="co"><span style="color: #00D7FF; font-weight: bold;">#&gt; </span><span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/copy_left_1718048059</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; │   ├── A1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── A2.Rds</span></span>
-<span><span class="co">#&gt; │   └── A3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── B2.Rds</span></span>
-<span><span class="co">#&gt; │   └── B3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C1_duplicate.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── D2.Rds</span></span>
-<span><span class="co">#&gt; │   └── D3.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt;     ├── E1.Rds</span></span>
-<span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
-<span><span class="co">#&gt; <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span></span>
-<span><span class="co"><span style="color: #FF00AF; font-weight: bold;">#&gt; </span><span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp9rEyOH/copy_right_1718048059</span></span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">A</span></span></span>
-<span><span class="co">#&gt; │   ├── A1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── A2.Rds</span></span>
-<span><span class="co">#&gt; │   └── A3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">B</span></span></span>
-<span><span class="co">#&gt; │   ├── B1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── B2.Rds</span></span>
-<span><span class="co">#&gt; │   └── B3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">C</span></span></span>
-<span><span class="co">#&gt; │   ├── C1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C1_duplicate.Rds</span></span>
-<span><span class="co">#&gt; │   ├── C2.Rds</span></span>
-<span><span class="co">#&gt; │   └── C3.Rds</span></span>
-<span><span class="co">#&gt; ├── <span style="color: #0000BB; font-weight: bold;">D</span></span></span>
-<span><span class="co">#&gt; │   ├── D1.Rds</span></span>
-<span><span class="co">#&gt; │   ├── D2.Rds</span></span>
-<span><span class="co">#&gt; │   └── D3.Rds</span></span>
-<span><span class="co">#&gt; └── <span style="color: #0000BB; font-weight: bold;">E</span></span></span>
-<span><span class="co">#&gt;     ├── E1.Rds</span></span>
-<span><span class="co">#&gt;     ├── E2.Rds</span></span>
-<span><span class="co">#&gt;     └── E3.Rds</span></span>
+<span><span class="fu"><a href="../reference/full_symmetric_sync.html">full_symmetric_sync</a></span><span class="op">(</span><span class="va">sync_status</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00FFAF; font-weight: bold;">✔ synchronized</span></span></span>
+<span><span class="co"><span style="color: #00FFAF; font-weight: bold;">#&gt; </span></span></span></code></pre></div>
+<p><strong>2 - Partial symmetric synchronization:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">sync_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compare_directories.html">compare_directories</a></span><span class="op">(</span>left_path  <span class="op">=</span> <span class="va">left</span>,</span>
+<span>                                   right_path <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/partial_symmetric_sync_common_files.html">partial_symmetric_sync_common_files</a></span><span class="op">(</span><span class="va">sync_status</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00FFAF; font-weight: bold;">✔ synchronized</span></span></span>
 <span><span class="co"><span style="color: #00FFAF; font-weight: bold;">#&gt; </span></span></span></code></pre></div>
 </div>

@@ -25,6 +25,8 @@ articles:
   - symmetric-synchronization
   - auxiliary-functions
 
+development:
+  mode: auto
 
 
 
