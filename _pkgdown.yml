@@ -7,6 +7,7 @@ template:
 
 navbar:
   bg: primary
+  type: dark
   structure:
     right:
     - github
@@ -23,6 +24,7 @@ articles:
   - asymmetric-synchronization
   - symmetric-synchronization
   - auxiliary-functions
+
 
 
 
