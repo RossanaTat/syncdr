@@ -129,8 +129,8 @@ It can be computed based on modification date only, content only, or both.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Compare directories with 'compare_directories()'</span></span></span>
 <span class="r-in"><span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■                       </span>  27% | ETA:  8s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  5s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  47% | ETA:  5s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■     </span>  87% | ETA:  1s</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get left and right directories' paths</span></span></span>
 <span class="r-in"><span><span class="va">left</span>  <span class="op">&lt;-</span> <span class="va">e</span><span class="op">$</span><span class="va">left</span></span></span>
@@ -138,29 +138,29 @@ It can be computed based on modification date only, content only, or both.</p>
 <span class="r-in"><span><span class="fu">compare_directories</span><span class="op">(</span><span class="va">left</span>, <span class="va">right</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $common_files</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_left</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/B/B1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/B/B2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/C/C1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/C/C2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/C/C3.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/D/D1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/D/D2.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_right</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/B/B1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/B/B2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/C/C1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/C/C2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/C/C3.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/D/D1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/D/D2.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   modification_time_left modification_time_right is_new_left is_new_right</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    2024-07-05 14:26:17     2024-07-05 14:26:18       FALSE         TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2024-07-05 14:26:21     2024-07-05 14:26:22       FALSE         TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    2024-07-05 14:26:18     2024-07-05 14:26:25       FALSE         TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    2024-07-05 14:26:22     2024-07-05 14:26:23       FALSE         TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    2024-07-05 14:26:24     2024-07-05 14:26:25       FALSE         TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    2024-07-05 14:26:20     2024-07-05 14:26:19        TRUE        FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    2024-07-05 14:26:24     2024-07-05 14:26:23        TRUE        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    2024-07-05 14:44:00     2024-07-05 14:44:01       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2024-07-05 14:44:03     2024-07-05 14:44:04       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    2024-07-05 14:44:01     2024-07-05 14:44:07       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    2024-07-05 14:44:04     2024-07-05 14:44:05       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    2024-07-05 14:44:06     2024-07-05 14:44:07       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    2024-07-05 14:44:03     2024-07-05 14:44:02        TRUE        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    2024-07-05 14:44:06     2024-07-05 14:44:05        TRUE        FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         sync_status</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 older in left, newer in right dir</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 older in left, newer in right dir</span>
@@ -174,10 +174,10 @@ It can be computed based on modification date only, content only, or both.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   path_left                                               path_right sync_status</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span>                                              <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/A/A1.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/A/A2.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/A/A3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/B/B3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/A/A1.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/A/A2.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/A/A3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/B/B3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #BB0000;">NA</span>                                                      …icate.Rds only in ri…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> <span style="color: #BB0000;">NA</span>                                                      …/D/D3.Rds only in ri…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E1.Rds only in ri…</span>
@@ -185,10 +185,10 @@ It can be computed based on modification date only, content only, or both.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E3.Rds only in ri…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $left_path</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $right_path</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "syncdr_status"</span>
@@ -196,29 +196,29 @@ It can be computed based on modification date only, content only, or both.</p>
 <span class="r-in"><span><span class="fu">compare_directories</span><span class="op">(</span><span class="va">left</span>, <span class="va">right</span>, by_content <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $common_files</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_left</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/B/B1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/B/B2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/C/C1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/C/C2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/C/C3.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/D/D1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/D/D2.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_right</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/B/B1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/B/B2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/C/C1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/C/C2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/C/C3.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/D/D1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/D/D2.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   modification_time_left modification_time_right is_new_left is_new_right</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    2024-07-05 14:26:17     2024-07-05 14:26:18       FALSE         TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2024-07-05 14:26:21     2024-07-05 14:26:22       FALSE         TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    2024-07-05 14:26:18     2024-07-05 14:26:25       FALSE         TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    2024-07-05 14:26:22     2024-07-05 14:26:23       FALSE         TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    2024-07-05 14:26:24     2024-07-05 14:26:25       FALSE         TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    2024-07-05 14:26:20     2024-07-05 14:26:19        TRUE        FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    2024-07-05 14:26:24     2024-07-05 14:26:23        TRUE        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    2024-07-05 14:44:00     2024-07-05 14:44:01       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2024-07-05 14:44:03     2024-07-05 14:44:04       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    2024-07-05 14:44:01     2024-07-05 14:44:07       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    2024-07-05 14:44:04     2024-07-05 14:44:05       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    2024-07-05 14:44:06     2024-07-05 14:44:07       FALSE         TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    2024-07-05 14:44:03     2024-07-05 14:44:02        TRUE        FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    2024-07-05 14:44:06     2024-07-05 14:44:05        TRUE        FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         sync_status is_diff</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 different content    TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 different content    TRUE</span>
@@ -232,10 +232,10 @@ It can be computed based on modification date only, content only, or both.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   path_left                                               path_right sync_status</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span>                                              <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/A/A1.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/A/A2.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/A/A3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/B/B3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/A/A1.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/A/A2.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/A/A3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/B/B3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #BB0000;">NA</span>                                                      …icate.Rds only in ri…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> <span style="color: #BB0000;">NA</span>                                                      …/D/D3.Rds only in ri…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E1.Rds only in ri…</span>
@@ -243,10 +243,10 @@ It can be computed based on modification date only, content only, or both.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E3.Rds only in ri…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $left_path</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $right_path</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "syncdr_status"</span>
@@ -254,38 +254,38 @@ It can be computed based on modification date only, content only, or both.</p>
 <span class="r-in"><span><span class="fu">compare_directories</span><span class="op">(</span><span class="va">left</span>, <span class="va">right</span>, by_content <span class="op">=</span> <span class="cn">TRUE</span>, by_date <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $common_files</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_left</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/B/B1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/B/B2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/C/C1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/C/C2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/C/C3.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/D/D1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/D/D2.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                   path_right</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/B/B1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/B/B2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/C/C1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/C/C2.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/C/C3.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/D/D1.Rds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right/D/D2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/B/B1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/B/B2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/C/C1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/C/C2.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/C/C3.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/D/D1.Rds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right/D/D2.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   modification_time_left modification_time_right is_diff       sync_status</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    2024-07-05 14:26:17     2024-07-05 14:26:18    TRUE different content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2024-07-05 14:26:21     2024-07-05 14:26:22    TRUE different content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    2024-07-05 14:26:18     2024-07-05 14:26:25   FALSE      same content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    2024-07-05 14:26:22     2024-07-05 14:26:23    TRUE different content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    2024-07-05 14:26:24     2024-07-05 14:26:25    TRUE different content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    2024-07-05 14:26:20     2024-07-05 14:26:19    TRUE different content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    2024-07-05 14:26:24     2024-07-05 14:26:23    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    2024-07-05 14:44:00     2024-07-05 14:44:01    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    2024-07-05 14:44:03     2024-07-05 14:44:04    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    2024-07-05 14:44:01     2024-07-05 14:44:07   FALSE      same content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    2024-07-05 14:44:04     2024-07-05 14:44:05    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    2024-07-05 14:44:06     2024-07-05 14:44:07    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    2024-07-05 14:44:03     2024-07-05 14:44:02    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    2024-07-05 14:44:06     2024-07-05 14:44:05    TRUE different content</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $non_common_files</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   path_left                                               path_right sync_status</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">*</span> <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span>                                              <span style="color: #949494; font-style: italic;">&lt;fs::path&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/A/A1.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/A/A2.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/A/A3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> …0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left/B/B3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/A/A1.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/A/A2.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/A/A3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> …0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left/B/B3.Rds <span style="color: #BB0000;">NA</span>         only in le…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="color: #BB0000;">NA</span>                                                      …icate.Rds only in ri…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> <span style="color: #BB0000;">NA</span>                                                      …/D/D3.Rds only in ri…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E1.Rds only in ri…</span>
@@ -293,10 +293,10 @@ It can be computed based on modification date only, content only, or both.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> <span style="color: #BB0000;">NA</span>                                                      …/E/E3.Rds only in ri…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $left_path</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/left</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/left</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $right_path</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpXUK0Xj/right</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmpov7fCm/right</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "syncdr_status"</span>
