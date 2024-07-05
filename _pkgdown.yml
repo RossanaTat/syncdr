@@ -3,19 +3,17 @@ template:
   bootstrap: 5
   bottswatch: cosmo
   bslib:
-    primary: "#e4c1f9"
-
+    primary: '#e4c1f9'
+    dark: '#111111'
 navbar:
   bg: primary
   type: dark
   structure:
-    right:
-    - github
+    right: github
   components:
     github:
       icon: fab fa-github fa-lg
       href: https://github.com/RossanaTat/syncdr
-
 articles:
 - title: Usage
   navbar: ~
@@ -24,11 +22,6 @@ articles:
   - asymmetric-synchronization
   - symmetric-synchronization
   - auxiliary-functions
-
 development:
   mode: auto
-
-
-
-
 
