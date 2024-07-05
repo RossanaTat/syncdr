@@ -5,13 +5,16 @@
 \title{Partial asymmetric asymmetric synchronization of non common files}
 \usage{
 partial_update_missing_files_asym_to_right(
-  sync_status,
+  left_path,
+  right_path,
   recurse = TRUE,
-  verbose = FALSE
+  verbose = getOption("syncdr.verbose")
 )
 }
 \arguments{
-\item{sync_status}{object of class 'syncdr_status' with info on sync status and comparison of directories}
+\item{left_path}{Path to the left/first directory.}
+
+\item{right_path}{Path to the right/second directory.}
 
 \item{recurse}{logical, TRUE by default.
 If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
@@ -21,7 +24,7 @@ and the file will be copied at the top level}
 \item{verbose}{logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
 }
 \value{
-print "synchronized"
+Invisible TRUE indicating successful synchronization.
 }
 \description{
 update non common files in right directory based on left one -i.e., the function will:
@@ -44,6 +47,6 @@ e <- toy_dirs()
 # Get left and right directories' paths
 left  <- e$left
 right <- e$right
-sync_status <- compare_directories(left, right)
-partial_update_missing_files_asym_to_right(sync_status = sync_status)
+partial_update_missing_files_asym_to_right(left_path,
+                                           right_path)
 }

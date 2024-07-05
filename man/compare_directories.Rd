@@ -10,7 +10,7 @@ compare_directories(
   recurse = TRUE,
   by_date = TRUE,
   by_content = FALSE,
-  verbose = FALSE,
+  verbose = getOption("syncdr.verbose"),
   short_paths = FALSE
 )
 }

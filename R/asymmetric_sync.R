@@ -10,8 +10,8 @@
 #' * Copy to the right directory those files that exist only in the left directory.
 #' * Delete from the right directory those files that are exclusive in the right directory (i.e., missing in the left directory)
 #'
-#' @param sync_status An object of class 'syncdr_status' containing information about
-#'                    synchronization status and directory comparison.
+#' @param left_path Path to the left/first directory.
+#' @param right_path Path to the right/second directory.
 #' @param by_date Logical. If TRUE, synchronize based on file modification dates (default is TRUE).
 #' @param by_content Logical. If TRUE, synchronize based on file contents (default is FALSE).
 #' @param recurse Logical. If TRUE (default), files are copied to corresponding subdirectories
@@ -28,18 +28,21 @@
 #' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
-#' sync_status <- compare_directories(left, right)
-#' full_asym_sync_to_right(sync_status = sync_status,
-#' by_content  = TRUE)
-full_asym_sync_to_right <- function(sync_status,
+#' # Synchronize by date & content
+#' full_asym_sync_to_right(left_path  = left,
+#'                         right_path = right,
+#'                         by_content = TRUE)
+full_asym_sync_to_right <- function(left_path,
+                                    right_path,
                                     by_date    = TRUE,
                                     by_content = FALSE,
                                     recurse    = TRUE,
                                     verbose    = getOption("syncdr.verbose")) {
 
-  # Check sync_status is the result of compare_directories()
-  stopifnot(expr = {
-    inherits(sync_status, "syncdr_status")
+  # Check directory paths
+  stopifnot(exprs = {
+    fs::dir_exists(left_path)
+    fs::dir_exists(right_path)
   })
 
   # Display folder structure before synchronization
@@ -48,9 +51,18 @@ full_asym_sync_to_right <- function(sync_status,
     style_msgs(color_name = "blue",
                text = "Directories structure BEFORE synchronization:\n")
 
-    display_dir_tree(path_left  = sync_status$left_path,
-                     path_right = sync_status$right_path)
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
   }
+
+  # Get sync_status -internal call to compare_directories()
+  sync_status <- compare_directories(left_path  = left_path,
+                                     right_path = right_path,
+                                     by_date    = by_date,
+                                     by_content = by_content,
+                                     recurse    = recurse,
+                                     verbose    = verbose
+                                     )
 
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
@@ -66,7 +78,6 @@ full_asym_sync_to_right <- function(sync_status,
       ) # files only in left
 
   # Copy files ####
-
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
                       files_to_copy = files_to_copy,
@@ -83,13 +94,10 @@ full_asym_sync_to_right <- function(sync_status,
 
   if(verbose == TRUE) {
 
-    # Display folder structure AFTER synchronization
-    #cat("\033[1;31m\033[1mDirectory structure AFTER synchronization:\033[0m\n")
-
     style_msgs(color_name = "blue",
                text = "Directories structure AFTER synchronization:\n")
-    display_dir_tree(path_left  = sync_status$left_path,
-                     path_right = sync_status$right_path)
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
 
   }
 
@@ -97,7 +105,7 @@ full_asym_sync_to_right <- function(sync_status,
              text = paste0("\u2714", " synchronized\n"))
 
   invisible(TRUE)
-  #return(print("synchronized"))
+
 }
 
 
@@ -112,7 +120,8 @@ full_asym_sync_to_right <- function(sync_status,
 #'    - disregard those files that are only in left
 #'    - keep in right those files that are only in right (i.e., files 'missing in left')
 #'
-#' @param sync_status object of class 'syncdr_status' with info on sync status and comparison of directories
+#' @param left_path Path to the left/first directory.
+#' @param right_path Path to the right/second directory.
 #' @param by_date logical, TRUE by default
 #' @param by_content logical, FALSE by default
 #' @param recurse logical, TRUE by default.
@@ -120,7 +129,7 @@ full_asym_sync_to_right <- function(sync_status,
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
-#' @return print "synchronized"
+#' @return Invisible TRUE indicating successful synchronization.
 #' @export
 #' @examples
 #' # Compare directories with 'compare_directories()'
@@ -129,26 +138,38 @@ full_asym_sync_to_right <- function(sync_status,
 #' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
-#' sync_status <- compare_directories(left, right)
-#' common_files_asym_sync_to_right(sync_status = sync_status)
-common_files_asym_sync_to_right <- function(sync_status,
+#' # Synchronize by date only
+#' common_files_asym_sync_to_right(left_path  = left,
+#'                                 right_path = right)
+common_files_asym_sync_to_right <- function(left_path,
+                                            right_path,
                                             by_date    = TRUE,
                                             by_content = FALSE,
                                             recurse    = TRUE,
                                             verbose    = getOption("syncdr.verbose")) {
 
-  # Check sync_status is the result of compare_directories()
-  stopifnot(expr = {
-    inherits(sync_status, "syncdr_status")
+  # Check directory paths
+  stopifnot(exprs = {
+    fs::dir_exists(left_path)
+    fs::dir_exists(right_path)
   })
 
 if(verbose == TRUE) {
   # Display folder structure before synchronization
   style_msgs(color_name = "blue",
              text = "Directories structure BEFORE synchronization:\n")
-  display_dir_tree(path_left  = sync_status$left_path,
-                   path_right = sync_status$right_path)
+  display_dir_tree(path_left  = left_path,
+                   path_right = right_path)
 }
+
+  # Get sync_status -internal call to compare_directories()
+  sync_status <- compare_directories(left_path  = left_path,
+                                     right_path = right_path,
+                                     by_date    = by_date,
+                                     by_content = by_content,
+                                     recurse    = recurse,
+                                     verbose    = verbose
+  )
 
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
@@ -165,8 +186,8 @@ if(verbose == TRUE) {
     # Display folder structure AFTER synchronization
     style_msgs(color_name = "blue",
                text = "Directories structure AFTER synchronization:\n")
-    display_dir_tree(path_left  = sync_status$left_path,
-                     path_right = sync_status$right_path)
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
   }
 
   style_msgs(color_name = "green",
@@ -184,14 +205,15 @@ if(verbose == TRUE) {
 #'    - copy those files that are only in left to right
 #'    - delete in right those files that are only in right (i.e., files 'missing in left')
 #'
-#' @param sync_status object of class 'syncdr_status' with info on sync status and comparison of directories
+#' @param left_path Path to the left/first directory.
+#' @param right_path Path to the right/second directory.
 #' @param recurse logical, TRUE by default.
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
-#'
-#' @return print "synchronized"
+#' @return Invisible TRUE indicating successful synchronization.
+
 #' @export
 #' @examples
 #' # Compare directories with 'compare_directories()'
@@ -200,25 +222,31 @@ if(verbose == TRUE) {
 #' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
-#' sync_status <- compare_directories(left, right)
-#' update_missing_files_asym_to_right(sync_status = sync_status)
-update_missing_files_asym_to_right <-
-  function(sync_status,
-           recurse    = TRUE,
-           verbose    = getOption("syncdr.verbose")) {
+#' update_missing_files_asym_to_right(left_path  = left,
+#'                                    right_path = right)
+update_missing_files_asym_to_right <- function(left_path,
+                                               right_path,
+                                               recurse    = TRUE,
+                                               verbose    = getOption("syncdr.verbose")) {
 
-  # Check sync_status is the result of compare_directories()
-  stopifnot(expr = {
-    inherits(sync_status, "syncdr_status")
+  # Check directory paths
+  stopifnot(exprs = {
+    fs::dir_exists(left_path)
+    fs::dir_exists(right_path)
   })
 
   if (verbose == TRUE) {
     # Display folder structure before synchronization
     style_msgs(color_name = "blue",
                text = "Directories structure BEFORE synchronization:\n")
-    display_dir_tree(path_left  = sync_status$left_path,
-                     path_right = sync_status$right_path)
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
   }
+
+  # Get sync_status -internal call to compare_directories()
+  sync_status <- compare_directories(left_path  = left_path,
+                                     right_path = right_path
+  )
 
   # Get files to copy
   files_to_copy <- sync_status$non_common_files |>
@@ -242,8 +270,8 @@ update_missing_files_asym_to_right <-
   # Display folder structure AFTER synchronization
   style_msgs(color_name = "blue",
                text = "Directories structure AFTER synchronization:\n")
-  display_dir_tree(path_left  = sync_status$left_path,
-                   path_right = sync_status$right_path)
+  display_dir_tree(path_left  = left_path,
+                   path_right = right_path)
   }
 
   style_msgs(color_name = "green",
@@ -259,14 +287,15 @@ update_missing_files_asym_to_right <-
 #' * for non common files,
 #'    - copy those files that are only in left to right
 #'    - keep in right those files that are only in right (i.e., files 'missing in left')
-#'
-#' @param sync_status object of class 'syncdr_status' with info on sync status and comparison of directories
+#' @param left_path Path to the left/first directory.
+#' @param right_path Path to the right/second directory.
 #' @param recurse logical, TRUE by default.
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
-#' @return print "synchronized"
+#' @return Invisible TRUE indicating successful synchronization.
+
 #' @export
 #' @examples
 #' # Compare directories with 'compare_directories()'
@@ -275,24 +304,30 @@ update_missing_files_asym_to_right <-
 #' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
-#' sync_status <- compare_directories(left, right)
-#' partial_update_missing_files_asym_to_right(sync_status = sync_status)
-partial_update_missing_files_asym_to_right <-
-  function(sync_status,
-           recurse = TRUE,
-           verbose    = getOption("syncdr.verbose")) {
+#' partial_update_missing_files_asym_to_right(left_path,
+#'                                            right_path)
+partial_update_missing_files_asym_to_right <- function(left_path,
+                                                       right_path,
+                                                       recurse = TRUE,
+                                                       verbose    = getOption("syncdr.verbose")) {
 
-  # Check sync_status is the result of compare_directories()
-  stopifnot(expr = {
-    inherits(sync_status, "syncdr_status")
+  # Check directory paths
+  stopifnot(exprs = {
+    fs::dir_exists(left_path)
+    fs::dir_exists(right_path)
   })
+
+  # Get sync_status -internal call to compare_directories()
+  sync_status <- compare_directories(left_path  = left_path,
+                                     right_path = right_path
+  )
 
   if(verbose == TRUE) {
     # Display folder structure before synchronization
     style_msgs(color_name = "blue",
                text = "Directories structure BEFORE synchronization:\n")
-    display_dir_tree(path_left  = sync_status$left_path,
-                     path_right = sync_status$right_path)
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
   }
 
   # Get files to copy
@@ -309,8 +344,8 @@ partial_update_missing_files_asym_to_right <-
     # Display folder structure AFTER synchronization
     style_msgs(color_name = "blue",
                text = "Directories structure AFTER synchronization:\n")
-    display_dir_tree(path_left  = sync_status$left_path,
-                     path_right = sync_status$right_path)
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
   }
   style_msgs(color_name = "green",
              text = paste0("\u2714", " synchronized\n"))

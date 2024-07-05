@@ -9,7 +9,7 @@ partial_symmetric_sync_common_files(
   by_date = TRUE,
   by_content = FALSE,
   recurse = TRUE,
-  verbose = FALSE
+  verbose = getOption("syncdr.verbose")
 )
 }
 \arguments{
