@@ -4,7 +4,7 @@ template:
   bottswatch: cosmo
   bslib:
     primary: '#e4c1f9'
-    dark: '#111111'
+    dark: '#696969'
 navbar:
   bg: primary
   type: dark
