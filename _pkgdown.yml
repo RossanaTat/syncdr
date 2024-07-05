@@ -3,7 +3,7 @@ template:
   bootstrap: 5
   bottswatch: cosmo
   bslib:
-    primary: '#e4c1f9'
+    primary: '#6050DC'
     dark: '#111111'
 navbar:
   bg: primary
