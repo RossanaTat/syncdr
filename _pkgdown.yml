@@ -20,5 +20,3 @@ articles:
   - asymmetric-synchronization
   - symmetric-synchronization
   - auxiliary-functions
-development:
-  mode: auto
