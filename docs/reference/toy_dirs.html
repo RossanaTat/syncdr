@@ -8,11 +8,11 @@ deleted when a new R session is started"><!-- mathjax --><script src="https://cd
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">syncdr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,22 +29,16 @@ deleted when a new R session is started"><!-- mathjax --><script src="https://cd
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/visualizations.html">Visualizations</a>
     <a class="dropdown-item" href="../articles/asymmetric-synchronization.html">Asymmetric Synchronization Functions</a>
-    <a class="dropdown-item" href="../articles/symmetric-synchronization.html">Symmetric Synchronization</a>
     <a class="dropdown-item" href="../articles/auxiliary-functions.html">Auxiliary Functions</a>
+    <a class="dropdown-item" href="../articles/symmetric-synchronization.html">Symmetric Synchronization</a>
+    <a class="dropdown-item" href="../articles/visualizations.html">Visualizations</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"><li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/RossanaTat/syncdr">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul></div>
+      <ul class="navbar-nav"></ul></div>
 
     
   </div>
@@ -88,8 +82,8 @@ files with the same name but different time stamp.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">toy_dirs</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■                       </span>  27% | ETA:  8s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpB7C6Au/left</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■                 </span>  47% | ETA:  5s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp6Ibzo3/left</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├── <span style="color: #0000BB; font-weight: bold;">A</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── A1.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── A2.Rds</span>
@@ -106,7 +100,7 @@ files with the same name but different time stamp.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── D1.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   └── D2.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> └── <span style="color: #0000BB; font-weight: bold;">E</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/RtmpB7C6Au/right</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp6Ibzo3/right</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├── <span style="color: #0000BB; font-weight: bold;">A</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── A1.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── A2.Rds</span>
@@ -128,7 +122,7 @@ files with the same name but different time stamp.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ├── E1.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ├── E2.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     └── E3.Rds</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  5s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■■■■■■■     </span>  87% | ETA:  1s</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
