@@ -45,3 +45,14 @@ based on the left directory. It includes the following synchronization steps:
 \item Delete from the right directory those files that are exclusive in the right directory (i.e., missing in the left directory)
 }
 }
+\examples{
+# Compare directories with 'compare_directories()'
+e <- toy_dirs()
+
+# Get left and right directories' paths
+left  <- e$left
+right <- e$right
+sync_status <- compare_directories(left, right)
+full_asym_sync_to_right(sync_status = sync_status,
+by_content  = TRUE)
+}

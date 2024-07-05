@@ -42,10 +42,10 @@ library(syncdr)
 
 # Generate toy directories to show package usage
 
-# --- Create syncdr.env --- #
-syncdr.env <- toy_dirs()
-left       <- syncdr.env$left
-right      <-  syncdr.env$right
+# --- Create .syncdrenv --- #
+.syncdrenv <- toy_dirs()
+left       <- .syncdrenv$left
+right      <-  .syncdrenv$right
 
 # --- Compare synchronization status of the two directories --- #
 # comparing by date of last modification

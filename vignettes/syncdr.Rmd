@@ -44,16 +44,16 @@ This article does ***not*** offer a comprehensive overview of **{syncdr}** funct
 
 Suppose you are working with two directories, let's call them `left` and `right` -each containing certain files and folders/sub-folders.
 
-To get started, let's call `syncdr` function `toy_dirs()`, which generates two toy directories in `syncdr.env` environment -say `left` and `right`- that we can use to showcase `syncdr` functionalities.
+To get started, let's call `syncdr` function `toy_dirs()`, which generates two toy directories in `.syncdrenv` environment -say `left` and `right`- that we can use to showcase `syncdr` functionalities.
 
 ```{r toy-dirs}
 
 # Create syncdr env with left and right directories
-syncdr.env =toy_dirs()
+.syncdrenv =toy_dirs()
 
 # Get left and right directories' paths 
-left  <- syncdr.env$left
-right <- syncdr.env$right
+left  <- .syncdrenv$left
+right <- .syncdrenv$right
 
 ```
 

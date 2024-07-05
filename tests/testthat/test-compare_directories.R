@@ -3,8 +3,8 @@
 toy_dirs()
 
 # Copy temp env
-left  <- syncdr.env$left
-right <- syncdr.env$right
+left  <- .syncdrenv$left
+right <- .syncdrenv$right
 
 # Test error when invalid paths
 test_that("compare_directories throws an error with invalid dir

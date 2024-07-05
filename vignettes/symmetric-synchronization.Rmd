@@ -20,12 +20,12 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(syncdr)
 
-# Create syncdr.env
-syncdr.env = toy_dirs()
+# Create .syncdrenv
+.syncdrenv = toy_dirs()
 
 # Get left and right directories' paths 
-left  <- syncdr.env$left
-right <- syncdr.env$right
+left  <- .syncdrenv$left
+right <- .syncdrenv$right
 ```
 
 This article covers functions designed for symmetric synchronization between two directories.
@@ -105,11 +105,11 @@ full_symmetric_sync(sync_status,
 
 ```{r include = FALSE}
 
-syncdr.env.1 <- copy_temp_environment()
+.syncdrenv.1 <- copy_temp_environment()
 
 # Get left and right directories' paths 
-left  <- syncdr.env.1$left
-right <- syncdr.env.1$right
+left  <- .syncdrenv.1$left
+right <- .syncdrenv.1$right
 
 ```
 
@@ -126,11 +126,11 @@ full_symmetric_sync(sync_status,
 
 ```{r include = FALSE}
 
-syncdr.env.2 <- copy_temp_environment()
+.syncdrenv.2 <- copy_temp_environment()
 
 # Get left and right directories' paths 
-left  <- syncdr.env.2$left
-right <- syncdr.env.2$right
+left  <- .syncdrenv.2$left
+right <- .syncdrenv.2$right
 
 ```
 

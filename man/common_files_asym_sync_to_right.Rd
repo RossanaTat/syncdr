@@ -45,3 +45,13 @@ Partially synchronize right directory based on left one -i.e., the function will
 }
 }
 }
+\examples{
+# Compare directories with 'compare_directories()'
+e <- toy_dirs()
+
+# Get left and right directories' paths
+left  <- e$left
+right <- e$right
+sync_status <- compare_directories(left, right)
+common_files_asym_sync_to_right(sync_status = sync_status)
+}

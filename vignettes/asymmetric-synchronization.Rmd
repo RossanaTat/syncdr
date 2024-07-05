@@ -19,12 +19,12 @@ knitr::opts_chunk$set(
 library(syncdr)
 #devtools::load_all(".")
 
-# Create syncdr.env
-syncdr.env =toy_dirs()
+# Create .syncdrenv
+.syncdrenv =toy_dirs()
 
 # Get left and right directories' paths 
-left  <- syncdr.env$left
-right <- syncdr.env$right
+left  <- .syncdrenv$left
+right <- .syncdrenv$right
 
 ```
 
@@ -110,11 +110,11 @@ full_asym_sync_to_right(sync_status = sync_status,
 ```{r include=FALSE}
 
 
-syncdr.env.2 <- syncdr:::copy_temp_environment()
+.syncdrenv.2 <- syncdr:::copy_temp_environment()
 
 # Get left and right directories' paths 
-left  <- syncdr.env.2$left
-right <- syncdr.env.2$right
+left  <- .syncdrenv.2$left
+right <- .syncdrenv.2$right
 ```
 
 ```{r}
@@ -130,11 +130,11 @@ common_files_asym_sync_to_right(sync_status = sync_status,
 
 ```{r include=FALSE}
 
-syncdr.env.3 <- copy_temp_environment()
+.syncdrenv.3 <- copy_temp_environment()
 
 # Get left and right directories' paths 
-left  <- syncdr.env.3$left
-right <- syncdr.env.3$right
+left  <- .syncdrenv.3$left
+right <- .syncdrenv.3$right
 
 ```
 
@@ -152,11 +152,11 @@ update_missing_files_asym_to_right(sync_status = sync_status,
 
 ```{r include=FALSE}
 
-syncdr.env.4 <- copy_temp_environment()
+.syncdrenv.4 <- copy_temp_environment()
 
 # Get left and right directories' paths 
-left  <- syncdr.env.4$left
-right <- syncdr.env.4$right
+left  <- .syncdrenv.4$left
+right <- .syncdrenv.4$right
 
 ```
 

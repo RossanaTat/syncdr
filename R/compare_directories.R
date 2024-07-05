@@ -33,12 +33,24 @@ library(collapse)
 #'   - Path of the right directory.
 #'
 #' @export
+#' @examples
+#' # Compare directories with 'compare_directories()'
+#' e <- toy_dirs()
+#'
+#' # Get left and right directories' paths
+#' left  <- e$left
+#' right <- e$right
+#' compare_directories(left, right)
+#' # Compare by date and content
+#' compare_directories(left, right, by_content = TRUE)
+#' # Compare by content only
+#' compare_directories(left, right, by_content = TRUE, by_date = FALSE)
 compare_directories <- function(left_path,
                                 right_path,
                                 recurse     = TRUE,
                                 by_date     = TRUE,
                                 by_content  = FALSE,
-                                verbose     = FALSE,
+                                verbose    = getOption("syncdr.verbose"),
                                 short_paths = FALSE) {
 
   # Check directory paths

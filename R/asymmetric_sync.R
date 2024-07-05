@@ -21,11 +21,21 @@
 #' @return Invisible TRUE indicating successful synchronization.
 #'
 #' @export
+#' @examples
+#' # Compare directories with 'compare_directories()'
+#' e <- toy_dirs()
+#'
+#' # Get left and right directories' paths
+#' left  <- e$left
+#' right <- e$right
+#' sync_status <- compare_directories(left, right)
+#' full_asym_sync_to_right(sync_status = sync_status,
+#' by_content  = TRUE)
 full_asym_sync_to_right <- function(sync_status,
                                     by_date    = TRUE,
                                     by_content = FALSE,
                                     recurse    = TRUE,
-                                    verbose    = FALSE) {
+                                    verbose    = getOption("syncdr.verbose")) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -112,11 +122,20 @@ full_asym_sync_to_right <- function(sync_status,
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return print "synchronized"
 #' @export
+#' @examples
+#' # Compare directories with 'compare_directories()'
+#' e <- toy_dirs()
+#'
+#' # Get left and right directories' paths
+#' left  <- e$left
+#' right <- e$right
+#' sync_status <- compare_directories(left, right)
+#' common_files_asym_sync_to_right(sync_status = sync_status)
 common_files_asym_sync_to_right <- function(sync_status,
                                             by_date    = TRUE,
                                             by_content = FALSE,
                                             recurse    = TRUE,
-                                            verbose    = FALSE) {
+                                            verbose    = getOption("syncdr.verbose")) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -174,9 +193,19 @@ if(verbose == TRUE) {
 #'
 #' @return print "synchronized"
 #' @export
-update_missing_files_asym_to_right <- function(sync_status,
-                                               recurse    = TRUE,
-                                               verbose    = FALSE) {
+#' @examples
+#' # Compare directories with 'compare_directories()'
+#' e <- toy_dirs()
+#'
+#' # Get left and right directories' paths
+#' left  <- e$left
+#' right <- e$right
+#' sync_status <- compare_directories(left, right)
+#' update_missing_files_asym_to_right(sync_status = sync_status)
+update_missing_files_asym_to_right <-
+  function(sync_status,
+           recurse    = TRUE,
+           verbose    = getOption("syncdr.verbose")) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {
@@ -239,9 +268,19 @@ update_missing_files_asym_to_right <- function(sync_status,
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return print "synchronized"
 #' @export
-partial_update_missing_files_asym_to_right <- function(sync_status,
-                                                       recurse = TRUE,
-                                                       verbose = FALSE) {
+#' @examples
+#' # Compare directories with 'compare_directories()'
+#' e <- toy_dirs()
+#'
+#' # Get left and right directories' paths
+#' left  <- e$left
+#' right <- e$right
+#' sync_status <- compare_directories(left, right)
+#' partial_update_missing_files_asym_to_right(sync_status = sync_status)
+partial_update_missing_files_asym_to_right <-
+  function(sync_status,
+           recurse = TRUE,
+           verbose    = getOption("syncdr.verbose")) {
 
   # Check sync_status is the result of compare_directories()
   stopifnot(expr = {

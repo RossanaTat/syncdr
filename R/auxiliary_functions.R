@@ -198,7 +198,7 @@ compare_modification_times <- function(modification_time_left,
 #'
 compare_file_contents <- function(path_left,
                                   path_right,
-                                  verbose = FALSE) {
+                                  verbose    = getOption("syncdr.verbose")) {
 
   # hash_left <- hash_files_contents(path_left,
   #                                  path_right)$left_hash
@@ -249,7 +249,7 @@ compare_file_contents <- function(path_left,
 #' @return hashes of files
 #' @keywords internal
 hash_files <- function(files_path,
-                       verbose = FALSE) {
+                       verbose    = getOption("syncdr.verbose")) {
 
   if (verbose) {
     # Initialize progress bars

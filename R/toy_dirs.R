@@ -35,7 +35,7 @@ toy_dirs <- function(verbose = FALSE) {
   names(robj) <- tcomb
 
   # Save objects as independent files according to criteria
-  for (i in seq_along(tcomb)) {
+  for (i in cli::cli_progress_along(tcomb)) {
     tc <- tcomb[i]
     l  <- substr(tc, 1, 1)
     n  <- substr(tc, 2, 2)
@@ -112,19 +112,17 @@ toy_dirs <- function(verbose = FALSE) {
   # Assign to environment
   assign(x     = "left",
          value = left,
-         envir = syncdr.env)
+         envir = .syncdrenv)
 
   assign(x     = "right",
          value = right,
-         envir = syncdr.env)
+         envir = .syncdrenv)
 
-  return(syncdr.env)
-
-  #invisible(TRUE) # THIS DOES NOT WORK !!!!
+  return(invisible(.syncdrenv))
 
 }
 
-#' Create a temporary copy of syncdr.env to test functions
+#' Create a temporary copy of .syncdrenv to test functions
 #'
 #' This function creates a copy of the original environment, allowing tests to be executed without modifying the original environment.
 #'
@@ -133,12 +131,12 @@ toy_dirs <- function(verbose = FALSE) {
 copy_temp_environment <- function() {
 
   # Ensure the original environment is created
-  if (!exists("syncdr.env")) {
+  if (!exists(".syncdrenv")) {
     cli::cli_abort(message = "Original environment not found. Please run toy_dirs() first.")
   }
 
-  original_left  <- syncdr.env$left
-  original_right <- syncdr.env$right
+  original_left  <- .syncdrenv$left
+  original_right <- .syncdrenv$right
 
   # Create new temporary directories
   temp_left  <- fs::path_temp(paste0("copy_left_",
