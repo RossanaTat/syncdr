@@ -9,7 +9,7 @@ full_symmetric_sync(
   by_date = TRUE,
   by_content = FALSE,
   recurse = TRUE,
-  verbose = FALSE
+  verbose = getOption("syncdr.verbose")
 )
 }
 \arguments{

@@ -4,7 +4,11 @@
 \alias{compare_file_contents}
 \title{Compare contents of two files and determine synchronization status}
 \usage{
-compare_file_contents(path_left, path_right, verbose = FALSE)
+compare_file_contents(
+  path_left,
+  path_right,
+  verbose = getOption("syncdr.verbose")
+)
 }
 \arguments{
 \item{path_left}{A character string specifying the path to the file in the left directory.}

@@ -9,7 +9,7 @@ full_asym_sync_to_right(
   by_date = TRUE,
   by_content = FALSE,
   recurse = TRUE,
-  verbose = FALSE
+  verbose = getOption("syncdr.verbose")
 )
 }
 \arguments{
@@ -53,6 +53,5 @@ e <- toy_dirs()
 left  <- e$left
 right <- e$right
 sync_status <- compare_directories(left, right)
-full_asym_sync_to_right(sync_status = sync_status,
-by_content  = TRUE)
+full_asym_sync_to_right(sync_status = sync_status)
 }
