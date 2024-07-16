@@ -1,7 +1,6 @@
 url: https://rossanatat.github.io/syncdr/
 template:
   bootstrap: 5
-  bottswatch: cosmo
   bslib:
     primary: '#FF0080'
 navbar:
@@ -20,3 +19,4 @@ articles:
   - asymmetric-synchronization
   - symmetric-synchronization
   - auxiliary-functions
+
