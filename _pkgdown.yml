@@ -1,6 +1,7 @@
 url: https://rossanatat.github.io/syncdr/
 template:
   bootstrap: 5
+  bootswatch: lux
   bslib:
     primary: '#FF0080'
 navbar:
