@@ -2,6 +2,7 @@ url: https://rossanatat.github.io/syncdr/
 template:
   bootstrap: 5
   bootswatch: lux
+  pkgdown-nav-height: 95px
   bslib:
     primary: '#8AB9F1'
 navbar:
@@ -21,3 +22,5 @@ articles:
   - asymmetric-synchronization
   - symmetric-synchronization
   - auxiliary-functions
+development:
+  mode: auto
