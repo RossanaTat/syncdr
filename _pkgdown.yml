@@ -3,10 +3,10 @@ template:
   bootstrap: 5
   bootswatch: sandstone
   bslib:
-    primary: '#8AB9F1'
+    primary: '#0072BB'
 navbar:
   bg: primary
-  type: light
+  type: dark
   structure:
     right: github
   components:
@@ -21,5 +21,30 @@ articles:
   - asymmetric-synchronization
   - symmetric-synchronization
   - auxiliary-functions
+reference:
+- title: "Main function"
+  contents:
+  - compare_directories
+- title: "Visualizations"
+  contents:
+  - display_sync_status
+  - display_dir_tree
+- title: "Asymmetric synchronization"
+  contents:
+  - full_asym_sync_to_right
+  - common_files_asym_sync_to_right
+  - update_missing_files_asym_to_right
+  - partial_update_missing_files_asym_to_right
+- title: "Symmetric synchronization"
+  contents:
+  - full_symmetric_sync
+  - partial_symmetric_sync_common_files
+- title: "Additional functions"
+  contents:
+  - toy_dirs
+  - copy_files_to_right
+  - copy_temp_environment
+  - search_duplicates
+
 development:
   mode: auto
