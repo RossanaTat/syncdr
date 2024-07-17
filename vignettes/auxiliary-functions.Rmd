@@ -19,8 +19,7 @@ library(syncdr)
 
 `syncdr` provides some auxiliary functions that might come in handy to better understand the content of your directories, even before taking certain synchronization actions.
 
-To see some examples, let's start with `toy_dirs()`, and generate two toy directories.
-
+To develop some examples, let's start by calling `toy_dirs()`. This auxiliary function creates toy directories within the syncdr environment, containing samples common files as well as files exclusive to either directory. These toy directories are deleted every time a new session is started. 
 ```{r setup}
 
 # Create .syncdrenv with left and right directories
@@ -32,6 +31,8 @@ right <- .syncdrenv$right
 
 ```
 
+Together with `toy_dirs()`, you might want to use `copy_temp_environment()`, in order to copy the original environment and play with the various {syncdr} functions on this copied environment rather than the original one which remains untouched. 
+
 **Search for duplicate files**
 
 One useful auxiliary function is **`search_duplicates()`**, designed to generate a list of duplicate files within your directory. Duplicate files are identified based on identical content, regardless of their filenames. By default, `verbose = TRUE` will show you the list of duplicate files. To return it invisibly, set `verbose = FALSE`. In this latter case, a message will still pop up to let you know when the identification of duplicates is completed.
@@ -42,19 +43,3 @@ One useful auxiliary function is **`search_duplicates()`**, designed to generate
 search_duplicates(right, verbose = TRUE)
 ```
 
--   **COMMENT ON NEXT STEPS:** Before adding more auxiliary functions, I need to better understand which functions among those that I have created should be internal vs exported. Also, I need to improve the structure of those functions to make sure there is no redundant code (e.g., more functions than needed). Current auxiliary functions are used to:
-
-    -   *style text messages*
-
-    -   *filter files by directory, by date, by content, by date and content*
-
-    -   *retrieve info about one directory*
-
-    -   *compare modification times of files*
-
-    -   *compare file contents*
-
-    -   *hashing files*
-
-*(For more details refer to the auxiliary_functions.R file and the functions documentation)\
-*
