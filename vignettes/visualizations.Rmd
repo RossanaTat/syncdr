@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+options(width = 300)
 #devtools::load_all(".")
 ```
 
@@ -48,7 +49,7 @@ sync_status <- compare_directories(left,
 
 `display_sync_status()` allows you to visualize the synchronization status of either (1) common files or (2) non common files, as you can see in the examples below:
 
-```{r}
+```{r dtable}
 
 display_sync_status(sync_status$common_files,
                     left_path  = left,
