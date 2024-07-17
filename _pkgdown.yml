@@ -6,7 +6,7 @@ template:
     primary: '#0072BB'
 navbar:
   bg: primary
-  type: light
+  type: dark
   structure:
     right: github
   components:
