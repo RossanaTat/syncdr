@@ -3,9 +3,10 @@ template:
   bootstrap: 5
   bootswatch: lux
   bslib:
-    primary: '#FF0080'
+    primary: '#8AB9F1'
 navbar:
   bg: primary
+  type: light
   structure:
     right: github
   components:
@@ -20,4 +21,3 @@ articles:
   - asymmetric-synchronization
   - symmetric-synchronization
   - auxiliary-functions
-
