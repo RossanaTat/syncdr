@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: true
 editor_options: 
   markdown: 
     wrap: 72
@@ -70,7 +71,14 @@ sync_status <- compare_directories(left_path   = left,
                                    right_path  = right)
 
 # --- Display synchronization status --- #
-#  TO BE COMPLETED
+# visualize sync status in nice table -for example, of common files
+display_sync_status(sync_status$common_files,
+                    left_path  = left,
+                    right_path = right)
+
+# --- Perform synchronization action --- #
+# asymmetric snchronization from left to right 
+#full_asym_sync_to_right(sync_status)
 
 
 ```
