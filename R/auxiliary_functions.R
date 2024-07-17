@@ -262,9 +262,7 @@ hash_files <- function(files_path,
   # Compute hash for files
   hashes <- lapply(files_path, function(path) {
 
-    hash <- digest::digest(path,
-                           algo = "xxhash32",
-                           file = TRUE)
+    hash <- secretbase::siphash13(file = path)
 
     if (verbose) {
       cli::cli_progress_step(pb,

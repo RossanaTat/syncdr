@@ -29,8 +29,7 @@
 #' left  <- e$left
 #' right <- e$right
 #' sync_status <- compare_directories(left, right)
-#' full_asym_sync_to_right(sync_status = sync_status,
-#' by_content  = TRUE)
+#' full_asym_sync_to_right(sync_status = sync_status)
 full_asym_sync_to_right <- function(sync_status,
                                     by_date    = TRUE,
                                     by_content = FALSE,
