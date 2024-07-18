@@ -7,7 +7,7 @@
 partial_update_missing_files_asym_to_right(
   sync_status,
   recurse = TRUE,
-  verbose = FALSE
+  verbose = getOption("syncdr.verbose")
 )
 }
 \arguments{

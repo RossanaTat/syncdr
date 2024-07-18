@@ -9,7 +9,7 @@ common_files_asym_sync_to_right(
   by_date = TRUE,
   by_content = FALSE,
   recurse = TRUE,
-  verbose = FALSE
+  verbose = getOption("syncdr.verbose")
 )
 }
 \arguments{

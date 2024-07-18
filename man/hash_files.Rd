@@ -4,7 +4,7 @@
 \alias{hash_files}
 \title{Hash files by content}
 \usage{
-hash_files(files_path, verbose = FALSE)
+hash_files(files_path, verbose = getOption("syncdr.verbose"))
 }
 \arguments{
 \item{files_path}{character vector of paths of files to hash}

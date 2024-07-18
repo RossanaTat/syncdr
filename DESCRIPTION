@@ -23,6 +23,7 @@ Imports:
     collapse,
     data.table,
     digest,
+    secretbase,
     cli,
     DT,
     fs,
