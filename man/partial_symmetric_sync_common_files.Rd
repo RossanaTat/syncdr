@@ -5,8 +5,9 @@
 \title{Partial symmetric synchronization -common files only}
 \usage{
 partial_symmetric_sync_common_files(
-  left_path,
-  right_path,
+  left_path = NULL,
+  right_path = NULL,
+  sync_status = NULL,
   by_date = TRUE,
   by_content = FALSE,
   recurse = TRUE,
@@ -17,6 +18,8 @@ partial_symmetric_sync_common_files(
 \item{left_path}{Path to the left/first directory.}
 
 \item{right_path}{Path to the right/second directory.}
+
+\item{sync_status}{Object of class "syncdr_status", output of \code{compare_directories()}.}
 
 \item{by_date}{logical, TRUE by default}
 
@@ -41,7 +44,7 @@ This function updates directories in the following way:
 it will be copied over to update the older version. If modification dates are the same, nothing is done
 \item if by date and content: If the file in one directory is newer AND different than the corresponding file in the other directory,
 it will be copied over to update the older version. If modification dates/contents are the same, nothing is done
-\item if by content only: ? TO DECIDE WHAT TO DO WITH THOSE FILES ?
+\item if by content only: this option is not active
 }
 \item For non common files: unchanged, i.e.,
 \itemize{
@@ -49,4 +52,22 @@ it will be copied over to update the older version. If modification dates/conten
 \item keep in left those that are only in left
 }
 }
+}
+\examples{
+# Create syncdr environment with toy directories
+e <- toy_dirs()
+
+# Get left and right directories' paths
+left  <- e$left
+right <- e$right
+
+# Synchronize directories, e.g., by date
+# Option 1 - providing left and right paths
+full_symmetric_sync(left_path  = left,
+                    right_path = right,
+                    by_date    = TRUE)
+# Option 2 - Providing sync_status object
+sync_status = compare_directories(left_path  = left,
+                                  right_path = right)
+full_symmetric_sync(sync_status = sync_status)
 }

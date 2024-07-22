@@ -51,7 +51,7 @@ based on the left directory. It includes the following synchronization steps:
 }
 }
 \examples{
-# Compare directories with 'compare_directories()'
+# Create syncdr environment with toy directories
 e <- toy_dirs()
 
 # Get left and right directories' paths

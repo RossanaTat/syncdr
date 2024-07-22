@@ -23,7 +23,7 @@
 #'
 #' @export
 #' @examples
-#' # Compare directories with 'compare_directories()'
+#' # Create syncdr environment with toy directories
 #' e <- toy_dirs()
 #'
 #' # Get left and right directories' paths
