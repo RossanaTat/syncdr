@@ -435,8 +435,8 @@ update_missing_files_asym_to_right <- function(left_path = NULL,
 #' right <- e$right
 #'
 #' # Option 1
-#' partial_update_missing_files_asym_to_right(left_path,
-#'                                            right_path)
+#' partial_update_missing_files_asym_to_right(left_path  = left,
+#'                                            right_path = right)
 #' # Option 2
 #' sync_status = compare_directories(left,
 #'                                   right)

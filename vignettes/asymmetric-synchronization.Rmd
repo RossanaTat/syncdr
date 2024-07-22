@@ -20,7 +20,7 @@ library(syncdr)
 #devtools::load_all(".")
 
 # Create .syncdrenv
-.syncdrenv =toy_dirs()
+.syncdrenv = toy_dirs()
 
 # Get left and right directories' paths 
 left  <- .syncdrenv$left
