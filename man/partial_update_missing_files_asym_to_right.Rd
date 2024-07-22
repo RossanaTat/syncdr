@@ -5,8 +5,9 @@
 \title{Partial asymmetric asymmetric synchronization of non common files}
 \usage{
 partial_update_missing_files_asym_to_right(
-  left_path,
-  right_path,
+  left_path = NULL,
+  right_path = NULL,
+  sync_status = NULL,
   recurse = TRUE,
   verbose = getOption("syncdr.verbose")
 )
@@ -15,6 +16,8 @@ partial_update_missing_files_asym_to_right(
 \item{left_path}{Path to the left/first directory.}
 
 \item{right_path}{Path to the right/second directory.}
+
+\item{sync_status}{Object of class "syncdr_status", output of \code{compare_directories()}.}
 
 \item{recurse}{logical, TRUE by default.
 If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
@@ -47,6 +50,13 @@ e <- toy_dirs()
 # Get left and right directories' paths
 left  <- e$left
 right <- e$right
+
+# Option 1
 partial_update_missing_files_asym_to_right(left_path,
                                            right_path)
+# Option 2
+sync_status = compare_directories(left,
+                                  right)
+partial_update_missing_files_asym_to_right(sync_status = sync_status)
+
 }

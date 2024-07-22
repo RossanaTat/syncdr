@@ -5,7 +5,8 @@
 \title{Full symmetric synchronization}
 \usage{
 full_symmetric_sync(
-  sync_status,
+  left_path,
+  right_path,
   by_date = TRUE,
   by_content = FALSE,
   recurse = TRUE,
@@ -13,7 +14,9 @@ full_symmetric_sync(
 )
 }
 \arguments{
-\item{sync_status}{object of class 'syncdr_status' with info on sync status and comparison of directories}
+\item{left_path}{Path to the left/first directory.}
+
+\item{right_path}{Path to the right/second directory.}
 
 \item{by_date}{logical, TRUE by default}
 
@@ -27,7 +30,7 @@ and the file will be copied at the top level}
 \item{verbose}{logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
 }
 \value{
-print "synchronized"
+Invisible TRUE indicating successful synchronization.
 }
 \description{
 This function updates directories in the following way:

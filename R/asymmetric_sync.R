@@ -12,6 +12,7 @@
 #'
 #' @param left_path Path to the left/first directory.
 #' @param right_path Path to the right/second directory.
+#' @param sync_status Object of class "syncdr_status", output of `compare_directories()`.
 #' @param by_date Logical. If TRUE, synchronize based on file modification dates (default is TRUE).
 #' @param by_content Logical. If TRUE, synchronize based on file contents (default is FALSE).
 #' @param recurse Logical. If TRUE (default), files are copied to corresponding subdirectories
@@ -28,22 +29,25 @@
 #' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
+#'
 #' # Synchronize by date & content
+#' # Providing left and right paths to directories, as well as by_date and content
 #' full_asym_sync_to_right(left_path  = left,
 #'                         right_path = right,
+#'                         by_date    = FALSE,
 #'                         by_content = TRUE)
-full_asym_sync_to_right <- function(left_path,
-                                    right_path,
+#' # Providing sync_status object
+#' sync_status = compare_directories(left_path = left,
+#'                                   right_path = right)
+#' full_asym_sync_to_right(sync_status = sync_status)
+full_asym_sync_to_right <- function(left_path = NULL,
+                                    right_path = NULL,
+                                    sync_status = NULL,
                                     by_date    = TRUE,
                                     by_content = FALSE,
                                     recurse    = TRUE,
                                     verbose    = getOption("syncdr.verbose")) {
 
-  # Check directory paths
-  stopifnot(exprs = {
-    fs::dir_exists(left_path)
-    fs::dir_exists(right_path)
-  })
 
   # Display folder structure before synchronization
   if (verbose == TRUE) {
@@ -55,14 +59,58 @@ full_asym_sync_to_right <- function(left_path,
                      path_right = right_path)
   }
 
-  # Get sync_status -internal call to compare_directories()
-  sync_status <- compare_directories(left_path  = left_path,
-                                     right_path = right_path,
-                                     by_date    = by_date,
-                                     by_content = by_content,
-                                     recurse    = recurse,
-                                     verbose    = verbose
-                                     )
+  # --- Check validity of arguments -----------------
+
+  # Either sync_status is null, and both right and left path are provided,
+  # or sync_status is provided and left and right are NULL
+
+  if(!(
+    is.null(sync_status) && !is.null(left_path) && !is.null(right_path) ||
+       !is.null(sync_status) && is.null(left_path) && is.null(right_path)
+    )) {
+
+    style_msgs(color_name = "purple",
+               text = "Incorrect arguments specification!\n")
+
+    cli::cli_abort("Either sync_status or left and right paths must be provided")
+
+  }
+
+  # --------------------------------------------------
+
+  # If sync_status is null, but left and right paths are provided
+  # get sync_status object -internal call to compare_directories()
+
+  if(is.null(sync_status)) {
+
+    # --- first check directories path ---
+    stopifnot(exprs = {
+      fs::dir_exists(left_path)
+      fs::dir_exists(right_path)
+    })
+
+    # --- get sync_status ---
+    sync_status <- compare_directories(left_path  = left_path,
+                                       right_path = right_path,
+                                       by_date    = by_date,
+                                       by_content = by_content,
+                                       recurse    = recurse,
+                                       verbose    = verbose
+    )
+  } else {
+
+    # If sync_status is already provided, retrieve by_date and by_content arguments from it
+
+    by_date    <- fifelse(is.null(sync_status$common_files$is_new_right),
+                           FALSE,
+                           by_date)
+
+    by_content <- fifelse(!(is.null(sync_status$common_files$is_diff)),
+                          TRUE,
+                          by_content)
+
+  }
+
 
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
@@ -122,6 +170,7 @@ full_asym_sync_to_right <- function(left_path,
 #'
 #' @param left_path Path to the left/first directory.
 #' @param right_path Path to the right/second directory.
+#' @param sync_status Object of class "syncdr_status", output of `compare_directories()`.
 #' @param by_date logical, TRUE by default
 #' @param by_content logical, FALSE by default
 #' @param recurse logical, TRUE by default.
@@ -138,38 +187,81 @@ full_asym_sync_to_right <- function(left_path,
 #' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
-#' # Synchronize by date only
+#'
+#' # Example: Synchronize by date
+#' # Option 1
 #' common_files_asym_sync_to_right(left_path  = left,
 #'                                 right_path = right)
-common_files_asym_sync_to_right <- function(left_path,
-                                            right_path,
-                                            by_date    = TRUE,
-                                            by_content = FALSE,
-                                            recurse    = TRUE,
-                                            verbose    = getOption("syncdr.verbose")) {
+#' # Option 2
+#' sync_status = compare_directories(left,
+#'                                   right)
+#' common_files_asym_sync_to_right(sync_status = sync_status)
+common_files_asym_sync_to_right <- function(left_path   = NULL,
+                                            right_path  = NULL,
+                                            sync_status = NULL,
+                                            by_date     = TRUE,
+                                            by_content  = FALSE,
+                                            recurse     = TRUE,
+                                            verbose     = getOption("syncdr.verbose")) {
 
-  # Check directory paths
-  stopifnot(exprs = {
-    fs::dir_exists(left_path)
-    fs::dir_exists(right_path)
-  })
-
-if(verbose == TRUE) {
+  if(verbose == TRUE) {
   # Display folder structure before synchronization
   style_msgs(color_name = "blue",
              text = "Directories structure BEFORE synchronization:\n")
   display_dir_tree(path_left  = left_path,
-                   path_right = right_path)
-}
+                   path_right = right_path)}
 
-  # Get sync_status -internal call to compare_directories()
-  sync_status <- compare_directories(left_path  = left_path,
-                                     right_path = right_path,
-                                     by_date    = by_date,
-                                     by_content = by_content,
-                                     recurse    = recurse,
-                                     verbose    = verbose
-  )
+  # --- Check validity of arguments -----------------
+
+  # Either sync_status is null, and both right and left path are provided,
+  # or sync_status is provided and left and right are NULL
+
+  if(!(
+    is.null(sync_status) && !is.null(left_path) && !is.null(right_path) ||
+    !is.null(sync_status) && is.null(left_path) && is.null(right_path)
+  )) {
+
+    style_msgs(color_name = "purple",
+               text = "Incorrect arguments specification!\n")
+
+    cli::cli_abort("Either sync_status or left and right paths must be provided")
+
+  }
+
+  # --------------------------------------------------
+
+  # If sync_status is null, but left and right paths are provided
+  # get sync_status object -internal call to compare_directories()
+
+  if(is.null(sync_status)) {
+
+    # --- first check directories path ---
+    stopifnot(exprs = {
+      fs::dir_exists(left_path)
+      fs::dir_exists(right_path)
+    })
+
+    # --- get sync_status ---
+    sync_status <- compare_directories(left_path  = left_path,
+                                       right_path = right_path,
+                                       by_date    = by_date,
+                                       by_content = by_content,
+                                       recurse    = recurse,
+                                       verbose    = verbose
+    )
+  } else {
+
+    # If sync_status is already provided, retrieve by_date and by_content arguments from it
+
+    by_date    <- fifelse(is.null(sync_status$common_files$is_new_right),
+                          FALSE,
+                          by_date)
+
+    by_content <- fifelse(!(is.null(sync_status$common_files$is_diff)),
+                          TRUE,
+                          by_content)
+
+  }
 
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
@@ -207,6 +299,7 @@ if(verbose == TRUE) {
 #'
 #' @param left_path Path to the left/first directory.
 #' @param right_path Path to the right/second directory.
+#' @param sync_status Object of class "syncdr_status", output of `compare_directories()`.
 #' @param recurse logical, TRUE by default.
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
@@ -222,18 +315,20 @@ if(verbose == TRUE) {
 #' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
+#'
+#' # Option 1
 #' update_missing_files_asym_to_right(left_path  = left,
 #'                                    right_path = right)
-update_missing_files_asym_to_right <- function(left_path,
-                                               right_path,
+#' # Option 2
+#' sync_status = compare_directories(left,
+#'                                   right)
+#'
+#' update_missing_files_asym_to_right(sync_status = sync_status)
+update_missing_files_asym_to_right <- function(left_path = NULL,
+                                               right_path = NULL,
+                                               sync_status = NULL,
                                                recurse    = TRUE,
                                                verbose    = getOption("syncdr.verbose")) {
-
-  # Check directory paths
-  stopifnot(exprs = {
-    fs::dir_exists(left_path)
-    fs::dir_exists(right_path)
-  })
 
   if (verbose == TRUE) {
     # Display folder structure before synchronization
@@ -243,10 +338,43 @@ update_missing_files_asym_to_right <- function(left_path,
                      path_right = right_path)
   }
 
-  # Get sync_status -internal call to compare_directories()
-  sync_status <- compare_directories(left_path  = left_path,
-                                     right_path = right_path
-  )
+  # --- Check validity of arguments -----------------
+
+  # Either sync_status is null, and both right and left path are provided,
+  # or sync_status is provided and left and right are NULL
+
+  if(!(
+    is.null(sync_status) && !is.null(left_path) && !is.null(right_path) ||
+    !is.null(sync_status) && is.null(left_path) && is.null(right_path)
+  )) {
+
+    style_msgs(color_name = "purple",
+               text = "Incorrect arguments specification!\n")
+
+    cli::cli_abort("Either sync_status or left and right paths must be provided")
+
+  }
+
+  # --------------------------------------------------
+
+  # If sync_status is null, but left and right paths are provided
+  # get sync_status object -internal call to compare_directories()
+
+  if(is.null(sync_status)) {
+
+    # --- first check directories path ---
+    stopifnot(exprs = {
+      fs::dir_exists(left_path)
+      fs::dir_exists(right_path)
+    })
+
+    # --- get sync_status ---
+    sync_status <- compare_directories(left_path  = left_path,
+                                       right_path = right_path,
+                                       recurse    = recurse,
+                                       verbose    = verbose
+    )
+  }
 
   # Get files to copy
   files_to_copy <- sync_status$non_common_files |>
@@ -289,6 +417,7 @@ update_missing_files_asym_to_right <- function(left_path,
 #'    - keep in right those files that are only in right (i.e., files 'missing in left')
 #' @param left_path Path to the left/first directory.
 #' @param right_path Path to the right/second directory.
+#' @param sync_status Object of class "syncdr_status", output of `compare_directories()`.
 #' @param recurse logical, TRUE by default.
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
@@ -304,23 +433,21 @@ update_missing_files_asym_to_right <- function(left_path,
 #' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
+#'
+#' # Option 1
 #' partial_update_missing_files_asym_to_right(left_path,
 #'                                            right_path)
-partial_update_missing_files_asym_to_right <- function(left_path,
-                                                       right_path,
+#' # Option 2
+#' sync_status = compare_directories(left,
+#'                                   right)
+#' partial_update_missing_files_asym_to_right(sync_status = sync_status)
+#'
+partial_update_missing_files_asym_to_right <- function(left_path = NULL,
+                                                       right_path = NULL,
+                                                       sync_status = NULL,
                                                        recurse = TRUE,
                                                        verbose    = getOption("syncdr.verbose")) {
 
-  # Check directory paths
-  stopifnot(exprs = {
-    fs::dir_exists(left_path)
-    fs::dir_exists(right_path)
-  })
-
-  # Get sync_status -internal call to compare_directories()
-  sync_status <- compare_directories(left_path  = left_path,
-                                     right_path = right_path
-  )
 
   if(verbose == TRUE) {
     # Display folder structure before synchronization
@@ -328,6 +455,44 @@ partial_update_missing_files_asym_to_right <- function(left_path,
                text = "Directories structure BEFORE synchronization:\n")
     display_dir_tree(path_left  = left_path,
                      path_right = right_path)
+  }
+
+  # --- Check validity of arguments -----------------
+
+  # Either sync_status is null, and both right and left path are provided,
+  # or sync_status is provided and left and right are NULL
+
+  if(!(
+    is.null(sync_status) && !is.null(left_path) && !is.null(right_path) ||
+    !is.null(sync_status) && is.null(left_path) && is.null(right_path)
+  )) {
+
+    style_msgs(color_name = "purple",
+               text = "Incorrect arguments specification!\n")
+
+    cli::cli_abort("Either sync_status or left and right paths must be provided")
+
+  }
+
+  # --------------------------------------------------
+
+  # If sync_status is null, but left and right paths are provided
+  # get sync_status object -internal call to compare_directories()
+
+  if(is.null(sync_status)) {
+
+    # --- first check directories path ---
+    stopifnot(exprs = {
+      fs::dir_exists(left_path)
+      fs::dir_exists(right_path)
+    })
+
+    # --- get sync_status ---
+    sync_status <- compare_directories(left_path  = left_path,
+                                       right_path = right_path,
+                                       recurse    = recurse,
+                                       verbose    = verbose
+    )
   }
 
   # Get files to copy
