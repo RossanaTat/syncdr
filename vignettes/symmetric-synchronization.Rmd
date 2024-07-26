@@ -145,6 +145,6 @@ right <- .syncdrenv.2$right
 sync_status <- compare_directories(left_path  = left,
                                    right_path = right)
 
-partial_symmetric_sync_common_files(sync_status,
+partial_symmetric_sync_common_files(sync_status = sync_status,
                                     verbose = TRUE)
 ```
