@@ -5,16 +5,22 @@
 \title{Full asymmetric synchronization to right directory}
 \usage{
 full_asym_sync_to_right(
-  sync_status,
+  left_path = NULL,
+  right_path = NULL,
+  sync_status = NULL,
   by_date = TRUE,
   by_content = FALSE,
   recurse = TRUE,
   verbose = getOption("syncdr.verbose")
+  verbose = getOption("syncdr.verbose")
 )
 }
 \arguments{
-\item{sync_status}{An object of class 'syncdr_status' containing information about
-synchronization status and directory comparison.}
+\item{left_path}{Path to the left/first directory.}
+
+\item{right_path}{Path to the right/second directory.}
+
+\item{sync_status}{Object of class "syncdr_status", output of \code{compare_directories()}.}
 
 \item{by_date}{Logical. If TRUE, synchronize based on file modification dates (default is TRUE).}
 
@@ -46,12 +52,21 @@ based on the left directory. It includes the following synchronization steps:
 }
 }
 \examples{
-# Compare directories with 'compare_directories()'
+# Create syncdr environment with toy directories
 e <- toy_dirs()
 
 # Get left and right directories' paths
 left  <- e$left
 right <- e$right
-sync_status <- compare_directories(left, right)
+
+# Synchronize by date & content
+# Providing left and right paths to directories, as well as by_date and content
+full_asym_sync_to_right(left_path  = left,
+                        right_path = right,
+                        by_date    = FALSE,
+                        by_content = TRUE)
+# Providing sync_status object
+sync_status = compare_directories(left_path = left,
+                                  right_path = right)
 full_asym_sync_to_right(sync_status = sync_status)
 }

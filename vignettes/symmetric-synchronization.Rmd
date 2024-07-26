@@ -36,9 +36,11 @@ This is a **two-way** synchronization: this means that you compare both director
 
 **To keep in mind:**
 
-You need to use the output of `compare_directories()` as input for these functions. In doing so,
+When calling these synchronization functions, you can provide inputs in two *alternative* ways:
 
--   Make sure to set `by_date` and `by_content` arguments in `compare_directories()` the same way you pass them to the symmetric synchronization functions. By default, `by_date = TRUE` and `by_content = FALSE` in every sync function
+1.  Specify paths of both left and right directories, as well as the \`by_date\` and \`by_content\` arguments as you wish the synchronization to be performed (if not specified, by default \`by_date = TRUE\` and \`by_content\` = FALSE) *OR*
+
+2.  First call the workhorse function \`compare_directories()\` to obtain the sync_status object. Then, provide it as input to the synchronization function. You do not need to specify the 'by_date' and 'by_content' arguments, as they will automatically be determined depending on the 'sync_status'.
 
 ## Types of symmetric synchronization
 
@@ -61,7 +63,7 @@ Similar to its asymmetric counterpart, `syncdr` enables the execution of ***spec
 |                                 |                                                                                                                                                                     |                                                                                       |
 |                                 |     -   If modification dates/contents are the same, no change is made                                                                                              |                                                                                       |
 |                                 |                                                                                                                                                                     |                                                                                       |
-|                                 | -   if `by_content = TRUE` only: ? TO DECIDE WHAT TO DO WITH THESE FILES ?                                                                                          |                                                                                       |
+|                                 | -   if `by_content = TRUE` only: no action                                                                                                                          |                                                                                       |
 +---------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------+
 |                                 | -   if `by_date = TRUE` only:                                                                                                                                       | No changes are made:                                                                  |
 |                                 |                                                                                                                                                                     |                                                                                       |
@@ -75,7 +77,7 @@ Similar to its asymmetric counterpart, `syncdr` enables the execution of ***spec
 |                                 |                                                                                                                                                                     |                                                                                       |
 |                                 |     -   If modification dates/contents are the same, nothing is done                                                                                                |                                                                                       |
 |                                 |                                                                                                                                                                     |                                                                                       |
-|                                 | -   if `by_content = TRUE` only: ???                                                                                                                                |                                                                                       |
+|                                 | -   if `by_content = TRUE` only: no action                                                                                                                          |                                                                                       |
 +---------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------+
 
 : Types of symmetric synchronization
@@ -96,9 +98,11 @@ sync_status <- compare_directories(left_path  = left,
                                    right_path = right,
                                    by_content = TRUE)
 
-full_symmetric_sync(sync_status,
-                    by_content = TRUE,
-                    verbose    = TRUE)
+# Providing left and right paths object
+# full_symmetric_sync(left, right)
+
+# Providing sync_status object
+full_symmetric_sync(sync_status = sync_status)
 ```
 
 **When comparing directories by date only:**
@@ -118,7 +122,9 @@ right <- .syncdrenv.1$right
 sync_status <- compare_directories(left_path  = left,
                                    right_path = right)
 
-full_symmetric_sync(sync_status,
+# Example with left and right paths 
+full_symmetric_sync(left_path = left,
+                    right_path = right,
                     verbose = TRUE)
 ```
 
@@ -139,6 +145,6 @@ right <- .syncdrenv.2$right
 sync_status <- compare_directories(left_path  = left,
                                    right_path = right)
 
-partial_symmetric_sync_common_files(sync_status,
+partial_symmetric_sync_common_files(sync_status = sync_status,
                                     verbose = TRUE)
 ```
