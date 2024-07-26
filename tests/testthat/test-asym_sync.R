@@ -1,12 +1,10 @@
-
-#Q: Why are the tests not failing when I run them in build pane, but failing when devtools::check()??
 # Test function that performs a full asymmetric synchronization to right ####
 
 # ~~~~~~~~~ Update by date only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Create sync env with temp directories
-toy_dirs()
+e = toy_dirs()
 
 # Copy temp env
 syncdr_temp <- copy_temp_environment()
@@ -299,8 +297,7 @@ sync_status      <- compare_directories(left_path  = left,
                                         by_content = TRUE)
 
 # Sync
-common_files_asym_sync_to_right(sync_status = sync_status,
-                                by_content  = TRUE)
+common_files_asym_sync_to_right(sync_status = sync_status)
 
 test_that("common files asym sync to right works -by date & content", {
 
@@ -342,24 +339,31 @@ sync_status      <- compare_directories(left_path  = left,
                                         by_content = TRUE)
 
 # Sync
-common_files_asym_sync_to_right(sync_status = sync_status,
-                                by_date     = FALSE,
-                                by_content  = TRUE)
+common_files_asym_sync_to_right(sync_status = sync_status)
 
 test_that("common files asym sync to right works -by content", {
+
+  # check that common files that are different are copied to right
+
+  sync_status_after <- compare_directories(left_path  = left,
+                                           right_path = right,
+                                           by_date    = FALSE,
+                                           by_content = TRUE)
+
+  sync_status_after$is_diff |>
+    any() |> #are some values TRUE?
+    expect_equal(FALSE)
 
   to_copy <- sync_status$common_files |>
     fsubset(is_diff) |>
     fselect(path_left,
             path_right)
 
-  sync_status_after <- compare_directories(left,
-                                           right,
-                                           by_date    = FALSE,
-                                           by_content = TRUE)$common_files |>
-    fsubset(path_left %in% to_copy$path_left &
-              path_right %in% to_copy$path_right) |>
-    fselect(sync_status)
+  sync_status_after$common_files |>
+    fsubset(path_left %in% to_copy$path_left) |>
+    fselect(is_diff) |>
+    any() |>
+    expect_equal(FALSE)
 
 
 })
@@ -380,7 +384,7 @@ sync_status <- compare_directories(left_path  = left,
                                    right_path = right)
 
 # Sync
-update_missing_files_asym_to_right(sync_status)
+update_missing_files_asym_to_right(sync_status = sync_status)
 
 test_that("update missing file works", {
 
@@ -430,7 +434,7 @@ sync_status <- compare_directories(left_path  = left,
                                    right_path = right)
 
 # Sync
-partial_update_missing_files_asym_to_right(sync_status)
+partial_update_missing_files_asym_to_right(sync_status = sync_status)
 
 test_that("update missing file works", {
 

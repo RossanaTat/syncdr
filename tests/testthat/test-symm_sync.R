@@ -2,7 +2,7 @@
 # Test symmetric synchronization functions ####
 
 # Create sync env with temp directories
-toy_dirs()
+e = toy_dirs()
 
 # Copy temp env
 syncdr_temp <- copy_temp_environment()
@@ -103,7 +103,7 @@ sync_status <- compare_directories(left_path  = left,
 
 # sync
 
-partial_symmetric_sync_common_files(sync_status)
+partial_symmetric_sync_common_files(sync_status = sync_status)
 
 test_that("partial symm sync works -by date", {
 
@@ -140,8 +140,7 @@ sync_status <- compare_directories(left_path  = left,
                                    by_content = TRUE)
 
 # sync
-partial_symmetric_sync_common_files(sync_status,
-                                    by_content = TRUE)
+partial_symmetric_sync_common_files(sync_status = sync_status)
 
 test_that("partial sym sync works -by date & cont", {
 
