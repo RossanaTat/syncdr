@@ -1,4 +1,4 @@
-# ---
+---
 title: "Asymmetric Synchronization Functions"
 output: rmarkdown::html_vignette
 vignette: >
