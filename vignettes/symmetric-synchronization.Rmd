@@ -124,8 +124,7 @@ sync_status <- compare_directories(left_path  = left,
 
 # Example with left and right paths 
 full_symmetric_sync(left_path = left,
-                    right_path = right,
-                    verbose = TRUE)
+                    right_path = right)
 ```
 
 **2 - Partial symmetric synchronization:**
