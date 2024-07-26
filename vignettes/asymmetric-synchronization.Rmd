@@ -38,11 +38,11 @@ This is a **one-way** synchronization: you have a *master/leader* directory, and
 
 **To keep in mind:**
 
-When calling these synchronization functions, you can provide inputs in two alternative ways:
+When calling these synchronization functions, you can provide inputs in two *alternative* ways:
 
-1.  Specify paths of both left and right directories, as well as the \`by_date\` and \`by_content\` arguments as you wish the synchronization to be performed OR
+1.  Specify paths of both left and right directories, as well as the \`by_date\` and \`by_content\` arguments as you wish the synchronization to be performed (if not specified, by default \`by_date = TRUE\` and \`by_content\` = FALSE) *OR*
 
-2.  Call the workhorse function \`compare_directories()\` first, and then provide the sync_status object it returns as input to the synchronization function
+2.  First call the workhorse function \`compare_directories()\` to obtain the sync_status object. Then, provide it as input to the synchronization function. You do not need to specify the 'by_date' and 'by_content' arguments, as they will automatically be determined depending on the 'sync_status'.
 
 ## Types of asymmetric synchronization
 
