@@ -1,7 +1,7 @@
 #' Full asymmetric synchronization to right directory
 #'
 #' This function performs a full asymmetric synchronization of the right directory
-#' based on the left directory. It includes the following synchronization steps:
+#' based on the left directory. It includes the following synchronization steps (see Details below):
 #'
 #' * For common files:
 #'   - If comparing by date only (`by_date = TRUE`): Copy files that are newer in the left directory to the right directory.
@@ -40,15 +40,15 @@
 #' sync_status = compare_directories(left_path = left,
 #'                                   right_path = right)
 #' full_asym_sync_to_right(sync_status = sync_status)
-full_asym_sync_to_right <- function(left_path = NULL,
-                                    right_path = NULL,
+full_asym_sync_to_right <- function(left_path   = NULL,
+                                    right_path  = NULL,
                                     sync_status = NULL,
-                                    by_date    = TRUE,
-                                    by_content = FALSE,
-                                    recurse    = TRUE,
-                                    backup     = FALSE,
-                                    backup_dir = "temp_dir",
-                                    verbose    = getOption("syncdr.verbose")) {
+                                    by_date     = TRUE,
+                                    by_content  = FALSE,
+                                    recurse     = TRUE,
+                                    backup      = FALSE,
+                                    backup_dir  = "temp_dir",
+                                    verbose     = getOption("syncdr.verbose")) {
 
 
   # Display folder structure before synchronization
@@ -123,13 +123,16 @@ full_asym_sync_to_right <- function(left_path = NULL,
   # Copy right directory in backup directory
   if (backup) {
     backup_dir <- fifelse(backup_dir == "temp_dir", # the default
-                          file.path(tempdir(), "copied_directory"),
+
+                          #tempdir(),
+                          file.path(tempdir(),
+                                    "copied_directory"),
                           backup_dir) # path provided by the user
 
     # create the target directory if it does not exist
-    # if (!dir.exists(target_directory)) {
-    #   dir.create(target_directory, recursive = TRUE)
-    # }
+    if (!dir.exists(backup_dir)) {
+      dir.create(backup_dir, recursive = TRUE)
+    }
 
 
     # copy dir content

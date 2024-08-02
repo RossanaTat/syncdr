@@ -11,7 +11,8 @@ full_asym_sync_to_right(
   by_date = TRUE,
   by_content = FALSE,
   recurse = TRUE,
-  verbose = getOption("syncdr.verbose")
+  backup = FALSE,
+  backup_dir = "temp_dir",
   verbose = getOption("syncdr.verbose")
 )
 }
@@ -37,7 +38,7 @@ Invisible TRUE indicating successful synchronization.
 }
 \description{
 This function performs a full asymmetric synchronization of the right directory
-based on the left directory. It includes the following synchronization steps:
+based on the left directory. It includes the following synchronization steps (see Details below):
 }
 \details{
 \itemize{
