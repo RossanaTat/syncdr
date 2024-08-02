@@ -46,6 +46,8 @@ full_asym_sync_to_right <- function(left_path = NULL,
                                     by_date    = TRUE,
                                     by_content = FALSE,
                                     recurse    = TRUE,
+                                    backup     = FALSE,
+                                    backup_dir = "temp_dir",
                                     verbose    = getOption("syncdr.verbose")) {
 
 
@@ -99,18 +101,49 @@ full_asym_sync_to_right <- function(left_path = NULL,
     )
   } else {
 
-    # If sync_status is already provided, retrieve by_date and by_content arguments from it
+    # If sync_status is already provided,
+    # retrieve paths of left and right directory as well as by_date and by_content arguments
+
+    left_path  <- sync_status$left_path
+    right_path <- sync_status$right_path
 
     by_date    <- fifelse(is.null(sync_status$common_files$is_new_right),
                            FALSE,
                            by_date)
-
     by_content <- fifelse(!(is.null(sync_status$common_files$is_diff)),
                           TRUE,
                           by_content)
 
   }
 
+  # --------------------------------------------------
+
+  # --- Backup ---
+
+  # Copy right directory in backup directory
+  if (backup) {
+    backup_dir <- fifelse(backup_dir == "temp_dir", # the default
+                          file.path(tempdir(), "copied_directory"),
+                          backup_dir) # path provided by the user
+
+    # create the target directory if it does not exist
+    # if (!dir.exists(target_directory)) {
+    #   dir.create(target_directory, recursive = TRUE)
+    # }
+
+
+    # copy dir content
+    file.copy(from      = right_path,
+              to        = backup_dir,
+              recursive = TRUE)
+
+
+  }
+
+
+  # --------------------------------------------------
+
+  # --- synchronization ---
 
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
