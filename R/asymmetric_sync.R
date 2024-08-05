@@ -19,7 +19,7 @@
 #'                in the destination folder. If FALSE, files are copied to the top level of the destination folder
 #'                without creating subdirectories if they do not exist.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
-#' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in a temporary directory (`tempdir`).
+#' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return Invisible TRUE indicating successful synchronization.
 #'
@@ -80,7 +80,6 @@ full_asym_sync_to_right <- function(left_path   = NULL,
 
   }
 
-  # --------------------------------------------------
 
   # If sync_status is null, but left and right paths are provided
   # get sync_status object -internal call to compare_directories()
@@ -93,7 +92,7 @@ full_asym_sync_to_right <- function(left_path   = NULL,
       fs::dir_exists(right_path)
     })
 
-    # --- get sync_status ---
+    # --- Get sync_status ----
     sync_status <- compare_directories(left_path  = left_path,
                                        right_path = right_path,
                                        by_date    = by_date,
@@ -118,9 +117,7 @@ full_asym_sync_to_right <- function(left_path   = NULL,
 
   }
 
-  # --------------------------------------------------
-
-  # --- Backup ---
+  # --- Backup ----
 
   # Copy right directory in backup directory
   if (backup) {
@@ -146,9 +143,7 @@ full_asym_sync_to_right <- function(left_path   = NULL,
   }
 
 
-  # --------------------------------------------------
-
-  # --- synchronization ---
+  # --- Synchronization ----
 
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
@@ -163,7 +158,7 @@ full_asym_sync_to_right <- function(left_path   = NULL,
                               dir = "left")
       ) # files only in left
 
-  # Copy files ####
+  ## Copy files ####
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
                       files_to_copy = files_to_copy,
@@ -175,7 +170,7 @@ full_asym_sync_to_right <- function(left_path   = NULL,
     filter_non_common_files(dir = "right") |>
     fselect(path_right)
 
-  # Delete Files ####
+  ## Delete Files ####
   fs::file_delete(files_to_delete$path_right)
 
   if(verbose == TRUE) {
@@ -215,6 +210,8 @@ full_asym_sync_to_right <- function(left_path   = NULL,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
+#' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return Invisible TRUE indicating successful synchronization.
 #' @export
@@ -240,6 +237,8 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
                                             by_date     = TRUE,
                                             by_content  = FALSE,
                                             recurse     = TRUE,
+                                            backup      = FALSE,
+                                            backup_dir  = "temp_dir",
                                             verbose     = getOption("syncdr.verbose")) {
 
   if(verbose == TRUE) {
@@ -266,7 +265,7 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 
   }
 
-  # --------------------------------------------------
+  # --- Get sync_status ----
 
   # If sync_status is null, but left and right paths are provided
   # get sync_status object -internal call to compare_directories()
@@ -291,6 +290,9 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 
     # If sync_status is already provided, retrieve by_date and by_content arguments from it
 
+    left_path  <- sync_status$left_path
+    right_path <- sync_status$right_path
+
     by_date    <- fifelse(is.null(sync_status$common_files$is_new_right),
                           FALSE,
                           by_date)
@@ -300,6 +302,33 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
                           by_content)
 
   }
+
+  # --- Backup ----
+
+  # Copy right directory in backup directory
+  if (backup) {
+    backup_dir <- fifelse(backup_dir == "temp_dir", # the default
+
+                          #tempdir(),
+                          file.path(tempdir(),
+                                    "copied_directory"),
+                          backup_dir) # path provided by the user
+
+    # create the target directory if it does not exist
+    if (!dir.exists(backup_dir)) {
+      dir.create(backup_dir, recursive = TRUE)
+    }
+
+
+    # copy dir content
+    file.copy(from      = right_path,
+              to        = backup_dir,
+              recursive = TRUE)
+
+
+  }
+
+  # --- Synchronization ----
 
   # Get files to copy -from common files
   files_to_copy <- sync_status$common_files |>
@@ -342,9 +371,10 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
+#' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return Invisible TRUE indicating successful synchronization.
-
 #' @export
 #' @examples
 #' # Compare directories with 'compare_directories()'
@@ -362,11 +392,13 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 #'                                   right)
 #'
 #' update_missing_files_asym_to_right(sync_status = sync_status)
-update_missing_files_asym_to_right <- function(left_path = NULL,
-                                               right_path = NULL,
+update_missing_files_asym_to_right <- function(left_path   = NULL,
+                                               right_path  = NULL,
                                                sync_status = NULL,
-                                               recurse    = TRUE,
-                                               verbose    = getOption("syncdr.verbose")) {
+                                               recurse     = TRUE,
+                                               backup      = FALSE,
+                                               backup_dir  = "temp_dir",
+                                               verbose     = getOption("syncdr.verbose")) {
 
   if (verbose == TRUE) {
     # Display folder structure before synchronization
@@ -393,7 +425,7 @@ update_missing_files_asym_to_right <- function(left_path = NULL,
 
   }
 
-  # --------------------------------------------------
+  # --- Get sync_status ----
 
   # If sync_status is null, but left and right paths are provided
   # get sync_status object -internal call to compare_directories()
@@ -412,13 +444,42 @@ update_missing_files_asym_to_right <- function(left_path = NULL,
                                        recurse    = recurse,
                                        verbose    = verbose
     )
+  } else {
+    left_path  <- sync_status$left_path
+    right_path <- sync_status$right_path
   }
+
+  # --- Backup ----
+
+  # Copy right directory in backup directory
+  if (backup) {
+    backup_dir <- fifelse(backup_dir == "temp_dir", # the default
+
+                          #tempdir(),
+                          file.path(tempdir(),
+                                    "copied_directory"),
+                          backup_dir) # path provided by the user
+
+    # create the target directory if it does not exist
+    if (!dir.exists(backup_dir)) {
+      dir.create(backup_dir, recursive = TRUE)
+    }
+
+    # copy dir content
+    file.copy(from      = right_path,
+              to        = backup_dir,
+              recursive = TRUE)
+
+
+  }
+
+  # --- Synchronization ----
 
   # Get files to copy
   files_to_copy <- sync_status$non_common_files |>
     filter_non_common_files(dir = "left")
 
-  # Copy files
+  ## Copy files ####
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
                       files_to_copy = files_to_copy,
@@ -429,7 +490,7 @@ update_missing_files_asym_to_right <- function(left_path = NULL,
     filter_non_common_files(dir = "right") |>
     fselect(path_right)
 
-  # Delete Files ####
+  ## Delete Files ####
   fs::file_delete(files_to_delete$path_right)
 
   if (verbose == TRUE) {
@@ -461,8 +522,9 @@ update_missing_files_asym_to_right <- function(left_path = NULL,
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
+#' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
+#' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @return Invisible TRUE indicating successful synchronization.
-
 #' @export
 #' @examples
 #' # Compare directories with 'compare_directories()'
@@ -480,11 +542,13 @@ update_missing_files_asym_to_right <- function(left_path = NULL,
 #'                                   right)
 #' partial_update_missing_files_asym_to_right(sync_status = sync_status)
 #'
-partial_update_missing_files_asym_to_right <- function(left_path = NULL,
-                                                       right_path = NULL,
+partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
+                                                       right_path  = NULL,
                                                        sync_status = NULL,
-                                                       recurse = TRUE,
-                                                       verbose    = getOption("syncdr.verbose")) {
+                                                       recurse     = TRUE,
+                                                       backup      = FALSE,
+                                                       backup_dir  = "temp_dir",
+                                                       verbose     = getOption("syncdr.verbose")) {
 
 
   if(verbose == TRUE) {
@@ -512,7 +576,7 @@ partial_update_missing_files_asym_to_right <- function(left_path = NULL,
 
   }
 
-  # --------------------------------------------------
+  # --- Get sync_status ----
 
   # If sync_status is null, but left and right paths are provided
   # get sync_status object -internal call to compare_directories()
@@ -531,13 +595,43 @@ partial_update_missing_files_asym_to_right <- function(left_path = NULL,
                                        recurse    = recurse,
                                        verbose    = verbose
     )
+  } else {
+    left_path  <- sync_status$left_path
+    right_path <- sync_status$right_path
   }
+
+
+  # --- Backup ----
+
+  # Copy right directory in backup directory
+  if (backup) {
+    backup_dir <- fifelse(backup_dir == "temp_dir", # the default
+
+                          #tempdir(),
+                          file.path(tempdir(),
+                                    "copied_directory"),
+                          backup_dir) # path provided by the user
+
+    # create the target directory if it does not exist
+    if (!dir.exists(backup_dir)) {
+      dir.create(backup_dir, recursive = TRUE)
+    }
+
+    # copy dir content
+    file.copy(from      = right_path,
+              to        = backup_dir,
+              recursive = TRUE)
+
+
+  }
+
+  # --- Synchronization ----
 
   # Get files to copy
   files_to_copy <- sync_status$non_common_files |>
     filter_non_common_files(dir = "left")
 
-  # Copy files
+  ## Copy files ####
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
                       files_to_copy = files_to_copy,

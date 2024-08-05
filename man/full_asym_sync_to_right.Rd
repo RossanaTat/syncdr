@@ -33,7 +33,7 @@ without creating subdirectories if they do not exist.}
 
 \item{backup}{Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by \code{backup_dir}.}
 
-\item{backup_dir}{Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in a temporary directory (\code{tempdir}).}
+\item{backup_dir}{Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (\code{tempdir}).}
 
 \item{verbose}{logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
 }
