@@ -125,7 +125,7 @@ full_asym_sync_to_right <- function(left_path   = NULL,
 
                           #tempdir(),
                           file.path(tempdir(),
-                                    "copied_directory"),
+                                    "backup_directory"),
                           backup_dir) # path provided by the user
 
     # create the target directory if it does not exist
@@ -270,13 +270,13 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
   # If sync_status is null, but left and right paths are provided
   # get sync_status object -internal call to compare_directories()
 
-  if(is.null(sync_status)) {
+  if (is.null(sync_status)) {
 
     # --- first check directories path ---
-    stopifnot(exprs = {
-      fs::dir_exists(left_path)
-      fs::dir_exists(right_path)
-    })
+    # stopifnot(exprs = {
+    #   fs::dir_exists(left_path)
+    #   fs::dir_exists(right_path)
+    # })
 
     # --- get sync_status ---
     sync_status <- compare_directories(left_path  = left_path,
@@ -311,7 +311,7 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 
                           #tempdir(),
                           file.path(tempdir(),
-                                    "copied_directory"),
+                                    "backup_directory"),
                           backup_dir) # path provided by the user
 
     # create the target directory if it does not exist
@@ -457,7 +457,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 
                           #tempdir(),
                           file.path(tempdir(),
-                                    "copied_directory"),
+                                    "backup_directory"),
                           backup_dir) # path provided by the user
 
     # create the target directory if it does not exist
@@ -609,7 +609,7 @@ partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
 
                           #tempdir(),
                           file.path(tempdir(),
-                                    "copied_directory"),
+                                    "backup_directory"),
                           backup_dir) # path provided by the user
 
     # create the target directory if it does not exist
