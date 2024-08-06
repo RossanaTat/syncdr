@@ -11,7 +11,8 @@ full_asym_sync_to_right(
   by_date = TRUE,
   by_content = FALSE,
   recurse = TRUE,
-  verbose = getOption("syncdr.verbose")
+  backup = FALSE,
+  backup_dir = "temp_dir",
   verbose = getOption("syncdr.verbose")
 )
 }
@@ -30,6 +31,10 @@ full_asym_sync_to_right(
 in the destination folder. If FALSE, files are copied to the top level of the destination folder
 without creating subdirectories if they do not exist.}
 
+\item{backup}{Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by \code{backup_dir}.}
+
+\item{backup_dir}{Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (\code{tempdir}).}
+
 \item{verbose}{logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
 }
 \value{
@@ -37,7 +42,7 @@ Invisible TRUE indicating successful synchronization.
 }
 \description{
 This function performs a full asymmetric synchronization of the right directory
-based on the left directory. It includes the following synchronization steps:
+based on the left directory. It includes the following synchronization steps (see Details below):
 }
 \details{
 \itemize{

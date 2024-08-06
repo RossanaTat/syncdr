@@ -11,6 +11,8 @@ full_symmetric_sync(
   by_date = TRUE,
   by_content = FALSE,
   recurse = TRUE,
+  backup = FALSE,
+  backup_dir = "temp_dir",
   verbose = getOption("syncdr.verbose")
 )
 }
@@ -29,6 +31,10 @@ full_symmetric_sync(
 If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 and the file will be copied at the top level}
+
+\item{backup}{Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by \code{backup_dir}.}
+
+\item{backup_dir}{Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (\code{tempdir}).}
 
 \item{verbose}{logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
 }

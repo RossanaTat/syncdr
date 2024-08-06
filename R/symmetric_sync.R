@@ -19,6 +19,8 @@
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
+#' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return Invisible TRUE indicating successful synchronization.
 #' @export
@@ -46,6 +48,8 @@ full_symmetric_sync <- function(left_path   = NULL,
                                 by_date     = TRUE,
                                 by_content  = FALSE,
                                 recurse     = TRUE,
+                                backup      = FALSE,
+                                backup_dir  = "temp_dir",
                                 verbose     = getOption("syncdr.verbose")) {
   if (verbose == TRUE) {
     # Display folder structure before synchronization
@@ -73,7 +77,7 @@ full_symmetric_sync <- function(left_path   = NULL,
 
   }
 
-  # --------------------------------------------------
+  # --- Get sync_status ----
 
   # If sync_status is null, but left and right paths are provided
   # get sync_status object -internal call to compare_directories()
@@ -108,6 +112,46 @@ full_symmetric_sync <- function(left_path   = NULL,
 
   }
 
+  # --- Backup ----
+
+  # Copy right and left in backup directory
+  if (backup) {
+
+    backup_right <- fifelse(backup_dir == "temp_dir", # the default
+
+                          #tempdir(),
+                          file.path(tempdir(),
+                                    "backup_right"),
+                          backup_dir) # path provided by the user
+    backup_left <- fifelse(backup_dir == "temp_dir", # the default
+
+                            #tempdir(),
+                            file.path(tempdir(),
+                                      "backup_left"),
+                            backup_dir) # path provided by the user
+
+    # create the target directory if it does not exist
+    if (!dir.exists(backup_right)) {
+      dir.create(backup_right,
+                 recursive = TRUE)
+    }
+
+    if (!dir.exists(backup_left)) {
+      dir.create(backup_left,
+                 recursive = TRUE)
+    }
+
+
+    # copy dir content
+    file.copy(from      = right_path,
+              to        = backup_right,
+              recursive = TRUE)
+    file.copy(from      = left_path,
+              to        = backup_left,
+              recursive = TRUE)
+
+  }
+
 
   # Inform user that sync by content only is not active and stop
   if (by_date == FALSE & by_content == TRUE) {
@@ -115,7 +159,7 @@ full_symmetric_sync <- function(left_path   = NULL,
                                -no action will be executed, directories unchanged")
   }
 
-  # Update non- and common files ###############################################
+  # --- Synchronization ----
 
   # Identify files to copy to right:
   # -- those that are newer/different content in the left directory --
@@ -188,6 +232,8 @@ full_symmetric_sync <- function(left_path   = NULL,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
+#' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return Invisible TRUE indicating successful synchronization.
 #' @export
@@ -214,6 +260,8 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
                                                by_date     = TRUE,
                                                by_content  = FALSE,
                                                recurse     = TRUE,
+                                               backup      = FALSE,
+                                               backup_dir  = "temp_dir",
                                                verbose     = getOption("syncdr.verbose")) {
 
   if(verbose == TRUE) {
@@ -282,7 +330,48 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
     cli::cli_abort(message = "Symmetric synchronization by content only is not active
                                -no action will be executed, directories unchanged")
   }
-  # Update non- and common files ###############################################
+
+  # --- Backup ----
+
+  # Copy right and left in backup directory
+  if (backup) {
+
+    backup_right <- fifelse(backup_dir == "temp_dir", # the default
+
+                            #tempdir(),
+                            file.path(tempdir(),
+                                      "backup_right"),
+                            backup_dir) # path provided by the user
+    backup_left <- fifelse(backup_dir == "temp_dir", # the default
+
+                           #tempdir(),
+                           file.path(tempdir(),
+                                     "backup_left"),
+                           backup_dir) # path provided by the user
+
+    # create the target directory if it does not exist
+    if (!dir.exists(backup_right)) {
+      dir.create(backup_right,
+                 recursive = TRUE)
+    }
+
+    if (!dir.exists(backup_left)) {
+      dir.create(backup_left,
+                 recursive = TRUE)
+    }
+
+
+    # copy dir content
+    file.copy(from      = right_path,
+              to        = backup_right,
+              recursive = TRUE)
+    file.copy(from      = left_path,
+              to        = backup_left,
+              recursive = TRUE)
+
+  }
+
+  # --- Synchronize -----
 
   # copy those that are new in left to right
   files_to_right <- sync_status$common_files |>
