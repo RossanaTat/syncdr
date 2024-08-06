@@ -18,7 +18,8 @@
 #' @param recurse Logical. If TRUE (default), files are copied to corresponding subdirectories
 #'                in the destination folder. If FALSE, files are copied to the top level of the destination folder
 #'                without creating subdirectories if they do not exist.
-#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
+#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
+#' If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
@@ -168,22 +169,27 @@ full_asym_sync_to_right <- function(left_path   = NULL,
 
   if (force == FALSE) {
 
-    # show right dir tree **after** sync
-    style_msgs("orange",
-               text = "The following files will be DELETED in right")
+    if (nrow(files_to_delete) > 0 ) {
+      # show right dir tree **after** sync
+      style_msgs("orange",
+                 text = "These files will be DELETED in right")
 
-    show_action_on_files(path_to_files = files_to_delete,
-                         directory     = right_path,
-                         action        = "delete"
-                         )
+      show_action_on_files(path_to_files = files_to_delete,
+                           directory     = right_path,
+                           action        = "delete"
+      )
+    }
 
-    style_msgs("blue",
-               text = "The following files will be COPIED to right")
 
-    show_action_on_files(path_to_files = files_to_copy |> fselect(1),
-                         directory     = left_path,
-                         action        = "copy"
-    )
+    if (nrow(files_to_copy) >0 ) {
+      style_msgs("blue",
+                 text = "These files w be copied (overwriting if present) to the right. \n")
+      show_action_on_files(path_to_files = files_to_copy |> fselect(1),
+                           directory     = left_path,
+                           action        = "copy"
+      )
+    }
+
 
     #print(files_to_delete)
 
