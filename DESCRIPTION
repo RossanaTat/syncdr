@@ -29,6 +29,7 @@ Imports:
     fs,
     joyn (>= 0.1.6.9003),
     stats,
+    knitr,
     utils
 Remotes: 
     github::randrescastaneda/joyn@DEV

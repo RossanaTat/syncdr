@@ -161,9 +161,14 @@ show_action_on_files <- function(path_to_files,
   colnames(path_to_files) <- c("Paths", "Action")
 
   path_to_files <- path_to_files |>
-    fmutate(Paths = gsub(directory, "", Paths))
+    fmutate(Paths = gsub(directory,
+                         "",
+                         Paths))
 
   # Print the table using knitr::kable for console-friendly formatting
-  print(kable(path_to_files, format = "pipe", col.names = c("Files", "Action")))
+  print(
+    knitr::kable(path_to_files,
+                 format = "pipe",
+                 col.names = c("Files", "Action")))
 }
 
