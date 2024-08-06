@@ -183,7 +183,7 @@ full_asym_sync_to_right <- function(left_path   = NULL,
 
     if (nrow(files_to_copy) >0 ) {
       style_msgs("blue",
-                 text = "These files w be copied (overwriting if present) to the right. \n")
+                 text = "These files will be copied (overwriting if present) to right \n")
       show_action_on_files(path_to_files = files_to_copy |> fselect(1),
                            directory     = left_path,
                            action        = "copy"
