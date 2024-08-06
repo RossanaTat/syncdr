@@ -22,11 +22,12 @@ style_msgs <- function(color_name,
 
   # Validate the color_name argument
   color_name <- match.arg(arg = color_name,
-                          choices = c("pink", "blue", "purple", "green"),
+                          choices = c("pink", "blue", "purple", "green", "orange"),
                           several.ok = FALSE)
 
   # Create custom ANSI style for colors
   color_code <- switch(color_name,
+                       "orange" = "#FE5A1D",
                        "pink"   = "#FF1493",
                        "blue"   = "#00BFFF",
                        "purple" = "#BF00FF",

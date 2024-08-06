@@ -48,6 +48,7 @@ full_asym_sync_to_right <- function(left_path   = NULL,
                                     by_date     = TRUE,
                                     by_content  = FALSE,
                                     recurse     = TRUE,
+                                    force       = TRUE,
                                     backup      = FALSE,
                                     backup_dir  = "temp_dir",
                                     verbose     = getOption("syncdr.verbose")) {
@@ -63,7 +64,7 @@ full_asym_sync_to_right <- function(left_path   = NULL,
                      path_right = right_path)
   }
 
-  # --- Check validity of arguments -----------------
+  # --- Check validity of arguments ----
 
   # Either sync_status is null, and both right and left path are provided,
   # or sync_status is provided and left and right are NULL
@@ -142,21 +143,74 @@ full_asym_sync_to_right <- function(left_path   = NULL,
 
   }
 
+  # --- Identify files to copy/delete/move ----
 
-  # --- Synchronization ----
-
-  # Get files to copy -from common files
+  # files to copy  -from common files
   files_to_copy <- sync_status$common_files |>
     filter_common_files(by_date    = by_date,
                         by_content = by_content,
                         dir = "left") #syncdr aux function
 
-  # Add files to copy -from non common files
+  # files to copy  -from non common files
   files_to_copy <- files_to_copy |>
     rowbind(
       filter_non_common_files(sync_status$non_common_files,
                               dir = "left")
-      ) # files only in left
+    ) # files only in left
+
+  # files to delete, i.e., missing in left
+  files_to_delete <- sync_status$non_common_files |>
+    filter_non_common_files(dir = "right") |>
+    fselect(path_right)
+
+  # --- Force option ----
+
+  if (force == FALSE) {
+
+    # show right dir tree **after** sync
+    style_msgs("orange",
+               text = "The following files will be DELETED in right")
+
+    show_action_on_files(path_to_files = files_to_delete,
+                         directory     = right_path,
+                         action        = "delete"
+                         )
+
+    style_msgs("blue",
+               text = "The following files will be COPIED to right")
+
+    show_action_on_files(path_to_files = files_to_copy |> fselect(1),
+                         directory     = left_path,
+                         action        = "copy"
+    )
+
+    #print(files_to_delete)
+
+
+    # Ask for agreement
+    Ask <- askYesNo(msg     = "Do you want to proceed? Type your answer",
+                    default = TRUE,
+                    prompts = c("Yes", "No", "Cancel"))
+
+    if (Ask == FALSE | is.na(Ask))
+      cli::cli_abort(message = "Synchronization interrupted. No action taken on directories")
+
+  }
+
+  # --- Synchronization ----
+
+  # # files to copy  -from common files
+  # files_to_copy <- sync_status$common_files |>
+  #   filter_common_files(by_date    = by_date,
+  #                       by_content = by_content,
+  #                       dir = "left") #syncdr aux function
+  #
+  # # files to copy  -from non common files
+  # files_to_copy <- files_to_copy |>
+  #   rowbind(
+  #     filter_non_common_files(sync_status$non_common_files,
+  #                             dir = "left")
+  #     ) # files only in left
 
   ## Copy files ####
   copy_files_to_right(left_dir      = sync_status$left_path,
@@ -165,10 +219,10 @@ full_asym_sync_to_right <- function(left_path   = NULL,
                       recurse       = recurse)
 
 
-  # Get files to delete, i.e., missing in left
-  files_to_delete <- sync_status$non_common_files |>
-    filter_non_common_files(dir = "right") |>
-    fselect(path_right)
+  # # files to delete, i.e., missing in left
+  # files_to_delete <- sync_status$non_common_files |>
+  #   filter_non_common_files(dir = "right") |>
+  #   fselect(path_right)
 
   ## Delete Files ####
   fs::file_delete(files_to_delete$path_right)

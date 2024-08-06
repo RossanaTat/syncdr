@@ -28,7 +28,8 @@ Imports:
     DT,
     fs,
     joyn (>= 0.1.6.9003),
-    stats
+    stats,
+    utils
 Remotes: 
     github::randrescastaneda/joyn@DEV
 Suggests: 
