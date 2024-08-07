@@ -105,16 +105,12 @@ display_file_actions <- function(path_to_files,
     switch("copy" = "To be copied",
            "delete" = "To be deleted")
 
-  # action <- match.arg(action) |>
-  #   switch("copy" = paste0("To be copied to", target),
-  #          "delete" = "To be deleted from right")
-
   path_to_files$Action <- action
 
   colnames(path_to_files) <- c("Paths", "Action")
 
   path_to_files <- path_to_files |>
-  fmutate(Paths = gsub(directory,
+    fmutate(Paths = gsub(directory,
                        "",
                        Paths))
 
@@ -126,45 +122,3 @@ display_file_actions <- function(path_to_files,
                                "Action")))
 }
 
-# Another option:
-
-# show_action_on_files <- function(path_to_files,
-#                                  directory,
-#                                  action = c("copy",
-#                                             "delete")) {
-#
-#
-#   action <- match.arg(action) |>
-#     switch("copy"    = "To be copied from left to right",
-#             "delete" = "To be deleted from right")
-#
-#   path_to_files$Action <- action
-#
-#   colnames(path_to_files) <- c("Paths",
-#                                "Action")
-#
-#   path_to_files <- path_to_files |>
-#     fmutate(Paths = gsub(directory, "", Paths))
-#
-#   # Determine the background color based on the action
-#   bg_color <- if (action == "To be copied from left to right") {
-#     "#cbf3f0"
-#   } else {
-#     "#ffbf69"
-#   }
-#
-#   datatable <- DT::datatable(path_to_files,
-#                 colnames = c("Files",
-#                              #"Files in Left",
-#                              "Action")) |>
-#     DT::formatStyle(
-#       'Action',
-#       backgroundColor = bg_color
-#     )
-#
-#   return(datatable)
-#
-#
-# }
-#
-#
