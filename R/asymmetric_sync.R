@@ -170,11 +170,10 @@ full_asym_sync_to_right <- function(left_path   = NULL,
   if (force == FALSE) {
 
     if (nrow(files_to_delete) > 0 ) {
-      # show right dir tree **after** sync
       style_msgs("orange",
                  text = "These files will be DELETED in right")
 
-      show_action_on_files(path_to_files = files_to_delete,
+      display_file_actions(path_to_files = files_to_delete,
                            directory     = right_path,
                            action        = "delete"
       )
@@ -183,16 +182,12 @@ full_asym_sync_to_right <- function(left_path   = NULL,
 
     if (nrow(files_to_copy) >0 ) {
       style_msgs("blue",
-                 text = "These files will be copied (overwriting if present) to right \n")
-      show_action_on_files(path_to_files = files_to_copy |> fselect(1),
+                 text = "These files will be COPIED (overwriting if present) to right \n")
+      display_file_actions(path_to_files = files_to_copy |> fselect(1),
                            directory     = left_path,
                            action        = "copy"
       )
     }
-
-
-    #print(files_to_delete)
-
 
     # Ask for agreement
     Ask <- askYesNo(msg     = "Do you want to proceed? Type your answer",
@@ -200,24 +195,13 @@ full_asym_sync_to_right <- function(left_path   = NULL,
                     prompts = c("Yes", "No", "Cancel"))
 
     if (Ask == FALSE | is.na(Ask))
-      cli::cli_abort(message = "Synchronization interrupted. No action taken on directories")
+      cli::cli_abort(message = "Synchronization interrupted.
+                                No action taken on directories")
 
   }
 
   # --- Synchronization ----
 
-  # # files to copy  -from common files
-  # files_to_copy <- sync_status$common_files |>
-  #   filter_common_files(by_date    = by_date,
-  #                       by_content = by_content,
-  #                       dir = "left") #syncdr aux function
-  #
-  # # files to copy  -from non common files
-  # files_to_copy <- files_to_copy |>
-  #   rowbind(
-  #     filter_non_common_files(sync_status$non_common_files,
-  #                             dir = "left")
-  #     ) # files only in left
 
   ## Copy files ####
   copy_files_to_right(left_dir      = sync_status$left_path,
@@ -225,11 +209,6 @@ full_asym_sync_to_right <- function(left_path   = NULL,
                       files_to_copy = files_to_copy,
                       recurse       = recurse)
 
-
-  # # files to delete, i.e., missing in left
-  # files_to_delete <- sync_status$non_common_files |>
-  #   filter_non_common_files(dir = "right") |>
-  #   fselect(path_right)
 
   ## Delete Files ####
   fs::file_delete(files_to_delete$path_right)
@@ -271,6 +250,8 @@ full_asym_sync_to_right <- function(left_path   = NULL,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
+#'                       If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
@@ -298,6 +279,7 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
                                             by_date     = TRUE,
                                             by_content  = FALSE,
                                             recurse     = TRUE,
+                                            force       = TRUE,
                                             backup      = FALSE,
                                             backup_dir  = "temp_dir",
                                             verbose     = getOption("syncdr.verbose")) {
@@ -333,12 +315,6 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 
   if (is.null(sync_status)) {
 
-    # --- first check directories path ---
-    # stopifnot(exprs = {
-    #   fs::dir_exists(left_path)
-    #   fs::dir_exists(right_path)
-    # })
-
     # --- get sync_status ---
     sync_status <- compare_directories(left_path  = left_path,
                                        right_path = right_path,
@@ -363,6 +339,13 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
                           by_content)
 
   }
+
+  # Identify files to copy -from common files ####
+  files_to_copy <- sync_status$common_files |>
+    filter_common_files(by_date    = by_date,
+                        by_content = by_content,
+                        dir = "left")
+
 
   # --- Backup ----
 
@@ -389,14 +372,36 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 
   }
 
+  # --- Force option ----
+
+  if (force == FALSE) {
+
+    if (nrow(files_to_copy) > 0 ) {
+      style_msgs("blue",
+                 text = "These files will be COPIED (overwriting if present) to right \n")
+      display_file_actions(path_to_files = files_to_copy |>
+                             fselect(1),
+                           directory     = left_path,
+                           action        = "copy"
+      )
+    }
+
+
+    # Ask for agreement
+    Ask <- askYesNo(msg     = "Do you want to proceed? Type your answer",
+                    default = TRUE,
+                    prompts = c("Yes", "No", "Cancel"))
+
+    if (Ask == FALSE | is.na(Ask))
+      cli::cli_abort(message = "Synchronization interrupted.
+                                No action taken on directories")
+
+  }
+
   # --- Synchronization ----
 
-  # Get files to copy -from common files
-  files_to_copy <- sync_status$common_files |>
-    filter_common_files(by_date    = by_date,
-                        by_content = by_content,
-                        dir = "left")
-  # Copy files
+
+  ## Copy files ####
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
                       files_to_copy = files_to_copy,
@@ -432,6 +437,9 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
+#'                       If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
+#
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
@@ -457,6 +465,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
                                                right_path  = NULL,
                                                sync_status = NULL,
                                                recurse     = TRUE,
+                                               force       = TRUE,
                                                backup      = FALSE,
                                                backup_dir  = "temp_dir",
                                                verbose     = getOption("syncdr.verbose")) {
@@ -510,6 +519,15 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
     right_path <- sync_status$right_path
   }
 
+  # Identify files to copy/delete ####
+  files_to_copy <- sync_status$non_common_files |>
+    filter_non_common_files(dir = "left")
+
+  # Get files to delete
+  files_to_delete <- sync_status$non_common_files |>
+    filter_non_common_files(dir = "right") |>
+    fselect(path_right)
+
   # --- Backup ----
 
   # Copy right directory in backup directory
@@ -534,11 +552,42 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 
   }
 
-  # --- Synchronization ----
+  # --- Force option ----
 
-  # Get files to copy
-  files_to_copy <- sync_status$non_common_files |>
-    filter_non_common_files(dir = "left")
+  if (force == FALSE) {
+
+    if (nrow(files_to_delete) > 0 ) {
+      style_msgs("orange",
+                 text = "These files will be DELETED in right")
+
+      display_file_actions(path_to_files = files_to_delete,
+                           directory     = right_path,
+                           action        = "delete"
+      )
+    }
+
+
+    if (nrow(files_to_copy) >0 ) {
+      style_msgs("blue",
+                 text = "These files will be COPIED (overwriting if present) to right \n")
+      display_file_actions(path_to_files = files_to_copy |> fselect(1),
+                           directory     = left_path,
+                           action        = "copy"
+      )
+    }
+
+    # Ask for agreement
+    Ask <- askYesNo(msg     = "Do you want to proceed? Type your answer",
+                    default = TRUE,
+                    prompts = c("Yes", "No", "Cancel"))
+
+    if (Ask == FALSE | is.na(Ask))
+      cli::cli_abort(message = "Synchronization interrupted.
+                                No action taken on directories")
+
+  }
+
+  # --- Synchronization ----
 
   ## Copy files ####
   copy_files_to_right(left_dir      = sync_status$left_path,
@@ -546,10 +595,6 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
                       files_to_copy = files_to_copy,
                       recurse       = recurse)
 
-  # Get files to delete
-  files_to_delete <- sync_status$non_common_files |>
-    filter_non_common_files(dir = "right") |>
-    fselect(path_right)
 
   ## Delete Files ####
   fs::file_delete(files_to_delete$path_right)
@@ -583,6 +628,8 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
+#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
+#'                       If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @return Invisible TRUE indicating successful synchronization.
@@ -607,6 +654,7 @@ partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
                                                        right_path  = NULL,
                                                        sync_status = NULL,
                                                        recurse     = TRUE,
+                                                       force       = TRUE,
                                                        backup      = FALSE,
                                                        backup_dir  = "temp_dir",
                                                        verbose     = getOption("syncdr.verbose")) {
@@ -661,6 +709,35 @@ partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
     right_path <- sync_status$right_path
   }
 
+  # Identify files to copy/delete ####
+  files_to_copy <- sync_status$non_common_files |>
+    filter_non_common_files(dir = "left")
+
+  # --- Force option ----
+
+  if (force == FALSE) {
+
+    if (nrow(files_to_copy) > 0 ) {
+      style_msgs("blue",
+                 text = "These files will be COPIED (overwriting if present) to right \n")
+      display_file_actions(path_to_files = files_to_copy |>
+                             fselect(1),
+                           directory     = left_path,
+                           action        = "copy"
+      )
+    }
+
+
+    # Ask for agreement
+    Ask <- askYesNo(msg     = "Do you want to proceed? Type your answer",
+                    default = TRUE,
+                    prompts = c("Yes", "No", "Cancel"))
+
+    if (Ask == FALSE | is.na(Ask))
+      cli::cli_abort(message = "Synchronization interrupted.
+                                No action taken on directories")
+
+  }
 
   # --- Backup ----
 
@@ -688,9 +765,6 @@ partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
 
   # --- Synchronization ----
 
-  # Get files to copy
-  files_to_copy <- sync_status$non_common_files |>
-    filter_non_common_files(dir = "left")
 
   ## Copy files ####
   copy_files_to_right(left_dir      = sync_status$left_path,
