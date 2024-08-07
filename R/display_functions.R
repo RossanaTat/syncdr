@@ -50,30 +50,6 @@ display_sync_status <- function(sync_status_files,
 
 }
 
-# Example usage:
-
-#Compare directories with 'compare_directories()'
-# sync.env <- toy_dirs()
-# left <- sync.env$left
-# right <- sync.env$right
-#
-# sync_status <- new_compare_dir(left, right)
-# display_sync_status(sync_status$common_files)
-# display_sync_status(sync_status$non_common_files)
-
-# sync_status_date_cont <- compare_directories(left,
-#                                              right,
-#                                              by_content = TRUE)
-# display_sync_status(sync_status_date_cont$common_files)
-# display_sync_status(sync_status_date_cont$non_common_files)
-
-# sync_status_content <- compare_directories(left,
-#                                            right,
-#                                            by_content = TRUE,
-#                                            by_date = FALSE)
-# display_sync_status(sync_status_content$common_files)
-# display_sync_status(sync_status_content$non_common_files)
-
 
 #' Display tree structure of one (or two) directory
 #'
@@ -104,3 +80,45 @@ display_dir_tree <- function(path_left  = NULL,
 
   invisible(TRUE)
 }
+
+
+
+#' Display file actions in table
+#'
+#' This function displays actions (either "copy" or "delete") to be performed on a list of files.
+#'
+#' @param path_to_files Data frame containing the paths to the files. The data frame should have a column named "Paths".
+#' @param directory Character string specifying path to directory where action is taken
+#' @param action Character vector specifying the action to be performed on the files.
+#'               Options are "copy" (default) or "delete".
+#'
+#' @return console-friendly table with files and actions
+#' @importFrom utils askYesNo
+#' @keywords internal
+#'
+display_file_actions <- function(path_to_files,
+                                 directory,
+                                 #target = c("left", "right"),
+                                 action = c("copy", "delete")) {
+
+  action <- match.arg(action) |>
+    switch("copy" = "To be copied",
+           "delete" = "To be deleted")
+
+  path_to_files$Action <- action
+
+  colnames(path_to_files) <- c("Paths", "Action")
+
+  path_to_files <- path_to_files |>
+    fmutate(Paths = gsub(directory,
+                       "",
+                       Paths))
+
+  # Print the table
+  print(
+    knitr::kable(path_to_files,
+                 format = "pipe",
+                 col.names = c("Files",
+                               "Action")))
+}
+

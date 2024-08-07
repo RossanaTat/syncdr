@@ -9,6 +9,7 @@ partial_update_missing_files_asym_to_right(
   right_path = NULL,
   sync_status = NULL,
   recurse = TRUE,
+  force = TRUE,
   backup = FALSE,
   backup_dir = "temp_dir",
   verbose = getOption("syncdr.verbose")
@@ -25,6 +26,9 @@ partial_update_missing_files_asym_to_right(
 If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 and the file will be copied at the top level}
+
+\item{force}{Logical. If TRUE (by default), directly perform synchronization of the directories.
+If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.}
 
 \item{backup}{Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by \code{backup_dir}.}
 

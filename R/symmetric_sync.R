@@ -19,6 +19,8 @@
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
+#'                       If FALSE, displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
@@ -48,6 +50,7 @@ full_symmetric_sync <- function(left_path   = NULL,
                                 by_date     = TRUE,
                                 by_content  = FALSE,
                                 recurse     = TRUE,
+                                force       = TRUE,
                                 backup      = FALSE,
                                 backup_dir  = "temp_dir",
                                 verbose     = getOption("syncdr.verbose")) {
@@ -100,7 +103,9 @@ full_symmetric_sync <- function(left_path   = NULL,
     )
   } else {
 
-    # If sync_status is already provided, retrieve by_date and by_content arguments from it
+    # If sync_status is already provided, retrieve left, right, by_date and by_content arguments from it
+    left_path  <- sync_status$left_path
+    right_path <- sync_status$right_path
 
     by_date    <- fifelse(is.null(sync_status$common_files$is_new_right),
                           FALSE,
@@ -111,6 +116,67 @@ full_symmetric_sync <- function(left_path   = NULL,
                           by_content)
 
   }
+
+  # Identify files to copy ####
+
+  # Identify files to copy to right:
+  # -- those that are newer/different content in the left directory --
+  files_to_right <- sync_status$common_files |>
+    filter_common_files(by_date    = by_date,
+                        by_content = by_content,
+                        dir = "left") |>
+    # -- and those that are only in left directory --
+    rowbind(
+      filter_non_common_files(sync_status$non_common_files,
+                              dir = "left")
+    )
+
+  # Identify files to copy to left:
+  # -- those that are newer/different content in the right directory --
+  files_to_left <- sync_status$common_files |>
+    filter_common_files(by_date    = by_date,
+                        by_content = by_content,
+                        dir = "right") |>
+    # -- and those that are only in right directory --
+    rowbind(
+      filter_non_common_files(sync_status$non_common_files,
+                              dir = "right")
+    )
+
+
+  # --- Force option ----
+
+  if (force == FALSE) {
+
+    if (nrow(files_to_right) >0 ) {
+      style_msgs("blue",
+                 text = "These files will be COPIED (overwriting if present) to RIGHT \n")
+      display_file_actions(path_to_files = files_to_right |> fselect(1),
+                           directory     = left_path,
+                           action        = "copy"
+      )
+    }
+
+    if (nrow(files_to_left) >0 ) {
+      style_msgs("blue",
+                 text = "These files will be COPIED (overwriting if present) to LEFT \n")
+      display_file_actions(path_to_files = files_to_left |> fselect(2),
+                           directory     = right_path,
+                           action        = "copy"
+      )
+    }
+
+    # Ask for agreement
+    Ask <- askYesNo(msg     = "Do you want to proceed? Type your answer",
+                    default = TRUE,
+                    prompts = c("Yes", "No", "Cancel"))
+
+    if (Ask == FALSE | is.na(Ask)) {
+      cli::cli_abort(message = "Synchronization interrupted.
+                                No action taken on directories")}
+
+  }
+
 
   # --- Backup ----
 
@@ -161,34 +227,11 @@ full_symmetric_sync <- function(left_path   = NULL,
 
   # --- Synchronization ----
 
-  # Identify files to copy to right:
-  # -- those that are newer/different content in the left directory --
-  files_to_right <- sync_status$common_files |>
-    filter_common_files(by_date    = by_date,
-                        by_content = by_content,
-                        dir = "left") |>
-  # -- and those that are only in left directory --
-    rowbind(
-      filter_non_common_files(sync_status$non_common_files,
-                              dir = "left")
-    )
-
   # copy files from left to right folder
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
                       files_to_copy = files_to_right)
 
-  # Identify files to copy to left:
-  # -- those that are newer/different content in the right directory --
-  files_to_left <- sync_status$common_files |>
-    filter_common_files(by_date    = by_date,
-                        by_content = by_content,
-                        dir = "right") |>
-  # -- and those that are only in right directory --
-    rowbind(
-      filter_non_common_files(sync_status$non_common_files,
-                              dir = "right")
-    )
   # copy files from left to right folder
   copy_files_to_left(left_dir      = sync_status$left_path,
                      right_dir     = sync_status$right_path,
@@ -232,6 +275,8 @@ full_symmetric_sync <- function(left_path   = NULL,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
+#'                       If FALSE, displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
@@ -260,6 +305,7 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
                                                by_date     = TRUE,
                                                by_content  = FALSE,
                                                recurse     = TRUE,
+                                               force       = TRUE,
                                                backup      = FALSE,
                                                backup_dir  = "temp_dir",
                                                verbose     = getOption("syncdr.verbose")) {
@@ -290,10 +336,7 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
 
   }
 
-  # --------------------------------------------------
-
-  # If sync_status is null, but left and right paths are provided
-  # get sync_status object -internal call to compare_directories()
+  # --- Get sync_status ----
 
   if(is.null(sync_status)) {
 
@@ -313,8 +356,9 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
     )
   } else {
 
-    # If sync_status is already provided, retrieve by_date and by_content arguments from it
-
+    # If sync_status is already provided, retrieve left, right, by_date and by_content arguments from it
+    left_path  <- sync_status$left_path
+    right_path <- sync_status$right_path
     by_date    <- fifelse(is.null(sync_status$common_files$is_new_right),
                           FALSE,
                           by_date)
@@ -329,6 +373,51 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
   if (by_date == FALSE & by_content == TRUE) {
     cli::cli_abort(message = "Symmetric synchronization by content only is not active
                                -no action will be executed, directories unchanged")
+  }
+
+  # Identify files to copy ####
+  files_to_right <- sync_status$common_files |>
+    filter_common_files(by_date    = by_date,
+                        by_content = by_content,
+                        dir = "left")
+
+  files_to_left <- sync_status$common_files |>
+    filter_common_files(by_date    = by_date,
+                        by_content = by_content,
+                        dir = "right")
+
+
+  # --- Force option ----
+
+  if (force == FALSE) {
+
+    if (nrow(files_to_right) >0 ) {
+      style_msgs("blue",
+                 text = "These files will be COPIED (overwriting if present) to RIGHT \n")
+      display_file_actions(path_to_files = files_to_right |> fselect(1),
+                           directory     = left_path,
+                           action        = "copy"
+      )
+    }
+
+    if (nrow(files_to_left) >0 ) {
+      style_msgs("blue",
+                 text = "These files will be COPIED (overwriting if present) to LEFT \n")
+      display_file_actions(path_to_files = files_to_left |> fselect(2),
+                           directory     = right_path,
+                           action        = "copy"
+      )
+    }
+
+    # Ask for agreement
+    Ask <- askYesNo(msg     = "Do you want to proceed? Type your answer",
+                    default = TRUE,
+                    prompts = c("Yes", "No", "Cancel"))
+
+    if (Ask == FALSE | is.na(Ask))
+      cli::cli_abort(message = "Synchronization interrupted.
+                                No action taken on directories")
+
   }
 
   # --- Backup ----
@@ -374,10 +463,6 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
   # --- Synchronize -----
 
   # copy those that are new in left to right
-  files_to_right <- sync_status$common_files |>
-    filter_common_files(by_date    = by_date,
-                        by_content = by_content,
-                        dir = "left")
 
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
@@ -385,10 +470,6 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
                       recurse       = recurse)
 
   # copy those that are new in right to left
-  files_to_left <- sync_status$common_files |>
-    filter_common_files(by_date    = by_date,
-                        by_content = by_content,
-                        dir = "right")
 
   copy_files_to_left(left_dir      = sync_status$left_path,
                      right_dir     = sync_status$right_path,
