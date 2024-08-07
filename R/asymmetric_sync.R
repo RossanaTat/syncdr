@@ -19,7 +19,7 @@
 #'                in the destination folder. If FALSE, files are copied to the top level of the destination folder
 #'                without creating subdirectories if they do not exist.
 #' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
-#' If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
+#'                        If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
@@ -194,9 +194,9 @@ full_asym_sync_to_right <- function(left_path   = NULL,
                     default = TRUE,
                     prompts = c("Yes", "No", "Cancel"))
 
-    if (Ask == FALSE | is.na(Ask))
+    if (Ask == FALSE | is.na(Ask)) {
       cli::cli_abort(message = "Synchronization interrupted.
-                                No action taken on directories")
+                                No action taken on directories")}
 
   }
 

@@ -93,23 +93,30 @@ display_dir_tree <- function(path_left  = NULL,
 #'               Options are "copy" (default) or "delete".
 #'
 #' @return console-friendly table with files and actions
+#' @importFrom utils askYesNo
 #' @keywords internal
 #'
 display_file_actions <- function(path_to_files,
                                  directory,
+                                 #target = c("left", "right"),
                                  action = c("copy", "delete")) {
+
   action <- match.arg(action) |>
-    switch("copy" = "To be copied from left to right",
-           "delete" = "To be deleted from right")
+    switch("copy" = "To be copied",
+           "delete" = "To be deleted")
+
+  # action <- match.arg(action) |>
+  #   switch("copy" = paste0("To be copied to", target),
+  #          "delete" = "To be deleted from right")
 
   path_to_files$Action <- action
 
   colnames(path_to_files) <- c("Paths", "Action")
 
   path_to_files <- path_to_files |>
-    fmutate(Paths = gsub(directory,
-                         "",
-                         Paths))
+  fmutate(Paths = gsub(directory,
+                       "",
+                       Paths))
 
   # Print the table
   print(
