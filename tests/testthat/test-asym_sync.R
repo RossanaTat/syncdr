@@ -1,7 +1,6 @@
-# Test function that performs a full asymmetric synchronization to right ####
+# 1. | Full asymmetric synchronization to right ####
 
-# ~~~~~~~~~ Update by date only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## --- Update by date only ----
 
 # Create sync env with temp directories
 e = toy_dirs()
@@ -19,7 +18,7 @@ sync_status_date      <- compare_directories(left_path  = left,
 full_asym_sync_to_right(sync_status = sync_status_date)
 
 
-# Non common files ####
+### Non common files ####
 test_that("full asym sync to right -by date, non common files", {
 
 
@@ -60,7 +59,7 @@ test_that("full asym sync to right -by date, non common files", {
 
 })
 
-# Common files ####
+### Common files ####
 test_that("full asym sync to right -by date only, common files", {
 
   # check files have same date status after being copied
@@ -89,8 +88,51 @@ test_that("full asym sync to right -by date only, common files", {
 
 })
 
-# ~~~~~~~~~ Update by date and content ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Backup option ####
+
+# With default backup directory
+syncdr_temp <- copy_temp_environment()
+left  <- syncdr_temp$left
+right <- syncdr_temp$right
+
+right_files <- list.files(right,
+                         recursive = TRUE)
+
+full_asym_sync_to_right(left_path  = left,
+                        right_path = right,
+                        backup     = TRUE)
+
+
+test_that("full synchronization -backup option works", {
+
+  # test backup directory is in tempdir
+  # tempdir_files <- list.files(tempdir())
+  #
+  # lapply(tempdir_files,
+  #        function(x) grepl("backup_directory", x)) |>
+  #   any() |>
+  #   expect_equal(TRUE)
+  #
+  # # check content matches original directory
+  # list.files(tempdir(), recursive = TRUE)
+
+  backup_dir <- file.path(tempdir(), "backup_directory")
+  backup_files <- list.files(backup_dir,
+                             recursive = TRUE)
+  # remove prefix
+  backup_files <-sub("copy_right_\\d+/", "", backup_files)
+
+  # check backup directory exists
+  fs::dir_exists(backup_dir) |>
+    expect_true()
+
+  # check files in backup dir matches original right dir
+  sort(backup_files) |>
+    expect_equal(sort(right_files))
+
+})
+
+## --- Update by date and content ----
 
 # restart
 syncdr_temp <- copy_temp_environment()
@@ -106,7 +148,7 @@ sync_status_date_cont <- compare_directories(left_path  = left,
 full_asym_sync_to_right(sync_status = sync_status_date_cont,
                         by_content = TRUE)
 
-# Non common files ####
+### Non common files ####
 test_that("full asym sync to right -by date & cont, non common files", {
 
 
@@ -148,7 +190,7 @@ test_that("full asym sync to right -by date & cont, non common files", {
 
 })
 
-# Common files ####
+### Common files ####
 test_that("full asym sync to right -by date & cont, common files", {
 
   # check files have same content after being copied
@@ -162,8 +204,7 @@ test_that("full asym sync to right -by date & cont, common files", {
     expect_equal(FALSE)
 })
 
-# ~~~~~~~~~ Update by content only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## --- Update by content only ----
 
 # restart
 syncdr_temp <- copy_temp_environment()
@@ -182,7 +223,7 @@ full_asym_sync_to_right(sync_status = sync_status_cont,
                         by_content  = TRUE,
                         by_date     = FALSE)
 
-# Non common files ####
+### Non common files ####
 test_that("full asym sync to right -by content only, non common files", {
 
 
@@ -225,7 +266,7 @@ test_that("full asym sync to right -by content only, non common files", {
 
 })
 
-# Common files ####
+### Common files ####
 
 test_that("full asym sync to right -by content only, common files", {
 
@@ -240,7 +281,7 @@ test_that("full asym sync to right -by content only, common files", {
     expect_equal(FALSE)
 })
 
-# Test function that performs asymmetric synchronization to right for common files only ####
+# 2. | Asymmetric synchronization to right for common files only ####
 
 # ~~~~~~~~~ Update by date only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -281,6 +322,42 @@ test_that("common files asym sync to right works -by date", {
 
 })
 
+### Backup option ####
+
+# #With default backup directory
+# syncdr_temp <- copy_temp_environment()
+# left  <- syncdr_temp$left
+# right <- syncdr_temp$right
+#
+# right_files <- list.files(right,
+#                           recursive = TRUE)
+#
+# # clean backup directory
+# fs::file_delete(list.files(backup_dir,
+#                        recursive = TRUE))
+#
+# common_files_asym_sync_to_right(left_path  = left,
+#                                 right_path = right,
+#                                 backup     = TRUE)
+#
+#
+# test_that("common files synchronization -backup option works", {
+#
+#   backup_dir <- file.path(tempdir(), "backup_directory")
+#   backup_files <- list.files(backup_dir,
+#                              recursive = TRUE)
+#   # remove prefix
+#   backup_files <-sub("copy_right_\\d+/", "", backup_files)
+#
+#   # check backup directory exists
+#   fs::dir_exists(backup_dir) |>
+#     expect_true()
+#
+#   # check files in backup dir matches original right dir
+#   sort(backup_files) |>
+#     expect_equal(sort(right_files))
+#
+# })
 
 # ~~~~~~~~~ Update by date and content  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -368,7 +445,7 @@ test_that("common files asym sync to right works -by content", {
 
 })
 
-# Test function that updates missing files only (asymmetric synchronization to right) ####
+# 3. | Missing files only (asymmetric synchronization to right) ####
 
 # ~~~~~~~~~ Update missing files  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

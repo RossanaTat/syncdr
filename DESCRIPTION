@@ -28,11 +28,12 @@ Imports:
     DT,
     fs,
     joyn (>= 0.1.6.9003),
-    stats
+    stats,
+    knitr,
+    utils
 Remotes: 
     github::randrescastaneda/joyn@DEV
 Suggests: 
-    knitr,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
