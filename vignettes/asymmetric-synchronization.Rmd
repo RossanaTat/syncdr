@@ -36,13 +36,13 @@ This is a **one-way** synchronization: you have a *master/leader* directory, and
 
 ⏭️ For all synchronization functions below, note that synchronization occurs ***from left to right.*** This mean that the right directory will **mirror** the contents of the left directory.
 
-**To keep in mind:**
+**Key Points:**
 
-When calling these synchronization functions, you can provide inputs in two *alternative* ways:
+When using these synchronization functions, you have two options for providing inputs:
 
-1.  Specify paths of both left and right directories, as well as the \`by_date\` and \`by_content\` arguments as you wish the synchronization to be performed (if not specified, by default \`by_date = TRUE\` and \`by_content\` = FALSE) *OR*
+1.  Specify the paths for both the left and right directories, and set the `by_date` and `by_content` arguments as desired (default: `by_date = TRUE` and `by_content = FALSE`).
 
-2.  First call the workhorse function \`compare_directories()\` to obtain the sync_status object. Then, provide it as input to the synchronization function. You do not need to specify the 'by_date' and 'by_content' arguments, as they will automatically be determined depending on the 'sync_status'.
+2.  First, use the `compare_directories()` function to generate a sync_status object. Then, provide this object as input to the synchronization function. The `by_date` and `by_content` arguments will be automatically determined based on the `sync_status`.
 
 ## Types of asymmetric synchronization
 
@@ -164,3 +164,11 @@ sync_status <- compare_directories(left_path  = left,
 partial_update_missing_files_asym_to_right(sync_status = sync_status)
 
 ```
+
+## Synchronizing Using Additional Options
+
+To retain more control over the synchronization process, you can utilize two additional options available for all synchronization functions: backup and force.
+
+-   **Backup Option**: Setting `backup = TRUE` will create a backup (copy) of the right directory before performing the synchronization. This backup is stored in the location specified by `backup_dir`. If `backup_dir` is not provided, the backup will be saved in a temporary directory (`tempdir`). This ensures that you can revert to the previous state if needed
+
+-   **Force** **Option**: By default, force = TRUE, which means the function will proceed directly with the synchronization without any interruptions. If you set force = FALSE, the function will first display a preview of the proposed actions, including which files will be copied and which will be deleted. You will be prompted to confirm whether you wish to proceed with these actions. Synchronization will only continue if you agree; otherwise, it will be aborted, and no changes will be made to the directories.

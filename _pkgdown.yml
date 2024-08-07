@@ -21,6 +21,7 @@ articles:
   - asymmetric-synchronization
   - symmetric-synchronization
   - auxiliary-functions
+  - additional-options
 reference:
 - title: "Main function"
   contents:
