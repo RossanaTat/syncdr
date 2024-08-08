@@ -32,3 +32,4 @@ The function performs the following steps:
 \item Copies files from the source directory to the corresponding subdirectory in the destination directory based on the provided file paths.
 }
 }
+\keyword{internal}

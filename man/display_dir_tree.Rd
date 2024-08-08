@@ -19,3 +19,17 @@ directories tree
 \description{
 Display tree structure of one (or two) directory
 }
+\examples{
+library(syncdr)
+e = toy_dirs()
+left = e$left
+right = e$right
+# Display dir tree of both directories
+display_dir_tree(path_left = left,
+                path_right = right)
+
+# Display dir tree of one directory only
+display_dir_tree(path_right = right)
+
+
+}
