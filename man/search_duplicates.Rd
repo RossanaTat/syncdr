@@ -19,3 +19,9 @@ This function searches for duplicate files within a directory based on their con
 Duplicate files are identified by having either the same filename and same content
 or different filenames but same content.
 }
+\examples{
+library(syncdr)
+e = toy_dirs()
+search_duplicates(dir_path = e$left)
+
+}

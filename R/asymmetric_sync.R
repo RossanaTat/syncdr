@@ -28,6 +28,7 @@
 #' @export
 #' @examples
 #' # Create syncdr environment with toy directories
+#' library(syncdr)
 #' e <- toy_dirs()
 #'
 #' # Get left and right directories' paths
@@ -41,9 +42,9 @@
 #'                         by_date    = FALSE,
 #'                         by_content = TRUE)
 #' # Providing sync_status object
-#' sync_status = compare_directories(left_path = left,
-#'                                   right_path = right)
-#' full_asym_sync_to_right(sync_status = sync_status)
+#' #sync_status = compare_directories(left_path = left,
+#' #                                   right_path = right)
+#' #full_asym_sync_to_right(sync_status = sync_status)
 full_asym_sync_to_right <- function(left_path   = NULL,
                                     right_path  = NULL,
                                     sync_status = NULL,
@@ -265,14 +266,13 @@ full_asym_sync_to_right <- function(left_path   = NULL,
 #' left  <- e$left
 #' right <- e$right
 #'
-#' # Example: Synchronize by date
+#' # Example: Synchronize by content only
 #' # Option 1
 #' common_files_asym_sync_to_right(left_path  = left,
-#'                                 right_path = right)
-#' # Option 2
-#' sync_status = compare_directories(left,
-#'                                   right)
-#' common_files_asym_sync_to_right(sync_status = sync_status)
+#'                                 right_path = right,
+#'                                 by_date    = FALSE,
+#'                                 by_content = TRUE)
+#'
 common_files_asym_sync_to_right <- function(left_path   = NULL,
                                             right_path  = NULL,
                                             sync_status = NULL,

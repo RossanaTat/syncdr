@@ -69,12 +69,11 @@ e <- toy_dirs()
 left  <- e$left
 right <- e$right
 
-# Example: Synchronize by date
+# Example: Synchronize by content only
 # Option 1
 common_files_asym_sync_to_right(left_path  = left,
-                                right_path = right)
-# Option 2
-sync_status = compare_directories(left,
-                                  right)
-common_files_asym_sync_to_right(sync_status = sync_status)
+                                right_path = right,
+                                by_date    = FALSE,
+                                by_content = TRUE)
+
 }

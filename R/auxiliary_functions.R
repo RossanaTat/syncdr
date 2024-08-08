@@ -24,7 +24,6 @@
 #'
 #' @seealso
 #' \code{\link{compare_directories}} for directory comparison and sync status creation.
-#' @export
 filter_common_files <- function(sync_status,
                                 by_date    = TRUE,
                                 by_content = FALSE,
@@ -79,7 +78,6 @@ filter_common_files <- function(sync_status,
 #'            - "all" for files unique to either directory
 #' @return An updated 'syncdr_status' object with filtered files according to the specified criteria.
 #' @keywords internal
-#' @export
 filter_non_common_files <- function(sync_status,
                                     dir = "left") {
 
@@ -330,6 +328,11 @@ hash_files_in_dir <- function(dir_path) {
 #' @importFrom cli cli_h1 cli_text cli_alert_success
 #'
 #' @export
+#' @examples
+#' library(syncdr)
+#' e = toy_dirs()
+#' search_duplicates(dir_path = e$left)
+#'
 search_duplicates <- function(dir_path,
                               verbose = TRUE) {
 

@@ -12,7 +12,5 @@
     options(op.syncdr[toset])
   }
 
-  #get_joyn_options()
-
   invisible()
 }

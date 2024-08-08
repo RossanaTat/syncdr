@@ -15,7 +15,7 @@
 #'
 #' @return Invisible TRUE upon successful completion of the file copying process.
 #'
-#' @export
+#' @keywords internal
 #'
 copy_files_to_right <- function(left_dir,
                                 right_dir,
