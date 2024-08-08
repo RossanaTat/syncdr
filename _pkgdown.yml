@@ -43,7 +43,6 @@ reference:
 - title: "Additional functions"
   contents:
   - toy_dirs
-  - copy_files_to_right
   - copy_temp_environment
   - search_duplicates
 
