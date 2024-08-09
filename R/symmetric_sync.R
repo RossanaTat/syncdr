@@ -54,13 +54,6 @@ full_symmetric_sync <- function(left_path   = NULL,
                                 backup      = FALSE,
                                 backup_dir  = "temp_dir",
                                 verbose     = getOption("syncdr.verbose")) {
-  if (verbose == TRUE) {
-    # Display folder structure before synchronization
-    style_msgs(color_name = "blue",
-               text = "Directories structure BEFORE synchronization:\n")
-    display_dir_tree(path_left  = left_path,
-                     path_right = right_path)
-  }
 
 
   # --- Check validity of arguments -----------------
@@ -99,7 +92,7 @@ full_symmetric_sync <- function(left_path   = NULL,
                                        by_date    = by_date,
                                        by_content = by_content,
                                        recurse    = recurse,
-                                       verbose    = verbose
+                                       verbose    = FALSE
     )
   } else {
 
@@ -223,6 +216,15 @@ full_symmetric_sync <- function(left_path   = NULL,
   if (by_date == FALSE & by_content == TRUE) {
     cli::cli_abort(message = "Symmetric synchronization by content only is not active
                                -no action will be executed, directories unchanged")
+  }
+
+  # --- Verbose, before syn ----
+  if (verbose == TRUE) {
+    # Display folder structure before synchronization
+    style_msgs(color_name = "blue",
+               text = "Directories structure BEFORE synchronization:\n")
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
   }
 
   # --- Synchronization ----
@@ -352,7 +354,7 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
                                        by_date    = by_date,
                                        by_content = by_content,
                                        recurse    = recurse,
-                                       verbose    = verbose
+                                       verbose    = FALSE
     )
   } else {
 
