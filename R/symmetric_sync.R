@@ -99,7 +99,7 @@ full_symmetric_sync <- function(left_path   = NULL,
                                        by_date    = by_date,
                                        by_content = by_content,
                                        recurse    = recurse,
-                                       verbose    = verbose
+                                       verbose    = FALSE
     )
   } else {
 
@@ -352,7 +352,7 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
                                        by_date    = by_date,
                                        by_content = by_content,
                                        recurse    = recurse,
-                                       verbose    = verbose
+                                       verbose    = FALSE
     )
   } else {
 

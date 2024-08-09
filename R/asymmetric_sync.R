@@ -102,7 +102,7 @@ full_asym_sync_to_right <- function(left_path   = NULL,
                                        by_date    = by_date,
                                        by_content = by_content,
                                        recurse    = recurse,
-                                       verbose    = verbose
+                                       verbose    = FALSE
     )
   } else {
 
@@ -321,7 +321,7 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
                                        by_date    = by_date,
                                        by_content = by_content,
                                        recurse    = recurse,
-                                       verbose    = verbose
+                                       verbose    = FALSE
     )
   } else {
 
@@ -512,7 +512,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
     sync_status <- compare_directories(left_path  = left_path,
                                        right_path = right_path,
                                        recurse    = recurse,
-                                       verbose    = verbose
+                                       verbose    = FALSE
     )
   } else {
     left_path  <- sync_status$left_path
@@ -702,7 +702,7 @@ partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
     sync_status <- compare_directories(left_path  = left_path,
                                        right_path = right_path,
                                        recurse    = recurse,
-                                       verbose    = verbose
+                                       verbose    = FALSE
     )
   } else {
     left_path  <- sync_status$left_path
