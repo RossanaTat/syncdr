@@ -11,7 +11,7 @@ compare_directories(
   by_date = TRUE,
   by_content = FALSE,
   verbose = getOption("syncdr.verbose"),
-  short_paths = FALSE
+  short_paths = getOption("syncdr.short_paths")
 )
 }
 \arguments{
