@@ -2,18 +2,18 @@
 % Please edit documentation in R/print.R
 \name{print.syncdr_status}
 \alias{print.syncdr_status}
-\title{Title}
+\title{Print Synchronization Status}
 \usage{
 \method{print}{syncdr_status}(x, ...)
 }
 \arguments{
-\item{x}{obbject of syncdr_status class created in \link{compare_directories}}
+\item{x}{object of syncdr_status class created in \link{compare_directories}}
 
-\item{...}{}
+\item{...}{additional arguments}
 }
 \value{
 prints syncdr_status object
 }
 \description{
-Title
+Print Synchronization Status
 }

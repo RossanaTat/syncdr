@@ -1,7 +1,7 @@
-#' Title
+#' Print Synchronization Status
 #'
 #' @param x object of syncdr_status class created in [compare_directories]
-#' @param ...
+#' @param ... additional arguments
 #'
 #' @return prints syncdr_status object
 #' @export
@@ -17,16 +17,14 @@ print.syncdr_status <- function(x, ...) {
   cli::cli_rule()
 
   ## common files -----------
-  ##
-
 
   cli::cli_h1("Common files")
   x$common_files |>
     fmutate(path = gsub(x$left_path, "", path_left)) |>
-    fmutate(modified = fcase(is_new_right == TRUE, "right",
-                           is_new_left == TRUE, "left",
-                           default = "same date"))  |>
-    fselect(path, modified, modification_time_left, modification_time_right) |>
+    # fmutate(modified = fcase(is_new_right == TRUE, "right",
+    #                        is_new_left == TRUE, "left",
+    #                        default = "same date"))  |>
+    #fselect(path, modified, modification_time_left, modification_time_right) |>
     print()
 
   ## non-common files -----------
@@ -36,7 +34,7 @@ print.syncdr_status <- function(x, ...) {
     fmutate(path_left = remove_root(x$left_path, path_left)) |>
     fmutate(path_right = remove_root(x$right_path, path_right))
 
-  cli::cli_h2("Only left")
+  cli::cli_h2("Only in left")
   ncf |>
     fselect(path_left) |>
     fsubset(!is.na(path_left)) |>
@@ -44,7 +42,7 @@ print.syncdr_status <- function(x, ...) {
 
   cat("\n")
 
-  cli::cli_h2("Only right")
+  cli::cli_h2("Only in right")
   ncf |>
     fselect(path_right) |>
     fsubset(!is.na(path_right)) |>
