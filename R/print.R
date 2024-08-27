@@ -1,14 +1,20 @@
 #' Title
 #'
-#' @param x obbject of syncdr_status class created in [compare_directories]
+#' @param x object of syncdr_status class created in [compare_directories]
 #' @param ...
 #'
 #' @return prints syncdr_status object
 #' @export
 print.syncdr_status <- function(x, ...) {
 
-
   # clean ---------
+
+  cli::cli_h1("Synchronization Summary")
+  cli::cli_text("Left Directory: {.path {x$left_path}}")
+  cli::cli_text("Right Directory: {.path {x$right_path}}")
+  cli::cli_text("Total Common Files: {.strong {nrow(x$common_files)}}")
+  cli::cli_text("Total Non-common Files: {.strong {nrow(x$non_common_files)}}")
+  cli::cli_rule()
 
   ## common files -----------
   ##
