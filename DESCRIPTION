@@ -1,6 +1,6 @@
 Package: syncdr
 Title: Tool for Facilitating Directory Comparison and Updating
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: 
     c(person(given = "R.Andres", 
                     family = "Castaneda", 
