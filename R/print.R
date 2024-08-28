@@ -19,13 +19,23 @@ print.syncdr_status <- function(x, ...) {
   ## common files -----------
 
   cli::cli_h1("Common files")
-  x$common_files |>
-    fmutate(path = gsub(x$left_path, "", path_left)) |>
-    # fmutate(modified = fcase(is_new_right == TRUE, "right",
-    #                        is_new_left == TRUE, "left",
-    #                        default = "same date"))  |>
-    #fselect(path, modified, modification_time_left, modification_time_right) |>
-    print()
+
+  x$common_files <- x$common_files |>
+    fmutate(path = remove_root(x$left_path, path_left))
+
+
+  if ("is_new_right" %in% colnames(x$common_files) ||
+      "is_new_left" %in% colnames(x$common_files)) {
+
+    x$common_files <- x$common_files |>
+      fmutate(modified = fcase(is_new_right == TRUE, "right",
+                             is_new_left == TRUE, "left",
+                             default = "same date"))  |>
+      fselect(path, modified, modification_time_left, modification_time_right)
+
+  }
+
+  print(x$common_files)
 
   ## non-common files -----------
   cli::cli_h1("Non-common files")
