@@ -30,7 +30,8 @@ Imports:
     joyn (>= 0.1.6.9003),
     stats,
     knitr,
-    utils
+    utils,
+    rstudioapi
 Remotes: 
     github::randrescastaneda/joyn@DEV
 Suggests: 
