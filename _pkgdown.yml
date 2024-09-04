@@ -45,6 +45,7 @@ reference:
   - toy_dirs
   - copy_temp_environment
   - search_duplicates
+  - print.syncdr_status
 
 development:
   mode: auto
