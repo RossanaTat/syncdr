@@ -1,6 +1,6 @@
 Package: syncdr
 Title: Tool for Facilitating Directory Comparison and Updating
-Version: 0.0.0.9000
+Version: 0.0.2
 Authors@R: 
     c(person(given = "R.Andres", 
                     family = "Castaneda", 
@@ -15,7 +15,7 @@ Description: An R package for directory comparison and updates. It provides tool
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Depends: 
     R (>= 2.10)
 LazyData: true

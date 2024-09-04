@@ -47,10 +47,11 @@ With {syncdr}, users can:
 You can install the development version of syncdr from
 [GitHub](https://github.com/) with:
 
-``` r
+```{r}
 # install.packages("devtools")
 devtools::install_github("RossanaTat/syncdr")
 ```
+
 
 ## Usage example
 
@@ -82,4 +83,3 @@ display_sync_status(sync_status$common_files,
 
 
 ```
-
