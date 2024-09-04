@@ -2,7 +2,6 @@
 title: "Introduction to {syncdr}"
 subtitle: "File Handling, Directory Comparison & Synchronization in R"
 author: "Rossana Tatulli"
-date: "2024-mm-dy"
 output: 
 rmarkdown::html_vignette:
   toc: true
@@ -28,8 +27,8 @@ library(syncdr)
 
 **{syncdr}** is an R package for handling and synchronizing files and directories. Its primary objectives are:
 
-1.  To provide a clear snapshot of the content and status of synchronization between two directories under comparison: including their tree structure, their common files, and files that are exclusive to either directory
-2.  To make file handling in R easier: i.e., enabling content-based and modification date-based file comparisons, as well as facilitating tasks such as duplicates identification, file copying, moving, and deletion.
+1.  To provide a clear **snapshot of the content and status of synchronization** between two directories under comparison: including their tree structure, their common files, and files that are exclusive to either directory
+2.  To make **file organization and management** in R easier: i.e., enabling content-based and modification date-based file comparisons, as well as facilitating tasks such as duplicates identification, file copying, moving, and deletion.
 
 ------------------------------------------------------------------------
 
@@ -44,7 +43,7 @@ This article does ***not*** offer a comprehensive overview of **{syncdr}** funct
 
 Suppose you are working with two directories, let's call them `left` and `right` -each containing certain files and folders/sub-folders.
 
-To get started, let's call `syncdr` function `toy_dirs()`, which generates two toy directories in `.syncdrenv` environment -say `left` and `right`- that we can use to showcase `syncdr` functionalities.
+Let's first call `syncdr` function `toy_dirs()`. This generates two toy directories in `.syncdrenv` environment -say `left` and `right`- that we can use to showcase `syncdr` functionalities.
 
 ```{r toy-dirs}
 
@@ -57,7 +56,7 @@ right <- .syncdrenv$right
 
 ```
 
-You can also quickly compare the two directories' tree structure by calling `display_dir_tree()`. By default, it fully recurses -i.e., shows the directory tree of all sub-directories. However, you can also specify the number of levels to recurse using the `recurse` argument.
+You can start by quickly comparing the two directories' tree structure by calling `display_dir_tree()`. By default, it fully recurses -i.e., shows the directory tree of all sub-directories. However, you can also specify the number of levels to recurse using the `recurse` argument.
 
 ```{r display-toy-dirs}
 
@@ -69,13 +68,13 @@ display_dir_tree(path_left  = left,
 
 ### Step 1: Compare Directories
 
-The most important function in `syncdr` is `compare_directories()`. It takes the paths of left and right directories and determines their synchronization status *(see below)*. This function represents the backbone of `syncdr`: you should always start by calling this function, retrieve the `syncdr_status` object it generates, and utilize this object both:
+The most important function in `syncdr` is `compare_directories()`. It takes the paths of left and right directories and compares them to determine their synchronization status *(see below)*. This function represents the backbone of `syncdr`: you can utilize the `syncdr_status` object it generates both:
 
--   to *inspect* the synchronization status of files present in both directories as well as those exclusive to either directory
+- to *inspect* the synchronization status of files present in both directories as well as those exclusive to either directory
 
 -   as the input for all other functions within `syncdr` that allow *synchronization* between the directories under comparison*.*
 
-Before diving into the resulting `syncdr_status` object, let's clarify that `compare_directories()` enables to compare directories in 3 ways:
+Before diving into the resulting `syncdr_status` object, note that `compare_directories()` enables to compare directories in 3 ways:
 
 1.  By **date** only -*the default:* by default, `by_date = TRUE`, so that files in both directories are compared based on the date of last modification.
 
@@ -99,7 +98,7 @@ Before diving into the resulting `syncdr_status` object, let's clarify that `com
 |         different content          |
 |            same content            |
 
-Also, regardless of which options you choose, the sync_status of files that are exclusive to either directory is determined too:
+Also, regardless of which options you choose, the sync_status of files that are exclusive to either directory is determined as:
 
 | sync_status (*non* *common files)* |
 |:----------------------------------:|
@@ -184,15 +183,7 @@ display_sync_status(sync_status_date$non_common_files,
 
 `syncdr` enables users to perform different actions such as copying, moving, and deleting files using specific synchronization functions. Refer to the `vignette("asymmetric-synchronization")` and `vignette("symmetric-synchronization")` articles for detailed information.
 
-------------------------------------------------------------------------
-
-📌 **Important note:**
-
-As a general rule -to perform any synchronization- begin by using **`compare_directories()`** with specific **`by_date`** and **`by_content`** options. Then, ensure that these same options are used when calling the synchronization function with the output of **`compare_directories()`** as input.
-
-------------------------------------------------------------------------
-
-For the purpose of this general demonstration, we will perform a 'full asymmetric synchronization to right'. This executes the following:
+For the purpose of this general demonstration, we will perform a 'full asymmetric synchronization to right'. This specific function executes the following:
 
 -   **On common files:**
     -   If by date only (`by_date = TRUE`): Copy files that are newer in the left directory to the right directory.
@@ -211,7 +202,7 @@ sync_status <- compare_directories(left,
                                    by_date = TRUE)
 
 # Synchronize directories 
-full_asym_sync_to_right(sync_status = sync_status,
-                        by_date     = TRUE)
+full_asym_sync_to_right(sync_status = sync_status)
+
 
 ```
