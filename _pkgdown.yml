@@ -23,29 +23,28 @@ articles:
   - auxiliary-functions
   - additional-options
 reference:
-- title: "Main function"
-  contents:
-  - compare_directories
-- title: "Visualizations"
+- title: Main function
+  contents: compare_directories
+- title: Visualizations
   contents:
   - display_sync_status
   - display_dir_tree
-- title: "Asymmetric synchronization"
+- title: Asymmetric synchronization
   contents:
   - full_asym_sync_to_right
   - common_files_asym_sync_to_right
   - update_missing_files_asym_to_right
   - partial_update_missing_files_asym_to_right
-- title: "Symmetric synchronization"
+- title: Symmetric synchronization
   contents:
   - full_symmetric_sync
   - partial_symmetric_sync_common_files
-- title: "Additional functions"
+- title: Additional functions
   contents:
   - toy_dirs
   - copy_temp_environment
   - search_duplicates
   - print.syncdr_status
-
 development:
   mode: auto
+
