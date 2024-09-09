@@ -7,14 +7,33 @@
 #' @export
 print.syncdr_status <- function(x, ...) {
 
-  # clean ---------
+  # retrieve by date and by content arguments
+
+  by_date    <- fifelse(is.null(x$common_files$is_new_right),
+                        FALSE,
+                        TRUE)
+
+  by_content <- fifelse(!(is.null(x$common_files$is_diff)),
+                        TRUE,
+                        FALSE)
+
+  compare_by <- switch(
+    paste(by_date, by_content, sep = "-"),
+    "TRUE-TRUE" = "date & content",
+    "TRUE-FALSE" = "date",
+    "FALSE-TRUE" = "content"
+  )
+
+
+  # synchronization summary
 
   cli::cli_h1("Synchronization Summary")
-  cli::cli_text("Left Directory: {.path {x$left_path}}")
-  cli::cli_text("Right Directory: {.path {x$right_path}}")
-  cli::cli_text("Total Common Files: {.strong {nrow(x$common_files)}}")
-  cli::cli_text("Total Non-common Files: {.strong {nrow(x$non_common_files)}}")
-  cli::cli_rule()
+  cli::cli_li("Left Directory: {.path {x$left_path}}")
+  cli::cli_li("Right Directory: {.path {x$right_path}}")
+  cli::cli_li("Total Common Files: {.strong {nrow(x$common_files)}}")
+  cli::cli_li("Total Non-common Files: {.strong {nrow(x$non_common_files)}}")
+  cli::cli_li("Compare files by: {.strong {compare_by}} ")
+
 
   ## common files -----------
 
@@ -24,23 +43,25 @@ print.syncdr_status <- function(x, ...) {
     fmutate(path = remove_root(x$left_path, path_left)) |>
     fselect(-c(path_left, path_right))
 
-  # add compare by info in the object to modify print accoridngly
+  if (compare_by == 'date') {
+    x$common_files <- x$common_files |>
+          fmutate(modified = fcase(is_new_right == TRUE, "right",
+                                   is_new_left == TRUE, "left",
+                                   default = "same date"))  |>
+          fselect(path, modification_time_left, modification_time_right, modified)
 
-#
-  if ("is_new_right" %in% colnames(x$common_files) ||
-       "is_new_left" %in% colnames(x$common_files)) {
+  }
 
+  else if (compare_by == "date & content") {
     x$common_files <- x$common_files |>
       fmutate(modified = fcase(is_new_right == TRUE, "right",
                                is_new_left == TRUE, "left",
                                default = "same date"))  |>
+      fselect(path, modification_time_left, modification_time_right, modified, sync_status)
 
-      # add herea condition if by date only no sync status
-      fselect(path, modified, modification_time_left, modification_time_right, sync_status)
-    #fselect(-c(is_new_right, is_new_left))
   } else {
     x$common_files <- x$common_files |>
-      fselect(path, is_diff, sync_status)
+          fselect(path, sync_status)
 
   }
 
