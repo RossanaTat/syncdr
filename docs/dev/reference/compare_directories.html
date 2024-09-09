@@ -12,7 +12,7 @@ The primary goal is to identify the synchronization status of files present in b
     
     <a class="navbar-brand me-2" href="../index.html">syncdr</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.0.2.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.0.2.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,8 +70,7 @@ The primary goal is to identify the synchronization status of files present in b
 <span>  recurse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  by_date <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  by_content <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"syncdr.verbose"</span><span class="op">)</span>,</span>
-<span>  short_paths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"syncdr.short_paths"</span><span class="op">)</span></span>
+<span>  verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"syncdr.verbose"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -99,10 +98,6 @@ The primary goal is to identify the synchronization status of files present in b
 
 <dt>verbose</dt>
 <dd><p>Logical. If TRUE display additional info on the comparison process. Default is FALSE</p></dd>
-
-
-<dt>short_paths</dt>
-<dd><p>Logical. If TRUE, remove whole path from output for cleaner display. Default is FALSE</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -142,29 +137,21 @@ It can be computed based on modification date only, content only, or both.</p>
 <span class="r-in"><span><span class="fu">compare_directories</span><span class="op">(</span><span class="va">left</span>, <span class="va">right</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Synchronization Summary</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Left Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpKAQB0r/left</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Right Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpKAQB0r/right</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Total Common Files: <span style="font-weight: bold;">7</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Total Non-common Files: <span style="font-weight: bold;">9</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Left Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpmAWfu0/left</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Right Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpmAWfu0/right</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Total Common Files: <span style="font-weight: bold;">7</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Total Non-common Files: <span style="font-weight: bold;">9</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Compare files by: <span style="font-weight: bold;">date</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Common files</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             path  modified modification_time_left modification_time_right</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /left/B/B1.Rds     right    2024-09-04 15:45:14     2024-09-04 15:45:15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /left/B/B2.Rds     right    2024-09-04 15:45:17     2024-09-04 15:45:18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /left/C/C1.Rds same date    2024-09-04 15:45:15     2024-09-04 15:45:15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /left/C/C2.Rds     right    2024-09-04 15:45:18     2024-09-04 15:45:19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /left/C/C3.Rds     right    2024-09-04 15:45:20     2024-09-04 15:45:21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /left/D/D1.Rds      left    2024-09-04 15:45:17     2024-09-04 15:45:16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /left/D/D2.Rds      left    2024-09-04 15:45:20     2024-09-04 15:45:19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         sync_status</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 older in left, newer in right dir</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 older in left, newer in right dir</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                         same date</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 older in left, newer in right dir</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 older in left, newer in right dir</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 newer in left, older in right dir</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 newer in left, older in right dir</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             path modification_time_left modification_time_right  modified</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /left/B/B1.Rds    2024-09-09 12:16:12     2024-09-09 12:16:13     right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /left/B/B2.Rds    2024-09-09 12:16:15     2024-09-09 12:16:16     right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /left/C/C1.Rds    2024-09-09 12:16:13     2024-09-09 12:16:13 same date</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /left/C/C2.Rds    2024-09-09 12:16:16     2024-09-09 12:16:17     right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /left/C/C3.Rds    2024-09-09 12:16:18     2024-09-09 12:16:19     right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /left/D/D1.Rds    2024-09-09 12:16:15     2024-09-09 12:16:14      left</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /left/D/D2.Rds    2024-09-09 12:16:18     2024-09-09 12:16:17      left</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Non-common files</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -192,20 +179,20 @@ It can be computed based on modification date only, content only, or both.</p>
 <span class="r-in"><span><span class="fu">compare_directories</span><span class="op">(</span><span class="va">left</span>, <span class="va">right</span>, by_content <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Synchronization Summary</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Left Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpKAQB0r/left</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Right Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpKAQB0r/right</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Total Common Files: <span style="font-weight: bold;">6</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Total Non-common Files: <span style="font-weight: bold;">9</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Left Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpmAWfu0/left</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Right Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpmAWfu0/right</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Total Common Files: <span style="font-weight: bold;">6</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Total Non-common Files: <span style="font-weight: bold;">9</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Compare files by: <span style="font-weight: bold;">date &amp; content</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Common files</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             path modified modification_time_left modification_time_right</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /left/B/B1.Rds    right    2024-09-04 15:45:14     2024-09-04 15:45:15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /left/B/B2.Rds    right    2024-09-04 15:45:17     2024-09-04 15:45:18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /left/C/C2.Rds    right    2024-09-04 15:45:18     2024-09-04 15:45:19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /left/C/C3.Rds    right    2024-09-04 15:45:20     2024-09-04 15:45:21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /left/D/D1.Rds     left    2024-09-04 15:45:17     2024-09-04 15:45:16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /left/D/D2.Rds     left    2024-09-04 15:45:20     2024-09-04 15:45:19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             path modification_time_left modification_time_right modified</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /left/B/B1.Rds    2024-09-09 12:16:12     2024-09-09 12:16:13    right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /left/B/B2.Rds    2024-09-09 12:16:15     2024-09-09 12:16:16    right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /left/C/C2.Rds    2024-09-09 12:16:16     2024-09-09 12:16:17    right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /left/C/C3.Rds    2024-09-09 12:16:18     2024-09-09 12:16:19    right</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /left/D/D1.Rds    2024-09-09 12:16:15     2024-09-09 12:16:14     left</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /left/D/D2.Rds    2024-09-09 12:16:18     2024-09-09 12:16:17     left</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         sync_status</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 different content</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 different content</span>
@@ -240,21 +227,21 @@ It can be computed based on modification date only, content only, or both.</p>
 <span class="r-in"><span><span class="fu">compare_directories</span><span class="op">(</span><span class="va">left</span>, <span class="va">right</span>, by_content <span class="op">=</span> <span class="cn">TRUE</span>, by_date <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Synchronization Summary</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Left Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpKAQB0r/left</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Right Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpKAQB0r/right</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Total Common Files: <span style="font-weight: bold;">7</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Total Non-common Files: <span style="font-weight: bold;">9</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Left Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpmAWfu0/left</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Right Directory: <span style="color: #0000BB;">C:/Users/wb621604/AppData/Local/Temp/RtmpmAWfu0/right</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Total Common Files: <span style="font-weight: bold;">7</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Total Non-common Files: <span style="font-weight: bold;">9</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • Compare files by: <span style="font-weight: bold;">content</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Common files</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             path is_diff       sync_status</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /left/B/B1.Rds    TRUE different content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /left/B/B2.Rds    TRUE different content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /left/C/C1.Rds   FALSE      same content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /left/C/C2.Rds    TRUE different content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /left/C/C3.Rds    TRUE different content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /left/D/D1.Rds    TRUE different content</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /left/D/D2.Rds    TRUE different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             path       sync_status</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 /left/B/B1.Rds different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 /left/B/B2.Rds different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 /left/C/C1.Rds      same content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 /left/C/C2.Rds different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 /left/C/C3.Rds different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 /left/D/D1.Rds different content</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 /left/D/D2.Rds different content</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Non-common files</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
