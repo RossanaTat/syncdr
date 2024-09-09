@@ -24,6 +24,8 @@ print.syncdr_status <- function(x, ...) {
     fmutate(path = remove_root(x$left_path, path_left)) |>
     fselect(-c(path_left, path_right))
 
+  # add compare by info in the object to modify print accoridngly
+
 #
   if ("is_new_right" %in% colnames(x$common_files) ||
        "is_new_left" %in% colnames(x$common_files)) {
@@ -32,6 +34,8 @@ print.syncdr_status <- function(x, ...) {
       fmutate(modified = fcase(is_new_right == TRUE, "right",
                                is_new_left == TRUE, "left",
                                default = "same date"))  |>
+
+      # add herea condition if by date only no sync status
       fselect(path, modified, modification_time_left, modification_time_right, sync_status)
     #fselect(-c(is_new_right, is_new_left))
   } else {
