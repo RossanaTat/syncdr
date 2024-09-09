@@ -1,0 +1,14 @@
+pandoc: 3.1.11
+pkgdown: 2.1.0
+pkgdown_sha: ~
+articles:
+  additional-options: additional-options.html
+  asymmetric-synchronization: asymmetric-synchronization.html
+  auxiliary-functions: auxiliary-functions.html
+  symmetric-synchronization: symmetric-synchronization.html
+  syncdr: syncdr.html
+  visualizations: visualizations.html
+last_built: 2024-09-09T17:18Z
+urls:
+  reference: https://rossanatat.github.io/syncdr/reference
+  article: https://rossanatat.github.io/syncdr/articles
