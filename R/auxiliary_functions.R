@@ -384,11 +384,29 @@ save_sync_status <- function(dir_path) {
   dates            <- directory_info(dir_path) |>
     fselect(path, modification_time)
 
-  sync_status_file <- joyn::joyn(hashes,
+  sync_status_table <- joyn::joyn(hashes,
                                  dates,
                                  by = "path",
                                  reportvar = FALSE)
-  # TO DO: save file in location
 
-  return(sync_status_file)
+
+
+  # TO DO: save file in location
+  # Create subdirectory "syncdr" if it doesn't exist
+  syncdr_path <- file.path(dir_path, "syncdr")
+  if (!dir.exists(syncdr_path)) {
+    dir.create(syncdr_path)
+  }
+
+  # Generate filename with current system time
+  timestamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
+  file_name <- paste0("ss_", timestamp, ".csv")
+
+  # Full path to save the file
+  file_path <- file.path(syncdr_path, file_name)
+
+  # Save the sync_status_table to the file
+  write.csv(sync_status_table, file = file_path, row.names = FALSE)
+
+  return(file_path)
 }
