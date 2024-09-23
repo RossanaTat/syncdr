@@ -380,6 +380,7 @@ save_sync_status <- function(dir_path) {
 
   hashes           <- hash_files_in_dir(dir_path)
   rownames(hashes) <- NULL
+  hashes$hash <- as.character(hashes$hash)
 
   dates            <- directory_info(dir_path) |>
     fselect(path, modification_time)
@@ -390,35 +391,50 @@ save_sync_status <- function(dir_path) {
                                  reportvar = FALSE)
 
 
-
-  # TO DO: save file in location
   # Create subdirectory "syncdr" if it doesn't exist
   syncdr_path <- file.path(dir_path, "syncdr")
   if (!dir.exists(syncdr_path)) {
     dir.create(syncdr_path)
   }
 
+  # Get save format
+
+  format <- getOption("syncdr.save_format")
+
+  format <-
+    if (format == "fst") {
+      ifelse(requireNamespace("fst",
+                              quietly = TRUE),
+             'fst', 'Rds')
+    } else if (format == "csv") {
+      ifelse(requireNamespace("data.table", quietly = TRUE),
+             'csv', 'Rds')
+    } else {
+      style_msgs(color = "orange",
+                 text = "{syncdr} Save_format option raised an error")
+      cli::cli_abort("{.field saving in {format}} format not allowed")
+    }
+
   # Generate filename with current system time
   timestamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
   file_name <- paste0("syncstatus_",
-                      timestamp, ".csv")
-
-  # Full path to save the file
-  # file_path <- file.path(syncdr_path, file_name)
-  #
-  # # Save the sync_status_table to the file
-  # utils::write.csv(x = sync_status_table,
-  #           file = file_name, row.names = FALSE)
-  # # fwrite(sync_status_table,
-  # #        file = file_name)
+                      timestamp, ".", format)
 
   file_path <- file.path(syncdr_path,
                          file_name)
 
-  # Save the sync_status_table to the file using data.table::fwrite
-  data.table::fwrite(x         = sync_status_table,
-                     file      = file_path,
-                     row.names = FALSE)
+
+  save_fun <- switch (format,
+                     "fst" = fst::write_fst(x    = sync_status_table,
+                                            path = file_path),
+                     "csv" = fwrite(x    = sync_status_table,
+                                    file = file_path),
+                     "rds" = saveRDS()
+  )
+
+  # data.table::fwrite(x         = sync_status_table,
+  #                    file      = file_path,
+  #                    row.names = FALSE)
 
   return(file_path)
 }
