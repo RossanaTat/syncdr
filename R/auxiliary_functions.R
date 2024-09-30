@@ -391,8 +391,8 @@ save_sync_status <- function(dir_path) {
                                  reportvar = FALSE)
 
 
-  # Create subdirectory "syncdr" if it doesn't exist
-  syncdr_path <- file.path(dir_path, "syncdr")
+  # Create subdirectory "_syncdr" if it doesn't exist
+  syncdr_path <- file.path(dir_path, "_syncdr")
   if (!dir.exists(syncdr_path)) {
     dir.create(syncdr_path)
   }
@@ -417,7 +417,7 @@ save_sync_status <- function(dir_path) {
 
   # Generate filename with current system time
   timestamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
-  file_name <- paste0("syncstatus_",
+  file_name <- paste0("_SyncStatus_",
                       timestamp, ".", format)
 
   file_path <- file.path(syncdr_path,
