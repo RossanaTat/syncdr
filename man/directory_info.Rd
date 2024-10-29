@@ -4,7 +4,7 @@
 \alias{directory_info}
 \title{Retrieve information about files in a directory}
 \usage{
-directory_info(dir, recurse = TRUE, ...)
+directory_info(dir, recurse = TRUE)
 }
 \arguments{
 \item{dir}{A character string representing the path of the directory.}

@@ -118,8 +118,7 @@ filter_non_common_files <- function(sync_status,
 #' @keywords internal
 #'
 directory_info <- function(dir,
-                           recurse = TRUE,
-                           ...) {
+                           recurse = TRUE) {
 
   # List of files -also in sub-directories
   files <- fs::dir_ls(path = dir,
@@ -184,6 +183,7 @@ compare_modification_times <- function(modification_time_left,
 #'
 #' @param path_left A character string specifying the path to the file in the left directory.
 #' @param path_right A character string specifying the path to the file in the right directory.
+#' @param verbose logical; if TRUE display progress status of hashing files' contents, in seconds. Default is FALSE
 #' @return A list containing the following components:
 #'   \item{is_diff}{Logical. Indicates whether the contents of the two files are different (`TRUE`)
 #'                 or identical (`FALSE`).}
@@ -197,11 +197,6 @@ compare_modification_times <- function(modification_time_left,
 compare_file_contents <- function(path_left,
                                   path_right,
                                   verbose    = getOption("syncdr.verbose")) {
-
-  # hash_left <- hash_files_contents(path_left,
-  #                                  path_right)$left_hash
-  # hash_right <- hash_files_contents(path_left,
-  #                                   path_right)$right_hash
 
   hash_left  <- hash_files(path_left,
                            verbose = verbose)
@@ -217,29 +212,6 @@ compare_file_contents <- function(path_left,
   return(list(is_diff             = is_diff,
               sync_status_content = sync_status_content))
 }
-
-# Compare individual files auxiliary function -not used for the moment ####
-#
-# compare_files <- function(file1, file2) {
-#
-#   if (!fs::file_exists(file2)) return(list(new_left = TRUE, new_right = FALSE))  # New file in dir1
-#   if (!fs::file_exists(file1)) return(list(new_left = FALSE, new_right = TRUE))   # Old file in dir1
-#
-#   # Compare creation times
-#   time1 <- fs::file_info(file1)$modification_time
-#   time2 <- fs::file_info(file2)$modification_time
-#
-#   if (time1 > time2) {
-#     return(list(new_left = TRUE, new_right = FALSE))
-#   }  # Newer file in dir1
-#
-#   else if (time2 > time1) {
-#     return(list(new_left = FALSE, new_right = TRUE))
-#   } # newer file in dir2
-#
-#   else {return(list(new_left = FALSE, new_right = FALSE))} # Same modification date
-#
-# }
 
 #' Hash files by content
 #' @param files_path character vector of paths of files to hash
@@ -285,8 +257,6 @@ hash_files <- function(files_path,
 
   return(unlist(hashes))
 }
-
-#TRYING AN ALTERNATIVE FUNCTION BELOW
 
 #' Hash files in a directory based on content
 #'
@@ -367,97 +337,3 @@ search_duplicates <- function(dir_path,
 
   invisible(filtered_files)
 }
-
-
-
-#old function to understand how cli works #####
-# hash_files_verbose <- function(files_path) {
-#
-#   # Initialize progress bars
-#   pb <- cli::cli_progress_bar("Hashing files -by content",
-#                                total = length(files_path))
-#   # Start timing
-#   start_time <- Sys.time()
-#
-#   # Compute hash for files
-#   hashes <- lapply(files_path, function(path) {
-#
-#                      hash <- digest::digest(path, algo = "xxhash32", file = TRUE)
-#
-#                       cli::cli_progress_step(pb,
-#                                              msg_done = {basename(path)},
-#                                              spinner = TRUE)
-#                       hash # cli always returns something, do not know how to silent this!
-#                       # So I am returning the hash which is at least better than the cli index which is returned if I do not specify hash here
-#                    })
-#
-#
-#   # end cli progress
-#   cli::cli_progress_done(pb)
-#
-#   # End timing & display it
-#   end_time <- Sys.time()
-#   total_time <- format(end_time - start_time, units = "secs")
-#   #cli::cli_h3("Hashing completed! Total time spent: {total_time}")
-#
-#   return(unlist(hashes))
-#
-# }
-
-
-# This function is experimental and not working well -will be eventually removed!
-# hash_files_contents <- function(left_path,
-#                                 right_path) {
-#
-#   # Initialize progress bars
-#   pb_left <- cli::cli_progress_bar("Hashing left directory files",
-#                                    total = length(left_path))
-#   pb_right <- cli::cli_progress_bar("Hashing right directory files",
-#                                     total = length(right_path))
-#
-#   # Start timing
-#   start_time <- Sys.time()
-#
-#   # Compute hash for left files and update progress bar
-#   left_hashes <- lapply(left_path, function(path) {
-#
-#     hash <- digest::digest(object = path,
-#                            algo = "xxhash32",
-#                            file = TRUE)
-#     cli::cli_progress_step(pb_left,
-#                            msg_done = {basename(path)})  # Update progress bar step by step
-#     hash  # Return the computed hash
-#
-#   })
-#   cli::cli_progress_done(pb_left)
-#   cli::cli_alert_info("Left dir files hashed!")
-#
-#   right_hashes <- lapply(right_path, function(path) {
-#
-#     hash <- digest::digest(object = path,
-#                            algo = "xxhash32",
-#                            file = TRUE)
-#     cli::cli_progress_step(pb_right,
-#                            msg_done = {basename(path)})  # Update progress bar step by step
-#     hash  # Return the computed hash
-#
-#     })
-#   cli::cli_progress_done(pb_right)
-#
-#   # End timing
-#   end_time <- Sys.time()
-#   total_time <- end_time - start_time
-#   total_time <- format(total_time, units = "secs")
-#
-#   cli::cli_alert_info("Right dir files hashed!")
-#   cli::cli_h2("Tot. time spent = {total_time}")
-#
-#
-#   return(list(
-#     left_hash = unlist(left_hashes),
-#     right_hash = unlist(right_hashes)
-#   ))
-# }
-#
-#
-#
