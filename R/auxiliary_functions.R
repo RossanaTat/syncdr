@@ -337,3 +337,74 @@ search_duplicates <- function(dir_path,
 
   invisible(filtered_files)
 }
+
+
+
+# Generate sync status file ####
+
+#' Save sync_status file
+#' @param dir_path path to directory
+#' @return a file storing a summary of the sync_status, saved in XXXXX TBC
+#'
+save_sync_status <- function(dir_path) {
+
+  hashes           <- hash_files_in_dir(dir_path)
+  rownames(hashes) <- NULL
+  hashes$hash <- as.character(hashes$hash)
+
+  dates            <- directory_info(dir_path) |>
+    fselect(path, modification_time)
+
+  sync_status_table <- joyn::joyn(hashes,
+                                 dates,
+                                 by        = "path",
+                                 reportvar = FALSE)
+
+
+  # Create subdirectory "_syncdr" if it doesn't exist
+  syncdr_path <- file.path(dir_path, "_syncdr")
+  if (!dir.exists(syncdr_path)) {
+    dir.create(syncdr_path)
+  }
+
+  # Get save format
+
+  format <- getOption("syncdr.save_format")
+
+  format <-
+    if (format == "fst") {
+      ifelse(requireNamespace("fst",
+                              quietly = TRUE),
+             'fst', 'Rds')
+    } else if (format == "csv") {
+      ifelse(requireNamespace("data.table", quietly = TRUE),
+             'csv', 'Rds')
+    } else {
+      style_msgs(color = "orange",
+                 text = "{syncdr} Save_format option raised an error")
+      cli::cli_abort("{.field saving in {format}} format not allowed")
+    }
+
+  # Generate filename with current system time
+  timestamp <- format(Sys.time(), "%Y%m%d_%H%M%S")
+  file_name <- paste0("_SyncStatus_",
+                      timestamp, ".", format)
+
+  file_path <- file.path(syncdr_path,
+                         file_name)
+
+
+  save_fun <- switch (format,
+                     "fst" = fst::write_fst(x    = sync_status_table,
+                                            path = file_path),
+                     "csv" = fwrite(x    = sync_status_table,
+                                    file = file_path),
+                     "rds" = saveRDS()
+  )
+
+  # data.table::fwrite(x         = sync_status_table,
+  #                    file      = file_path,
+  #                    row.names = FALSE)
+
+  return(file_path)
+}
