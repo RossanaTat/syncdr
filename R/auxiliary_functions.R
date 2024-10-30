@@ -118,8 +118,7 @@ filter_non_common_files <- function(sync_status,
 #' @keywords internal
 #'
 directory_info <- function(dir,
-                           recurse = TRUE,
-                           ...) {
+                           recurse = TRUE) {
 
   # List of files -also in sub-directories
   files <- fs::dir_ls(path = dir,
@@ -184,6 +183,7 @@ compare_modification_times <- function(modification_time_left,
 #'
 #' @param path_left A character string specifying the path to the file in the left directory.
 #' @param path_right A character string specifying the path to the file in the right directory.
+#' @param verbose logical; if TRUE display progress status of hashing files' contents, in seconds. Default is FALSE
 #' @return A list containing the following components:
 #'   \item{is_diff}{Logical. Indicates whether the contents of the two files are different (`TRUE`)
 #'                 or identical (`FALSE`).}
@@ -197,11 +197,6 @@ compare_modification_times <- function(modification_time_left,
 compare_file_contents <- function(path_left,
                                   path_right,
                                   verbose    = getOption("syncdr.verbose")) {
-
-  # hash_left <- hash_files_contents(path_left,
-  #                                  path_right)$left_hash
-  # hash_right <- hash_files_contents(path_left,
-  #                                   path_right)$right_hash
 
   hash_left  <- hash_files(path_left,
                            verbose = verbose)
@@ -217,29 +212,6 @@ compare_file_contents <- function(path_left,
   return(list(is_diff             = is_diff,
               sync_status_content = sync_status_content))
 }
-
-# Compare individual files auxiliary function -not used for the moment ####
-#
-# compare_files <- function(file1, file2) {
-#
-#   if (!fs::file_exists(file2)) return(list(new_left = TRUE, new_right = FALSE))  # New file in dir1
-#   if (!fs::file_exists(file1)) return(list(new_left = FALSE, new_right = TRUE))   # Old file in dir1
-#
-#   # Compare creation times
-#   time1 <- fs::file_info(file1)$modification_time
-#   time2 <- fs::file_info(file2)$modification_time
-#
-#   if (time1 > time2) {
-#     return(list(new_left = TRUE, new_right = FALSE))
-#   }  # Newer file in dir1
-#
-#   else if (time2 > time1) {
-#     return(list(new_left = FALSE, new_right = TRUE))
-#   } # newer file in dir2
-#
-#   else {return(list(new_left = FALSE, new_right = FALSE))} # Same modification date
-#
-# }
 
 #' Hash files by content
 #' @param files_path character vector of paths of files to hash
@@ -285,8 +257,6 @@ hash_files <- function(files_path,
 
   return(unlist(hashes))
 }
-
-#TRYING AN ALTERNATIVE FUNCTION BELOW
 
 #' Hash files in a directory based on content
 #'
