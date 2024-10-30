@@ -50,7 +50,7 @@ compare_directories <- function(left_path,
                                 recurse     = TRUE,
                                 by_date     = TRUE,
                                 by_content  = FALSE,
-                                verbose    = getOption("syncdr.verbose"),
+                                verbose     = getOption("syncdr.verbose"),
                                 short_paths = getOption("syncdr.short_paths")) {
 
   # Check directory paths
