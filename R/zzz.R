@@ -2,7 +2,7 @@
   op <- options()
   op.syncdr <- list(
     syncdr.verbose     = FALSE,
-    syncdr.short_paths = FALSE
+    syncdr.save_format = "fst"
   )
   toset <- !(names(op.syncdr) %in% names(op))
 
