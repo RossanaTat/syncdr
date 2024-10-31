@@ -380,7 +380,7 @@ save_sync_status <- function(dir_path) {
       ifelse(requireNamespace("data.table", quietly = TRUE),
              'csv', 'Rds')
     } else {
-      style_msgs(color = "orange",
+      style_msgs(color_name = "orange",
                  text = "{syncdr} Save_format option raised an error")
       cli::cli_abort("{.field saving in {format}} format not allowed")
     }
