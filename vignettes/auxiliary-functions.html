@@ -348,15 +348,16 @@ before taking certain synchronization actions.</p>
 within the syncdr environment, containing samples common files as well
 as files exclusive to either directory. These toy directories are
 deleted every time a new session is started.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create .syncdrenv with left and right directories</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>.syncdrenv <span class="ot">=</span><span class="fu">toy_dirs</span>()</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ■■■■■■■■■                         27% | ETA:  8s</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ■■■■■■■■■■■■■■■■■■■               60% | ETA:  5s</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Get left and right directories&#39; paths </span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>left  <span class="ot">&lt;-</span> .syncdrenv<span class="sc">$</span>left</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>right <span class="ot">&lt;-</span> .syncdrenv<span class="sc">$</span>right</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># Create .syncdrenv with left and right directories</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>.syncdrenv <span class="ot">=</span><span class="fu">toy_dirs</span>()</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; ■■■■■■■ 20% | ETA: 8s■■■■■■■■■■■■■■■ 47% | ETA: 5s■■■■■■■■■■■■■■■■■ 53% | ETA:</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt; 5s■■■■■■■■■■■■■■■■■■■ 60% | ETA: 4s■■■■■■■■■■■■■■■■■■■■■■■■■ 80% | ETA:</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; 2s■■■■■■■■■■■■■■■■■■■■■■■■■■■ 87% | ETA: 1s</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co"># Get left and right directories&#39; paths </span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>left  <span class="ot">&lt;-</span> .syncdrenv<span class="sc">$</span>left</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>right <span class="ot">&lt;-</span> .syncdrenv<span class="sc">$</span>right</span></code></pre></div>
 <p>Together with <code>toy_dirs()</code>, you might want to use
 <code>copy_temp_environment()</code>, in order to copy the original
 environment and play with the various {syncdr} functions on this copied
@@ -370,13 +371,25 @@ default, <code>verbose = TRUE</code> will show you the list of duplicate
 files. To return it invisibly, set <code>verbose = FALSE</code>. In this
 latter case, a message will still pop up to let you know when the
 identification of duplicates is completed.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># example</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">search_duplicates</span>(right, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ── Duplicates in &#39;/var/folders/8y/hpp0r5m53kb_srnzjh912rmc0000gp/T/Rtmp3W6RYx/ri</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; */C/C1.Rds</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; */C/C1_duplicate.Rds</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># example</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">search_duplicates</span>(right, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; ── Duplicates in &#39;C:/Users/wb621604/AppData/Local/Temp/RtmpqKcuoG/right&#39; ───────</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; */C/C1.Rds</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; */C/C1_duplicate.Rds</span></span></code></pre></div>
+<p><strong>Save sync status file</strong></p>
+<p>Another auxiliary function is <code>save_sync_status</code>, which
+comes in handy to track and document the status of files within a
+directory over time. This function generates a summary of file
+synchronization details, including file hashes and modification dates,
+for each file in the specified directory. The summary is saved as a file
+within a _syncdr subdirectory, so that sync status information is easily
+accessible.</p>
+<p>The <code>save_sync_status</code> function supports various save
+formats (e.g., .fst, .csv, .Rds), depending on the available packages
+and user-specified options.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">save_sync_status</span>(<span class="at">dir_path =</span> right)</span></code></pre></div>
 
 
 
