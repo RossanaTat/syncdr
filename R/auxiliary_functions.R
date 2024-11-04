@@ -340,11 +340,18 @@ search_duplicates <- function(dir_path,
 
 
 
-# Generate sync status file ####
-
 #' Save sync_status file
 #' @param dir_path path to directory
-#' @return a file storing a summary of the sync_status, saved in XXXXX TBC
+#' @return the file is saved in a `_syncdr` subdirectory within the specified directory
+#' @examples
+#' \dontrun{
+#' # Set the directory path
+#' e = toy_dirs()
+#' left <- e$left
+#' # Save the sync status summary in the default format (or specified via options)
+#' save_sync_status(dir_path = left)
+#' }
+#' @export
 #'
 save_sync_status <- function(dir_path) {
 
@@ -399,7 +406,8 @@ save_sync_status <- function(dir_path) {
                                             path = file_path),
                      "csv" = fwrite(x    = sync_status_table,
                                     file = file_path),
-                     "rds" = saveRDS()
+                     "rds" = saveRDS(object = sync_status_table,
+                                     file   = file_path)
   )
 
   # data.table::fwrite(x         = sync_status_table,

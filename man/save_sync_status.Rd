@@ -10,8 +10,17 @@ save_sync_status(dir_path)
 \item{dir_path}{path to directory}
 }
 \value{
-a file storing a summary of the sync_status, saved in XXXXX TBC
+the file is saved in a \verb{_syncdr} subdirectory within the specified directory
 }
 \description{
 Save sync_status file
+}
+\examples{
+\dontrun{
+# Set the directory path
+e = toy_dirs()
+left <- e$left
+# Save the sync status summary in the default format (or specified via options)
+save_sync_status(dir_path = left)
+}
 }
