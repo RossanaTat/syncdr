@@ -102,9 +102,22 @@ identification of duplicates is completed.</p>
 <span><span class="co"># example</span></span>
 <span><span class="fu"><a href="../reference/search_duplicates.html">search_duplicates</a></span><span class="op">(</span><span class="va">right</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Duplicates in </span><span style="color: #0000BB; font-weight: bold;">/tmp/RtmpN3c6Mg/right</span> <span style="color: #00BBBB;">─────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Duplicates in </span><span style="color: #0000BB; font-weight: bold;">/tmp/Rtmp4TDkgI/right</span> <span style="color: #00BBBB;">─────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; */C/C1.Rds</span></span>
 <span><span class="co">#&gt; */C/C1_duplicate.Rds</span></span></code></pre></div>
+<p><strong>Save sync status file</strong></p>
+<p>Another auxiliary function is <code>save_sync_status</code>, which
+comes in handy to track and document the status of files within a
+directory over time. This function generates a summary of file
+synchronization details, including file hashes and modification dates,
+for each file in the specified directory. The summary is saved as a file
+within a _syncdr subdirectory, so that sync status information is easily
+accessible.</p>
+<p>The <code>save_sync_status</code> function supports various save
+formats (e.g., .fst, .csv, .Rds), depending on the available packages
+and user-specified options.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/save_sync_status.html">save_sync_status</a></span><span class="op">(</span>dir_path <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span></code></pre></div>
   </main>
 </div>
 
