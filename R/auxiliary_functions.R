@@ -372,13 +372,21 @@ search_duplicates <- function(dir_path,
 
 #' Save sync_status file
 #' @param dir_path path to directory
-#' @return a file storing a summary of the sync_status, saved in XXXXX TBC
-#'
+#' @return the file is saved in a `_syncdr` subdirectory within the specified directory
+#' @examples
+#' \dontrun{
+#' # Set the directory path
+#' e = toy_dirs()
+#' left <- e$left
+#' # Save the sync status summary in the default format (or specified via options)
+#' save_sync_status(dir_path = left)
+#' }
+#' @export
 save_sync_status <- function(dir_path) {
 
   hashes           <- hash_files_in_dir(dir_path)
   rownames(hashes) <- NULL
-  hashes$hash <- as.character(hashes$hash)
+  hashes$hash      <- as.character(hashes$hash)
 
   dates            <- directory_info(dir_path) |>
     fselect(path, modification_time)
@@ -408,7 +416,7 @@ save_sync_status <- function(dir_path) {
       ifelse(requireNamespace("data.table", quietly = TRUE),
              'csv', 'Rds')
     } else {
-      style_msgs(color = "orange",
+      style_msgs(color_name = "orange",
                  text = "{syncdr} Save_format option raised an error")
       cli::cli_abort("{.field saving in {format}} format not allowed")
     }
@@ -427,7 +435,8 @@ save_sync_status <- function(dir_path) {
                                              path = file_path),
                       "csv" = fwrite(x    = sync_status_table,
                                      file = file_path),
-                      "rds" = saveRDS()
+                      "rds" = saveRDS(object = sync_status_table,
+                                      file = file_path)
   )
 
 

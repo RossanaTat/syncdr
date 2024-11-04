@@ -27,6 +27,8 @@ if (getRversion() >= "2.15.1") {
       "is_new_left",
       "is_new_right",
       "modification_time",
+      "modified",
+      "Paths",
       "modification_time_left",
       "modification_time_right",
       "path",

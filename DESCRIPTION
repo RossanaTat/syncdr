@@ -27,6 +27,7 @@ Imports:
     cli,
     DT,
     fs,
+    fst,
     joyn (>= 0.1.6.9003),
     stats,
     knitr,
