@@ -67,19 +67,18 @@ left       <- .syncdrenv$left
 right      <-  .syncdrenv$right
 
 # --- Compare synchronization status of the two directories --- #
-# comparing by date of last modification
-sync_status <- compare_directories(left_path   = left,
-                                   right_path  = right)
+display_dir_tree(path_left  = left,
+                 path_right = right)
 
-# --- Display synchronization status --- #
-# visualize sync status in nice table -for example, of common files
-display_sync_status(sync_status$common_files,
-                    left_path  = left,
-                    right_path = right)
+# comparing by date of last modification
+compare_directories(left_path   = left,
+                    right_path  = right)
 
 # --- Perform synchronization action --- #
-# asymmetric snchronization from left to right 
-#full_asym_sync_to_right(sync_status)
 
+# asymmetric snchronization from left to right 
+ full_asym_sync_to_right(left_path  = left,
+                         right_path = right,
+                         force      = FALSE)
 
 ```
