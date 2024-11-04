@@ -70,79 +70,7 @@
 <p>You can install the development version of syncdr from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"RossanaTat/syncdr"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Using github PAT from envvar GITHUB_PAT</span></span>
-<span><span class="co">#&gt; Downloading GitHub repo RossanaTat/syncdr@HEAD</span></span>
-<span><span class="co">#&gt; xfun       (0.47         -&gt; 0.49        ) [CRAN]</span></span>
-<span><span class="co">#&gt; rlang      (1.1.3        -&gt; 1.1.4       ) [CRAN]</span></span>
-<span><span class="co">#&gt; glue       (1.7.0        -&gt; 1.8.0       ) [CRAN]</span></span>
-<span><span class="co">#&gt; cli        (3.6.2        -&gt; 3.6.3       ) [CRAN]</span></span>
-<span><span class="co">#&gt; Rcpp       (1.0.13       -&gt; 1.0.13-1    ) [CRAN]</span></span>
-<span><span class="co">#&gt; fastmap    (1.1.1        -&gt; 1.2.0       ) [CRAN]</span></span>
-<span><span class="co">#&gt; digest     (0.6.34       -&gt; 0.6.37      ) [CRAN]</span></span>
-<span><span class="co">#&gt; promises   (1.2.1        -&gt; 1.3.0       ) [CRAN]</span></span>
-<span><span class="co">#&gt; fs         (1.6.3        -&gt; 1.6.5       ) [CRAN]</span></span>
-<span><span class="co">#&gt; cachem     (1.0.8        -&gt; 1.1.0       ) [CRAN]</span></span>
-<span><span class="co">#&gt; tinytex    (0.52         -&gt; 0.54        ) [CRAN]</span></span>
-<span><span class="co">#&gt; evaluate   (0.24.0       -&gt; 1.0.1       ) [CRAN]</span></span>
-<span><span class="co">#&gt; rmarkdown  (2.28         -&gt; 2.29        ) [CRAN]</span></span>
-<span><span class="co">#&gt; collapse   (15f2d3be7... -&gt; 6f2515d4e...) [GitHub]</span></span>
-<span><span class="co">#&gt; httpuv     (1.6.14       -&gt; 1.6.15      ) [CRAN]</span></span>
-<span><span class="co">#&gt; rstudioapi (0.15.0       -&gt; 0.17.1      ) [CRAN]</span></span>
-<span><span class="co">#&gt; secretbase (1.0.1        -&gt; 1.0.3       ) [CRAN]</span></span>
-<span><span class="co">#&gt; Installing 16 packages: xfun, rlang, glue, cli, Rcpp, fastmap, digest, promises, fs, cachem, tinytex, evaluate, rmarkdown, httpuv, rstudioapi, secretbase</span></span>
-<span><span class="co">#&gt; Installing packages into 'C:/Users/wb621604/AppData/Local/Temp/RtmpUff3hS/temp_libpath7df0176d6287'</span></span>
-<span><span class="co">#&gt; (as 'lib' is unspecified)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;   There is a binary version available but the source version is later:</span></span>
-<span><span class="co">#&gt;           binary source needs_compilation</span></span>
-<span><span class="co">#&gt; rmarkdown   2.28   2.29             FALSE</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; package 'xfun' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'rlang' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'glue' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'cli' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'Rcpp' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'fastmap' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'digest' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'promises' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'fs' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'cachem' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'tinytex' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'evaluate' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'httpuv' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'rstudioapi' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; package 'secretbase' successfully unpacked and MD5 sums checked</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; The downloaded binary packages are in</span></span>
-<span><span class="co">#&gt;  C:\Users\wb621604\AppData\Local\Temp\Rtmp4mcE3K\downloaded_packages</span></span>
-<span><span class="co">#&gt; installing the source package 'rmarkdown'</span></span>
-<span><span class="co">#&gt; Downloading GitHub repo SebKrantz/collapse@HEAD</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── R CMD build ─────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt;          checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp4mcE3K\remotes796857ac340e\SebKrantz-collapse-6f2515d/DESCRIPTION' ...  ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp4mcE3K\remotes796857ac340e\SebKrantz-collapse-6f2515d/DESCRIPTION' (859ms)</span></span>
-<span><span class="co">#&gt;       ─  preparing 'collapse': (11.7s)</span></span>
-<span><span class="co">#&gt;    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information</span></span>
-<span><span class="co">#&gt; ─  cleaning src</span></span>
-<span><span class="co">#&gt;       ─  checking for LF line-endings in source and make files and shell scripts (1.1s)</span></span>
-<span><span class="co">#&gt;       ─  checking for empty or unneeded directories (335ms)</span></span>
-<span><span class="co">#&gt;       ─  building 'collapse_2.0.17.tar.gz'</span></span>
-<span><span class="co">#&gt;      </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Installing package into 'C:/Users/wb621604/AppData/Local/Temp/RtmpUff3hS/temp_libpath7df0176d6287'</span></span>
-<span><span class="co">#&gt; (as 'lib' is unspecified)</span></span>
-<span><span class="co">#&gt; ── R CMD build ─────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt;          checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp4mcE3K\remotes79681bb55ce6\RossanaTat-syncdr-653222f/DESCRIPTION' ...     checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp4mcE3K\remotes79681bb55ce6\RossanaTat-syncdr-653222f/DESCRIPTION' ...   ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp4mcE3K\remotes79681bb55ce6\RossanaTat-syncdr-653222f/DESCRIPTION' (769ms)</span></span>
-<span><span class="co">#&gt;       ─  preparing 'syncdr': (11.2s)</span></span>
-<span><span class="co">#&gt;    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information</span></span>
-<span><span class="co">#&gt;       ─  checking for LF line-endings in source and make files and shell scripts (705ms)</span></span>
-<span><span class="co">#&gt;       ─  checking for empty or unneeded directories</span></span>
-<span><span class="co">#&gt;      Omitted 'LazyData' from DESCRIPTION</span></span>
-<span><span class="co">#&gt;       ─  building 'syncdr_0.0.2.9001.tar.gz'</span></span>
-<span><span class="co">#&gt;      </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Installing package into 'C:/Users/wb621604/AppData/Local/Temp/RtmpUff3hS/temp_libpath7df0176d6287'</span></span>
-<span><span class="co">#&gt; (as 'lib' is unspecified)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"RossanaTat/syncdr"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage-example">Usage example<a class="anchor" aria-label="anchor" href="#usage-example"></a>
@@ -164,7 +92,7 @@
 <span><span class="fu"><a href="reference/display_dir_tree.html">display_dir_tree</a></span><span class="op">(</span>path_left  <span class="op">=</span> <span class="va">left</span>,</span>
 <span>                 path_right <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span>
 <span><span class="co">#&gt; (←)Left directory structure:</span></span>
-<span><span class="co">#&gt; C:/Users/wb621604/AppData/Local/Temp/Rtmp4mcE3K/left</span></span>
+<span><span class="co">#&gt; C:/Users/wb621604/AppData/Local/Temp/Rtmpeg8Y3y/left</span></span>
 <span><span class="co">#&gt; ├── A</span></span>
 <span><span class="co">#&gt; │   ├── A1.Rds</span></span>
 <span><span class="co">#&gt; │   ├── A2.Rds</span></span>
@@ -182,7 +110,7 @@
 <span><span class="co">#&gt; │   └── D2.Rds</span></span>
 <span><span class="co">#&gt; └── E</span></span>
 <span><span class="co">#&gt; (→)Right directory structure:</span></span>
-<span><span class="co">#&gt; C:/Users/wb621604/AppData/Local/Temp/Rtmp4mcE3K/right</span></span>
+<span><span class="co">#&gt; C:/Users/wb621604/AppData/Local/Temp/Rtmpeg8Y3y/right</span></span>
 <span><span class="co">#&gt; ├── A</span></span>
 <span><span class="co">#&gt; ├── B</span></span>
 <span><span class="co">#&gt; │   ├── B1.Rds</span></span>
@@ -206,21 +134,21 @@
 <span>                    right_path  <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Synchronization Summary ─────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; • Left Directory: 'C:/Users/wb621604/AppData/Local/Temp/Rtmp4mcE3K/left'</span></span>
-<span><span class="co">#&gt; • Right Directory: 'C:/Users/wb621604/AppData/Local/Temp/Rtmp4mcE3K/right'</span></span>
+<span><span class="co">#&gt; • Left Directory: 'C:/Users/wb621604/AppData/Local/Temp/Rtmpeg8Y3y/left'</span></span>
+<span><span class="co">#&gt; • Right Directory: 'C:/Users/wb621604/AppData/Local/Temp/Rtmpeg8Y3y/right'</span></span>
 <span><span class="co">#&gt; • Total Common Files: 7</span></span>
 <span><span class="co">#&gt; • Total Non-common Files: 9</span></span>
 <span><span class="co">#&gt; • Compare files by: date</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Common files ────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;             path modification_time_left modification_time_right  modified</span></span>
-<span><span class="co">#&gt; 1 /left/B/B1.Rds    2024-11-04 15:09:19     2024-11-04 15:09:20     right</span></span>
-<span><span class="co">#&gt; 2 /left/B/B2.Rds    2024-11-04 15:09:22     2024-11-04 15:09:23     right</span></span>
-<span><span class="co">#&gt; 3 /left/C/C1.Rds    2024-11-04 15:09:20     2024-11-04 15:09:20 same date</span></span>
-<span><span class="co">#&gt; 4 /left/C/C2.Rds    2024-11-04 15:09:23     2024-11-04 15:09:24     right</span></span>
-<span><span class="co">#&gt; 5 /left/C/C3.Rds    2024-11-04 15:09:25     2024-11-04 15:09:26     right</span></span>
-<span><span class="co">#&gt; 6 /left/D/D1.Rds    2024-11-04 15:09:22     2024-11-04 15:09:21      left</span></span>
-<span><span class="co">#&gt; 7 /left/D/D2.Rds    2024-11-04 15:09:25     2024-11-04 15:09:24      left</span></span>
+<span><span class="co">#&gt; 1 /left/B/B1.Rds    2024-11-04 15:13:49     2024-11-04 15:13:50     right</span></span>
+<span><span class="co">#&gt; 2 /left/B/B2.Rds    2024-11-04 15:13:52     2024-11-04 15:13:53     right</span></span>
+<span><span class="co">#&gt; 3 /left/C/C1.Rds    2024-11-04 15:13:50     2024-11-04 15:13:50 same date</span></span>
+<span><span class="co">#&gt; 4 /left/C/C2.Rds    2024-11-04 15:13:53     2024-11-04 15:13:54     right</span></span>
+<span><span class="co">#&gt; 5 /left/C/C3.Rds    2024-11-04 15:13:55     2024-11-04 15:13:56     right</span></span>
+<span><span class="co">#&gt; 6 /left/D/D1.Rds    2024-11-04 15:13:52     2024-11-04 15:13:51      left</span></span>
+<span><span class="co">#&gt; 7 /left/D/D2.Rds    2024-11-04 15:13:55     2024-11-04 15:13:54      left</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Non-common files ────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; </span></span>
