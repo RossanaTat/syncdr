@@ -47,7 +47,7 @@ With {syncdr}, users can:
 You can install the development version of syncdr from
 [GitHub](https://github.com/) with:
 
-```{r}
+```{r, eval=FALSE}
 # install.packages("devtools")
 devtools::install_github("RossanaTat/syncdr")
 ```
