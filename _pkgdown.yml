@@ -45,6 +45,7 @@ reference:
   - copy_temp_environment
   - search_duplicates
   - print.syncdr_status
+  - save_sync_status
 development:
   mode: auto
 
