@@ -73,15 +73,15 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rossanatat.github.io/syncdr/">syncdr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">e</span> <span class="op">=</span> <span class="fu"><a href="toy_dirs.html">toy_dirs</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■                       </span>  27% | ETA:  8s</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■             </span>  60% | ETA:  5s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■                         </span>  20% | ETA:  8s</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■               </span>  53% | ETA:  6s</span>
 <span class="r-in"><span><span class="va">left</span> <span class="op">=</span> <span class="va">e</span><span class="op">$</span><span class="va">left</span></span></span>
 <span class="r-in"><span><span class="va">right</span> <span class="op">=</span> <span class="va">e</span><span class="op">$</span><span class="va">right</span></span></span>
 <span class="r-in"><span><span class="co"># Display dir tree of both directories</span></span></span>
 <span class="r-in"><span><span class="fu">display_dir_tree</span><span class="op">(</span>path_left <span class="op">=</span> <span class="va">left</span>,</span></span>
 <span class="r-in"><span>                path_right <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FF00AF; font-weight: bold;">(←)Left directory structure:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/tmp/RtmpLfsME5/left</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/tmp/RtmpKAsMhn/left</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├── <span style="color: #0000BB; font-weight: bold;">A</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── A1.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── A2.Rds</span>
@@ -99,7 +99,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   └── D2.Rds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> └── <span style="color: #0000BB; font-weight: bold;">E</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/tmp/RtmpLfsME5/right</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/tmp/RtmpKAsMhn/right</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├── <span style="color: #0000BB; font-weight: bold;">A</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├── <span style="color: #0000BB; font-weight: bold;">B</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── B1.Rds</span>
@@ -121,7 +121,7 @@
 <span class="r-in"><span><span class="co"># Display dir tree of one directory only</span></span></span>
 <span class="r-in"><span><span class="fu">display_dir_tree</span><span class="op">(</span>path_right <span class="op">=</span> <span class="va">right</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #FF00AF; font-weight: bold;">(→)Right directory structure:</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/tmp/RtmpLfsME5/right</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB; font-weight: bold;">/tmp/RtmpKAsMhn/right</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├── <span style="color: #0000BB; font-weight: bold;">A</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ├── <span style="color: #0000BB; font-weight: bold;">B</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> │   ├── B1.Rds</span>
