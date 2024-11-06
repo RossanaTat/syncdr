@@ -410,9 +410,5 @@ save_sync_status <- function(dir_path) {
                                      file   = file_path)
   )
 
-  # data.table::fwrite(x         = sync_status_table,
-  #                    file      = file_path,
-  #                    row.names = FALSE)
-
   return(file_path)
 }

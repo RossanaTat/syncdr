@@ -3,7 +3,6 @@
   op.syncdr <- list(
     syncdr.verbose     = FALSE,
     syncdr.save_format = "fst"
-    #syncdr.short_paths = FALSE
   )
   toset <- !(names(op.syncdr) %in% names(op))
 
