@@ -12,6 +12,9 @@ update_missing_files_asym_to_right(
   force = TRUE,
   backup = FALSE,
   backup_dir = "temp_dir",
+  copy = TRUE,
+  delete = TRUE,
+  exclude_delete = NULL,
   verbose = getOption("syncdr.verbose")
 )
 }
@@ -33,6 +36,13 @@ If FALSE, Displays a preview of actions and prompts the user for confirmation be
 \item{backup}{Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by \code{backup_dir}.}
 
 \item{backup_dir}{Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (\code{tempdir}).}
+
+\item{copy}{Logical, default is TRUE. If changed to FALSE, it skips the copy of non common files}
+
+\item{delete}{Logical, default is TRUE. If TRUE, delete files unique to right. If FALSE, keep them}
+
+\item{exclude_delete}{Character vector of file names or dir names to protect from deletion.
+These files will be kept in the right directory even if \code{delete = TRUE}.}
 
 \item{verbose}{logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
 }
