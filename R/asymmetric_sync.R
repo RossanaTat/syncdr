@@ -559,6 +559,24 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 
   }
 
+  # Select files to delete
+  if (delete == TRUE) {
+
+    if (!is.null(exclude_delete) && length(exclude_delete) > 0) {
+      # Extract names for matching
+      file_names <- fs::path_file(files_to_delete$path_right)
+      dir_names  <- fs::path_file(fs::path_dir(files_to_delete$path_right))
+
+      # Mark exclusions
+      keep_idx <- fmatch(file_names, exclude_delete, nomatch = 0L) > 0L |
+        fmatch(dir_names,  exclude_delete, nomatch = 0L) > 0L
+
+      if (any(keep_idx)) {
+        files_to_delete <- fsubset(files_to_delete, !keep_idx)
+      }
+    }
+  }
+
   # --- Force option ----
 
   if (force == FALSE) {
@@ -574,9 +592,9 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
     }
 
 
-    if (nrow(files_to_copy) >0 ) {
+    if (copy == TRUE && nrow(files_to_copy) >0 ) {
       style_msgs("blue",
-                 text = "If copy is TRUE these files will be COPIED (overwriting if present) to right \n")
+                 text = "These files will be COPIED (overwriting if present) to right \n")
       display_file_actions(path_to_files = files_to_copy |> fselect(1),
                            directory     = left_path,
                            action        = "copy"
@@ -619,20 +637,6 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
   ## Delete Files ####
 
   if (delete == TRUE) {
-
-    if (!is.null(exclude_delete) && length(exclude_delete) > 0) {
-      # Extract names for matching
-      file_names <- fs::path_file(files_to_delete$path_right)
-      dir_names  <- fs::path_file(fs::path_dir(files_to_delete$path_right))
-
-      # Mark exclusions
-      keep_idx <- fmatch(file_names, exclude_delete, nomatch = 0L) > 0L |
-        fmatch(dir_names,  exclude_delete, nomatch = 0L) > 0L
-
-      if (any(keep_idx)) {
-        files_to_delete <- fsubset(files_to_delete, !keep_idx)
-      }
-    }
 
     if (NROW(files_to_delete) > 0) {
       fs::file_delete(files_to_delete$path_right)
