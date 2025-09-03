@@ -437,8 +437,13 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
-#' @param copy Logical, default is TRUE. If changed to FALSE, it skips the copy of non common files
-#' @param delete Logical, default is TRUE. If TRUE, delete files unique to right. If FALSE, keep them
+#' @param copy_to_right Logical, default is TRUE.
+#'   If TRUE, files that exist only in the left directory are copied to the right directory.
+#'   If FALSE, such files are not copied and remain absent from the right directory.
+#'
+#' @param delete_in_right Logical, default is TRUE.
+#'   If TRUE, files that exist only in the right directory (i.e., not present in the left) are deleted.
+#'   If FALSE, these right-only files are preserved.
 #' @param exclude_delete Character vector of file names or dir names to protect from deletion.
 #'   These files will be kept in the right directory even if `delete = TRUE`.
 #' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
@@ -472,8 +477,8 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
                                                force       = TRUE,
                                                backup      = FALSE,
                                                backup_dir  = "temp_dir",
-                                               copy        = TRUE,
-                                               delete      = TRUE,
+                                               copy_to_right = TRUE,
+                                               delete_in_right = TRUE,
                                                exclude_delete = NULL,
                                                verbose     = getOption("syncdr.verbose")) {
 
@@ -560,7 +565,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
   }
 
   # Select files to delete
-  if (delete == TRUE) {
+  if (delete_in_right == TRUE) {
 
     if (!is.null(exclude_delete) && length(exclude_delete) > 0) {
       # Extract names for matching
@@ -592,7 +597,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
     }
 
 
-    if (copy == TRUE && nrow(files_to_copy) >0 ) {
+    if (copy_to_right == TRUE && nrow(files_to_copy) >0 ) {
       style_msgs("blue",
                  text = "These files will be COPIED (overwriting if present) to right \n")
       display_file_actions(path_to_files = files_to_copy |> fselect(1),
@@ -616,7 +621,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 
   ## Copy files ####
 
-  if (copy == TRUE) {
+  if (copy_to_right == TRUE) {
     copy_files_to_right(left_dir      = sync_status$left_path,
                         right_dir     = sync_status$right_path,
                         files_to_copy = files_to_copy,
@@ -636,7 +641,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 
   ## Delete Files ####
 
-  if (delete == TRUE) {
+  if (delete_in_right == TRUE) {
 
     if (NROW(files_to_delete) > 0) {
       fs::file_delete(files_to_delete$path_right)
