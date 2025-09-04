@@ -378,7 +378,7 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 
     if (nrow(files_to_copy) > 0 ) {
       style_msgs("blue",
-                 text = "These files will be COPIED (overwriting if present) to right \n")
+                 text = "These files will be COPIED (overwriting if present) from left to right \n")
       display_file_actions(path_to_files = files_to_copy |>
                              fselect(1),
                            directory     = left_path,
@@ -565,22 +565,24 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
   }
 
   # Select files to delete
-  if (delete_in_right == TRUE) {
+   if (delete_in_right == TRUE) {
 
     if (!is.null(exclude_delete) && length(exclude_delete) > 0) {
-      # Extract names for matching
-      file_names <- fs::path_file(files_to_delete$path_right)
-      dir_names  <- fs::path_file(fs::path_dir(files_to_delete$path_right))
 
-      # Mark exclusions
-      keep_idx <- fmatch(file_names, exclude_delete, nomatch = 0L) > 0L |
-        fmatch(dir_names,  exclude_delete, nomatch = 0L) > 0L
+      # For each file, check if its file name or any part of its path matches exclude_delete
+      keep_idx <- vapply(files_to_delete$path_right, function(p) {
+        fname <- basename(p)
+        # Split path into components
+        path_parts <- strsplit(fs::path_norm(p), .Platform$file.sep)[[1]]
+        # Check if file name or any directory matches
+        any(exclude_delete %in% fname) || any(exclude_delete %in% path_parts)
+      }, logical(1))
 
       if (any(keep_idx)) {
-        files_to_delete <- fsubset(files_to_delete, !keep_idx)
+        files_to_delete <- files_to_delete[!keep_idx, ]
       }
     }
-  }
+   }
 
   # --- Force option ----
 
