@@ -632,27 +632,24 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
     if (verbose) cli::cli_alert_info("Non common files to copy skipped")
   }
 
-  ## Delete Files ####
-  # if (delete == TRUE) {
-  #
-  #   ### TODO implement the exclude logic
-  #
-  #
-  #   # Delete
-  #   fs::file_delete(files_to_delete$path_right)
-
-  ## Delete Files ####
-
+  ## Delete Files
   if (delete_in_right == TRUE) {
-
     if (NROW(files_to_delete) > 0) {
-      fs::file_delete(files_to_delete$path_right)
+      invisible(
+        lapply(
+          cli::cli_progress_along(
+            files_to_delete$path_right, name = "Deleting files"
+            #format = "Deleting files [:bar] :current/:total (:percent)"
+          ),
+          function(i) fs::file_delete(files_to_delete$path_right[i])
+        )
+      )
     } else if (verbose) {
       cli::cli_alert_info("No files deleted (all excluded or none to delete).")
     }
   }
 
-  #   }
+
 
   if (verbose == TRUE) {
   # Display folder structure AFTER synchronization
