@@ -211,8 +211,22 @@ full_asym_sync_to_right <- function(left_path   = NULL,
                       recurse       = recurse)
 
 
-  ## Delete Files ####
-  fs::file_delete(files_to_delete$path_right)
+  ## Delete Files
+  if (delete_in_right == TRUE) {
+    if (NROW(files_to_delete) > 0) {
+      invisible(
+        lapply(
+          cli::cli_progress_along(
+            files_to_delete$path_right, name = "Deleting files"
+          ),
+          function(i) fs::file_delete(files_to_delete$path_right[i])
+        )
+      )
+    } else if (verbose) {
+      cli::cli_alert_info("No files deleted (all excluded or none to delete).")
+    }
+  }
+
 
   if(verbose == TRUE) {
 
