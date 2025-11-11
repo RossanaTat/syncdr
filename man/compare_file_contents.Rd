@@ -14,6 +14,8 @@ compare_file_contents(
 \item{path_left}{A character string specifying the path to the file in the left directory.}
 
 \item{path_right}{A character string specifying the path to the file in the right directory.}
+
+\item{verbose}{logical; if TRUE display progress status of hashing files' contents, in seconds. Default is FALSE}
 }
 \value{
 A list containing the following components:

@@ -1,5 +1,3 @@
-library(collapse)
-
 #' Compare Two Directories for Synchronization Status
 #'
 #' This function compares two directories, typically referred to as 'left' and 'right', to determine their synchronization status at the file level.
@@ -83,7 +81,6 @@ compare_directories <- function(left_path,
       (is.na(path_left) & !is.na(path_right)), "only in right",
       "only in left")
     )
-    #as.data.frame()
 
   # Compare common files
   common_files <- join_info |>
@@ -102,8 +99,7 @@ compare_directories <- function(left_path,
                             compared_times) |>
       ftransform(sync_status      = sync_status_date,
                  sync_status_date = NULL)
-    #fselect(path_left, path_right, is_new_left, is_new_right, modification_time_left,
-    #        modification_time_right, sync_status)
+
   }
 
   # If comparing by content
@@ -113,7 +109,6 @@ compare_directories <- function(left_path,
     if(by_date) {
       common_files <- common_files |>
         fsubset(is_new_left == TRUE | is_new_right == TRUE)
-      #to fix first -filter_common_files(dir = "all")
     }
 
     compared_contents <- compare_file_contents(common_files$path_left,
@@ -124,21 +119,8 @@ compare_directories <- function(left_path,
                                compared_contents) |>
       ftransform(sync_status         = sync_status_content,
                  sync_status_content = NULL)
-    #fselect(path_left, path_right, is_diff, sync_status)
   }
 
-  # if (short_paths) {
-  #   # clean display of paths
-  #   common_files <- common_files |>
-  #     fmutate(path_left = gsub(left_path, "", path_left)) |>
-  #     fmutate(path_right = gsub(right_path, "", path_right))
-  #
-  #   non_common_files <- non_common_files |>
-  #     fmutate(path_left = gsub(left_path, "", path_left)) |>
-  #     fmutate(path_right = gsub(right_path, "", path_right))
-  # }
-
-  # object to return
   sync_status = list(
     common_files     = common_files,
     non_common_files = non_common_files,

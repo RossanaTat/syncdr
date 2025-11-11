@@ -211,8 +211,22 @@ full_asym_sync_to_right <- function(left_path   = NULL,
                       recurse       = recurse)
 
 
-  ## Delete Files ####
-  fs::file_delete(files_to_delete$path_right)
+  ## Delete Files
+  if (delete_in_right == TRUE) {
+    if (NROW(files_to_delete) > 0) {
+      invisible(
+        lapply(
+          cli::cli_progress_along(
+            files_to_delete$path_right, name = "Deleting files"
+          ),
+          function(i) fs::file_delete(files_to_delete$path_right[i])
+        )
+      )
+    } else if (verbose) {
+      cli::cli_alert_info("No files deleted (all excluded or none to delete).")
+    }
+  }
+
 
   if(verbose == TRUE) {
 
@@ -378,7 +392,7 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 
     if (nrow(files_to_copy) > 0 ) {
       style_msgs("blue",
-                 text = "These files will be COPIED (overwriting if present) to right \n")
+                 text = "These files will be COPIED (overwriting if present) from left to right \n")
       display_file_actions(path_to_files = files_to_copy |>
                              fselect(1),
                            directory     = left_path,
@@ -437,6 +451,15 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param copy_to_right Logical, default is TRUE.
+#'   If TRUE, files that exist only in the left directory are copied to the right directory.
+#'   If FALSE, such files are not copied and remain absent from the right directory.
+#'
+#' @param delete_in_right Logical, default is TRUE.
+#'   If TRUE, files that exist only in the right directory (i.e., not present in the left) are deleted.
+#'   If FALSE, these right-only files are preserved.
+#' @param exclude_delete Character vector of file names or dir names to protect from deletion.
+#'   These files will be kept in the right directory even if `delete = TRUE`.
 #' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
 #'                       If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
 #
@@ -468,6 +491,9 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
                                                force       = TRUE,
                                                backup      = FALSE,
                                                backup_dir  = "temp_dir",
+                                               copy_to_right = TRUE,
+                                               delete_in_right = TRUE,
+                                               exclude_delete = NULL,
                                                verbose     = getOption("syncdr.verbose")) {
 
   if (verbose == TRUE) {
@@ -552,13 +578,33 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 
   }
 
+  # Select files to delete
+   if (delete_in_right == TRUE) {
+
+    if (!is.null(exclude_delete) && length(exclude_delete) > 0) {
+
+      # For each file, check if its file name or any part of its path matches exclude_delete
+      keep_idx <- vapply(files_to_delete$path_right, function(p) {
+        fname <- basename(p)
+        # Split path into components
+        path_parts <- strsplit(fs::path_norm(p), .Platform$file.sep)[[1]]
+        # Check if file name or any directory matches
+        any(exclude_delete %in% fname) || any(exclude_delete %in% path_parts)
+      }, logical(1))
+
+      if (any(keep_idx)) {
+        files_to_delete <- files_to_delete[!keep_idx, ]
+      }
+    }
+   }
+
   # --- Force option ----
 
   if (force == FALSE) {
 
     if (nrow(files_to_delete) > 0 ) {
       style_msgs("orange",
-                 text = "These files will be DELETED in right")
+                 text = "These files will be DELETED in right if delete is TRUE")
 
       display_file_actions(path_to_files = files_to_delete,
                            directory     = right_path,
@@ -567,7 +613,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
     }
 
 
-    if (nrow(files_to_copy) >0 ) {
+    if (copy_to_right == TRUE && nrow(files_to_copy) >0 ) {
       style_msgs("blue",
                  text = "These files will be COPIED (overwriting if present) to right \n")
       display_file_actions(path_to_files = files_to_copy |> fselect(1),
@@ -590,14 +636,34 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
   # --- Synchronization ----
 
   ## Copy files ####
-  copy_files_to_right(left_dir      = sync_status$left_path,
-                      right_dir     = sync_status$right_path,
-                      files_to_copy = files_to_copy,
-                      recurse       = recurse)
+
+  if (copy_to_right == TRUE) {
+    copy_files_to_right(left_dir      = sync_status$left_path,
+                        right_dir     = sync_status$right_path,
+                        files_to_copy = files_to_copy,
+                        recurse       = recurse)
+  } else {
+    if (verbose) cli::cli_alert_info("Non common files to copy skipped")
+  }
+
+  ## Delete Files
+  if (delete_in_right == TRUE) {
+    if (NROW(files_to_delete) > 0) {
+      invisible(
+        lapply(
+          cli::cli_progress_along(
+            files_to_delete$path_right, name = "Deleting files"
+            #format = "Deleting files [:bar] :current/:total (:percent)"
+          ),
+          function(i) fs::file_delete(files_to_delete$path_right[i])
+        )
+      )
+    } else if (verbose) {
+      cli::cli_alert_info("No files deleted (all excluded or none to delete).")
+    }
+  }
 
 
-  ## Delete Files ####
-  fs::file_delete(files_to_delete$path_right)
 
   if (verbose == TRUE) {
   # Display folder structure AFTER synchronization

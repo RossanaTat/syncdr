@@ -37,12 +37,29 @@ copy_files_to_right <- function(left_dir,
   }
 
   # Copy files
-  mapply(fs::file_copy,
-         files_to_copy$path_from,
-         files_to_copy$path_to,
-         MoreArgs = list(overwrite = TRUE))
+  # mapply(fs::file_copy,
+  #        files_to_copy$path_from,
+  #        files_to_copy$path_to,
+  #        MoreArgs = list(overwrite = TRUE))
 
-  invisible(TRUE)
+
+
+  #invisible(TRUE)
+#}
+
+  # progress-enabled iteration
+  invisible(
+    lapply(
+      cli::cli_progress_along(files_to_copy$path_from, name = "Copying files"),
+      function(i) {
+        fs::file_copy(
+          path     = files_to_copy$path_from[i],
+          new_path = files_to_copy$path_to[i],
+          overwrite = TRUE
+        )
+      }
+    )
+  )
 }
 
 #' Copy files from right directory to left directory
@@ -88,11 +105,25 @@ copy_files_to_left <- function(left_dir,
 
   }
 
-  # Copy files
-  mapply(fs::file_copy,
-         files_to_copy$path_from,
-         files_to_copy$path_to,
-         MoreArgs = list(overwrite = TRUE))
+  # # Copy files
+  # mapply(fs::file_copy,
+  #        files_to_copy$path_from,
+  #        files_to_copy$path_to,
+  #        MoreArgs = list(overwrite = TRUE))
+
+  # progress-enabled iteration
+  invisible(
+    lapply(
+      cli::cli_progress_along(files_to_copy$path_from, name = "Copying files"),
+      function(i) {
+        fs::file_copy(
+          path     = files_to_copy$path_from[i],
+          new_path = files_to_copy$path_to[i],
+          overwrite = TRUE
+        )
+      }
+    )
+  )
 
   invisible(TRUE)
 }

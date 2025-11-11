@@ -159,3 +159,115 @@ copy_temp_environment <- function() {
               right = temp_right))
 }
 
+toy_dirs_v2 <- function(n_subdirs = 20,
+                        n_files   = 50,
+                        file_size = 100,   # KB
+                        verbose   = FALSE) {
+
+  # create .syncdrenv if not present (safe-guard)
+  if (!exists(".syncdrenv", envir = .GlobalEnv)) {
+    assign(".syncdrenv", new.env(), envir = .GlobalEnv)
+  }
+
+  left  <- fs::path_temp("left_big")
+  right <- fs::path_temp("right_big")
+
+  set.seed(1123L)
+
+  groups <- LETTERS[1:5]
+  # combinations: "A_1_1", "A_1_2", ..., "E_n_subdirs_n_files"
+  combos <- expand.grid(
+    group   = groups,
+    subdir  = seq_len(n_subdirs),
+    file_id = seq_len(n_files),
+    stringsAsFactors = FALSE
+  )
+  tcomb <- apply(combos, 1, function(x) paste(x, collapse = "_"))
+
+  # random numeric content seeds (so left / right can differ)
+  lobj <- stats::runif(length(tcomb))
+  robj <- stats::runif(length(tcomb))
+
+  # helper to write a binary blob of approx `size_kb` kilobytes
+  write_blob <- function(path, size_kb, value) {
+    # produce a single byte value 0-255
+    byte_val <- as.integer(floor(value * 255))
+    if (is.na(byte_val) || byte_val < 0L) byte_val <- 0L
+    if (byte_val > 255L) byte_val <- 255L
+
+    # create a raw vector and write it
+    raw_data <- as.raw(rep(byte_val, size_kb * 1024L))
+    con <- file(path, "wb")
+    on.exit(close(con), add = TRUE)
+    writeBin(raw_data, con)
+  }
+
+  # iterate with progress
+  for (i in cli::cli_progress_along(tcomb, name = "Creating toy dirs")) {
+    tc <- tcomb[i]
+    parts <- strsplit(tc, "_", fixed = TRUE)[[1]]
+    g     <- parts[1]              # group A-E
+    s_num <- as.integer(parts[2])  # subdir number
+    # file_id <- as.integer(parts[3]) # not used below, but available
+
+    # create directories
+    ldir <- fs::dir_create(fs::path(left,  g, paste0("sub", s_num)))
+    rdir <- fs::dir_create(fs::path(right, g, paste0("sub", s_num)))
+
+    lname <- fs::path(ldir, paste0(tc, ".bin"))
+    rname <- fs::path(rdir, paste0(tc, ".bin"))
+
+    # apply folder conventions analogous to your original toy_dirs()
+    if (g == "A") {
+      write_blob(lname, file_size, lobj[i])
+    } else if (g == "B") {
+      write_blob(lname, file_size, lobj[i])
+      if (!is.na(s_num) && s_num <= (n_subdirs / 2)) {
+        Sys.sleep(0.01)
+        write_blob(rname, file_size, robj[i])
+      }
+    } else if (g == "C") {
+      write_blob(lname, file_size, lobj[i])
+      Sys.sleep(0.01)
+      write_blob(rname, file_size, robj[i])
+    } else if (g == "D") {
+      write_blob(rname, file_size, robj[i])
+      if (!is.na(s_num) && s_num <= (n_subdirs / 2)) {
+        Sys.sleep(0.01)
+        write_blob(lname, file_size, lobj[i])
+      }
+    } else { # E
+      write_blob(rname, file_size, robj[i])
+    }
+  }
+
+  # ensure at least one identical file for 'same content' test
+  cfile_left  <- fs::path(left, "C", "sub1", "C_1_1.bin")
+  cfile_right <- fs::path(right, "C", "sub1", "C_1_1.bin")
+  if (fs::file_exists(cfile_left)) {
+    fs::file_copy(cfile_left, cfile_right, overwrite = TRUE)
+  }
+
+  # add duplicate either on left or right
+  if (fs::file_exists(cfile_left)) {
+    if (runif(1) > 0.5) {
+      fs::file_copy(cfile_left,
+                    fs::path(left,  "C", "sub1", "C_1_1_duplicate.bin"),
+                    overwrite = TRUE)
+    } else {
+      fs::file_copy(cfile_left,
+                    fs::path(right, "C", "sub1", "C_1_1_duplicate.bin"),
+                    overwrite = TRUE)
+    }
+  }
+
+  if (verbose) {
+    fs::dir_tree(left,  recurse = 2)
+    fs::dir_tree(right, recurse = 2)
+  }
+
+  assign("left",  left,  envir = .syncdrenv)
+  assign("right", right, envir = .syncdrenv)
+
+  invisible(.syncdrenv)
+}
