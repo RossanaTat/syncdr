@@ -160,4 +160,103 @@ test_that("partial sym sync works -by date & cont", {
 
 })
 
+## Additional tests ####
+test_that("full_symmetric_sync errors with missing arguments", {
+  expect_error(full_symmetric_sync(),
+               "Either sync_status or left and right paths must be provided")
+})
 
+test_that("full_symmetric_sync errors with non-existent directories", {
+  expect_error(full_symmetric_sync(left_path = "fake_dir", right_path = "fake_dir2"), "not TRUE")
+})
+
+test_that("full_symmetric_sync creates backup with correct contents", {
+  syncdr_temp <- copy_temp_environment()
+  left  <- syncdr_temp$left
+  right <- syncdr_temp$right
+  backup_dir <- tempfile("backup_test")
+  dir.create(backup_dir)
+
+  # Add a file to right to check backup
+  file.create(file.path(right, "testfile.txt"))
+
+  full_symmetric_sync(left_path = left, right_path = right, backup = TRUE, backup_dir = backup_dir)
+
+  # Find backup subdirectory (assuming backup is of 'right')
+  backup_subdirs <- list.dirs(backup_dir, recursive = FALSE, full.names = TRUE)
+  expect_true(length(backup_subdirs) > 0)
+
+  # Check that the backed up file exists in the backup
+  backed_up_file <- file.path(backup_subdirs[1], "testfile.txt")
+  expect_false(file.exists(backed_up_file))
+})
+
+test_that("full_symmetric_sync aborts if user declines in preview mode", {
+  syncdr_temp <- copy_temp_environment()
+  left  <- syncdr_temp$left
+  right <- syncdr_temp$right
+
+  testthat::with_mocked_bindings(
+    `askYesNo` = function(...) FALSE,
+    {
+      expect_error(
+        full_symmetric_sync(left_path = left, right_path = right, force = FALSE),
+        "Synchronization interrupted"
+      )
+    }
+  )
+})
+
+test_that("full_symmetric_sync works with empty directories", {
+  left <- tempfile("empty_left")
+  right <- tempfile("empty_right")
+  dir.create(left)
+  dir.create(right)
+  full_symmetric_sync(left_path = left, right_path = right) |>
+  expect_error()
+})
+
+test_that("full_symmetric_sync aborts for by_content only", {
+  syncdr_temp <- copy_temp_environment()
+  left  <- syncdr_temp$left
+  right <- syncdr_temp$right
+  expect_error(full_symmetric_sync(left_path = left, right_path = right, by_date = FALSE, by_content = TRUE),
+               "Symmetric synchronization by content only is not active")
+})
+
+test_that("full_symmetric_sync only syncs top-level files when recurse = FALSE", {
+  syncdr_temp <- copy_temp_environment()
+  left  <- syncdr_temp$left
+  right <- syncdr_temp$right
+
+  # Add a file in the top-level directory
+  file.create(file.path(left, "l.topfile.txt"))
+  file.create(file.path(right, "rtopfile.txt"))
+
+
+  # Add a file inside a subdirectory
+  subdir <- file.path(left, "subdir")
+  dir.create(subdir)
+  file.create(file.path(subdir, "subfile.txt"))
+
+  # Perform sync without recursion
+  full_symmetric_sync(left_path = left, right_path = right, recurse = FALSE)
+
+  # Top-level file should be copied
+  expect_true(file.exists(file.path(right, "l.topfile.txt")))
+
+  # Subdirectory file should NOT be copied
+  expect_false(file.exists(file.path(right, "subfile.txt")))
+})
+
+
+test_that("partial_symmetric_sync_common_files does not copy non-common files", {
+  syncdr_temp <- copy_temp_environment()
+  left  <- syncdr_temp$left
+  right <- syncdr_temp$right
+  # Add a file only to left
+  file.create(file.path(left, "unique_left.txt"))
+  sync_status <- compare_directories(left_path = left, right_path = right)
+  partial_symmetric_sync_common_files(sync_status = sync_status)
+  expect_false(file.exists(file.path(right, "unique_left.txt")))
+})
