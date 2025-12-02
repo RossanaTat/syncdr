@@ -12,6 +12,7 @@ full_asym_sync_to_right(
   by_content = FALSE,
   recurse = TRUE,
   force = TRUE,
+  delete_in_right = TRUE,
   backup = FALSE,
   backup_dir = "temp_dir",
   verbose = getOption("syncdr.verbose")

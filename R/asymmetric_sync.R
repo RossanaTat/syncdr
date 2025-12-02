@@ -45,16 +45,17 @@
 #' #sync_status = compare_directories(left_path = left,
 #' #                                   right_path = right)
 #' #full_asym_sync_to_right(sync_status = sync_status)
-full_asym_sync_to_right <- function(left_path   = NULL,
-                                    right_path  = NULL,
-                                    sync_status = NULL,
-                                    by_date     = TRUE,
-                                    by_content  = FALSE,
-                                    recurse     = TRUE,
-                                    force       = TRUE,
-                                    backup      = FALSE,
-                                    backup_dir  = "temp_dir",
-                                    verbose     = getOption("syncdr.verbose")) {
+full_asym_sync_to_right <- function(left_path       = NULL,
+                                    right_path      = NULL,
+                                    sync_status     = NULL,
+                                    by_date         = TRUE,
+                                    by_content      = FALSE,
+                                    recurse         = TRUE,
+                                    force           = TRUE,
+                                    delete_in_right = TRUE,
+                                    backup          = FALSE,
+                                    backup_dir      = "temp_dir",
+                                    verbose         = getOption("syncdr.verbose")) {
 
 
   # Display folder structure before synchronization
