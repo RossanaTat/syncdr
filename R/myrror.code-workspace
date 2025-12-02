@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "../../myrror"
+		},
+		{
+			"path": "../../joyn"
+		},
+		{
+			"path": "../../pipaux"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"r.lsp.promptToInstall": false,
+		"github.copilot.advanced": {
+			"debug.useNodeFetcher": true
+		}
+	}
+}

@@ -4,6 +4,15 @@
 # syncdr
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/RossanaTat/syncdr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RossanaTat/syncdr/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/RossanaTat/syncdr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RossanaTat/syncdr)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![License:
+MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 <!-- badges: end -->
 
 {syncdr} is an R package designed to facilitate the process of directory
@@ -32,77 +41,89 @@ You can install the development version of syncdr from
 ``` r
 # install.packages("devtools")
 devtools::install_github("RossanaTat/syncdr")
-#> Using github PAT from envvar GITHUB_PAT
+#> Using GitHub PAT from the git credential store.
 #> Downloading GitHub repo RossanaTat/syncdr@HEAD
-#> xfun       (0.47         -> 0.49        ) [CRAN]
-#> rlang      (1.1.3        -> 1.1.4       ) [CRAN]
-#> glue       (1.7.0        -> 1.8.0       ) [CRAN]
-#> cli        (3.6.2        -> 3.6.3       ) [CRAN]
-#> Rcpp       (1.0.13       -> 1.0.13-1    ) [CRAN]
+#> xfun       (0.50         -> 0.54        ) [CRAN]
+#> rlang      (1.1.4        -> 1.1.6       ) [CRAN]
+#> cli        (3.6.3        -> 3.6.5       ) [CRAN]
+#> Rcpp       (1.0.13-1     -> 1.1.0       ) [CRAN]
+#> magrittr   (2.0.3        -> 2.0.4       ) [CRAN]
+#> later      (1.3.2        -> 1.4.4       ) [CRAN]
 #> fastmap    (1.1.1        -> 1.2.0       ) [CRAN]
-#> digest     (0.6.34       -> 0.6.37      ) [CRAN]
-#> promises   (1.2.1        -> 1.3.0       ) [CRAN]
-#> fs         (1.6.3        -> 1.6.5       ) [CRAN]
+#> digest     (0.6.37       -> 0.6.39      ) [CRAN]
+#> fs         (1.6.5        -> 1.6.6       ) [CRAN]
+#> sass       (0.4.9        -> 0.4.10      ) [CRAN]
+#> mime       (0.12         -> 0.13        ) [CRAN]
 #> cachem     (1.0.8        -> 1.1.0       ) [CRAN]
-#> tinytex    (0.52         -> 0.54        ) [CRAN]
-#> evaluate   (0.24.0       -> 1.0.1       ) [CRAN]
-#> rmarkdown  (2.28         -> 2.29        ) [CRAN]
-#> collapse   (15f2d3be7... -> 6f2515d4e...) [GitHub]
-#> httpuv     (1.6.14       -> 1.6.15      ) [CRAN]
-#> rstudioapi (0.15.0       -> 0.17.1      ) [CRAN]
-#> secretbase (1.0.1        -> 1.0.3       ) [CRAN]
-#> Installing 16 packages: xfun, rlang, glue, cli, Rcpp, fastmap, digest, promises, fs, cachem, tinytex, evaluate, rmarkdown, httpuv, rstudioapi, secretbase
-#> Installing packages into 'C:/Users/wb621604/AppData/Local/Temp/Rtmpm6qegp/temp_libpath27386003687d'
+#> tinytex    (0.54         -> 0.58        ) [CRAN]
+#> bslib      (0.8.0        -> 0.9.0       ) [CRAN]
+#> evaluate   (1.0.3        -> 1.0.5       ) [CRAN]
+#> yaml       (2.3.10       -> 2.3.11      ) [CRAN]
+#> rmarkdown  (2.29         -> 2.30        ) [CRAN]
+#> knitr      (1.49         -> 1.50        ) [CRAN]
+#> collapse   (569a4a513... -> 963448a7e...) [GitHub]
+#> data.table (1.17.0       -> 1.17.8      ) [CRAN]
+#> promises   (1.2.1        -> 1.5.0       ) [CRAN]
+#> crosstalk  (1.2.1        -> 1.2.2       ) [CRAN]
+#> DT         (0.33         -> 0.34.0      ) [CRAN]
+#> Installing 22 packages: xfun, rlang, cli, Rcpp, magrittr, later, fastmap, digest, fs, sass, mime, cachem, tinytex, bslib, evaluate, yaml, rmarkdown, knitr, data.table, promises, crosstalk, DT
+#> Installing packages into 'C:/Users/wb621604/AppData/Local/Temp/RtmpKqsZ1Z/temp_libpath8a440b77639'
 #> (as 'lib' is unspecified)
 #> 
-#>   There is a binary version available but the source version is later:
-#>           binary source needs_compilation
-#> rmarkdown   2.28   2.29             FALSE
+#>   There are binary versions available but the source versions are later:
+#>            binary source needs_compilation
+#> xfun         0.52   0.54              TRUE
+#> rlang       1.1.5  1.1.6              TRUE
+#> cli         3.6.4  3.6.5              TRUE
+#> Rcpp       1.0.14  1.1.0              TRUE
+#> magrittr    2.0.3  2.0.4              TRUE
+#> later       1.4.1  1.4.4              TRUE
+#> digest     0.6.37 0.6.39              TRUE
+#> fs          1.6.5  1.6.6              TRUE
+#> sass        0.4.9 0.4.10              TRUE
+#> tinytex      0.56   0.58             FALSE
+#> evaluate    1.0.3  1.0.5             FALSE
+#> yaml       2.3.10 2.3.11              TRUE
+#> rmarkdown    2.29   2.30             FALSE
+#> data.table 1.17.0 1.17.8              TRUE
+#> promises    1.3.2  1.5.0              TRUE
+#> crosstalk   1.2.1  1.2.2             FALSE
+#> DT           0.33 0.34.0             FALSE
 #> 
-#> package 'xfun' successfully unpacked and MD5 sums checked
-#> package 'rlang' successfully unpacked and MD5 sums checked
-#> package 'glue' successfully unpacked and MD5 sums checked
-#> package 'cli' successfully unpacked and MD5 sums checked
-#> package 'Rcpp' successfully unpacked and MD5 sums checked
 #> package 'fastmap' successfully unpacked and MD5 sums checked
-#> package 'digest' successfully unpacked and MD5 sums checked
-#> package 'promises' successfully unpacked and MD5 sums checked
-#> package 'fs' successfully unpacked and MD5 sums checked
+#> package 'mime' successfully unpacked and MD5 sums checked
 #> package 'cachem' successfully unpacked and MD5 sums checked
-#> package 'tinytex' successfully unpacked and MD5 sums checked
-#> package 'evaluate' successfully unpacked and MD5 sums checked
-#> package 'httpuv' successfully unpacked and MD5 sums checked
-#> package 'rstudioapi' successfully unpacked and MD5 sums checked
-#> package 'secretbase' successfully unpacked and MD5 sums checked
+#> package 'bslib' successfully unpacked and MD5 sums checked
+#> package 'knitr' successfully unpacked and MD5 sums checked
 #> 
 #> The downloaded binary packages are in
-#>  C:\Users\wb621604\AppData\Local\Temp\RtmpCgR0Nk\downloaded_packages
-#> installing the source package 'rmarkdown'
+#>  C:\Users\wb621604\AppData\Local\Temp\RtmpqcXGko\downloaded_packages
+#> installing the source packages 'xfun', 'rlang', 'cli', 'Rcpp', 'magrittr', 'later', 'digest', 'fs', 'sass', 'tinytex', 'evaluate', 'yaml', 'rmarkdown', 'data.table', 'promises', 'crosstalk', 'DT'
 #> Downloading GitHub repo SebKrantz/collapse@HEAD
 #> 
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
-#>          checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpCgR0Nk\remotes81cc62bf5814\SebKrantz-collapse-6f2515d/DESCRIPTION' ...  ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpCgR0Nk\remotes81cc62bf5814\SebKrantz-collapse-6f2515d/DESCRIPTION' (761ms)
-#>       ─  preparing 'collapse': (9s)
+#>          checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpqcXGko\remotes77703a9d4f19\SebKrantz-collapse-963448a/DESCRIPTION' ...     checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpqcXGko\remotes77703a9d4f19\SebKrantz-collapse-963448a/DESCRIPTION' ...   ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpqcXGko\remotes77703a9d4f19\SebKrantz-collapse-963448a/DESCRIPTION' (1.4s)
+#>       ─  preparing 'collapse': (25.3s)
 #>    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
-#> ─  cleaning src
-#>       ─  checking for LF line-endings in source and make files and shell scripts (1s)
-#>       ─  checking for empty or unneeded directories
-#>       ─  building 'collapse_2.0.17.tar.gz'
+#>   ─  cleaning src
+#>       ─  checking for LF line-endings in source and make files and shell scripts (2.4s)
+#>       ─  checking for empty or unneeded directories (791ms)
+#>       ─  building 'collapse_2.1.5.tar.gz'
 #>      
 #> 
-#> Installing package into 'C:/Users/wb621604/AppData/Local/Temp/Rtmpm6qegp/temp_libpath27386003687d'
+#> Installing package into 'C:/Users/wb621604/AppData/Local/Temp/RtmpKqsZ1Z/temp_libpath8a440b77639'
 #> (as 'lib' is unspecified)
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
-#>          checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpCgR0Nk\remotes81cc39026084\RossanaTat-syncdr-492fc40/DESCRIPTION' ...     checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpCgR0Nk\remotes81cc39026084\RossanaTat-syncdr-492fc40/DESCRIPTION' ...   ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpCgR0Nk\remotes81cc39026084\RossanaTat-syncdr-492fc40/DESCRIPTION' (808ms)
-#>       ─  preparing 'syncdr': (12.2s)
+#>          checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpqcXGko\remotes77706b5525c6\RossanaTat-syncdr-62ce8df/DESCRIPTION' ...     checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpqcXGko\remotes77706b5525c6\RossanaTat-syncdr-62ce8df/DESCRIPTION' ...   ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpqcXGko\remotes77706b5525c6\RossanaTat-syncdr-62ce8df/DESCRIPTION' (1.6s)
+#>       ─  preparing 'syncdr': (31.4s)
 #>    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
-#>       ─  checking for LF line-endings in source and make files and shell scripts (783ms)
-#>       ─  checking for empty or unneeded directories
+#>       ─  checking for LF line-endings in source and make files and shell scripts (1.7s)
+#> ─  checking for empty or unneeded directories
 #>      Omitted 'LazyData' from DESCRIPTION
 #>       ─  building 'syncdr_0.0.2.9001.tar.gz'
 #>      
 #> 
-#> Installing package into 'C:/Users/wb621604/AppData/Local/Temp/Rtmpm6qegp/temp_libpath27386003687d'
+#> Installing package into 'C:/Users/wb621604/AppData/Local/Temp/RtmpKqsZ1Z/temp_libpath8a440b77639'
 #> (as 'lib' is unspecified)
 ```
 
@@ -116,7 +137,7 @@ library(syncdr)
 
 # --- Create .syncdrenv --- #
 .syncdrenv <- toy_dirs()
-#> ■■■■■■■ 20% | ETA: 8s■■■■■■■■■■■■■■■ 47% | ETA: 5s■■■■■■■■■■■■■■■■■ 53% | ETA:
+#> ■■■■■■■ 20% | ETA: 9s■■■■■■■■■■■■■■■ 47% | ETA: 5s■■■■■■■■■■■■■■■■■ 53% | ETA:
 #> 5s■■■■■■■■■■■■■■■■■■■ 60% | ETA: 4s■■■■■■■■■■■■■■■■■■■■■■■■■■■ 87% | ETA: 1s
 left       <- .syncdrenv$left
 right      <-  .syncdrenv$right
@@ -125,7 +146,7 @@ right      <-  .syncdrenv$right
 display_dir_tree(path_left  = left,
                  path_right = right)
 #> (←)Left directory structure:
-#> C:/Users/wb621604/AppData/Local/Temp/RtmpCgR0Nk/left
+#> C:/Users/wb621604/AppData/Local/Temp/RtmpqcXGko/left
 #> ├── A
 #> │   ├── A1.Rds
 #> │   ├── A2.Rds
@@ -143,7 +164,7 @@ display_dir_tree(path_left  = left,
 #> │   └── D2.Rds
 #> └── E
 #> (→)Right directory structure:
-#> C:/Users/wb621604/AppData/Local/Temp/RtmpCgR0Nk/right
+#> C:/Users/wb621604/AppData/Local/Temp/RtmpqcXGko/right
 #> ├── A
 #> ├── B
 #> │   ├── B1.Rds
@@ -167,21 +188,21 @@ compare_directories(left_path   = left,
                     right_path  = right)
 #> 
 #> ── Synchronization Summary ─────────────────────────────────────────────────────
-#> • Left Directory: 'C:/Users/wb621604/AppData/Local/Temp/RtmpCgR0Nk/left'
-#> • Right Directory: 'C:/Users/wb621604/AppData/Local/Temp/RtmpCgR0Nk/right'
+#> • Left Directory: 'C:/Users/wb621604/AppData/Local/Temp/RtmpqcXGko/left'
+#> • Right Directory: 'C:/Users/wb621604/AppData/Local/Temp/RtmpqcXGko/right'
 #> • Total Common Files: 7
 #> • Total Non-common Files: 9
 #> • Compare files by: date
 #> 
 #> ── Common files ────────────────────────────────────────────────────────────────
 #>             path modification_time_left modification_time_right  modified
-#> 1 /left/B/B1.Rds    2024-11-04 15:01:35     2024-11-04 15:01:36     right
-#> 2 /left/B/B2.Rds    2024-11-04 15:01:38     2024-11-04 15:01:39     right
-#> 3 /left/C/C1.Rds    2024-11-04 15:01:36     2024-11-04 15:01:36 same date
-#> 4 /left/C/C2.Rds    2024-11-04 15:01:39     2024-11-04 15:01:40     right
-#> 5 /left/C/C3.Rds    2024-11-04 15:01:41     2024-11-04 15:01:42     right
-#> 6 /left/D/D1.Rds    2024-11-04 15:01:38     2024-11-04 15:01:37      left
-#> 7 /left/D/D2.Rds    2024-11-04 15:01:41     2024-11-04 15:01:40      left
+#> 1 /left/B/B1.Rds    2025-12-02 10:41:53     2025-12-02 10:41:54     right
+#> 2 /left/B/B2.Rds    2025-12-02 10:41:56     2025-12-02 10:41:57     right
+#> 3 /left/C/C1.Rds    2025-12-02 10:41:54     2025-12-02 10:41:54 same date
+#> 4 /left/C/C2.Rds    2025-12-02 10:41:57     2025-12-02 10:41:58     right
+#> 5 /left/C/C3.Rds    2025-12-02 10:41:59     2025-12-02 10:42:00     right
+#> 6 /left/D/D1.Rds    2025-12-02 10:41:56     2025-12-02 10:41:55      left
+#> 7 /left/D/D2.Rds    2025-12-02 10:41:59     2025-12-02 10:41:58      left
 #> 
 #> ── Non-common files ────────────────────────────────────────────────────────────
 #> 

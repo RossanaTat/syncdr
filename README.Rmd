@@ -21,6 +21,12 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/RossanaTat/syncdr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RossanaTat/syncdr/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/RossanaTat/syncdr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RossanaTat/syncdr)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+
 <!-- badges: end -->
 
 {syncdr} is an R package designed to facilitate the process of directory
