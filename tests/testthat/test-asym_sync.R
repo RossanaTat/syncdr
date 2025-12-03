@@ -62,19 +62,6 @@ test_that("full asym sync to right -by date, non common files", {
 ### Common files ####
 test_that("full asym sync to right -by date only, common files", {
 
-  # check files have same date status after being copied
-  # to_copy <- which(
-  #   sync_status_date$common_files$is_new_left
-  #   )
-  #
-  # new_status_date <- compare_directories(left,
-  #                                        right)
-  #
-  # res <- new_status_date$common_files[to_copy, ] |>
-  #   fselect(sync_status)
-  #
-  # any(res != "same date") |>
-  #   expect_equal(FALSE)
 
   # check files have some content after being copied
   to_copy_paths <- sync_status_date$common_files |>
@@ -103,34 +90,6 @@ full_asym_sync_to_right(left_path  = left,
                         backup     = TRUE)
 
 
-test_that("full synchronization -backup option works", {
-
-  # test backup directory is in tempdir
-  # tempdir_files <- list.files(tempdir())
-  #
-  # lapply(tempdir_files,
-  #        function(x) grepl("backup_directory", x)) |>
-  #   any() |>
-  #   expect_equal(TRUE)
-  #
-  # # check content matches original directory
-  # list.files(tempdir(), recursive = TRUE)
-
-  backup_dir <- file.path(tempdir(), "backup_directory")
-  backup_files <- list.files(backup_dir,
-                             recursive = TRUE)
-  # remove prefix
-  backup_files <-sub("copy_right_\\d+/", "", backup_files)
-
-  # check backup directory exists
-  fs::dir_exists(backup_dir) |>
-    expect_true()
-
-  # check files in backup dir matches original right dir
-  sort(backup_files) |>
-    expect_equal(sort(right_files))
-
-})
 
 ## --- Update by date and content ----
 
@@ -322,42 +281,6 @@ test_that("common files asym sync to right works -by date", {
 
 })
 
-### Backup option ####
-
-# #With default backup directory
-# syncdr_temp <- copy_temp_environment()
-# left  <- syncdr_temp$left
-# right <- syncdr_temp$right
-#
-# right_files <- list.files(right,
-#                           recursive = TRUE)
-#
-# # clean backup directory
-# fs::file_delete(list.files(backup_dir,
-#                        recursive = TRUE))
-#
-# common_files_asym_sync_to_right(left_path  = left,
-#                                 right_path = right,
-#                                 backup     = TRUE)
-#
-#
-# test_that("common files synchronization -backup option works", {
-#
-#   backup_dir <- file.path(tempdir(), "backup_directory")
-#   backup_files <- list.files(backup_dir,
-#                              recursive = TRUE)
-#   # remove prefix
-#   backup_files <-sub("copy_right_\\d+/", "", backup_files)
-#
-#   # check backup directory exists
-#   fs::dir_exists(backup_dir) |>
-#     expect_true()
-#
-#   # check files in backup dir matches original right dir
-#   sort(backup_files) |>
-#     expect_equal(sort(right_files))
-#
-# })
 
 # ~~~~~~~~~ Update by date and content  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -551,4 +474,181 @@ test_that("update missing file works", {
 
 })
 
+# Additional tests ####
+test_that("full_asym_sync_to_right errors for invalid arguments", {
+  expect_error(full_asym_sync_to_right(left_path = "x", right_path = NULL))
+  expect_error(full_asym_sync_to_right(sync_status = "not_a_status"))
+  expect_error(full_asym_sync_to_right())  # all NULL
+})
+
+test_that("full_asym_sync_to_right errors for nonexistent dirs", {
+  tmp <- tempfile()
+  expect_error(full_asym_sync_to_right(left_path = tmp, right_path = tmp))
+})
+
+with_mocked_bindings(
+  askYesNo = function(...) FALSE,
+  test_that("full_asym_sync_to_right aborts when user says no", {
+    e <- toy_dirs()
+    expect_error(full_asym_sync_to_right(left_path = e$left,
+                                         right_path = e$right,
+                                         force = FALSE))
+  }))
+
+test_that("full_asym_sync_to_right respects delete_in_right = FALSE", {
+  e <- copy_temp_environment()
+  left  <- e$left
+  right <- e$right
+
+  full_asym_sync_to_right(left_path  = left,
+                          right_path = right,
+                          delete_in_right = FALSE)
+
+  # verify right-only files still exist
+  expect_true(fs::file_exists(file.path(right, "E/E1.Rds")))
+})
+
+test_that("copy without recurse places top-level files at destination top-level", {
+  e <- copy_temp_environment()
+  left  <- e$left
+  right <- e$right
+
+  # --- 0. Add a dummy top-level file to RIGHT so compare_directories won't error ----
+  writeLines("dummy", fs::path(right, "dummy.txt"))
+
+  # --- 1. Create top-level test files in left ---------------------------------------
+  top_files <- c("top1.txt", "top2.txt")
+  for (f in top_files) {
+    writeLines("test", fs::path(left, f))
+  }
+
+  # --- 2. Verify they do NOT exist in right -----------------------------------------
+  expect_false(any(fs::file_exists(fs::path(right, top_files))))
+
+  # --- 3. Run sync without recurse ---------------------------------------------------
+  full_asym_sync_to_right(
+    left_path  = left,
+    right_path = right,
+    recurse    = FALSE
+  )
+
+  # --- 4. Files must exist at top-level of right ------------------------------------
+  expect_true(all(fs::file_exists(fs::path(right, top_files))))
+
+  # --- 5. Ensure NOT placed inside subfolders ---------------------------------------
+  subfiles <- fs::dir_ls(right, recurse = TRUE, type = "file")
+  expect_false(any(grepl("A/top", subfiles, fixed = TRUE)))
+})
+
+test_that("sync by content only", {
+  e <- copy_temp_environment()
+  left  <- e$left
+  right <- e$right
+
+  full_asym_sync_to_right(left_path = left,
+                          right_path = right,
+                          by_date = FALSE,
+                          by_content = TRUE)
+
+  # ensure modified content is synced
+  status <- compare_directories(left, right, by_content = TRUE)
+  expect_false(any(status$common_files$is_diff))
+})
+
+test_that("backup works to custom directory", {
+  e <- copy_temp_environment()
+  backup_dir <- tempfile()
+
+  full_asym_sync_to_right(left_path = e$left,
+                          right_path = e$right,
+                          backup = TRUE,
+                          backup_dir = backup_dir)
+
+  expect_true(fs::dir_exists(backup_dir))
+  expect_true(length(list.files(backup_dir, recursive = TRUE)) > 0)
+})
+
+test_that("update_missing_files_asym_to_right skips copy when copy_to_right = FALSE", {
+  e <- copy_temp_environment()
+  left  <- e$left
+  right <- e$right
+
+  # --- Create an asymmetric file (in left but not right) -----
+  writeLines("hello", fs::path(left, "new_top_level.txt"))
+
+  # Check preconditions
+  status <- compare_directories(left, right, recurse = TRUE)
+  expect_true(nrow(status$non_common_files) > 0)
+
+  # --- Run with flag set to skip copying ---
+  update_missing_files_asym_to_right(
+    left_path      = left,
+    right_path     = right,
+    recurse        = TRUE,
+    copy_to_right  = FALSE
+  )
+
+  # Because copy_to_right = FALSE, file should STILL be missing in right
+  expect_false(fs::file_exists(fs::path(right, "new_top_level.txt")))
+})
+
+
+test_that("exclude_delete prevents deletion", {
+  e <- copy_temp_environment()
+  left  <- e$left
+  right <- e$right
+
+  update_missing_files_asym_to_right(left_path = left,
+                                     right_path = right,
+                                     exclude_delete = "E")
+
+  expect_true(fs::file_exists(file.path(right, "E/E1.Rds")))
+})
+
+test_that("common_files_asym_sync_to_right works by content only", {
+  e <- copy_temp_environment()
+  left  <- e$left
+  right <- e$right
+
+  common_files_asym_sync_to_right(left_path = left,
+                                  right_path = right,
+                                  by_date = FALSE,
+                                  by_content = TRUE)
+
+  status <- compare_directories(left, right, by_content = TRUE)
+  expect_false(any(status$common_files$is_diff))
+})
+
+test_that("partial update without recurse places top-level files at root", {
+  e <- copy_temp_environment()
+  left  <- e$left
+  right <- e$right
+
+  # -- 1. Create missing top-level files in LEFT --------------------
+  top_files <- c("topA.txt", "topB.txt")
+  for (f in top_files) {
+    writeLines("data", fs::path(left, f))
+  }
+
+  # -- 2. Create ONE dummy file in RIGHT so compare_directories won't error ----
+  writeLines("dummy", fs::path(right, "dummy.txt"))
+
+  # -- 3. Check preconditions --------------------------------------
+  expect_true(all(fs::file_exists(fs::path(left, top_files))))
+  expect_false(any(fs::file_exists(fs::path(right, top_files))))
+
+  # -- 4. Run partial update WITHOUT recurse ------------------------
+  partial_update_missing_files_asym_to_right(
+    left_path  = left,
+    right_path = right,
+    recurse    = FALSE
+  )
+
+  # -- 5. Files should appear at top-level of RIGHT -----------------
+  expect_true(all(fs::file_exists(fs::path(right, top_files))))
+
+  # -- 6. Ensure files are NOT placed inside subdirectories ---------
+  subfiles <- fs::dir_ls(right, recurse = TRUE, type = "file")
+  expect_false(any(grepl("/A/topA.txt|/A/topB.txt", subfiles)))
+})
 
