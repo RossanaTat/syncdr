@@ -36,16 +36,9 @@ copy_files_to_right <- function(left_dir,
                  path_to      = right_dir)
   }
 
-  # Copy files
-  # mapply(fs::file_copy,
-  #        files_to_copy$path_from,
-  #        files_to_copy$path_to,
-  #        MoreArgs = list(overwrite = TRUE))
-
-
-
-  #invisible(TRUE)
-#}
+  # Ensure destination subdirectories exist
+  unique_dirs <- unique(fs::path_dir(files_to_copy$path_to))
+  fs::dir_create(unique_dirs)
 
   # progress-enabled iteration
   invisible(
@@ -60,6 +53,9 @@ copy_files_to_right <- function(left_dir,
       }
     )
   )
+
+  invisible(TRUE)
+
 }
 
 #' Copy files from right directory to left directory
@@ -105,11 +101,9 @@ copy_files_to_left <- function(left_dir,
 
   }
 
-  # # Copy files
-  # mapply(fs::file_copy,
-  #        files_to_copy$path_from,
-  #        files_to_copy$path_to,
-  #        MoreArgs = list(overwrite = TRUE))
+  # Ensure destination subdirectories exist
+  unique_dirs <- unique(fs::path_dir(files_to_copy$path_to))
+  fs::dir_create(unique_dirs)
 
   # progress-enabled iteration
   invisible(
