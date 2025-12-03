@@ -81,11 +81,6 @@ test_that("full symm sync works -by date&cont", {
 
 })
 
-# ~~~~~~~~~ Update content only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-#ADD TEST HERE
-
 
 # Testing partial symmetric sync function ####
 
@@ -260,3 +255,165 @@ test_that("partial_symmetric_sync_common_files does not copy non-common files", 
   partial_symmetric_sync_common_files(sync_status = sync_status)
   expect_false(file.exists(file.path(right, "unique_left.txt")))
 })
+
+## ~~~~~~~~~ Additional coverage tests for full_symmetric_sync & partial_symmetric_sync_common_files ~~~~~~~~~
+
+# --- 1. Verbose TRUE branch ---
+test_that("full_symmetric_sync runs with verbose = TRUE", {
+  syncdr_temp <- copy_temp_environment()
+  left <- syncdr_temp$left
+  right <- syncdr_temp$right
+
+  testthat::with_mocked_bindings(
+    `display_dir_tree` = function(...) "called",
+    `style_msgs`       = function(...) "called",
+    {
+      expect_silent(full_symmetric_sync(left_path = left,
+                                        right_path = right,
+                                        verbose = TRUE))
+    }
+  )
+})
+
+test_that("partial_symmetric_sync_common_files runs with verbose = TRUE", {
+  syncdr_temp <- copy_temp_environment()
+  left <- syncdr_temp$left
+  right <- syncdr_temp$right
+  sync_status <- compare_directories(left, right)
+
+  testthat::with_mocked_bindings(
+    `display_dir_tree` = function(...) "called",
+    `style_msgs`       = function(...) "called",
+    {
+      expect_silent(partial_symmetric_sync_common_files(sync_status = sync_status,
+                                                        verbose = TRUE))
+    }
+  )
+})
+
+# --- 2. Force = FALSE, user agrees ---
+## --- 1️⃣ Preview mode - user agrees ----
+test_that("full_symmetric_sync proceeds when user agrees in preview mode", {
+  syncdr_temp <- copy_temp_environment()
+  left  <- syncdr_temp$left
+  right <- syncdr_temp$right
+
+  testthat::with_mocked_bindings(
+    `askYesNo` = function(...) TRUE,  # simulate user agreeing
+    {
+      res <- full_symmetric_sync(left_path = left, right_path = right, force = FALSE)
+      expect_true(res)  # check it returns TRUE
+    }
+  )
+})
+
+# --- 5. Nested directories with recurse = TRUE ---
+test_that("full_symmetric_sync copies nested files when recurse = TRUE", {
+  syncdr_temp <- copy_temp_environment()
+  left <- syncdr_temp$left
+  right <- syncdr_temp$right
+
+  # nested subdir
+  subdir <- file.path(left, "nested")
+  dir.create(subdir)
+  nested_file <- file.path(subdir, "nested.txt")
+  writeLines("hello", nested_file)
+
+  full_symmetric_sync(left_path = left, right_path = right, recurse = TRUE)
+
+  expect_true(file.exists(file.path(right, "nested", "nested.txt")))
+})
+
+# --- 6. Partial sync does not copy non-common files ---
+test_that("partial_symmetric_sync_common_files ignores non-common files", {
+  syncdr_temp <- copy_temp_environment()
+  left <- syncdr_temp$left
+  right <- syncdr_temp$right
+
+  # add non-common file in left
+  file.create(file.path(left, "unique_left.txt"))
+  sync_status <- compare_directories(left, right)
+
+  partial_symmetric_sync_common_files(sync_status = sync_status)
+  expect_false(file.exists(file.path(right, "unique_left.txt")))
+})
+
+# --- 7. Mock copy functions to ensure correct arguments ---
+test_that("full_symmetric_sync calls copy functions correctly", {
+  syncdr_temp <- copy_temp_environment()
+  left <- syncdr_temp$left
+  right <- syncdr_temp$right
+  sync_status <- compare_directories(left, right)
+
+  called_right <- FALSE
+  called_left <- FALSE
+
+  testthat::with_mocked_bindings(
+    `copy_files_to_right` = function(...) { called_right <<- TRUE },
+    `copy_files_to_left`  = function(...) { called_left <<- TRUE },
+    {
+      full_symmetric_sync(sync_status = sync_status)
+    }
+  )
+
+  expect_true(called_right)
+  expect_true(called_left)
+})
+
+# --- 8. Edge case: by_content only abort ---
+test_that("full_symmetric_sync aborts when by_content only", {
+  syncdr_temp <- copy_temp_environment()
+  left <- syncdr_temp$left
+  right <- syncdr_temp$right
+  expect_error(full_symmetric_sync(left_path = left,
+                                   right_path = right,
+                                   by_date = FALSE,
+                                   by_content = TRUE),
+               "Symmetric synchronization by content only is not active")
+})
+
+# --- 9. Corrupted sync_status handling ---
+test_that("full_symmetric_sync handles missing common_files gracefully", {
+  syncdr_temp <- copy_temp_environment()
+  left <- syncdr_temp$left
+  right <- syncdr_temp$right
+  sync_status <- compare_directories(left, right)
+  sync_status$common_files <- NULL
+
+  expect_error(full_symmetric_sync(sync_status = sync_status),
+               "object .* not found|NULL")
+})
+
+# ~~~~~~~~~ Update content only ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+test_that("full_symmetric_sync aborts for by_content only", {
+  syncdr_temp <- copy_temp_environment()
+  left  <- syncdr_temp$left
+  right <- syncdr_temp$right
+
+  expect_error(
+    full_symmetric_sync(left_path  = left,
+                        right_path = right,
+                        by_date    = FALSE,
+                        by_content = TRUE),
+    "Symmetric synchronization by content only is not active"
+  )
+})
+
+test_that("partial_symmetric_sync_common_files aborts for by_content only", {
+  syncdr_temp <- copy_temp_environment()
+  left  <- syncdr_temp$left
+  right <- syncdr_temp$right
+  sync_status <- compare_directories(left_path  = left,
+                                     right_path = right)
+
+  expect_error(
+    partial_symmetric_sync_common_files(sync_status = sync_status,
+                                        by_date    = FALSE,
+                                        by_content = TRUE),
+    "Symmetric synchronization by content only is not active"
+  )
+})
+
+
