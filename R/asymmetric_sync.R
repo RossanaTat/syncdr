@@ -563,7 +563,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 
   # Copy right directory in backup directory
   if (backup) {
-    backup_dir <- fifelse(backup_dir == "temp_dir", # the default
+    backup_dir <- ifelse(backup_dir == "temp_dir", # the default
 
                           #tempdir(),
                           file.path(tempdir(),

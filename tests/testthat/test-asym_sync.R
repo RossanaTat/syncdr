@@ -652,7 +652,7 @@ test_that("partial update without recurse places top-level files at root", {
   expect_false(any(grepl("/A/topA.txt|/A/topB.txt", subfiles)))
 })
 
-### MORE TESTS
+### MORE TESTS ####
 
 test_that("empty left or right directories error", {
   left <- tempfile("left_")
@@ -821,7 +821,6 @@ test_that("backup_dir creates backup in a specific directory", {
 
 })
 
-## TO DO ####
 test_that("nothing to sync still returns TRUE", {
   e <- copy_temp_environment()
   left <- e$left; right <- e$right
@@ -888,5 +887,218 @@ test_that("multiple deletions trigger cli_progress_along loop", {
 
   st_after <- compare_directories(left, right)
   expect_false(any(st_after$non_common_files$sync_status == "only in right"))
+})
+
+# --- (+). Verbose + backup + copy/delete side effects ----------------------
+test_that("verbose display, file actions, and backup blocks executed", {
+  e <- copy_temp_environment()
+  left <- e$left
+  right <- e$right
+  backup_dir <- tempfile()
+
+  # Add a top-level file to trigger copy
+  writeLines("test", fs::path(left, "verbose_copy.txt"))
+  # Add a right-only file to trigger deletion
+  writeLines("delete me", fs::path(right, "verbose_delete.txt"))
+
+  expect_no_error(
+    full_asym_sync_to_right(
+      left_path   = left,
+      right_path  = right,
+      verbose     = TRUE,
+      backup      = TRUE,
+      backup_dir  = backup_dir,
+      delete_in_right = TRUE
+    )
+  )
+
+  # Backup dir should exist
+  expect_true(fs::dir_exists(backup_dir))
+  # Copied file exists in right
+  expect_true(fs::file_exists(fs::path(right, "verbose_copy.txt")))
+  # Deleted file no longer exists
+  expect_false(fs::file_exists(fs::path(right, "verbose_delete.txt")))
+})
+
+# --- 2. AskYesNo abort path ------------------------------------------------
+with_mocked_bindings(
+  askYesNo = function(...) FALSE,
+  test_that("user abort triggers cli_abort", {
+    e <- copy_temp_environment()
+    left <- e$left; right <- e$right
+
+    expect_error(
+      full_asym_sync_to_right(
+        left_path = left,
+        right_path = right,
+        force = FALSE
+      ),
+      regexp = "Synchronization interrupted"
+    )
+  })
+)
+
+# --- 3. Argument errors and malformed sync_status ------------------------
+test_that("incorrect arguments and malformed sync_status trigger cli_abort", {
+  e <- copy_temp_environment()
+
+  # Case: all NULL
+  expect_error(
+    full_asym_sync_to_right()
+  )
+
+  # Case: invalid sync_status structure
+  bad <- list(
+    left_path = e$left,
+    right_path = e$right,
+    common_files = "not_a_dataframe",
+    non_common_files = data.frame()
+  )
+  expect_error(
+    full_asym_sync_to_right(sync_status = bad)
+  )
+})
+
+# --- 4. No files to delete, exclusion triggers info message ---------------
+test_that("no files to delete triggers cli_alert_info and display_dir_tree", {
+  e <- copy_temp_environment()
+  left <- e$left
+  right <- e$right
+
+  # Get absolute paths for right files
+  all_right_files <- fs::dir_ls(right, recurse = TRUE, type = "file")
+
+  expect_no_error(
+    update_missing_files_asym_to_right(
+      left_path       = left,
+      right_path      = right,
+      delete_in_right = TRUE,
+      exclude_delete  = basename(all_right_files), # exclude by name
+      verbose         = TRUE
+    )
+  )
+
+  # Verify all right files still exist
+  expect_true(all(fs::file_exists(all_right_files)))
+})
+
+test_that("verbose displays directory tree before and after sync", {
+  e <- toy_dirs()
+  left <- e$left
+  right <- e$right
+
+  expect_no_error(
+    update_missing_files_asym_to_right(
+      left_path = left,
+      right_path = right,
+      verbose = TRUE,
+      force = TRUE
+    )
+  )
+})
+
+# test_that("force = FALSE triggers preview and askYesNo", {
+#   e <- toy_dirs()
+#   left <- e$left
+#   right <- e$right
+#
+#   with_mock(
+#     "utils::askYesNo" = function(...) TRUE,
+#     update_missing_files_asym_to_right(
+#       left_path = left,
+#       right_path = right,
+#       force = FALSE,
+#       verbose = TRUE
+#     )
+#   )
+# })
+
+test_that("delete_in_right removes right-only files", {
+  e <- toy_dirs()
+  left <- e$left
+  right <- e$right
+
+  # create a file only in right
+  extra_file <- fs::path(right, "extra.txt")
+  writeLines("extra", extra_file)
+
+  sync_status <- compare_directories(left, right)
+
+  expect_no_error(
+    update_missing_files_asym_to_right(
+      sync_status = sync_status,
+      force = TRUE,
+      delete_in_right = TRUE
+    )
+  )
+
+  expect_false(fs::file_exists(extra_file))
+})
+
+test_that("exclude_delete protects specific files", {
+  e <- toy_dirs()
+  left <- e$left
+  right <- e$right
+
+  # file only in right
+  extra_file <- fs::path(right, "extra.txt")
+  writeLines("extra", extra_file)
+
+  sync_status <- compare_directories(left, right)
+
+  expect_no_error(
+    update_missing_files_asym_to_right(
+      sync_status = sync_status,
+      force = TRUE,
+      delete_in_right = TRUE,
+      exclude_delete = "extra.txt"
+    )
+  )
+
+  expect_true(fs::file_exists(extra_file))
+})
+
+test_that("backup copies right directory", {
+  e <- toy_dirs()
+  left <- e$left
+  right <- e$right
+
+  backup_dir <- fs::file_temp("backup")
+  expect_no_error(
+    update_missing_files_asym_to_right(
+      left_path = left,
+      right_path = right,
+      force = TRUE,
+      backup = TRUE,
+      backup_dir = backup_dir
+    )
+  )
+
+  # check backup folder exists
+  expect_true(dir.exists(backup_dir))
+})
+
+test_that("invalid arguments triggers cli_abort", {
+  expect_error(
+    update_missing_files_asym_to_right(left_path = NULL, right_path = NULL, sync_status = NULL),
+    "Either sync_status or left and right paths must be provided"
+  )
+})
+
+test_that("copy_to_right = FALSE skips copy", {
+  e <- toy_dirs()
+  left <- e$left
+  right <- e$right
+
+  sync_status <- compare_directories(left, right)
+
+  expect_no_error(
+    update_missing_files_asym_to_right(
+      sync_status = sync_status,
+      force = TRUE,
+      copy_to_right = FALSE,
+      verbose = TRUE
+    )
+  )
 })
 
