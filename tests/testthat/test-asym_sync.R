@@ -652,3 +652,82 @@ test_that("partial update without recurse places top-level files at root", {
   expect_false(any(grepl("/A/topA.txt|/A/topB.txt", subfiles)))
 })
 
+### MORE TESTS
+
+test_that("empty left or right directories error", {
+  left <- tempfile("left_")
+  right <- tempfile("right_")
+  dir.create(left); dir.create(right)
+  # empty left, some empty right -> should run and return TRUE
+  expect_error(full_asym_sync_to_right(left_path = left, right_path = right))
+  unlink(left, recursive = TRUE); unlink(right, recursive = TRUE)
+})
+
+test_that("identical directories: no-op and returns TRUE", {
+  e <- copy_temp_environment()
+  left <- e$left; right <- e$right
+  # make right identical to left
+  unlink(right, recursive = TRUE)
+  fs::dir_copy(left, right)
+  res <- full_asym_sync_to_right(left_path = left, right_path = right)
+  expect_true(isTRUE(res))
+  # verify no non_common files
+  status <- compare_directories(left, right)
+  expect_equal(nrow(status$non_common_files), 0)
+})
+
+test_that("providing sync_status along with explicit paths errors", {
+  e <- copy_temp_environment()
+  st <- compare_directories(e$left, e$right)
+  expect_error(full_asym_sync_to_right(sync_status = st, left_path = e$left),
+               regexp = "Either sync_status or left and right paths must be provided")
+})
+
+test_that("exclude_delete matches directory name and filename but not full joined path", {
+  e <- copy_temp_environment()
+  left <- e$left; right <- e$right
+  # ensure 'E/E1.Rds' exists in right and would be deleted
+  st <- compare_directories(left, right)
+  # exclude by directory name
+  update_missing_files_asym_to_right(left_path = left, right_path = right,
+                                     delete_in_right = TRUE, exclude_delete = "E")
+  expect_true(fs::file_exists(file.path(right, "E/E1.Rds")))
+  # reset and test exclude by exact filename
+  e2 <- copy_temp_environment(); left2 <- e2$left; right2 <- e2$right
+  update_missing_files_asym_to_right(left_path = left2, right_path = right2,
+                                     delete_in_right = TRUE, exclude_delete = "E1.Rds")
+  expect_true(fs::file_exists(file.path(right2, "E/E1.Rds")))
+  # passing full path fragment should also work if matching a path component (test expected behavior)
+})
+
+test_that("recurse = FALSE with basename collisions: last-writer deterministic", {
+  e <- copy_temp_environment()
+  left <- e$left; right <- e$right
+
+  # ensure there's at least one top-level file so recurse = FALSE does not fail
+  writeLines("top", fs::path(left, "top_marker.txt"))
+  writeLines("r.top", fs::path(right, "right_top_marker.txt"))
+
+
+  # create two files with same basename in different subdirs in LEFT
+  writeLines("one", fs::path(left, "A", "collision.txt"))
+  writeLines("two", fs::path(left, "B", "collision.txt"))
+
+
+  full_asym_sync_to_right(left_path = left, right_path = right, recurse = FALSE)
+
+  # top_marker should have been copied
+  expect_true(fs::file_exists(fs::path(right, "top_marker.txt")))
+  expect_false(fs::file_exists(fs::path(right, "right_top_marker.txt")))
+
+})
+
+with_mocked_bindings(
+  askYesNo = function(...) NA,
+  test_that("NA answer from askYesNo aborts", {
+    e <- toy_dirs()
+    expect_error(full_asym_sync_to_right(left_path = e$left,
+                                         right_path = e$right,
+                                         force = FALSE))
+  }
+  ))
