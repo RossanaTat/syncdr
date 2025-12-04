@@ -130,7 +130,7 @@ full_asym_sync_to_right <- function(left_path       = NULL,
 
   # Copy right directory in backup directory
   if (backup) {
-    backup_dir <- fifelse(backup_dir == "temp_dir", # the default
+    backup_dir <- ifelse(backup_dir == "temp_dir", # the default
 
                           #tempdir(),
                           file.path(tempdir(),
@@ -584,9 +584,19 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
   }
 
   # Select files to delete
-   if (delete_in_right == TRUE) {
+  if (delete_in_right == TRUE) {
 
-    if (!is.null(exclude_delete) && length(exclude_delete) > 0) {
+    # Validate exclude_delete
+    if (!is.null(exclude_delete)) {
+      if (!is.character(exclude_delete)) {
+        stop("'exclude_delete' must be a character vector or NULL")
+      }
+      if (length(exclude_delete) == 0) {
+        exclude_delete <- NULL  # treat empty character vector as NULL
+      }
+    }
+
+    if (!is.null(exclude_delete)) {
 
       # For each file, check if its file name or any part of its path matches exclude_delete
       keep_idx <- vapply(files_to_delete$path_right, function(p) {
@@ -601,7 +611,8 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
         files_to_delete <- files_to_delete[!keep_idx, ]
       }
     }
-   }
+  }
+
 
   # --- Force option ----
 

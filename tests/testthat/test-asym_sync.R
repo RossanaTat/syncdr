@@ -731,3 +731,162 @@ with_mocked_bindings(
                                          force = FALSE))
   }
   ))
+
+test_that("malformed sync_status structure errors", {
+  e <- copy_temp_environment()
+  bad <- list(
+    left_path = e$left,
+    right_path = e$right,
+    common_files = "not_a_dataframe",
+    non_common_files = data.frame()
+  )
+  expect_error(full_asym_sync_to_right(sync_status = bad))
+})
+
+with_mocked_bindings(
+  askYesNo = function(...) FALSE,
+  test_that("force = FALSE aborts when user says no and does not modify directories", {
+    e <- copy_temp_environment()
+    left <- e$left
+    right <- e$right
+
+    before <- compare_directories(left, right, recurse = TRUE)
+
+    # Expect an abort since askYesNo returns FALSE
+    expect_error(
+      full_asym_sync_to_right(
+        left_path = left,
+        right_path = right,
+        force = FALSE
+      )
+    )
+
+    # After abort, nothing should have changed
+    after <- compare_directories(left, right, recurse = TRUE)
+
+    expect_identical(
+      before$common_files[, c("path_left","path_right")],
+      after$common_files[, c("path_left","path_right")]
+    )
+
+    expect_identical(
+      before$non_common_files,
+      after$non_common_files
+    )
+  })
+)
+
+test_that("delete_in_right = FALSE and exclude_delete act together", {
+  e <- copy_temp_environment()
+  left <- e$left; right <- e$right
+
+  update_missing_files_asym_to_right(
+    left_path = left,
+    right_path = right,
+    delete_in_right = FALSE,
+    exclude_delete = "E"
+  )
+
+  # right-only files AND E/* must exist
+  st <- compare_directories(left, right)
+  expect_true(all(st$non_common_files$sync_status == "only in right"))
+})
+
+test_that("backup_dir creates backup in a specific directory", {
+  # 1. Create a temporary environment
+  e <- copy_temp_environment()
+  left <- e$left
+  right <- e$right
+
+  # 2. Create a dedicated temporary backup directory for this test
+  backup_fol <- fs::path_temp("my_backup_")
+  fs::dir_create(backup_fol)
+
+  # 3. Run sync with backup
+  res <- full_asym_sync_to_right(
+    left_path = left,
+    right_path = right,
+    backup = TRUE,
+    backup_dir = backup_fol
+  )
+
+  expect_true(isTRUE(res))
+
+  # 4. Assert backup directory exists
+  expect_true(fs::dir_exists(backup_fol))
+
+  # 5. Assert backup directory contains files
+  backup_files <- fs::dir_ls(backup_fol, recurse = TRUE, type = "file")
+  expect_true(length(backup_files) > 0)
+
+})
+
+## TO DO ####
+test_that("nothing to sync still returns TRUE", {
+  e <- copy_temp_environment()
+  left <- e$left; right <- e$right
+
+  unlink(right, recursive = TRUE)
+  fs::dir_copy(left, right)
+
+  res <- full_asym_sync_to_right(left_path = left, right_path = right)
+  expect_true(isTRUE(res))
+})
+
+test_that("common_files_to_copy empty still returns TRUE", {
+  e <- copy_temp_environment()
+  left <- e$left; right <- e$right
+
+  unlink(right, recursive = TRUE)
+  fs::dir_copy(left, right)
+
+  res <- common_files_asym_sync_to_right(left_path = left, right_path = right)
+  expect_true(isTRUE(res))
+})
+
+test_that("exclude_delete must be character vector", {
+  e <- copy_temp_environment()
+
+  expect_error(
+    update_missing_files_asym_to_right(
+      left_path = e$left,
+      right_path = e$right,
+      exclude_delete = 123
+    )
+  )
+})
+
+test_that("success branches always return TRUE", {
+  e <- copy_temp_environment()
+  expect_true(full_asym_sync_to_right(left_path = e$left, right_path = e$right))
+  expect_true(common_files_asym_sync_to_right(left_path = e$left, right_path = e$right))
+  expect_true(update_missing_files_asym_to_right(left_path = e$left, right_path = e$right))
+  expect_true(partial_update_missing_files_asym_to_right(left_path = e$left, right_path = e$right))
+})
+
+test_that("by_date = NA or by_content = NA errors", {
+  e <- copy_temp_environment()
+  expect_error(
+    full_asym_sync_to_right(left_path = e$left, right_path = e$right, by_date = NA)
+  )
+  expect_error(
+    full_asym_sync_to_right(left_path = e$left, right_path = e$right, by_content = NA)
+  )
+})
+
+test_that("multiple deletions trigger cli_progress_along loop", {
+  e <- copy_temp_environment()
+  left <- e$left; right <- e$right
+
+  # add extra right-only files
+  for (i in 1:5) writeLines("x", file.path(right, paste0("del", i, ".txt")))
+
+  st_before <- compare_directories(left, right)
+  expect_true(any(st_before$non_common_files$sync_status == "only in right"))
+
+  update_missing_files_asym_to_right(left_path = left, right_path = right)
+
+  st_after <- compare_directories(left, right)
+  expect_false(any(st_after$non_common_files$sync_status == "only in right"))
+})
+
