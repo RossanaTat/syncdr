@@ -1,38 +1,35 @@
 # syncdr — NEWS
 
-All notable changes to this package are recorded in this file.
+## Version 0.1.0 (2025-12-04)
 
-## Version 0.1.0 (2025-12-04) — Initial CRAN release
+Initial CRAN release.
 
-### Main features
-- Add bidirectional synchronization primitives: symmetric_sync() provides conflict-aware two-way syncing for directory trees.
-- Add one-way synchronization: asymmetric_sync() for push/pull style operations.
-- Add directory comparison utility compare_directories() to detect new, removed, modified and conflicted entries before performing syncs.
-- Add toy_dirs() helper to quickly create reproducible example directory trees for demos and tests.
-- Add user-friendly wrappers (wrappers.R) that combine compare + sync flows for common workflows.
+### Directory comparison
+- Added `compare_directories()` to compare two directories by modification date, file content, or date-then-content.
+- Detects newer/older/same-date files as well as files present only in one directory.
+- Added `print.syncdr_status()` for formatted summaries of comparison results.
 
-### Convenience & user interface
-- New action and display helpers (action_functions.R, display_functions.R, styling_functions.R, print.R) to produce clear, structured console output and human-readable summaries of planned synchronization actions.
-- Small, focused API that exposes clear entry points for typical sync workflows while keeping low-level primitives available for advanced usage.
+### Visualization
+- Added `display_sync_status()` for interactive visualization of comparison output.
+- Added `display_dir_tree()` to show directory trees for one or two paths.
 
-### Documentation
-- Rd documentation provided for exported functions with examples demonstrating basic compare and sync workflows.
-- Examples in help pages illustrate typical use cases (preview compare, one-way sync, two-way sync).
+### Asymmetric synchronization (left → right)
+- Added `full_asym_sync_to_right()` for complete one-way synchronization.
+- Added partial sync helpers:
+  - `common_files_asym_sync_to_right()`
+  - `update_missing_files_asym_to_right()`
+  - `partial_update_missing_files_asym_to_right()`
 
-### Tests
-- Comprehensive unit tests covering core behavior: tests for symmetric and asymmetric sync, comparison logic, display and action helpers, utility functions, and toy_dirs.
-- Snapshot tests included for stable console output and printed summaries.
-- Test suite demonstrates handling of typical edge cases (empty trees, missing files, basic conflict scenarios).
+### Symmetric synchronization
+- Added `full_symmetric_sync()` for two-way synchronization with conflict handling.
+- Added `partial_symmetric_sync_common_files()` for partial symmetric updates.
 
-### Internal improvements
-- Code organized into clear modules: sync implementations, comparison utilities, display/action layers, and general utilities (utils.R, auxiliary_functions.R).
-- Namespace initialization and package hooks centralized (zzz.R).
-- Emphasis on modularity to make future maintenance and testing straightforward.
+### Utilities
+- Added `toy_dirs()` to create reproducible example directory structures.
+- Added `copy_temp_environment()` for safe testing of directory operations.
+- Added `search_duplicates()` for content-based duplicate detection.
+- Added `save_sync_status()` to persist comparison results.
 
-### Bug fixes and robustness
-- Path normalization and cross-platform considerations added to reduce Windows/Unix discrepancies.
-- Improved handling for missing directories and permission-related errors: operations fail with informative messages rather than silent errors.
-- More defensive checks in comparison and sync steps to avoid partial updates when preconditions are not met.
-
-### Developer notes / future work
-TODO
+### Documentation and tests
+- Added introductory and workflow vignettes.
+- Added unit tests covering comparison logic, synchronization functions, directory-tree display, and duplicate detection.
