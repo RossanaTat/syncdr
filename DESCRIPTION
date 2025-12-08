@@ -3,14 +3,17 @@ Title: Tool for Facilitating Directory Comparison and Updating
 Version: 0.0.2.9001
 Authors@R: 
     c(person(given = "R.Andres", 
-                    family = "Castaneda", 
-                    email = "acastanedaa@worldbank.org",
-                    role = c("aut", "cre")),
-              person(given = "Rossana",
-                    family = "Tatulli",
-                    role = "aut",
-                    email = "rtatulli@worldbank.org")      
-                    )
+            family = "Castaneda", 
+            email = "acastanedaa@worldbank.org",
+            role = c("aut", "cre")),
+      person(given = "Rossana",
+              family = "Tatulli",
+              role = "aut",
+              email = "rtatulli@worldbank.org"),
+      person(given = "Global Poverty and Inequality Data Team",
+             family = "World Bank",
+             role = "cph",
+             comment = c(ORCID = "https://github.com/GPID-WB"))
 Description: Compare directories flexibly (by date, content, or both) and synchronize files efficiently, with asymmetric and symmetric modes, helper tools, and visualization support for file management.
 License: MIT + file LICENSE
 Encoding: UTF-8

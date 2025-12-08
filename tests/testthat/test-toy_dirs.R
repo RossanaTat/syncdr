@@ -21,9 +21,9 @@ test_that("toy_dirs creates .syncdrenv", {
   expect_true(fs::dir_exists(right))
 
   # Check dirs are not empty
-  expect_true(length(dir_ls(left,
+  expect_true(length(fs::dir_ls(left,
                             recurse = TRUE)) > 0)
-  expect_true(length(dir_ls(right,
+  expect_true(length(fs::dir_ls(right,
                             recurse = TRUE)) > 0)
 })
 
@@ -55,17 +55,17 @@ test_that("copy original env works", {
   original_left <- original_env$left
   original_right <- original_env$right
 
-  original_files_left <- dir_ls(original_left,
+  original_files_left <- fs::dir_ls(original_left,
                                 recurse = TRUE)
-  copied_files_left  <- dir_ls(temp_left,
+  copied_files_left  <- fs::dir_ls(temp_left,
                                recurse = TRUE)
 
   expect_equal(basename(original_files_left),
                basename(copied_files_left))
 
-  original_files_right <- dir_ls(original_right,
+  original_files_right <- fs::dir_ls(original_right,
                                  recurse = TRUE)
-  copied_files_right <- dir_ls(temp_right,
+  copied_files_right <- fs::dir_ls(temp_right,
                                recurse = TRUE)
   expect_equal(basename(original_files_right),
                basename(copied_files_right))

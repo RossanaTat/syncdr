@@ -6,7 +6,7 @@
 \alias{syncdr-package}
 \title{syncdr: Tool for Facilitating Directory Comparison and Updating}
 \description{
-An R package for directory comparison and updates. It provides tools to facilitate file handling, comparison and synchronization of directories.
+Compare directories flexibly (by date, content, or both) and synchronize files efficiently, with asymmetric and symmetric modes, helper tools, and visualization support for file management.
 }
 \seealso{
 Useful links:
