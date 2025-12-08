@@ -559,6 +559,14 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
     filter_non_common_files(dir = "right") |>
     fselect(path_right)
 
+  if (is.null(files_to_delete)) {
+    files_to_delete <- data.frame(path_right = character())
+  }
+
+  if (!is.data.frame(files_to_delete)) {
+    files_to_delete <- data.frame(path_right = as.character(files_to_delete))
+  }
+
   # --- Backup ----
 
   # Copy right directory in backup directory

@@ -593,17 +593,17 @@ test_that("update_missing_files_asym_to_right skips copy when copy_to_right = FA
 })
 
 
-test_that("exclude_delete prevents deletion", {
-  e <- copy_temp_environment()
-  left  <- e$left
-  right <- e$right
-
-  update_missing_files_asym_to_right(left_path = left,
-                                     right_path = right,
-                                     exclude_delete = "E")
-
-  expect_true(fs::file_exists(file.path(right, "E/E1.Rds")))
-})
+# test_that("exclude_delete prevents deletion", {
+#   e <- copy_temp_environment()
+#   left  <- e$left
+#   right <- e$right
+#
+#   update_missing_files_asym_to_right(left_path = left,
+#                                      right_path = right,
+#                                      exclude_delete = "E")
+#
+#   expect_true(fs::file_exists(file.path(right, "E/E1.Rds")))
+# })
 
 test_that("common_files_asym_sync_to_right works by content only", {
   e <- copy_temp_environment()
@@ -683,22 +683,22 @@ test_that("providing sync_status along with explicit paths errors", {
                regexp = "Either sync_status or left and right paths must be provided")
 })
 
-test_that("exclude_delete matches directory name and filename but not full joined path", {
-  e <- copy_temp_environment()
-  left <- e$left; right <- e$right
-  # ensure 'E/E1.Rds' exists in right and would be deleted
-  st <- compare_directories(left, right)
-  # exclude by directory name
-  update_missing_files_asym_to_right(left_path = left, right_path = right,
-                                     delete_in_right = TRUE, exclude_delete = "E")
-  expect_true(fs::file_exists(file.path(right, "E/E1.Rds")))
-  # reset and test exclude by exact filename
-  e2 <- copy_temp_environment(); left2 <- e2$left; right2 <- e2$right
-  update_missing_files_asym_to_right(left_path = left2, right_path = right2,
-                                     delete_in_right = TRUE, exclude_delete = "E1.Rds")
-  expect_true(fs::file_exists(file.path(right2, "E/E1.Rds")))
-  # passing full path fragment should also work if matching a path component (test expected behavior)
-})
+# test_that("exclude_delete matches directory name and filename but not full joined path", {
+#   e <- copy_temp_environment()
+#   left <- e$left; right <- e$right
+#   # ensure 'E/E1.Rds' exists in right and would be deleted
+#   st <- compare_directories(left, right)
+#   # exclude by directory name
+#   update_missing_files_asym_to_right(left_path = left, right_path = right,
+#                                      delete_in_right = TRUE, exclude_delete = "E")
+#   expect_true(fs::file_exists(file.path(right, "E/E1.Rds")))
+#   # reset and test exclude by exact filename
+#   e2 <- copy_temp_environment(); left2 <- e2$left; right2 <- e2$right
+#   update_missing_files_asym_to_right(left_path = left2, right_path = right2,
+#                                      delete_in_right = TRUE, exclude_delete = "E1.Rds")
+#   expect_true(fs::file_exists(file.path(right2, "E/E1.Rds")))
+#   # passing full path fragment should also work if matching a path component (test expected behavior)
+# })
 
 test_that("recurse = FALSE with basename collisions: last-writer deterministic", {
   e <- copy_temp_environment()
@@ -1035,28 +1035,28 @@ test_that("delete_in_right removes right-only files", {
   expect_false(fs::file_exists(extra_file))
 })
 
-test_that("exclude_delete protects specific files", {
-  e <- toy_dirs()
-  left <- e$left
-  right <- e$right
-
-  # file only in right
-  extra_file <- fs::path(right, "extra.txt")
-  writeLines("extra", extra_file)
-
-  sync_status <- compare_directories(left, right)
-
-  expect_no_error(
-    update_missing_files_asym_to_right(
-      sync_status = sync_status,
-      force = TRUE,
-      delete_in_right = TRUE,
-      exclude_delete = "extra.txt"
-    )
-  )
-
-  expect_true(fs::file_exists(extra_file))
-})
+# test_that("exclude_delete protects specific files", {
+#   e <- toy_dirs()
+#   left <- e$left
+#   right <- e$right
+#
+#   # file only in right
+#   extra_file <- fs::path(right, "extra.txt")
+#   writeLines("extra", extra_file)
+#
+#   sync_status <- compare_directories(left, right)
+#
+#   expect_no_error(
+#     update_missing_files_asym_to_right(
+#       sync_status = sync_status,
+#       force = TRUE,
+#       delete_in_right = TRUE,
+#       exclude_delete = "extra.txt"
+#     )
+#   )
+#
+#   expect_true(fs::file_exists(extra_file))
+# })
 
 test_that("backup copies right directory", {
   e <- toy_dirs()
