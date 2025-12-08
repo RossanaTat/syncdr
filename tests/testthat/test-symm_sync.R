@@ -208,7 +208,7 @@ test_that("full_symmetric_sync works with empty directories", {
   dir.create(left)
   dir.create(right)
   full_symmetric_sync(left_path = left, right_path = right) |>
-  expect_error()
+  expect_no_error()
 })
 
 test_that("full_symmetric_sync aborts for by_content only", {

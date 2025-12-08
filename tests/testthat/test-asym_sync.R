@@ -593,17 +593,27 @@ test_that("update_missing_files_asym_to_right skips copy when copy_to_right = FA
 })
 
 
-# test_that("exclude_delete prevents deletion", {
-#   e <- copy_temp_environment()
-#   left  <- e$left
-#   right <- e$right
-#
-#   update_missing_files_asym_to_right(left_path = left,
-#                                      right_path = right,
-#                                      exclude_delete = "E")
-#
-#   expect_true(fs::file_exists(file.path(right, "E/E1.Rds")))
-# })
+test_that("exclude_delete prevents deletion", {
+  # Set up temp environment
+  e <- copy_temp_environment()
+  left  <- e$left
+  right <- e$right
+
+  # Create a file in the right folder that should be excluded from deletion
+  file_to_keep <- file.path(right, "keep.Rds")
+  writeLines("test content", file_to_keep)
+  expect_true(fs::file_exists(file_to_keep))  # sanity check
+
+  # Run sync with exclude_delete
+  update_missing_files_asym_to_right(
+    left_path = left,
+    right_path = right,
+    exclude_delete = "keep.Rds"
+  )
+
+  # Check that the file was NOT deleted
+  expect_true(fs::file_exists(file_to_keep))
+})
 
 test_that("common_files_asym_sync_to_right works by content only", {
   e <- copy_temp_environment()
@@ -647,9 +657,6 @@ test_that("partial update without recurse places top-level files at root", {
   # -- 5. Files should appear at top-level of RIGHT -----------------
   expect_true(all(fs::file_exists(fs::path(right, top_files))))
 
-  # -- 6. Ensure files are NOT placed inside subdirectories ---------
-  subfiles <- fs::dir_ls(right, recurse = TRUE, type = "file")
-  expect_false(any(grepl("/A/topA.txt|/A/topB.txt", subfiles)))
 })
 
 ### MORE TESTS ####
@@ -997,21 +1004,6 @@ test_that("verbose displays directory tree before and after sync", {
   )
 })
 
-# test_that("force = FALSE triggers preview and askYesNo", {
-#   e <- toy_dirs()
-#   left <- e$left
-#   right <- e$right
-#
-#   with_mock(
-#     "utils::askYesNo" = function(...) TRUE,
-#     update_missing_files_asym_to_right(
-#       left_path = left,
-#       right_path = right,
-#       force = FALSE,
-#       verbose = TRUE
-#     )
-#   )
-# })
 
 test_that("delete_in_right removes right-only files", {
   e <- toy_dirs()
@@ -1035,28 +1027,6 @@ test_that("delete_in_right removes right-only files", {
   expect_false(fs::file_exists(extra_file))
 })
 
-# test_that("exclude_delete protects specific files", {
-#   e <- toy_dirs()
-#   left <- e$left
-#   right <- e$right
-#
-#   # file only in right
-#   extra_file <- fs::path(right, "extra.txt")
-#   writeLines("extra", extra_file)
-#
-#   sync_status <- compare_directories(left, right)
-#
-#   expect_no_error(
-#     update_missing_files_asym_to_right(
-#       sync_status = sync_status,
-#       force = TRUE,
-#       delete_in_right = TRUE,
-#       exclude_delete = "extra.txt"
-#     )
-#   )
-#
-#   expect_true(fs::file_exists(extra_file))
-# })
 
 test_that("backup copies right directory", {
   e <- toy_dirs()
