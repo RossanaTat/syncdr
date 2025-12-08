@@ -1,5 +1,4 @@
 # Test print method for syncdr_status ####
-library(syncdr)
 toy_dirs()
 
 # Copy temp env

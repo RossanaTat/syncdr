@@ -1,6 +1,4 @@
 library(testthat)
-library(syncdr)
-
 test_that("display_sync_status returns a DT datatable", {
   skip_on_cran()
 
