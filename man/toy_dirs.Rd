@@ -4,10 +4,13 @@
 \alias{toy_dirs}
 \title{Create toy directories to test syncdr functions}
 \usage{
-toy_dirs(verbose = FALSE)
+toy_dirs(verbose = FALSE, fast = TRUE)
 }
 \arguments{
 \item{verbose}{logical: display information. Default is FALSE}
+
+\item{fast}{logical: if TRUE (default), create a minimal set of files quickly;
+if FALSE, run full implementation with multiple files and timestamps.}
 }
 \value{
 syncdr environment with toy directory paths, i.e., left and right paths

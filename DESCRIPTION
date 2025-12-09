@@ -42,10 +42,9 @@ Imports:
     knitr,
     utils,
     rstudioapi
-Remotes: 
-    github::randrescastaneda/joyn@DEV
 Suggests: 
     fst,
+    withr,
     rmarkdown,
     mockery,
     testthat (>= 3.0.0)

@@ -7,6 +7,9 @@
 #' files with the same name but different time stamp.
 #'
 #' @param verbose logical: display information. Default is FALSE
+#' @param fast logical: if TRUE (default), create a minimal set of files quickly;
+#'   if FALSE, run full implementation with multiple files and timestamps.
+#'
 #'
 #' @return syncdr environment with toy directory paths, i.e., left and right paths
 #' @export
@@ -16,7 +19,30 @@
 #' \donttest{
 #' toy_dirs(verbose = TRUE)
 #' }
-toy_dirs <- function(verbose = FALSE) {
+toy_dirs <- function(verbose = FALSE, fast = TRUE) {
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Fast mode for examples / CRAN ----------------------
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (fast) {
+    left  <- fs::path_temp("left")
+    right <- fs::path_temp("right")
+
+    # minimal files to illustrate usage
+    fs::dir_create(left)
+    fs::dir_create(right)
+    fs::file_create(fs::path(left, "A1.Rds"))
+    fs::file_create(fs::path(right, "B1.Rds"))
+
+    if (verbose) {
+      fs::dir_tree(left)
+      fs::dir_tree(right)
+    }
+
+    assign("left", left, envir = .syncdrenv)
+    assign("right", right, envir = .syncdrenv)
+    return(invisible(.syncdrenv))
+  }
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # create temp dirs   ---------
