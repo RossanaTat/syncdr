@@ -68,19 +68,24 @@ update non common files in right directory based on left one -i.e., the function
 }
 }
 \examples{
-# Compare directories with 'compare_directories()'
+# Create a temporary synchronization environment
 e <- toy_dirs()
-
-# Get left and right directories' paths
 left  <- e$left
 right <- e$right
 
-# Option 1
-update_missing_files_asym_to_right(left_path  = left,
-                                   right_path = right)
-# Option 2
-sync_status = compare_directories(left,
-                                  right)
+\donttest{
+# Update missing files asymmetrically (left → right)
+# Option 1: provide left and right paths
+update_missing_files_asym_to_right(
+  left_path  = left,
+  right_path = right
+)
 
+# Option 2: provide a precomputed sync_status object
+sync_status <- compare_directories(
+  left_path  = left,
+  right_path = right
+)
 update_missing_files_asym_to_right(sync_status = sync_status)
+}
 }

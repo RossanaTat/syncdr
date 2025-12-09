@@ -67,22 +67,22 @@ based on the left directory. It includes the following synchronization steps (se
 }
 }
 \examples{
-# Create syncdr environment with toy directories
-library(syncdr)
+# Create a temporary synchronization environment
 e <- toy_dirs()
-
-# Get left and right directories' paths
 left  <- e$left
 right <- e$right
 
-# Synchronize by date & content
-# Providing left and right paths to directories, as well as by_date and content
-full_asym_sync_to_right(left_path  = left,
-                        right_path = right,
-                        by_date    = FALSE,
-                        by_content = TRUE)
-# Providing sync_status object
-#sync_status = compare_directories(left_path = left,
-#                                   right_path = right)
-#full_asym_sync_to_right(sync_status = sync_status)
+\donttest{
+# Full asymmetric synchronization (left → right) by content
+full_asym_sync_to_right(
+  left_path  = left,
+  right_path = right,
+  by_date    = FALSE,
+  by_content = TRUE
+)
+
+# Optionally, using a precomputed sync_status object
+# sync_status <- compare_directories(left_path = left, right_path = right)
+# full_asym_sync_to_right(sync_status = sync_status)
+}
 }

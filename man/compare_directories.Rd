@@ -58,15 +58,19 @@ For Non-Common Files:
 }
 
 \examples{
-# Compare directories with 'compare_directories()'
+# Minimal example: fast comparison
 e <- toy_dirs()
-
-# Get left and right directories' paths
 left  <- e$left
 right <- e$right
+
+# Default comparison (by date)
 compare_directories(left, right)
+
+\donttest{
 # Compare by date and content
 compare_directories(left, right, by_content = TRUE)
+
 # Compare by content only
 compare_directories(left, right, by_content = TRUE, by_date = FALSE)
+}
 }

@@ -31,24 +31,24 @@
 #'
 #' @export
 #' @examples
-#' # Create syncdr environment with toy directories
-#' library(syncdr)
+#' # Create a temporary synchronization environment
 #' e <- toy_dirs()
-#'
-#' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
 #'
-#' # Synchronize by date & content
-#' # Providing left and right paths to directories, as well as by_date and content
-#' full_asym_sync_to_right(left_path  = left,
-#'                         right_path = right,
-#'                         by_date    = FALSE,
-#'                         by_content = TRUE)
-#' # Providing sync_status object
-#' #sync_status = compare_directories(left_path = left,
-#' #                                   right_path = right)
-#' #full_asym_sync_to_right(sync_status = sync_status)
+#' \donttest{
+#' # Full asymmetric synchronization (left → right) by content
+#' full_asym_sync_to_right(
+#'   left_path  = left,
+#'   right_path = right,
+#'   by_date    = FALSE,
+#'   by_content = TRUE
+#' )
+#'
+#' # Optionally, using a precomputed sync_status object
+#' # sync_status <- compare_directories(left_path = left, right_path = right)
+#' # full_asym_sync_to_right(sync_status = sync_status)
+#' }
 full_asym_sync_to_right <- function(left_path       = NULL,
                                     right_path      = NULL,
                                     sync_status     = NULL,
@@ -278,20 +278,20 @@ full_asym_sync_to_right <- function(left_path       = NULL,
 #' @return Invisible TRUE indicating successful synchronization.
 #' @export
 #' @examples
-#' # Compare directories with 'compare_directories()'
+#' # Asymmetric synchronization of common files
 #' e <- toy_dirs()
-#'
-#' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
 #'
-#' # Example: Synchronize by content only
-#' # Option 1
-#' common_files_asym_sync_to_right(left_path  = left,
-#'                                 right_path = right,
-#'                                 by_date    = FALSE,
-#'                                 by_content = TRUE)
-#'
+#' \donttest{
+#' # Synchronize common files by content only
+#' common_files_asym_sync_to_right(
+#'   left_path  = left,
+#'   right_path = right,
+#'   by_date    = FALSE,
+#'   by_content = TRUE
+#' )
+#' }
 common_files_asym_sync_to_right <- function(left_path   = NULL,
                                             right_path  = NULL,
                                             sync_status = NULL,
@@ -474,21 +474,26 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 #' @return Invisible TRUE indicating successful synchronization.
 #' @export
 #' @examples
-#' # Compare directories with 'compare_directories()'
+#' # Create a temporary synchronization environment
 #' e <- toy_dirs()
-#'
-#' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
 #'
-#' # Option 1
-#' update_missing_files_asym_to_right(left_path  = left,
-#'                                    right_path = right)
-#' # Option 2
-#' sync_status = compare_directories(left,
-#'                                   right)
+#' \donttest{
+#' # Update missing files asymmetrically (left → right)
+#' # Option 1: provide left and right paths
+#' update_missing_files_asym_to_right(
+#'   left_path  = left,
+#'   right_path = right
+#' )
 #'
+#' # Option 2: provide a precomputed sync_status object
+#' sync_status <- compare_directories(
+#'   left_path  = left,
+#'   right_path = right
+#' )
 #' update_missing_files_asym_to_right(sync_status = sync_status)
+#' }
 update_missing_files_asym_to_right <- function(left_path   = NULL,
                                                right_path  = NULL,
                                                sync_status = NULL,
@@ -738,21 +743,26 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 #' @return Invisible TRUE indicating successful synchronization.
 #' @export
 #' @examples
-#' # Compare directories with 'compare_directories()'
+#' # Create a temporary synchronization environment
 #' e <- toy_dirs()
-#'
-#' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
 #'
-#' # Option 1
-#' partial_update_missing_files_asym_to_right(left_path  = left,
-#'                                            right_path = right)
-#' # Option 2
-#' sync_status = compare_directories(left,
-#'                                   right)
-#' partial_update_missing_files_asym_to_right(sync_status = sync_status)
+#' \donttest{
+#' # Partially update missing files asymmetrically (left → right)
+#' # Option 1: provide left and right paths
+#' partial_update_missing_files_asym_to_right(
+#'   left_path  = left,
+#'   right_path = right
+#' )
 #'
+#' # Option 2: provide a precomputed sync_status object
+#' sync_status <- compare_directories(
+#'   left_path  = left,
+#'   right_path = right
+#' )
+#' partial_update_missing_files_asym_to_right(sync_status = sync_status)
+#' }
 partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
                                                        right_path  = NULL,
                                                        sync_status = NULL,

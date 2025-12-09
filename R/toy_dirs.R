@@ -12,8 +12,10 @@
 #' @export
 #'
 #' @examples
-#'
+#' # Create toy directories for testing / examples
+#' \donttest{
 #' toy_dirs(verbose = TRUE)
+#' }
 toy_dirs <- function(verbose = FALSE) {
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

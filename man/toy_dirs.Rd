@@ -21,6 +21,8 @@ This function is a little slow because it must use \code{\link[=Sys.sleep]{Sys.s
 files with the same name but different time stamp.
 }
 \examples{
-
+# Create toy directories for testing / examples
+\donttest{
 toy_dirs(verbose = TRUE)
+}
 }

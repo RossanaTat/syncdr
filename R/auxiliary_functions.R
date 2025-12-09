@@ -299,10 +299,12 @@ hash_files_in_dir <- function(dir_path) {
 #'
 #' @export
 #' @examples
-#' library(syncdr)
-#' e = toy_dirs()
-#' search_duplicates(dir_path = e$left)
+#' # Search for duplicate files in a directory
+#' e <- toy_dirs()
 #'
+#' \donttest{
+#' search_duplicates(dir_path = e$left)
+#' }
 search_duplicates <- function(dir_path,
                               verbose = TRUE) {
 

@@ -62,18 +62,18 @@ Partially synchronize right directory based on left one -i.e., the function will
 }
 }
 \examples{
-# Compare directories with 'compare_directories()'
+# Asymmetric synchronization of common files
 e <- toy_dirs()
-
-# Get left and right directories' paths
 left  <- e$left
 right <- e$right
 
-# Example: Synchronize by content only
-# Option 1
-common_files_asym_sync_to_right(left_path  = left,
-                                right_path = right,
-                                by_date    = FALSE,
-                                by_content = TRUE)
-
+\donttest{
+# Synchronize common files by content only
+common_files_asym_sync_to_right(
+  left_path  = left,
+  right_path = right,
+  by_date    = FALSE,
+  by_content = TRUE
+)
+}
 }

@@ -27,23 +27,28 @@
 #' @return Invisible TRUE indicating successful synchronization.
 #' @export
 #' @examples
-#' # Create syncdr environment with toy directories
+#' # Create a temporary synchronization environment
 #' e <- toy_dirs()
-#'
-#' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
 #'
-#' # Synchronize directories, e.g., by date and content
-#' # Option 1 - providing left and right paths
-#' full_symmetric_sync(left_path  = left,
-#'                     right_path = right,
-#'                     by_date    = TRUE,
-#'                     by_content = TRUE)
-#' # Option 2 - Providing sync_status object
-#' sync_status = compare_directories(left_path  = left,
-#'                                   right_path = right)
+#' \donttest{
+#' # Symmetric synchronization by date and content
+#' # Option 1: provide left and right paths
+#' full_symmetric_sync(
+#'   left_path  = left,
+#'   right_path = right,
+#'   by_date    = TRUE,
+#'   by_content = TRUE
+#' )
+#'
+#' # Option 2: provide a precomputed sync_status object
+#' sync_status <- compare_directories(
+#'   left_path  = left,
+#'   right_path = right
+#' )
 #' full_symmetric_sync(sync_status = sync_status)
+#' }
 full_symmetric_sync <- function(left_path   = NULL,
                                 right_path  = NULL,
                                 sync_status = NULL,
@@ -283,22 +288,27 @@ full_symmetric_sync <- function(left_path   = NULL,
 #' @return Invisible TRUE indicating successful synchronization.
 #' @export
 #' @examples
-#' # Create syncdr environment with toy directories
+#' # Create a temporary synchronization environment
 #' e <- toy_dirs()
-#'
-#' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
 #'
-#' # Synchronize directories, e.g., by date
-#' # Option 1 - providing left and right paths
-#' full_symmetric_sync(left_path  = left,
-#'                     right_path = right,
-#'                     by_date    = TRUE)
-#' # Option 2 - Providing sync_status object
-#' sync_status = compare_directories(left_path  = left,
-#'                                   right_path = right)
-#' full_symmetric_sync(sync_status = sync_status)
+#' \donttest{
+#' # Partial symmetric synchronization of common files
+#' # Option 1: provide left and right paths
+#' partial_symmetric_sync_common_files(
+#'   left_path  = left,
+#'   right_path = right,
+#'   by_date    = TRUE
+#' )
+#'
+#' # Option 2: provide a precomputed sync_status object
+#' sync_status <- compare_directories(
+#'   left_path  = left,
+#'   right_path = right
+#' )
+#' partial_symmetric_sync_common_files(sync_status = sync_status)
+#' }
 partial_symmetric_sync_common_files <- function(left_path = NULL,
                                                right_path  = NULL,
                                                sync_status = NULL,

@@ -23,5 +23,10 @@ Authors:
   \item Rossana Tatulli \email{rtatulli@worldbank.org}
 }
 
+Other contributors:
+\itemize{
+  \item Global Poverty and Inequality Data Team World Bank [copyright holder]
+}
+
 }
 \keyword{internal}
