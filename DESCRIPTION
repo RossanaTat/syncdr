@@ -50,4 +50,5 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-URL: https://rossanatat.github.io/syncdr/
+URL: https://rossanatat.github.io/syncdr/, https://github.com/RossanaTat/syncdr
+BugReports: https://github.com/RossanaTat/syncdr/issues
