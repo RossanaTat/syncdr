@@ -32,7 +32,7 @@
 #' @export
 #' @examples
 #' # Create a temporary synchronization environment
-#' e <- toy_dirs()
+#' e <- toy_dirs(fast = TRUE)
 #' left  <- e$left
 #' right <- e$right
 #'

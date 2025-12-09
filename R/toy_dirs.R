@@ -19,7 +19,7 @@
 #' \donttest{
 #' toy_dirs(verbose = TRUE)
 #' }
-toy_dirs <- function(verbose = FALSE, fast = TRUE) {
+toy_dirs <- function(verbose = FALSE, fast = FALSE) {
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Fast mode for examples / CRAN ----------------------
