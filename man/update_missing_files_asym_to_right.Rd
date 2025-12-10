@@ -69,11 +69,11 @@ update non common files in right directory based on left one -i.e., the function
 }
 \examples{
 # Create a temporary synchronization environment
+\donttest{
 e <- toy_dirs()
 left  <- e$left
 right <- e$right
 
-\donttest{
 # Update missing files asymmetrically (left → right)
 # Option 1: provide left and right paths
 update_missing_files_asym_to_right(

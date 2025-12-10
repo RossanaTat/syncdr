@@ -63,11 +63,11 @@ Partially synchronize right directory based on left one -i.e., the function will
 }
 \examples{
 # Asymmetric synchronization of common files
+
+\donttest{
 e <- toy_dirs()
 left  <- e$left
 right <- e$right
-
-\donttest{
 # Synchronize common files by content only
 common_files_asym_sync_to_right(
   left_path  = left,

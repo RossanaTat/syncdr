@@ -4,7 +4,7 @@
 \alias{toy_dirs}
 \title{Create toy directories to test syncdr functions}
 \usage{
-toy_dirs(verbose = FALSE, fast = TRUE)
+toy_dirs(verbose = FALSE, fast = FALSE)
 }
 \arguments{
 \item{verbose}{logical: display information. Default is FALSE}

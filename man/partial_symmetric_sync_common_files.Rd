@@ -65,11 +65,12 @@ it will be copied over to update the older version. If modification dates/conten
 }
 \examples{
 # Create a temporary synchronization environment
+
+\donttest{
 e <- toy_dirs()
 left  <- e$left
 right <- e$right
 
-\donttest{
 # Partial symmetric synchronization of common files
 # Option 1: provide left and right paths
 partial_symmetric_sync_common_files(

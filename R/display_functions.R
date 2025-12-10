@@ -61,11 +61,12 @@ display_sync_status <- function(sync_status_files,
 #' @export
 #' @examples
 #' # Create a temporary directory structure
+#'
+#' \donttest{
 #' e <- toy_dirs()
 #' left  <- e$left
 #' right <- e$right
 #'
-#' \donttest{
 #' # Display directory trees for both directories
 #' display_dir_tree(
 #'   path_left  = left,

@@ -279,11 +279,11 @@ full_asym_sync_to_right <- function(left_path       = NULL,
 #' @export
 #' @examples
 #' # Asymmetric synchronization of common files
+#'
+#' \donttest{
 #' e <- toy_dirs()
 #' left  <- e$left
 #' right <- e$right
-#'
-#' \donttest{
 #' # Synchronize common files by content only
 #' common_files_asym_sync_to_right(
 #'   left_path  = left,
@@ -475,11 +475,11 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 #' @export
 #' @examples
 #' # Create a temporary synchronization environment
+#' \donttest{
 #' e <- toy_dirs()
 #' left  <- e$left
 #' right <- e$right
 #'
-#' \donttest{
 #' # Update missing files asymmetrically (left → right)
 #' # Option 1: provide left and right paths
 #' update_missing_files_asym_to_right(
@@ -744,11 +744,11 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 #' @export
 #' @examples
 #' # Create a temporary synchronization environment
+#' \donttest{
 #' e <- toy_dirs()
 #' left  <- e$left
 #' right <- e$right
 #'
-#' \donttest{
 #' # Partially update missing files asymmetrically (left → right)
 #' # Option 1: provide left and right paths
 #' partial_update_missing_files_asym_to_right(

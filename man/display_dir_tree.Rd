@@ -21,11 +21,12 @@ Display tree structure of one (or two) directory
 }
 \examples{
 # Create a temporary directory structure
+
+\donttest{
 e <- toy_dirs()
 left  <- e$left
 right <- e$right
 
-\donttest{
 # Display directory trees for both directories
 display_dir_tree(
   path_left  = left,

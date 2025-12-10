@@ -12,6 +12,8 @@ Compare directories flexibly (by date, content, or both) and synchronize files e
 Useful links:
 \itemize{
   \item \url{https://rossanatat.github.io/syncdr/}
+  \item \url{https://github.com/RossanaTat/syncdr}
+  \item Report bugs at \url{https://github.com/RossanaTat/syncdr/issues}
 }
 
 }

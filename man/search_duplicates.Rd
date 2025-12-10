@@ -21,9 +21,9 @@ or different filenames but same content.
 }
 \examples{
 # Search for duplicate files in a directory
-e <- toy_dirs()
 
 \donttest{
+e <- toy_dirs()
 search_duplicates(dir_path = e$left)
 }
 }

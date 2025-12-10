@@ -69,6 +69,9 @@ left  <- e$left
 right <- e$right
 
 \donttest{
+e <- toy_dirs()
+left  <- e$left
+right <- e$right
 # Symmetric synchronization by date and content
 # Option 1: provide left and right paths
 full_symmetric_sync(

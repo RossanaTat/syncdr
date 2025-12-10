@@ -300,9 +300,9 @@ hash_files_in_dir <- function(dir_path) {
 #' @export
 #' @examples
 #' # Search for duplicate files in a directory
-#' e <- toy_dirs()
 #'
 #' \donttest{
+#' e <- toy_dirs()
 #' search_duplicates(dir_path = e$left)
 #' }
 search_duplicates <- function(dir_path,
