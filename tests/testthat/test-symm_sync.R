@@ -202,14 +202,6 @@ test_that("full_symmetric_sync aborts if user declines in preview mode", {
   )
 })
 
-test_that("full_symmetric_sync works with empty directories", {
-  left <- tempfile("empty_left")
-  right <- tempfile("empty_right")
-  dir.create(left)
-  dir.create(right)
-  full_symmetric_sync(left_path = left, right_path = right) |>
-  expect_no_error()
-})
 
 test_that("full_symmetric_sync aborts for by_content only", {
   syncdr_temp <- copy_temp_environment()

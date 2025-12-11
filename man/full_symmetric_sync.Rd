@@ -64,9 +64,6 @@ it will be copied over to update the older version. If modification dates/conten
 }
 \examples{
 # Create a temporary synchronization environment
-e <- toy_dirs()
-left  <- e$left
-right <- e$right
 
 \donttest{
 e <- toy_dirs()

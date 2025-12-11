@@ -18,11 +18,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: R.Andres Castaneda \email{acastanedaa@worldbank.org}
+\strong{Maintainer}: Rossana Tatulli \email{rtatulli@worldbank.org}
 
 Authors:
 \itemize{
-  \item Rossana Tatulli \email{rtatulli@worldbank.org}
+  \item R.Andres Castaneda \email{acastanedaa@worldbank.org}
 }
 
 Other contributors:

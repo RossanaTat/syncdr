@@ -5,7 +5,6 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/RossanaTat/syncdr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RossanaTat/syncdr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/RossanaTat/syncdr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RossanaTat/syncdr)
 [![Lifecycle:
@@ -60,7 +59,7 @@ devtools::install_github("RossanaTat/syncdr")
 #> tinytex    (0.54         -> 0.58        ) [CRAN]
 #> bslib      (0.8.0        -> 0.9.0       ) [CRAN]
 #> evaluate   (1.0.3        -> 1.0.5       ) [CRAN]
-#> yaml       (2.3.10       -> 2.3.11      ) [CRAN]
+#> yaml       (2.3.10       -> 2.3.12      ) [CRAN]
 #> rmarkdown  (2.29         -> 2.30        ) [CRAN]
 #> knitr      (1.49         -> 1.50        ) [CRAN]
 #> collapse   (569a4a513... -> 69ce87bc4...) [GitHub]
@@ -69,7 +68,7 @@ devtools::install_github("RossanaTat/syncdr")
 #> crosstalk  (1.2.1        -> 1.2.2       ) [CRAN]
 #> DT         (0.33         -> 0.34.0      ) [CRAN]
 #> Installing 23 packages: xfun, rlang, cli, Rcpp, magrittr, later, fastmap, digest, htmltools, fs, sass, mime, cachem, tinytex, bslib, evaluate, yaml, rmarkdown, knitr, data.table, promises, crosstalk, DT
-#> Installing packages into 'C:/Users/wb621604/AppData/Local/Temp/Rtmp4KyjGx/temp_libpath50685a203830'
+#> Installing packages into 'C:/Users/wb621604/AppData/Local/Temp/RtmpWaTr9Q/temp_libpath27ec7ad3308a'
 #> (as 'lib' is unspecified)
 #> 
 #>   There are binary versions available but the source versions are later:
@@ -86,7 +85,7 @@ devtools::install_github("RossanaTat/syncdr")
 #> sass         0.4.9 0.4.10              TRUE
 #> tinytex       0.56   0.58             FALSE
 #> evaluate     1.0.3  1.0.5             FALSE
-#> yaml        2.3.10 2.3.11              TRUE
+#> yaml        2.3.10 2.3.12              TRUE
 #> rmarkdown     2.29   2.30             FALSE
 #> data.table  1.17.0 1.17.8              TRUE
 #> promises     1.3.2  1.5.0              TRUE
@@ -100,49 +99,49 @@ devtools::install_github("RossanaTat/syncdr")
 #> package 'knitr' successfully unpacked and MD5 sums checked
 #> 
 #> The downloaded binary packages are in
-#>  C:\Users\wb621604\AppData\Local\Temp\RtmpWWVqEE\downloaded_packages
+#>  C:\Users\wb621604\AppData\Local\Temp\Rtmp6vU5MR\downloaded_packages
 #> installing the source packages 'xfun', 'rlang', 'cli', 'Rcpp', 'magrittr', 'later', 'digest', 'htmltools', 'fs', 'sass', 'tinytex', 'evaluate', 'yaml', 'rmarkdown', 'data.table', 'promises', 'crosstalk', 'DT'
 #> Downloading GitHub repo randrescastaneda/joyn@DEV
 #> collapse (569a4a513... -> 69ce87bc4...) [GitHub]
 #> Downloading GitHub repo SebKrantz/collapse@HEAD
 #> 
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
-#>          checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpWWVqEE\remotes5c6c123f44b7\fastverse-collapse-69ce87b/DESCRIPTION' ...     checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpWWVqEE\remotes5c6c123f44b7\fastverse-collapse-69ce87b/DESCRIPTION' ...   ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpWWVqEE\remotes5c6c123f44b7\fastverse-collapse-69ce87b/DESCRIPTION' (1.1s)
-#>       ─  preparing 'collapse': (24.1s)
+#>          checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp6vU5MR\remotes458068ea27ec\fastverse-collapse-69ce87b/DESCRIPTION' ...     checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp6vU5MR\remotes458068ea27ec\fastverse-collapse-69ce87b/DESCRIPTION' ...   ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp6vU5MR\remotes458068ea27ec\fastverse-collapse-69ce87b/DESCRIPTION' (660ms)
+#>       ─  preparing 'collapse': (19.8s)
 #>    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
 #> ─  cleaning src
-#>       ─  checking for LF line-endings in source and make files and shell scripts (1.5s)
-#>       ─  checking for empty or unneeded directories (502ms)
+#>       ─  checking for LF line-endings in source and make files and shell scripts (974ms)
+#>       ─  checking for empty or unneeded directories
 #>       ─  building 'collapse_2.1.5.9000.tar.gz'
 #>      
 #> 
-#> Installing package into 'C:/Users/wb621604/AppData/Local/Temp/Rtmp4KyjGx/temp_libpath50685a203830'
+#> Installing package into 'C:/Users/wb621604/AppData/Local/Temp/RtmpWaTr9Q/temp_libpath27ec7ad3308a'
 #> (as 'lib' is unspecified)
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
-#>          checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpWWVqEE\remotes5c6c60e1138e\randrescastaneda-joyn-e2dfd68/DESCRIPTION' ...     checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpWWVqEE\remotes5c6c60e1138e\randrescastaneda-joyn-e2dfd68/DESCRIPTION' ...   ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpWWVqEE\remotes5c6c60e1138e\randrescastaneda-joyn-e2dfd68/DESCRIPTION' (581ms)
+#>          checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp6vU5MR\remotes458027d42e3f\randrescastaneda-joyn-e2dfd68/DESCRIPTION' ...     checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp6vU5MR\remotes458027d42e3f\randrescastaneda-joyn-e2dfd68/DESCRIPTION' ...   ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp6vU5MR\remotes458027d42e3f\randrescastaneda-joyn-e2dfd68/DESCRIPTION' (585ms)
 #>       ─  preparing 'joyn': (9s)
 #>    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
-#>       ─  checking for LF line-endings in source and make files and shell scripts (385ms)
+#>       ─  checking for LF line-endings in source and make files and shell scripts (440ms)
 #>       ─  checking for empty or unneeded directories
 #>   Removed empty directory      Removed empty directory 'joyn/inst/tmp'
 #>       ─  building 'joyn_0.3.0.tar.gz'
 #>      
 #> 
-#> Installing package into 'C:/Users/wb621604/AppData/Local/Temp/Rtmp4KyjGx/temp_libpath50685a203830'
+#> Installing package into 'C:/Users/wb621604/AppData/Local/Temp/RtmpWaTr9Q/temp_libpath27ec7ad3308a'
 #> (as 'lib' is unspecified)
 #> Skipping install of 'collapse' from a github remote, the SHA1 (69ce87bc) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
-#>          checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpWWVqEE\remotes5c6c7053c4e\RossanaTat-syncdr-62ce8df/DESCRIPTION' ...     checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpWWVqEE\remotes5c6c7053c4e\RossanaTat-syncdr-62ce8df/DESCRIPTION' ...   ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\RtmpWWVqEE\remotes5c6c7053c4e\RossanaTat-syncdr-62ce8df/DESCRIPTION' (593ms)
-#>       ─  preparing 'syncdr': (20.7s)
-#>      checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
-#>       ─  checking for LF line-endings in source and make files and shell scripts (1.1s)
+#>          checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp6vU5MR\remotes458038992106\RossanaTat-syncdr-62ce8df/DESCRIPTION' ...     checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp6vU5MR\remotes458038992106\RossanaTat-syncdr-62ce8df/DESCRIPTION' ...   ✔  checking for file 'C:\Users\wb621604\AppData\Local\Temp\Rtmp6vU5MR\remotes458038992106\RossanaTat-syncdr-62ce8df/DESCRIPTION' (748ms)
+#>       ─  preparing 'syncdr': (21.3s)
+#>    checking DESCRIPTION meta-information ...     checking DESCRIPTION meta-information ...   ✔  checking DESCRIPTION meta-information
+#>       ─  checking for LF line-endings in source and make files and shell scripts (606ms)
 #>       ─  checking for empty or unneeded directories
 #>      Omitted 'LazyData' from DESCRIPTION
 #>       ─  building 'syncdr_0.0.2.9001.tar.gz'
 #>      
 #> 
-#> Installing package into 'C:/Users/wb621604/AppData/Local/Temp/Rtmp4KyjGx/temp_libpath50685a203830'
+#> Installing package into 'C:/Users/wb621604/AppData/Local/Temp/RtmpWaTr9Q/temp_libpath27ec7ad3308a'
 #> (as 'lib' is unspecified)
 ```
 
@@ -165,7 +164,7 @@ right      <-  .syncdrenv$right
 display_dir_tree(path_left  = left,
                  path_right = right)
 #> (←)Left directory structure:
-#> C:/Users/wb621604/AppData/Local/Temp/RtmpWWVqEE/left
+#> C:/Users/wb621604/AppData/Local/Temp/Rtmp6vU5MR/left
 #> ├── A
 #> │   ├── A1.Rds
 #> │   ├── A2.Rds
@@ -183,7 +182,7 @@ display_dir_tree(path_left  = left,
 #> │   └── D2.Rds
 #> └── E
 #> (→)Right directory structure:
-#> C:/Users/wb621604/AppData/Local/Temp/RtmpWWVqEE/right
+#> C:/Users/wb621604/AppData/Local/Temp/Rtmp6vU5MR/right
 #> ├── A
 #> ├── B
 #> │   ├── B1.Rds
@@ -207,21 +206,21 @@ compare_directories(left_path   = left,
                     right_path  = right)
 #> 
 #> ── Synchronization Summary ─────────────────────────────────────────────────────
-#> • Left Directory: 'C:/Users/wb621604/AppData/Local/Temp/RtmpWWVqEE/left'
-#> • Right Directory: 'C:/Users/wb621604/AppData/Local/Temp/RtmpWWVqEE/right'
+#> • Left Directory: 'C:/Users/wb621604/AppData/Local/Temp/Rtmp6vU5MR/left'
+#> • Right Directory: 'C:/Users/wb621604/AppData/Local/Temp/Rtmp6vU5MR/right'
 #> • Total Common Files: 7
 #> • Total Non-common Files: 9
 #> • Compare files by: date
 #> 
 #> ── Common files ────────────────────────────────────────────────────────────────
 #>             path modification_time_left modification_time_right  modified
-#> 1 /left/B/B1.Rds    2025-12-09 12:03:15     2025-12-09 12:03:16     right
-#> 2 /left/B/B2.Rds    2025-12-09 12:03:18     2025-12-09 12:03:20     right
-#> 3 /left/C/C1.Rds    2025-12-09 12:03:16     2025-12-09 12:03:16 same date
-#> 4 /left/C/C2.Rds    2025-12-09 12:03:20     2025-12-09 12:03:21     right
-#> 5 /left/C/C3.Rds    2025-12-09 12:03:22     2025-12-09 12:03:23     right
-#> 6 /left/D/D1.Rds    2025-12-09 12:03:18     2025-12-09 12:03:17      left
-#> 7 /left/D/D2.Rds    2025-12-09 12:03:22     2025-12-09 12:03:21      left
+#> 1 /left/B/B1.Rds    2025-12-11 11:00:54     2025-12-11 11:00:55     right
+#> 2 /left/B/B2.Rds    2025-12-11 11:00:57     2025-12-11 11:00:58     right
+#> 3 /left/C/C1.Rds    2025-12-11 11:00:55     2025-12-11 11:00:55 same date
+#> 4 /left/C/C2.Rds    2025-12-11 11:00:58     2025-12-11 11:00:59     right
+#> 5 /left/C/C3.Rds    2025-12-11 11:01:00     2025-12-11 11:01:01     right
+#> 6 /left/D/D1.Rds    2025-12-11 11:00:57     2025-12-11 11:00:56      left
+#> 7 /left/D/D2.Rds    2025-12-11 11:01:00     2025-12-11 11:00:59      left
 #> 
 #> ── Non-common files ────────────────────────────────────────────────────────────
 #> 
