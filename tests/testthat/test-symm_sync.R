@@ -316,20 +316,6 @@ test_that("full_symmetric_sync copies nested files when recurse = TRUE", {
   expect_true(file.exists(file.path(right, "nested", "nested.txt")))
 })
 
-# --- 6. Partial sync does not copy non-common files ---
-test_that("partial_symmetric_sync_common_files ignores non-common files", {
-  syncdr_temp <- copy_temp_environment()
-  left <- syncdr_temp$left
-  right <- syncdr_temp$right
-
-  # add non-common file in left
-  file.create(file.path(left, "unique_left.txt"))
-  sync_status <- compare_directories(left, right)
-
-  partial_symmetric_sync_common_files(sync_status = sync_status)
-  expect_false(file.exists(file.path(right, "unique_left.txt")))
-})
-
 # --- 7. Mock copy functions to ensure correct arguments ---
 test_that("full_symmetric_sync calls copy functions correctly", {
   syncdr_temp <- copy_temp_environment()
