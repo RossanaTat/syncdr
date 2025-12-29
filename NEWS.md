@@ -1,9 +1,5 @@
 # syncdr 0.1.0
 
-# syncdr — NEWS
-
-# Version 0.1.0 (2025-12-15)
-
 Initial CRAN release.
 
 ### Directory comparison
