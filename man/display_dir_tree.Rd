@@ -27,13 +27,11 @@ e <- toy_dirs()
 left  <- e$left
 right <- e$right
 
-# Display directory trees for both directories
 display_dir_tree(
   path_left  = left,
   path_right = right
 )
 
-# Display directory tree for a single directory
 display_dir_tree(path_right = right)
 }
 }

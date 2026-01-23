@@ -4,7 +4,7 @@
 \name{syncdr-package}
 \alias{syncdr}
 \alias{syncdr-package}
-\title{syncdr: Tool for Facilitating Directory Comparison and Updating}
+\title{syncdr: Facilitate File Handling, Directory Comparison & Synchronization}
 \description{
 Compare directories flexibly (by date, content, or both) and synchronize files efficiently, with asymmetric and symmetric modes, helper tools, and visualization support for file management.
 }

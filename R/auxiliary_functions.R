@@ -16,11 +16,6 @@
 #' @return A 'syncdr_status' object filtered according to the specified criteria.
 #' @keywords internal
 #'
-#' @examples
-#' \donttest{
-#' filtered_status <- filter_sync_status(sync_status, by_date = TRUE, by_content = TRUE, dir = "left")
-#' }
-#'
 #' @seealso
 #' \code{\link{compare_directories}} for directory comparison and sync status creation.
 filter_common_files <- function(sync_status,

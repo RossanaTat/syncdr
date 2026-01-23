@@ -7,8 +7,6 @@
 #' @return The styled text is printed to the console.
 #'
 #' @keywords internal
-#' @examples
-#' style_msgs("blue", "This is a styled message.")
 #'
 style_msgs <- function(color_name,
                        text) {
