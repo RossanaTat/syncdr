@@ -31,23 +31,18 @@
 #'
 #' @export
 #' @examples
-#' # Create a temporary synchronization environment
+#' \donttest{
 #' e <- toy_dirs(fast = TRUE)
 #' left  <- e$left
 #' right <- e$right
-#'
-#' \donttest{
-#' # Full asymmetric synchronization (left → right) by content
 #' full_asym_sync_to_right(
 #'   left_path  = left,
 #'   right_path = right,
 #'   by_date    = FALSE,
 #'   by_content = TRUE
 #' )
-#'
-#' # Optionally, using a precomputed sync_status object
-#' # sync_status <- compare_directories(left_path = left, right_path = right)
-#' # full_asym_sync_to_right(sync_status = sync_status)
+#' sync_status <- compare_directories(left_path = left, right_path = right)
+#' full_asym_sync_to_right(sync_status = sync_status)
 #' }
 full_asym_sync_to_right <- function(left_path       = NULL,
                                     right_path      = NULL,
@@ -609,21 +604,6 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
       }
     }
 
-    # if (!is.null(exclude_delete)) {
-    #
-    #   # For each file, check if its file name or any part of its path matches exclude_delete
-    #   keep_idx <- vapply(files_to_delete$path_right, function(p) {
-    #     fname <- basename(p)
-    #     # Split path into components
-    #     path_parts <- strsplit(fs::path_norm(p), .Platform$file.sep)[[1]]
-    #     # Check if file name or any directory matches
-    #     any(exclude_delete %in% fname) || any(exclude_delete %in% path_parts)
-    #   }, logical(1))
-    #
-    #   if (any(keep_idx)) {
-    #     files_to_delete <- files_to_delete[!keep_idx, ]
-    #   }
-    # }
     if (!is.null(exclude_delete)) {
 
       keep_idx <- vapply(files_to_delete$path_right, function(p) {

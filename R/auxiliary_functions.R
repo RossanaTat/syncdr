@@ -17,8 +17,7 @@
 #' @keywords internal
 #'
 #' @examples
-#' \dontrun{
-#' # Assuming sync_status is a syncdr_status object
+#' \donttest{
 #' filtered_status <- filter_sync_status(sync_status, by_date = TRUE, by_content = TRUE, dir = "left")
 #' }
 #'
@@ -346,11 +345,11 @@ search_duplicates <- function(dir_path,
 #' @param dir_path path to directory
 #' @return the file is saved in a `_syncdr` subdirectory within the specified directory
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Set the directory path
 #' e = toy_dirs()
 #' left <- e$left
-#' # Save the sync status summary in the default format (or specified via options)
+#' 
 #' save_sync_status(dir_path = left)
 #' }
 #' @export

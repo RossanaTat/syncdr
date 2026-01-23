@@ -67,13 +67,11 @@ display_sync_status <- function(sync_status_files,
 #' left  <- e$left
 #' right <- e$right
 #'
-#' # Display directory trees for both directories
 #' display_dir_tree(
 #'   path_left  = left,
 #'   path_right = right
 #' )
 #'
-#' # Display directory tree for a single directory
 #' display_dir_tree(path_right = right)
 #' }
 display_dir_tree <- function(path_left  = NULL,
