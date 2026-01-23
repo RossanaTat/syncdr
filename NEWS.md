@@ -1,3 +1,5 @@
+# syncdr 0.1.1
+
 # syncdr 0.1.0
 
 Initial CRAN release.
