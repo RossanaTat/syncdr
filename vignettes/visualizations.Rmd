@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
+old_options <- options(width = 200)
 options(width = 200)
 #devtools::load_all(".")
 ```
@@ -74,4 +75,7 @@ display_dir_tree(path_right = right)
 
 # Tree structure of both 
 display_dir_tree(path_left = left, path_right = right, )
+
+# Restore options
+options(old_options)
 ```
