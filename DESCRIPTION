@@ -1,5 +1,5 @@
 Package: syncdr
-Title: Tool for Facilitating Directory Comparison and Updating
+Title: Facilitate File Handling, Directory Comparison & Synchronization
 Version: 0.1.0
 Authors@R: 
     c(
