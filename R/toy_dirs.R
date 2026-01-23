@@ -50,8 +50,6 @@ toy_dirs <- function(verbose = FALSE, fast = FALSE) {
   left  <- fs::path_temp("left")
   right <- fs::path_temp("right")
 
-  set.seed(1123)
-
   # Combine all combinations using expand.grid and then create temporal object
   tcomb <-
     expand.grid(LETTERS[1:5], c(1:3), stringsAsFactors = FALSE) |>
