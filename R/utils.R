@@ -25,6 +25,74 @@ check_sync_status_staleness <- function(sync_status) {
 }
 
 
+#' Perform a timestamped directory backup
+#'
+#' Creates a timestamped backup of `source_dir` inside `backup_dir`. Each call
+#' produces a unique subdirectory named `<label>_<YYYYMMDD_HHMMSS>` so
+#' repeated syncs never overwrite an earlier backup (VUL-21). When the default
+#' `"temp_dir"` sentinel is used, the backup lands in `tempdir()` and a warning
+#' is emitted to remind the user that the backup is ephemeral (VUL-20). The
+#' return value of `file.copy()` is checked; if any file failed to copy the
+#' function aborts with an informative error rather than proceeding to
+#' destructive operations (VUL-17).
+#'
+#' @param source_dir  Path to the directory to back up.
+#' @param backup_dir  Destination root: either the user-supplied path or the
+#'   sentinel `"temp_dir"` (the package default) which resolves to
+#'   `tempdir()`.
+#' @param label       A short string identifying the backup ("right", "left",
+#'   etc.).  Becomes the prefix of the timestamped subdirectory name.
+#' @return Invisibly returns the path of the backup directory that was
+#'   created.
+#' @keywords internal
+perform_backup <- function(source_dir, backup_dir, label = "backup") {
+
+  # VUL-20: warn when the default ephemeral tempdir is used
+  using_tempdir <- identical(as.character(backup_dir), "temp_dir")
+  if (using_tempdir) {
+    cli::cli_warn(c(
+      "Backup stored in {.fn tempdir} — this location is ephemeral.",
+      "i" = "The backup will be lost when the R session ends.",
+      "i" = "Supply a permanent {.arg backup_dir} to keep a persistent backup."
+    ))
+    backup_root <- tempdir()
+  } else {
+    backup_root <- as.character(backup_dir)
+  }
+
+  # VUL-21: stamp each backup so repeated syncs don't clobber the previous one
+  timestamp  <- format(Sys.time(), "%Y%m%d_%H%M%S")
+  target_dir <- file.path(backup_root, paste0(label, "_", timestamp))
+
+  if (!dir.exists(target_dir)) {
+    ok <- dir.create(target_dir, recursive = TRUE)
+    if (!ok) {
+      cli::cli_abort(c(
+        "Could not create backup directory {.path {target_dir}}.",
+        "x" = "Check that {.path {backup_root}} is writable.",
+        "i" = "Sync aborted — no files have been modified."
+      ))
+    }
+  }
+
+  # VUL-17: verify every file copied successfully before returning
+  results <- file.copy(from      = source_dir,
+                       to        = target_dir,
+                       recursive = TRUE)
+
+  if (!all(results)) {
+    n_failed <- sum(!results)
+    cli::cli_abort(c(
+      "Backup of {.path {source_dir}} to {.path {target_dir}} failed for {n_failed} item(s).",
+      "x" = "Backup may be incomplete — aborting sync to protect your data.",
+      "i" = "Check disk space and write permissions on {.path {backup_root}}."
+    ))
+  }
+
+  invisible(target_dir)
+}
+
+
 #' Validate a sync_status argument
 #'
 #' Checks that a `sync_status` argument is an object of class `"syncdr_status"`.
