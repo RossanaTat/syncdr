@@ -191,43 +191,9 @@ full_symmetric_sync <- function(left_path   = NULL,
   if (backup) {
     # VUL-10: backup_dir must not overlap with the directories being synced
     validate_backup_dir(backup_dir, left_path, right_path)
-
-    # ensure backup_dir is plain character (user may pass an fs_path object)
-    backup_dir <- as.character(backup_dir)
-
-    backup_right <- fifelse(backup_dir == "temp_dir", # the default
-
-                          #tempdir(),
-                          file.path(tempdir(),
-                                    "backup_right"),
-                          backup_dir) # path provided by the user
-    backup_left <- fifelse(backup_dir == "temp_dir", # the default
-
-                            #tempdir(),
-                            file.path(tempdir(),
-                                      "backup_left"),
-                            backup_dir) # path provided by the user
-
-    # create the target directory if it does not exist
-    if (!dir.exists(backup_right)) {
-      dir.create(backup_right,
-                 recursive = TRUE)
-    }
-
-    if (!dir.exists(backup_left)) {
-      dir.create(backup_left,
-                 recursive = TRUE)
-    }
-
-
-    # copy dir content
-    file.copy(from      = right_path,
-              to        = backup_right,
-              recursive = TRUE)
-    file.copy(from      = left_path,
-              to        = backup_left,
-              recursive = TRUE)
-
+    # VUL-17/18/20/21: each side gets its own timestamped subdir via label
+    perform_backup(right_path, backup_dir, label = "right")
+    perform_backup(left_path,  backup_dir, label = "left")
   }
 
 
@@ -445,29 +411,9 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
   if (backup) {
     # VUL-10: backup_dir must not overlap with the directories being synced
     validate_backup_dir(backup_dir, left_path, right_path)
-
-    base_backup_dir <- if (backup_dir == "temp_dir") tempdir() else backup_dir
-
-    backup_right <- file.path(base_backup_dir, "backup_right")
-    backup_left  <- file.path(base_backup_dir, "backup_left")
-
-    # create backup directories if they don't exist
-    if (!dir.exists(backup_right)) dir.create(backup_right, recursive = TRUE)
-    if (!dir.exists(backup_left))  dir.create(backup_left, recursive = TRUE)
-
-    # Copy contents of directories, not the directory itself
-    right_files <- list.files(right_path, full.names = TRUE, recursive = TRUE)
-    left_files  <- list.files(left_path,  full.names = TRUE, recursive = TRUE)
-
-    file.copy(from = right_files,
-              to   = backup_right,
-              recursive = TRUE,
-              copy.date = TRUE)
-
-    file.copy(from = left_files,
-              to   = backup_left,
-              recursive = TRUE,
-              copy.date = TRUE)
+    # VUL-17/19/20/21: verified, structure-preserving, warned, timestamped
+    perform_backup(right_path, backup_dir, label = "right")
+    perform_backup(left_path,  backup_dir, label = "left")
   }
 
 
