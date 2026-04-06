@@ -125,33 +125,12 @@ full_asym_sync_to_right <- function(left_path       = NULL,
 
   # --- Backup ----
 
-  # Copy right directory in backup directory
   if (backup) {
     # VUL-10: backup_dir must not overlap with the directories being synced
     validate_backup_dir(backup_dir, left_path, right_path)
-
-    backup_dir <- ifelse(backup_dir == "temp_dir", # the default
-
-                          #tempdir(),
-                          file.path(tempdir(),
-                                    "backup_directory"),
-                          backup_dir) # path provided by the user
-
-    # create the target directory if it does not exist
-    if (!dir.exists(backup_dir)) {
-      dir.create(backup_dir, recursive = TRUE)
-    }
-
-
-    # copy dir content
-    file.copy(from      = right_path,
-              to        = backup_dir,
-              recursive = TRUE)
-
-
+    # VUL-17/20/21: verified, warned, timestamped via helper
+    perform_backup(right_path, backup_dir, label = "right")
   }
-
-  # --- Identify files to copy/delete/move ----
 
   # files to copy  -from common files
   files_to_copy <- sync_status$common_files |>
@@ -387,30 +366,11 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 
   # --- Backup ----
 
-  # Copy right directory in backup directory
   if (backup) {
     # VUL-10: backup_dir must not overlap with the directories being synced
     validate_backup_dir(backup_dir, left_path, right_path)
-
-    backup_dir <- fifelse(backup_dir == "temp_dir", # the default
-
-                          #tempdir(),
-                          file.path(tempdir(),
-                                    "backup_directory"),
-                          backup_dir) # path provided by the user
-
-    # create the target directory if it does not exist
-    if (!dir.exists(backup_dir)) {
-      dir.create(backup_dir, recursive = TRUE)
-    }
-
-
-    # copy dir content
-    file.copy(from      = right_path,
-              to        = backup_dir,
-              recursive = TRUE)
-
-
+    # VUL-17/20/21: verified, warned, timestamped via helper
+    perform_backup(right_path, backup_dir, label = "right")
   }
 
   # --- Force option ----
@@ -598,29 +558,11 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 
   # --- Backup ----
 
-  # Copy right directory in backup directory
   if (backup) {
     # VUL-10: backup_dir must not overlap with the directories being synced
     validate_backup_dir(backup_dir, left_path, right_path)
-
-    backup_dir <- ifelse(backup_dir == "temp_dir", # the default
-
-                          #tempdir(),
-                          file.path(tempdir(),
-                                    "backup_directory"),
-                          backup_dir) # path provided by the user
-
-    # create the target directory if it does not exist
-    if (!dir.exists(backup_dir)) {
-      dir.create(backup_dir, recursive = TRUE)
-    }
-
-    # copy dir content
-    file.copy(from      = right_path,
-              to        = backup_dir,
-              recursive = TRUE)
-
-
+    # VUL-17/20/21: verified, warned, timestamped via helper
+    perform_backup(right_path, backup_dir, label = "right")
   }
 
   # Select files to delete
@@ -879,29 +821,11 @@ partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
 
   # --- Backup ----
 
-  # Copy right directory in backup directory
   if (backup) {
     # VUL-10: backup_dir must not overlap with the directories being synced
     validate_backup_dir(backup_dir, left_path, right_path)
-
-    backup_dir <- fifelse(backup_dir == "temp_dir", # the default
-
-                          #tempdir(),
-                          file.path(tempdir(),
-                                    "backup_directory"),
-                          backup_dir) # path provided by the user
-
-    # create the target directory if it does not exist
-    if (!dir.exists(backup_dir)) {
-      dir.create(backup_dir, recursive = TRUE)
-    }
-
-    # copy dir content
-    file.copy(from      = right_path,
-              to        = backup_dir,
-              recursive = TRUE)
-
-
+    # VUL-17/20/21: verified, warned, timestamped via helper
+    perform_backup(right_path, backup_dir, label = "right")
   }
 
   # --- Synchronization ----
