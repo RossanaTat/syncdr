@@ -24,8 +24,12 @@ copy_files_to_right <- function(left_dir,
 
   if (recurse == TRUE) {
 
+    # Use fs::path_rel() instead of gsub() to compute the relative path.
+    # gsub() treats left_dir as a regex pattern, which silently produces wrong
+    # results for paths with metacharacters (e.g. 'user.name', 'data (copy)',
+    # 'project+files'). fs::path_rel() is safe for any path.
     files_to_copy <- files_to_copy |>
-      ftransform(wo_root_left = gsub(left_dir, "", path_left)) |>
+      ftransform(wo_root_left = fs::path_rel(path_left, start = left_dir)) |>
       ftransform(path_from    = path_left,
                  path_to      = fs::path(right_dir, wo_root_left))
   }
@@ -88,8 +92,11 @@ copy_files_to_left <- function(left_dir,
 
   if (recurse == TRUE) {
 
+    # Use fs::path_rel() instead of gsub() to compute the relative path.
+    # gsub() treats right_dir as a regex pattern, which silently produces wrong
+    # results for paths with metacharacters. fs::path_rel() is safe for any path.
     files_to_copy <- files_to_copy |>
-      ftransform(wo_root_right = gsub(right_dir, "", path_right)) |>
+      ftransform(wo_root_right = fs::path_rel(path_right, start = right_dir)) |>
       ftransform(path_from    = path_right,
                  path_to      = fs::path(left_dir, wo_root_right))
 

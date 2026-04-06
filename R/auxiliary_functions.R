@@ -123,8 +123,12 @@ directory_info <- function(dir,
   files <- files[!grepl("^\\.\\.$|^\\.$", files)]
 
   # Get all dir info available in file_info
+  # Use fs::path_rel() instead of gsub() to compute the root-stripped relative path.
+  # gsub() treats the directory string as a regex pattern, which fails for paths
+  # containing regex metacharacters (e.g. '.', '+', '(', ')', '[', backslash).
+  # fs::path_rel() uses character-level path decomposition and is safe for any path.
   info_df <- fs::file_info(files) |>
-    ftransform(wo_root = gsub(dir, "", path),
+    ftransform(wo_root = fs::path_rel(path, start = dir),
                modification_time = as.POSIXct(modification_time)) #add without root var
 
   return(info_df)

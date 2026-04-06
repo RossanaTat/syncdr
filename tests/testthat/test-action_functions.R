@@ -197,3 +197,123 @@ test_that("copy_files_to_right handles spaces and special chars", {
 })
 
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Tests for VUL-02 / VUL-03 / VUL-31: regex-metacharacter safety in
+# copy_files_to_right() and copy_files_to_left()
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+test_that("copy_files_to_right works with dots in directory name (VUL-02)", {
+  base  <- fs::path_temp("cfr_dot_test")
+  left_ <- fs::path(base, "user.name", "left")
+  right_<- fs::path(base, "user.name", "right")
+  fs::dir_create(left_)
+  fs::dir_create(right_)
+  f <- fs::path(left_, "report.csv")
+  writeLines("data", f)
+  on.exit(fs::dir_delete(base), add = TRUE)
+
+  df <- data.table::data.table(path_left = f)
+  copy_files_to_right(left_, right_, df)
+
+  expect_true(fs::file_exists(fs::path(right_, "report.csv")))
+})
+
+test_that("copy_files_to_right works with parentheses in directory name (VUL-02)", {
+  base  <- fs::path_temp("cfr_paren_test")
+  left_ <- fs::path(base, "data (copy)", "left")
+  right_<- fs::path(base, "data (copy)", "right")
+  fs::dir_create(left_)
+  fs::dir_create(right_)
+  f <- fs::path(left_, "results.csv")
+  writeLines("x", f)
+  on.exit(fs::dir_delete(base), add = TRUE)
+
+  df <- data.table::data.table(path_left = f)
+  copy_files_to_right(left_, right_, df)
+
+  expect_true(fs::file_exists(fs::path(right_, "results.csv")))
+})
+
+test_that("copy_files_to_right works with plus sign in directory name (VUL-02)", {
+  base  <- fs::path_temp("cfr_plus_test")
+  left_ <- fs::path(base, "project+files", "left")
+  right_<- fs::path(base, "project+files", "right")
+  fs::dir_create(left_)
+  fs::dir_create(right_)
+  f <- fs::path(left_, "output.csv")
+  writeLines("y", f)
+  on.exit(fs::dir_delete(base), add = TRUE)
+
+  df <- data.table::data.table(path_left = f)
+  copy_files_to_right(left_, right_, df)
+
+  expect_true(fs::file_exists(fs::path(right_, "output.csv")))
+})
+
+test_that("copy_files_to_right works when left_dir has trailing slash (VUL-31)", {
+  base  <- fs::path_temp("cfr_slash_test")
+  left_ <- fs::path(base, "left")
+  right_<- fs::path(base, "right")
+  fs::dir_create(left_)
+  fs::dir_create(right_)
+  f <- fs::path(left_, "file.csv")
+  writeLines("z", f)
+  on.exit(fs::dir_delete(base), add = TRUE)
+
+  df <- data.table::data.table(path_left = f)
+  # trailing slash on left_dir — must not mangle the relative path
+  copy_files_to_right(paste0(left_, "/"), right_, df)
+
+  expect_true(fs::file_exists(fs::path(right_, "file.csv")))
+})
+
+test_that("copy_files_to_right copies subdirectory files to correct destination (VUL-02)", {
+  base  <- fs::path_temp("cfr_subdir_test")
+  left_ <- fs::path(base, "v1.0", "left")
+  right_<- fs::path(base, "v1.0", "right")
+  sub   <- fs::path(left_, "sub")
+  fs::dir_create(sub)
+  fs::dir_create(fs::path(right_, "sub"))
+  f <- fs::path(sub, "nested.csv")
+  writeLines("n", f)
+  on.exit(fs::dir_delete(base), add = TRUE)
+
+  df <- data.table::data.table(path_left = f)
+  copy_files_to_right(left_, right_, df)
+
+  expect_true(fs::file_exists(fs::path(right_, "sub", "nested.csv")))
+})
+
+test_that("copy_files_to_left works with dots in directory name (VUL-03)", {
+  base  <- fs::path_temp("cfl_dot_test")
+  left_ <- fs::path(base, "user.name", "left")
+  right_<- fs::path(base, "user.name", "right")
+  fs::dir_create(left_)
+  fs::dir_create(right_)
+  f <- fs::path(right_, "report.csv")
+  writeLines("data", f)
+  on.exit(fs::dir_delete(base), add = TRUE)
+
+  df <- data.table::data.table(path_right = f)
+  copy_files_to_left(left_, right_, df)
+
+  expect_true(fs::file_exists(fs::path(left_, "report.csv")))
+})
+
+test_that("copy_files_to_left works with parentheses in directory name (VUL-03)", {
+  base  <- fs::path_temp("cfl_paren_test")
+  left_ <- fs::path(base, "data (copy)", "left")
+  right_<- fs::path(base, "data (copy)", "right")
+  fs::dir_create(left_)
+  fs::dir_create(right_)
+  f <- fs::path(right_, "results.csv")
+  writeLines("p", f)
+  on.exit(fs::dir_delete(base), add = TRUE)
+
+  df <- data.table::data.table(path_right = f)
+  copy_files_to_left(left_, right_, df)
+
+  expect_true(fs::file_exists(fs::path(left_, "results.csv")))
+})
+
+
