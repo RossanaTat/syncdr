@@ -45,7 +45,8 @@ test_that("compare directories retrun sync status", {
     expect_equal(c("common_files",
                  "non_common_files",
                  "left_path",
-                 "right_path"))
+                 "right_path",
+                 "created_at"))
 
   names(res_by_date_content) |>
     expect_equal(names(res_by_date))
@@ -267,4 +268,107 @@ test_that("full_symmetric_sync rejects backup_dir equal to left_path (VUL-10)", 
     regexp = "overlap"
   )
 })
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Tests for Fix Group C — stale sync_status (VUL-22) and race conditions (VUL-23)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# --- VUL-22: created_at timestamp ----------------------------------------
+
+test_that("compare_directories output contains created_at of class POSIXct (VUL-22)", {
+  e     <- toy_dirs()
+  left  <- e$left
+  right <- e$right
+
+  res <- compare_directories(left, right)
+
+  expect_true("created_at" %in% names(res))
+  expect_s3_class(res$created_at, "POSIXct")
+  # Timestamp should be within 10 seconds of now
+  expect_lt(
+    as.numeric(difftime(Sys.time(), res$created_at, units = "secs")),
+    10
+  )
+})
+
+test_that("no staleness warning for a fresh sync_status (VUL-22)", {
+  e     <- toy_dirs()
+  left  <- e$left
+  right <- e$right
+
+  fresh_status <- compare_directories(left, right)
+
+  withr::local_options(list(syncdr.staleness_threshold_secs = 3600L))
+  # A freshly-created object must not trigger the staleness warning
+  expect_no_warning(check_sync_status_staleness(fresh_status))
+})
+
+test_that("staleness warning fires when sync_status exceeds threshold (VUL-22)", {
+  e     <- toy_dirs()
+  left  <- e$left
+  right <- e$right
+
+  old_status <- compare_directories(left, right)
+  # Back-date the timestamp so it looks 2 hours old
+  old_status$created_at <- Sys.time() - 7200
+
+  withr::local_options(list(syncdr.staleness_threshold_secs = 3600L))
+
+  # cli::cli_warn() emits a classed warning — catch via tryCatch
+  caught <- tryCatch(
+    check_sync_status_staleness(old_status),
+    warning = function(w) w
+  )
+  expect_s3_class(caught, "warning")
+  expect_match(conditionMessage(caught), "minute(s) old", fixed = TRUE)
+})
+
+test_that("staleness check is skipped when created_at is absent (VUL-22 backward compat)", {
+  e     <- toy_dirs()
+  left  <- e$left
+  right <- e$right
+
+  # Simulate a legacy sync_status without the created_at field
+  legacy_status <- compare_directories(left, right)
+  legacy_status$created_at <- NULL
+
+  expect_no_warning(check_sync_status_staleness(legacy_status))
+})
+
+# --- VUL-23: skip-not-error on externally deleted file -------------------
+
+test_that("full_asym_sync_to_right skips a file deleted externally mid-loop (VUL-23)", {
+  # Build a scenario where right has extra files (will be deleted by asym sync)
+  base   <- fs::path_temp("vul23_asym")
+  left_  <- fs::path(base, "left")
+  right_ <- fs::path(base, "right")
+  fs::dir_create(c(left_, right_))
+  saveRDS(1L, fs::path(left_,  "keep.Rds"))
+  saveRDS(2L, fs::path(right_, "delete_me.Rds"))
+  saveRDS(3L, fs::path(right_, "also_delete.Rds"))
+  on.exit(fs::dir_delete(base), add = TRUE)
+
+  status <- compare_directories(left_, right_)
+
+  # Delete one of the right-only files *before* the sync runs —
+  # simulating an external deletion between compare and sync.
+  fs::file_delete(fs::path(right_, "delete_me.Rds"))
+
+  # The sync should complete without error (skipping the already-gone file)
+  expect_no_error(
+    suppressWarnings(
+      full_asym_sync_to_right(
+        sync_status     = status,
+        force           = TRUE,
+        delete_in_right = TRUE,
+        backup          = FALSE
+      )
+    )
+  )
+
+  # The file that was not pre-deleted should now be gone
+  expect_false(fs::file_exists(fs::path(right_, "also_delete.Rds")))
+})
+
 

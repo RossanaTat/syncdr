@@ -28,6 +28,8 @@
 #'   - Common files: Paths and synchronization status of files present in both directories.
 #'   - Path of the left directory.
 #'   - Path of the right directory.
+#'   - `created_at`: A `POSIXct` timestamp recording when the comparison was performed,
+#'     used by sync functions to detect stale results.
 #'
 #' @export
 #' @examples
@@ -151,7 +153,8 @@ compare_directories <- function(left_path,
     common_files     = common_files,
     non_common_files = non_common_files,
     left_path        = left_path,
-    right_path       = right_path
+    right_path       = right_path,
+    created_at       = Sys.time()   # VUL-22: timestamp for staleness detection
   )
 
   # Display directories structure if verbose is TRUE

@@ -112,19 +112,27 @@ test_that("copy_files_to_right handles empty files_to_copy", {
 })
 
 test_that("copy_files_to_right creates needed subdirectories", {
-  env <- copy_temp_environment()
-  left  <- env$left
-  right <- fs::path_temp() |> fs::path("nonexistent_dir")
+  # Build an isolated fixture with a guaranteed left-only file in a subdirectory
+  base   <- fs::path_temp("ctr_subdir_test")
+  left_  <- fs::path(base, "left")
+  right_ <- fs::path(base, "right_src")
+  dest_  <- fs::path(base, "right_dest")     # nonexistent — must be created
+  fs::dir_create(c(left_, right_))
+  # file in a subdirectory so that dir_create is exercised
+  fs::dir_create(fs::path(left_, "sub"))
+  saveRDS(1L, fs::path(left_, "sub", "file.Rds"))
+  on.exit(fs::dir_delete(base), add = TRUE)
 
-  sync_status <- compare_directories(left, env$right)
+  sync_status <- compare_directories(left_, right_)
   to_copy <- sync_status$non_common_files |>
     fsubset(!is.na(path_left)) |>
     fsubset(1)
 
-  copy_files_to_right(left, right, to_copy)
+  expect_true(nrow(to_copy) == 1L)
+  copy_files_to_right(left_, dest_, to_copy)
 
-  rel <- fs::path_rel(to_copy$path_left, start = left)
-  expect_true(fs::dir_exists(fs::path_dir(fs::path(right, rel))))
+  rel <- fs::path_rel(to_copy$path_left, start = left_)
+  expect_true(fs::dir_exists(fs::path_dir(fs::path(dest_, rel))))
 })
 
 test_that("copy_files_to_right overwrites existing files", {

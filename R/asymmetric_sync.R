@@ -106,6 +106,7 @@ full_asym_sync_to_right <- function(left_path       = NULL,
 
     # VUL-09: ensure caller passed a real syncdr_status object
     validate_sync_status_arg(sync_status)
+    check_sync_status_staleness(sync_status)  # VUL-22
 
     # If sync_status is already provided,
     # retrieve paths of left and right directory as well as by_date and by_content arguments
@@ -223,7 +224,18 @@ full_asym_sync_to_right <- function(left_path       = NULL,
           cli::cli_progress_along(
             files_to_delete$path_right, name = "Deleting files"
           ),
-          function(i) fs::file_delete(files_to_delete$path_right[i])
+          function(i) {
+            tryCatch(                                           # VUL-23
+              fs::file_delete(files_to_delete$path_right[i]),
+              error = function(e) {
+                cli::cli_warn(c(
+                  "Could not delete {.path {files_to_delete$path_right[i]}}.",
+                  "x" = conditionMessage(e),
+                  "i" = "File may have been moved or deleted externally. Skipping."
+                ))
+              }
+            )
+          }
         )
       )
     } else if (verbose) {
@@ -349,6 +361,7 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 
     # VUL-09: ensure caller passed a real syncdr_status object
     validate_sync_status_arg(sync_status)
+    check_sync_status_staleness(sync_status)  # VUL-22
 
     # If sync_status is already provided, retrieve by_date and by_content arguments from it
 
@@ -560,6 +573,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
   } else {
     # VUL-09: ensure caller passed a real syncdr_status object
     validate_sync_status_arg(sync_status)
+    check_sync_status_staleness(sync_status)  # VUL-22
 
     left_path  <- sync_status$left_path
     right_path <- sync_status$right_path
@@ -695,7 +709,18 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
             files_to_delete$path_right, name = "Deleting files"
             #format = "Deleting files [:bar] :current/:total (:percent)"
           ),
-          function(i) fs::file_delete(files_to_delete$path_right[i])
+          function(i) {
+            tryCatch(                                           # VUL-23
+              fs::file_delete(files_to_delete$path_right[i]),
+              error = function(e) {
+                cli::cli_warn(c(
+                  "Could not delete {.path {files_to_delete$path_right[i]}}.",
+                  "x" = conditionMessage(e),
+                  "i" = "File may have been moved or deleted externally. Skipping."
+                ))
+              }
+            )
+          }
         )
       )
     } else if (verbose) {
@@ -816,6 +841,7 @@ partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
   } else {
     # VUL-09: ensure caller passed a real syncdr_status object
     validate_sync_status_arg(sync_status)
+    check_sync_status_staleness(sync_status)  # VUL-22
 
     left_path  <- sync_status$left_path
     right_path <- sync_status$right_path

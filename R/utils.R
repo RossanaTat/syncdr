@@ -1,3 +1,30 @@
+#' Check sync_status for staleness
+#'
+#' Issues a `cli::cli_warn()` when the `sync_status` object was created more
+#' than `getOption("syncdr.staleness_threshold_secs", 3600L)` seconds ago.
+#' Silently does nothing if `sync_status$created_at` is absent (e.g., objects
+#' built before this field was introduced).
+#'
+#' @param sync_status A `syncdr_status` object.
+#' @return Invisibly returns `sync_status`.
+#' @keywords internal
+check_sync_status_staleness <- function(sync_status) {
+  if (is.null(sync_status$created_at)) return(invisible(sync_status))
+  threshold <- getOption("syncdr.staleness_threshold_secs", 3600L)
+  age_secs  <- as.numeric(
+    difftime(Sys.time(), sync_status$created_at, units = "secs")
+  )
+  if (age_secs > threshold) {
+    cli::cli_warn(c(
+      "The {.arg sync_status} object is {.val {round(age_secs / 60, 1)}} minute(s) old.",
+      "i" = "Re-run {.fn compare_directories} to ensure results are current.",
+      "i" = "Threshold: {threshold} seconds. Adjust via {.code options(syncdr.staleness_threshold_secs = ...)}."
+    ))
+  }
+  invisible(sync_status)
+}
+
+
 #' Validate a sync_status argument
 #'
 #' Checks that a `sync_status` argument is an object of class `"syncdr_status"`.

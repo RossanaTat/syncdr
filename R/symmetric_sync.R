@@ -108,6 +108,7 @@ full_symmetric_sync <- function(left_path   = NULL,
 
     # VUL-09: ensure caller passed a real syncdr_status object
     validate_sync_status_arg(sync_status)
+    check_sync_status_staleness(sync_status)  # VUL-22
 
     # If sync_status is already provided, retrieve left, right, by_date and by_content arguments from it
     left_path  <- sync_status$left_path
@@ -373,6 +374,7 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
 
     # VUL-09: ensure caller passed a real syncdr_status object
     validate_sync_status_arg(sync_status)
+    check_sync_status_staleness(sync_status)  # VUL-22
 
     # If sync_status is already provided, retrieve left, right, by_date and by_content arguments from it
     left_path  <- sync_status$left_path
