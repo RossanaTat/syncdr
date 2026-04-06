@@ -9,7 +9,11 @@ tags: [security, audit, file-system, destructive-operations, input-validation, t
 steps-completed:
   - "1: File-system operations inventory verification (2026-04-06)"
   - "2: Input validation gap analysis (2026-04-06)"
-findings: ".cg-docs/solutions/bugs/2026-04-06-security-audit-steps-1-2.md"
+  - "3: Destructive operation safety analysis (2026-04-06)"
+  - "4: Race condition analysis (2026-04-06)"
+findings:
+  - ".cg-docs/solutions/bugs/2026-04-06-security-audit-steps-1-2.md"
+  - ".cg-docs/solutions/bugs/2026-04-06-security-audit-steps-3-4.md"
 ---
 
 # Plan: Security Audit Plan for syncdr
