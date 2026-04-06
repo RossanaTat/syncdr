@@ -355,6 +355,9 @@ search_duplicates <- function(dir_path,
 #'
 save_sync_status <- function(dir_path) {
 
+  # VUL-12: validate dir_path before any fs operation
+  validate_path_arg(dir_path, "dir_path")
+
   hashes           <- hash_files_in_dir(dir_path)
   rownames(hashes) <- NULL
   hashes$hash <- as.character(hashes$hash)

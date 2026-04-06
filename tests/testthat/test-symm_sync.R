@@ -162,7 +162,8 @@ test_that("full_symmetric_sync errors with missing arguments", {
 })
 
 test_that("full_symmetric_sync errors with non-existent directories", {
-  expect_error(full_symmetric_sync(left_path = "fake_dir", right_path = "fake_dir2"), "not TRUE")
+  expect_error(full_symmetric_sync(left_path = "fake_dir", right_path = "fake_dir2"),
+               "does not exist")
 })
 
 test_that("full_symmetric_sync creates backup with correct contents", {

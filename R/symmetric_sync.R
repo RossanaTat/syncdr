@@ -92,11 +92,9 @@ full_symmetric_sync <- function(left_path   = NULL,
 
   if(is.null(sync_status)) {
 
-    # --- first check directories path ---
-    stopifnot(exprs = {
-      fs::dir_exists(left_path)
-      fs::dir_exists(right_path)
-    })
+    # --- VUL-11: validate path args ---
+    validate_path_arg(left_path,  "left_path")
+    validate_path_arg(right_path, "right_path")
 
     # --- get sync_status ---
     sync_status <- compare_directories(left_path  = left_path,
@@ -107,6 +105,9 @@ full_symmetric_sync <- function(left_path   = NULL,
                                        verbose    = FALSE
     )
   } else {
+
+    # VUL-09: ensure caller passed a real syncdr_status object
+    validate_sync_status_arg(sync_status)
 
     # If sync_status is already provided, retrieve left, right, by_date and by_content arguments from it
     left_path  <- sync_status$left_path
@@ -187,6 +188,11 @@ full_symmetric_sync <- function(left_path   = NULL,
 
   # Copy right and left in backup directory
   if (backup) {
+    # VUL-10: backup_dir must not overlap with the directories being synced
+    validate_backup_dir(backup_dir, left_path, right_path)
+
+    # ensure backup_dir is plain character (user may pass an fs_path object)
+    backup_dir <- as.character(backup_dir)
 
     backup_right <- fifelse(backup_dir == "temp_dir", # the default
 
@@ -351,11 +357,9 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
 
   if(is.null(sync_status)) {
 
-    # --- first check directories path ---
-    stopifnot(exprs = {
-      fs::dir_exists(left_path)
-      fs::dir_exists(right_path)
-    })
+    # --- VUL-11: validate path args ---
+    validate_path_arg(left_path,  "left_path")
+    validate_path_arg(right_path, "right_path")
 
     # --- get sync_status ---
     sync_status <- compare_directories(left_path  = left_path,
@@ -366,6 +370,9 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
                                        verbose    = FALSE
     )
   } else {
+
+    # VUL-09: ensure caller passed a real syncdr_status object
+    validate_sync_status_arg(sync_status)
 
     # If sync_status is already provided, retrieve left, right, by_date and by_content arguments from it
     left_path  <- sync_status$left_path
@@ -434,6 +441,9 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
   # --- Backup ----
 
   if (backup) {
+    # VUL-10: backup_dir must not overlap with the directories being synced
+    validate_backup_dir(backup_dir, left_path, right_path)
+
     base_backup_dir <- if (backup_dir == "temp_dir") tempdir() else backup_dir
 
     backup_right <- file.path(base_backup_dir, "backup_right")

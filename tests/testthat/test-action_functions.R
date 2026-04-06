@@ -169,11 +169,13 @@ test_that("copy_files_to_right errors if path_from does not exist", {
 
 test_that("copy_files_to_right returns invisible(TRUE)", {
   env <- copy_temp_environment()
-  left <- env$left
+  left  <- env$left
   right <- env$right
-  sync_status <- compare_directories(left, right)
 
-  to_copy <- sync_status$non_common_files[1, , drop = FALSE]
+  # create a known left-only file so to_copy is always non-empty
+  src <- fs::path(left, "invisible_test.txt")
+  writeLines("test", src)
+  to_copy <- data.table::data.table(path_left = src)
 
   # function returns invisible(TRUE) - capture with withVisible
   vis <- withVisible(copy_files_to_right(left, right, to_copy))
