@@ -18,12 +18,13 @@
 #' @param recurse Logical. If TRUE (default), files are copied to corresponding subdirectories
 #'                in the destination folder. If FALSE, files are copied to the top level of the destination folder
 #'                without creating subdirectories if they do not exist.
-#' @param delete_in_right Logical. If TRUE (default), files that exist only in the
-#'        right directory (i.e., absent from the left directory) are deleted during
-#'        synchronization. If FALSE, no files are removed from the right directory,
-#'        even if they are exclusive to it.
-#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
-#'                        If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
+#' @param delete_in_right Logical. If FALSE (default), files that exist only in the
+#'        right directory (i.e., absent from the left directory) are preserved during
+#'        synchronization. If TRUE, those files are deleted from the right directory.
+#' @param force Logical. If FALSE (default), displays a preview of actions and
+#'                        prompts the user for confirmation before proceeding. Synchronization
+#'                        is aborted if the user does not agree. If TRUE, directly performs
+#'                        synchronization without prompting.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
@@ -50,22 +51,13 @@ full_asym_sync_to_right <- function(left_path       = NULL,
                                     by_date         = TRUE,
                                     by_content      = FALSE,
                                     recurse         = TRUE,
-                                    force           = TRUE,
-                                    delete_in_right = TRUE,
+                                    force           = FALSE,
+                                    delete_in_right = FALSE,
                                     backup          = FALSE,
                                     backup_dir      = "temp_dir",
+                                    overwrite       = TRUE,
                                     verbose         = getOption("syncdr.verbose")) {
 
-
-  # Display folder structure before synchronization
-  if (verbose == TRUE) {
-
-    style_msgs(color_name = "blue",
-               text = "Directories structure BEFORE synchronization:\n")
-
-    display_dir_tree(path_left  = left_path,
-                     path_right = right_path)
-  }
 
   # --- Check validity of arguments ----
 
@@ -123,6 +115,14 @@ full_asym_sync_to_right <- function(left_path       = NULL,
 
   }
 
+  # VUL-28: verbose tree moved here so left_path/right_path are always resolved
+  if (isTRUE(verbose)) {
+    style_msgs(color_name = "blue",
+               text = "Directories structure BEFORE synchronization:\n")
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
+  }
+
   # --- Backup ----
 
   if (backup) {
@@ -152,20 +152,16 @@ full_asym_sync_to_right <- function(left_path       = NULL,
 
   # --- Force option ----
 
-  if (force == FALSE) {
+  if (isFALSE(force)) {
 
-    if (nrow(files_to_delete) > 0 ) {
-      style_msgs("orange",
-                 text = "These files will be DELETED in right")
-
+    if (nrow(files_to_delete) > 0) {
       display_file_actions(path_to_files = files_to_delete,
                            directory     = right_path,
                            action        = "delete"
       )
     }
 
-
-    if (nrow(files_to_copy) >0 ) {
+    if (nrow(files_to_copy) > 0) {
       style_msgs("blue",
                  text = "These files will be COPIED (overwriting if present) to right \n")
       display_file_actions(path_to_files = files_to_copy |> fselect(1),
@@ -181,7 +177,8 @@ full_asym_sync_to_right <- function(left_path       = NULL,
 
     if (Ask == FALSE | is.na(Ask)) {
       cli::cli_abort(message = "Synchronization interrupted.
-                                No action taken on directories")}
+                                No action taken on directories")
+    }
 
   }
 
@@ -192,11 +189,12 @@ full_asym_sync_to_right <- function(left_path       = NULL,
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
                       files_to_copy = files_to_copy,
-                      recurse       = recurse)
+                      recurse       = recurse,
+                      overwrite     = overwrite)
 
 
   ## Delete Files
-  if (delete_in_right == TRUE) {
+  if (isTRUE(delete_in_right)) {
     if (NROW(files_to_delete) > 0) {
       invisible(
         lapply(
@@ -217,13 +215,13 @@ full_asym_sync_to_right <- function(left_path       = NULL,
           }
         )
       )
-    } else if (verbose) {
+    } else if (isTRUE(verbose)) {
       cli::cli_alert_info("No files deleted (all excluded or none to delete).")
     }
   }
 
 
-  if(verbose == TRUE) {
+  if(isTRUE(verbose)) {
 
     style_msgs(color_name = "blue",
                text = "Directories structure AFTER synchronization:\n")
@@ -260,12 +258,6 @@ full_asym_sync_to_right <- function(left_path       = NULL,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
-#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
-#'                       If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
-#' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
-#' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
-#' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
-#' @return Invisible TRUE indicating successful synchronization.
 #' @export
 #' @examples
 #' # Asymmetric synchronization of common files
@@ -288,17 +280,11 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
                                             by_date     = TRUE,
                                             by_content  = FALSE,
                                             recurse     = TRUE,
-                                            force       = TRUE,
+                                            force       = FALSE,
                                             backup      = FALSE,
                                             backup_dir  = "temp_dir",
+                                            overwrite   = TRUE,
                                             verbose     = getOption("syncdr.verbose")) {
-
-  if(verbose == TRUE) {
-  # Display folder structure before synchronization
-  style_msgs(color_name = "blue",
-             text = "Directories structure BEFORE synchronization:\n")
-  display_dir_tree(path_left  = left_path,
-                   path_right = right_path)}
 
   # --- Check validity of arguments -----------------
 
@@ -357,6 +343,14 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 
   }
 
+  # VUL-28: verbose tree after left_path/right_path are always resolved
+  if (isTRUE(verbose)) {
+    style_msgs(color_name = "blue",
+               text = "Directories structure BEFORE synchronization:\n")
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
+  }
+
   # Identify files to copy -from common files ####
   files_to_copy <- sync_status$common_files |>
     filter_common_files(by_date    = by_date,
@@ -375,7 +369,7 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 
   # --- Force option ----
 
-  if (force == FALSE) {
+  if (isFALSE(force)) {
 
     if (nrow(files_to_copy) > 0 ) {
       style_msgs("blue",
@@ -406,9 +400,10 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
                       files_to_copy = files_to_copy,
-                      recurse       = recurse)
+                      recurse       = recurse,
+                      overwrite     = overwrite)
 
-  if (verbose == TRUE) {
+  if (isTRUE(verbose)) {
     # Display folder structure AFTER synchronization
     style_msgs(color_name = "blue",
                text = "Directories structure AFTER synchronization:\n")
@@ -442,14 +437,17 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 #'   If TRUE, files that exist only in the left directory are copied to the right directory.
 #'   If FALSE, such files are not copied and remain absent from the right directory.
 #'
-#' @param delete_in_right Logical, default is TRUE.
+#' @param delete_in_right Logical, default is FALSE.
 #'   If TRUE, files that exist only in the right directory (i.e., not present in the left) are deleted.
 #'   If FALSE, these right-only files are preserved.
-#' @param exclude_delete Character vector of file names or dir names to protect from deletion.
-#'   These files will be kept in the right directory even if `delete = TRUE`.
-#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
-#'                       If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
-#
+#' @param exclude_delete Character vector of basenames or folder name segments to protect from
+#'   deletion. These are matched against the file basename and each path segment — full paths
+#'   are not supported. Files matching any element are kept in the right directory even if
+#'   `delete_in_right = TRUE`.
+#' @param force Logical. If FALSE (default), displays a preview of actions and
+#'                       prompts the user for confirmation before proceeding.
+#'                       Synchronization is aborted if the user does not agree.
+#'                       If TRUE, directly performs synchronization without prompting.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
@@ -480,21 +478,14 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
                                                right_path  = NULL,
                                                sync_status = NULL,
                                                recurse     = TRUE,
-                                               force       = TRUE,
+                                               force       = FALSE,
                                                backup      = FALSE,
                                                backup_dir  = "temp_dir",
                                                copy_to_right = TRUE,
-                                               delete_in_right = TRUE,
+                                               delete_in_right = FALSE,
                                                exclude_delete = NULL,
+                                               overwrite   = TRUE,
                                                verbose     = getOption("syncdr.verbose")) {
-
-  if (verbose == TRUE) {
-    # Display folder structure before synchronization
-    style_msgs(color_name = "blue",
-               text = "Directories structure BEFORE synchronization:\n")
-    display_dir_tree(path_left  = left_path,
-                     path_right = right_path)
-  }
 
   # --- Check validity of arguments -----------------
 
@@ -539,6 +530,14 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
     right_path <- sync_status$right_path
   }
 
+  # VUL-28: verbose tree moved here so paths are always resolved first
+  if (isTRUE(verbose)) {
+    style_msgs(color_name = "blue",
+               text = "Directories structure BEFORE synchronization:\n")
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
+  }
+
   # Identify files to copy/delete ####
   files_to_copy <- sync_status$non_common_files |>
     filter_non_common_files(dir = "left")
@@ -566,12 +565,15 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
   }
 
   # Select files to delete
-  if (delete_in_right == TRUE) {
+  if (isTRUE(delete_in_right)) {
 
     # Validate exclude_delete
     if (!is.null(exclude_delete)) {
       if (!is.character(exclude_delete)) {
-        stop("'exclude_delete' must be a character vector or NULL")
+        cli::cli_abort(c(
+          "{.arg exclude_delete} must be a character vector or NULL.",
+          "x" = "Got {.cls {class(exclude_delete)}}."
+        ))
       }
       if (length(exclude_delete) == 0) {
         exclude_delete <- NULL  # treat empty character vector as NULL
@@ -596,7 +598,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 
   # --- Force option ----
 
-  if (force == FALSE) {
+  if (isFALSE(force)) {
 
     if (nrow(files_to_delete) > 0 ) {
       style_msgs("orange",
@@ -637,13 +639,14 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
     copy_files_to_right(left_dir      = sync_status$left_path,
                         right_dir     = sync_status$right_path,
                         files_to_copy = files_to_copy,
-                        recurse       = recurse)
+                        recurse       = recurse,
+                        overwrite     = overwrite)
   } else {
     if (verbose) cli::cli_alert_info("Non common files to copy skipped")
   }
 
   ## Delete Files
-  if (delete_in_right == TRUE) {
+  if (isTRUE(delete_in_right)) {
     if (NROW(files_to_delete) > 0) {
       invisible(
         lapply(
@@ -672,7 +675,7 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 
 
 
-  if (verbose == TRUE) {
+  if (isTRUE(verbose)) {
   # Display folder structure AFTER synchronization
   style_msgs(color_name = "blue",
                text = "Directories structure AFTER synchronization:\n")
@@ -732,19 +735,11 @@ partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
                                                        right_path  = NULL,
                                                        sync_status = NULL,
                                                        recurse     = TRUE,
-                                                       force       = TRUE,
+                                                       force       = FALSE,
                                                        backup      = FALSE,
                                                        backup_dir  = "temp_dir",
+                                                       overwrite   = TRUE,
                                                        verbose     = getOption("syncdr.verbose")) {
-
-
-  if(verbose == TRUE) {
-    # Display folder structure before synchronization
-    style_msgs(color_name = "blue",
-               text = "Directories structure BEFORE synchronization:\n")
-    display_dir_tree(path_left  = left_path,
-                     path_right = right_path)
-  }
 
   # --- Check validity of arguments -----------------
 
@@ -789,13 +784,21 @@ partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
     right_path <- sync_status$right_path
   }
 
+  # VUL-28: verbose tree after left_path/right_path are always resolved
+  if (isTRUE(verbose)) {
+    style_msgs(color_name = "blue",
+               text = "Directories structure BEFORE synchronization:\n")
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
+  }
+
   # Identify files to copy/delete ####
   files_to_copy <- sync_status$non_common_files |>
     filter_non_common_files(dir = "left")
 
   # --- Force option ----
 
-  if (force == FALSE) {
+  if (isFALSE(force)) {
 
     if (nrow(files_to_copy) > 0 ) {
       style_msgs("blue",
@@ -835,9 +838,10 @@ partial_update_missing_files_asym_to_right <- function(left_path   = NULL,
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
                       files_to_copy = files_to_copy,
-                      recurse       = recurse)
+                      recurse       = recurse,
+                      overwrite     = overwrite)
 
-  if(verbose == TRUE) {
+  if(isTRUE(verbose)) {
     # Display folder structure AFTER synchronization
     style_msgs(color_name = "blue",
                text = "Directories structure AFTER synchronization:\n")

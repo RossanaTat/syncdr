@@ -44,3 +44,11 @@ if (getRversion() >= "2.15.1") {
   )
 }
 NULL
+
+#' @section Concurrent use:
+#' syncdr does not implement file locking. Running two sync operations
+#' concurrently on overlapping directories (e.g. on a shared network drive)
+#' produces non-deterministic results. Consider the \pkg{filelock} package
+#' to coordinate access when concurrent use is required.
+#' @name syncdr-concurrent
+NULL

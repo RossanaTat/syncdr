@@ -19,22 +19,10 @@
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
-#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
-#'                       If FALSE, displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
-#' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
-#' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
-#' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
-#' @return Invisible TRUE indicating successful synchronization.
-#' @export
-#' @examples
-#' # Create a temporary synchronization environment
-#'
-#' \donttest{
-#' e <- toy_dirs()
-#' left  <- e$left
-#' right <- e$right
-#' # Symmetric synchronization by date and content
-#' # Option 1: provide left and right paths
+#' @param force Logical. If FALSE (default), displays a preview of actions and
+#'                       prompts the user for confirmation before proceeding.
+#'                       Synchronization is aborted if the user does not agree.
+#'                       If TRUE, directly performs synchronization without prompting.left and right paths
 #' full_symmetric_sync(
 #'   left_path  = left,
 #'   right_path = right,
@@ -55,18 +43,11 @@ full_symmetric_sync <- function(left_path   = NULL,
                                 by_date     = TRUE,
                                 by_content  = FALSE,
                                 recurse     = TRUE,
-                                force       = TRUE,
+                                force       = FALSE,
                                 backup      = FALSE,
                                 backup_dir  = "temp_dir",
+                                overwrite   = TRUE,
                                 verbose     = getOption("syncdr.verbose")) {
-  if (verbose == TRUE) {
-    # Display folder structure before synchronization
-    style_msgs(color_name = "blue",
-               text = "Directories structure BEFORE synchronization:\n")
-    display_dir_tree(path_left  = left_path,
-                     path_right = right_path)
-  }
-
 
   # --- Check validity of arguments -----------------
 
@@ -124,6 +105,14 @@ full_symmetric_sync <- function(left_path   = NULL,
 
   }
 
+  # VUL-28: verbose tree moved here so paths are always resolved first
+  if (isTRUE(verbose)) {
+    style_msgs(color_name = "blue",
+               text = "Directories structure BEFORE synchronization:\n")
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
+  }
+
   # Identify files to copy ####
 
   # Identify files to copy to right:
@@ -150,10 +139,15 @@ full_symmetric_sync <- function(left_path   = NULL,
                               dir = "right")
     )
 
+  # VUL-34: check before backup so no backup dir is created on an invalid call
+  if (isFALSE(by_date) & isTRUE(by_content)) {
+    cli::cli_abort(message = "Symmetric synchronization by content only is not active
+                               -no action will be executed, directories unchanged")
+  }
 
   # --- Force option ----
 
-  if (force == FALSE) {
+  if (isFALSE(force)) {
 
     if (nrow(files_to_right) >0 ) {
       style_msgs("blue",
@@ -196,28 +190,22 @@ full_symmetric_sync <- function(left_path   = NULL,
     perform_backup(left_path,  backup_dir, label = "left")
   }
 
-
-  # Inform user that sync by content only is not active and stop
-  if (by_date == FALSE & by_content == TRUE) {
-    cli::cli_abort(message = "Symmetric synchronization by content only is not active
-                               -no action will be executed, directories unchanged")
-  }
-
   # --- Synchronization ----
 
   # copy files from left to right folder
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
-                      files_to_copy = files_to_right)
+                      files_to_copy = files_to_right,
+                      overwrite     = overwrite)
 
-  # copy files from left to right folder
+  # copy files from right to left folder
   copy_files_to_left(left_dir      = sync_status$left_path,
                      right_dir     = sync_status$right_path,
                      files_to_copy = files_to_left,
-                     recurse       = recurse)
+                     recurse       = recurse,
+                     overwrite     = overwrite)
 
-  if (verbose == TRUE) {
-
+  if (isTRUE(verbose)) {
     # Display folder structure AFTER synchronization
     style_msgs(color_name = "blue",
                text = "Directories structure AFTER synchronization:\n")
@@ -253,10 +241,13 @@ full_symmetric_sync <- function(left_path   = NULL,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
-#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
-#'                       If FALSE, displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
+#' @param force Logical. If FALSE (default), displays a preview of actions and
+#'                       prompts the user for confirmation before proceeding.
+#'                       Synchronization is aborted if the user does not agree.
+#'                       If TRUE, directly performs synchronization without prompting.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
+#' @param overwrite Logical. If TRUE (default), existing files in the destination are overwritten. If FALSE, existing files are not overwritten.
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return Invisible TRUE indicating successful synchronization.
 #' @export
@@ -289,19 +280,11 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
                                                by_date     = TRUE,
                                                by_content  = FALSE,
                                                recurse     = TRUE,
-                                               force       = TRUE,
+                                               force       = FALSE,
                                                backup      = FALSE,
                                                backup_dir  = "temp_dir",
+                                               overwrite   = TRUE,
                                                verbose     = getOption("syncdr.verbose")) {
-
-  if(verbose == TRUE) {
-
-    style_msgs(color_name = "blue",
-               text = "Directories structure BEFORE synchronization:\n")
-    display_dir_tree(path_left  = left_path,
-                     path_right = right_path)
-
-  }
 
   # --- Check validity of arguments -----------------
 
@@ -355,8 +338,16 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
 
   }
 
+  # VUL-28: verbose tree after left_path/right_path are always resolved
+  if (isTRUE(verbose)) {
+    style_msgs(color_name = "blue",
+               text = "Directories structure BEFORE synchronization:\n")
+    display_dir_tree(path_left  = left_path,
+                     path_right = right_path)
+  }
+
   # Inform user that sync by content only is not active
-  if (by_date == FALSE & by_content == TRUE) {
+  if (isFALSE(by_date) & isTRUE(by_content)) {
     cli::cli_abort(message = "Symmetric synchronization by content only is not active
                                -no action will be executed, directories unchanged")
   }
@@ -375,7 +366,7 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
 
   # --- Force option ----
 
-  if (force == FALSE) {
+  if (isFALSE(force)) {
 
     if (nrow(files_to_right) >0 ) {
       style_msgs("blue",
@@ -425,16 +416,18 @@ partial_symmetric_sync_common_files <- function(left_path = NULL,
   copy_files_to_right(left_dir      = sync_status$left_path,
                       right_dir     = sync_status$right_path,
                       files_to_copy = files_to_right,
-                      recurse       = recurse)
+                      recurse       = recurse,
+                      overwrite     = overwrite)
 
   # copy those that are new in right to left
 
   copy_files_to_left(left_dir      = sync_status$left_path,
                      right_dir     = sync_status$right_path,
                      files_to_copy = files_to_left,
-                     recurse       = recurse)
+                     recurse       = recurse,
+                     overwrite     = overwrite)
 
-  if(verbose == TRUE) {
+  if(isTRUE(verbose)) {
   # Display folder structure AFTER synchronization
   style_msgs(color_name = "blue",
                text = "Directories structure AFTER synchronization:\n")

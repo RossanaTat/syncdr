@@ -12,6 +12,9 @@
 #' @param recurse Logical, default is TRUE.
 #'   - If TRUE: Files are copied into corresponding sub-directories in the destination folder. If a subdirectory doesn't exist in the destination, it will be created.
 #'   - If FALSE: Files are copied to the top level of the destination directory.
+#' @param overwrite Logical, default is TRUE. If TRUE, existing files at the
+#'   destination are overwritten. If FALSE, existing destination files are
+#'   preserved and the copy is skipped.
 #'
 #' @return Invisible TRUE. Aborts with an error if the destination directory
 #'   is not writable (VUL-27). If individual file copies fail, a warning is
@@ -23,7 +26,8 @@
 copy_files_to_right <- function(left_dir,
                                 right_dir,
                                 files_to_copy,
-                                recurse = TRUE) {
+                                recurse   = TRUE,
+                                overwrite = TRUE) {
 
   if (recurse == TRUE) {
 
@@ -71,7 +75,7 @@ copy_files_to_right <- function(left_dir,
           fs::file_copy(
             path      = files_to_copy$path_from[i],
             new_path  = files_to_copy$path_to[i],
-            overwrite = TRUE
+            overwrite = overwrite
           ),
           error = function(e) {
             failures <<- c(failures, files_to_copy$path_from[i])
@@ -112,6 +116,9 @@ copy_files_to_right <- function(left_dir,
 #' @param recurse Logical, default is TRUE.
 #'   - If TRUE: Files are copied into corresponding subdirectories in the left directory. If a subdirectory doesn't exist in the left directory, it will be created.
 #'   - If FALSE: Files are copied to the top level of the left directory.
+#' @param overwrite Logical, default is TRUE. If TRUE, existing files at the
+#'   destination are overwritten. If FALSE, existing destination files are
+#'   preserved and the copy is skipped.
 #'
 #' @return Invisible TRUE. Aborts with an error if the destination directory
 #'   is not writable (VUL-27). If individual file copies fail, a warning is
@@ -124,12 +131,13 @@ copy_files_to_right <- function(left_dir,
 copy_files_to_left <- function(left_dir,
                                right_dir,
                                files_to_copy,
-                               recurse = TRUE) {
+                               recurse   = TRUE,
+                               overwrite = TRUE) {
 
 
   # Check/create source and destination path
 
-  if (recurse == TRUE) {
+  if (isTRUE(recurse)) {
 
     # Use fs::path_rel() instead of gsub() to compute the relative path.
     # gsub() treats right_dir as a regex pattern, which silently produces wrong
@@ -172,7 +180,7 @@ copy_files_to_left <- function(left_dir,
           fs::file_copy(
             path      = files_to_copy$path_from[i],
             new_path  = files_to_copy$path_to[i],
-            overwrite = TRUE
+            overwrite = overwrite
           ),
           error = function(e) {
             failures <<- c(failures, files_to_copy$path_from[i])
