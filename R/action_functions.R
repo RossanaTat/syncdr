@@ -13,7 +13,10 @@
 #'   - If TRUE: Files are copied into corresponding sub-directories in the destination folder. If a subdirectory doesn't exist in the destination, it will be created.
 #'   - If FALSE: Files are copied to the top level of the destination directory.
 #'
-#' @return Invisible TRUE upon successful completion of the file copying process.
+#' @return Invisible TRUE. Aborts with an error if the destination directory
+#'   is not writable (VUL-27). If individual file copies fail, a warning is
+#'   issued listing all failed files and copying continues for the remainder
+#'   (VUL-24/VUL-26).
 #'
 #' @keywords internal
 #'
@@ -40,23 +43,56 @@ copy_files_to_right <- function(left_dir,
                  path_to      = right_dir)
   }
 
+  # VUL-27: pre-flight write-permission check before touching any file.
+  # Catching a permission error after 50 files have been copied leaves the
+  # directory in a partially-updated state with no way to undo.
+  if (!fs::file_access(right_dir, mode = "write")) {
+    cli::cli_abort(c(
+      "No write permission on destination directory {.path {right_dir}}.",
+      "x" = "Sync aborted before any files were modified.",
+      "i" = "Check that the directory exists and that you have write access."
+    ))
+  }
+
   # Ensure destination subdirectories exist
   unique_dirs <- unique(fs::path_dir(files_to_copy$path_to))
   fs::dir_create(unique_dirs)
 
-  # progress-enabled iteration
+  # VUL-24/26: wrap each copy in tryCatch so a single failure does not abort
+  # the whole loop, leaving the directory in an inconsistent mid-sync state.
+  # All failures are collected and reported together at the end.
+  failures <- character(0)
+
   invisible(
     lapply(
       cli::cli_progress_along(files_to_copy$path_from, name = "Copying files"),
       function(i) {
-        fs::file_copy(
-          path     = files_to_copy$path_from[i],
-          new_path = files_to_copy$path_to[i],
-          overwrite = TRUE
+        tryCatch(
+          fs::file_copy(
+            path      = files_to_copy$path_from[i],
+            new_path  = files_to_copy$path_to[i],
+            overwrite = TRUE
+          ),
+          error = function(e) {
+            failures <<- c(failures, files_to_copy$path_from[i])
+            cli::cli_warn(c(
+              "Could not copy {.path {files_to_copy$path_from[i]}}.",
+              "x" = conditionMessage(e),
+              "i" = "File skipped — all other files will still be processed."
+            ))
+          }
         )
       }
     )
   )
+
+  if (length(failures) > 0) {
+    cli::cli_warn(c(
+      "{length(failures)} file{?s} could not be copied to {.path {right_dir}}.",
+      "i" = "Check permissions, disk space, and whether source files are locked.",
+      "i" = "Failed file{?s}: {.path {failures}}"
+    ))
+  }
 
   invisible(TRUE)
 
@@ -77,7 +113,10 @@ copy_files_to_right <- function(left_dir,
 #'   - If TRUE: Files are copied into corresponding subdirectories in the left directory. If a subdirectory doesn't exist in the left directory, it will be created.
 #'   - If FALSE: Files are copied to the top level of the left directory.
 #'
-#' @return Invisible TRUE upon successful completion of the file copying process.
+#' @return Invisible TRUE. Aborts with an error if the destination directory
+#'   is not writable (VUL-27). If individual file copies fail, a warning is
+#'   issued listing all failed files and copying continues for the remainder
+#'   (VUL-24/VUL-26).
 #'
 #' @keywords internal
 #'
@@ -108,23 +147,53 @@ copy_files_to_left <- function(left_dir,
 
   }
 
+  # VUL-27: pre-flight write-permission check before touching any file.
+  if (!fs::file_access(left_dir, mode = "write")) {
+    cli::cli_abort(c(
+      "No write permission on destination directory {.path {left_dir}}.",
+      "x" = "Sync aborted before any files were modified.",
+      "i" = "Check that the directory exists and that you have write access."
+    ))
+  }
+
   # Ensure destination subdirectories exist
   unique_dirs <- unique(fs::path_dir(files_to_copy$path_to))
   fs::dir_create(unique_dirs)
 
-  # progress-enabled iteration
+  # VUL-24/26: wrap each copy in tryCatch so a single failure does not abort
+  # the whole loop. All failures are collected and reported together at the end.
+  failures <- character(0)
+
   invisible(
     lapply(
       cli::cli_progress_along(files_to_copy$path_from, name = "Copying files"),
       function(i) {
-        fs::file_copy(
-          path     = files_to_copy$path_from[i],
-          new_path = files_to_copy$path_to[i],
-          overwrite = TRUE
+        tryCatch(
+          fs::file_copy(
+            path      = files_to_copy$path_from[i],
+            new_path  = files_to_copy$path_to[i],
+            overwrite = TRUE
+          ),
+          error = function(e) {
+            failures <<- c(failures, files_to_copy$path_from[i])
+            cli::cli_warn(c(
+              "Could not copy {.path {files_to_copy$path_from[i]}}.",
+              "x" = conditionMessage(e),
+              "i" = "File skipped — all other files will still be processed."
+            ))
+          }
         )
       }
     )
   )
+
+  if (length(failures) > 0) {
+    cli::cli_warn(c(
+      "{length(failures)} file{?s} could not be copied to {.path {left_dir}}.",
+      "i" = "Check permissions, disk space, and whether source files are locked.",
+      "i" = "Failed file{?s}: {.path {failures}}"
+    ))
+  }
 
   invisible(TRUE)
 }
