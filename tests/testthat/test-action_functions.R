@@ -116,8 +116,8 @@ test_that("copy_files_to_right creates needed subdirectories", {
   base   <- fs::path_temp("ctr_subdir_test")
   left_  <- fs::path(base, "left")
   right_ <- fs::path(base, "right_src")
-  dest_  <- fs::path(base, "right_dest")     # nonexistent — must be created
-  fs::dir_create(c(left_, right_))
+  dest_  <- fs::path(base, "right_dest")     # must be created before copy
+  fs::dir_create(c(left_, right_, dest_))   # VUL-27: dest must exist and be writable
   # file in a subdirectory so that dir_create is exercised
   fs::dir_create(fs::path(left_, "sub"))
   saveRDS(1L, fs::path(left_, "sub", "file.Rds"))
@@ -151,27 +151,31 @@ test_that("copy_files_to_right overwrites existing files", {
   expect_equal(readLines(dest), "original")
 })
 
-test_that("copy_files_to_right errors when left_dir does not exist", {
+test_that("copy_files_to_right warns when source files missing (post VUL-24/26)", {
   env <- copy_temp_environment()
   right <- env$right
 
+  # right is writable so VUL-27 passes; the missing source triggers a per-file
+  # warning rather than an abort (VUL-24/26 fix).
   df <- data.table::data.table(path_left = "missing.txt")
 
-  expect_error(
+  expect_warning(
     copy_files_to_right("idontexist", right, df),
-    regexp = ".*" # adjust based on actual error
+    regexp = "Could not copy"
   )
 })
 
-test_that("copy_files_to_right errors if path_from does not exist", {
+test_that("copy_files_to_right warns (not errors) if path_from does not exist (VUL-24/26)", {
   env <- copy_temp_environment()
   left <- env$left
   right <- env$right
 
   df <- data.table::data.table(path_left = fs::path(left, "no_such_file"))
 
-  expect_error(
-    copy_files_to_right(left, right, df)
+  # Post VUL-24/26 fix: individual failures warn and continue rather than abort
+  expect_warning(
+    copy_files_to_right(left, right, df),
+    regexp = "Could not copy"
   )
 })
 
@@ -326,4 +330,119 @@ test_that("copy_files_to_left works with parentheses in directory name (VUL-03)"
   expect_true(fs::file_exists(fs::path(left_, "results.csv")))
 })
 
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Tests for VUL-27: write-permission preflight check
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+test_that("copy_files_to_right() aborts before any copy when dest not writable (VUL-27)", {
+  src_dir  <- withr::local_tempdir()
+  dest_dir <- withr::local_tempdir()
+
+  # Create a source file
+  f <- fs::path(src_dir, "file.txt")
+  writeLines("hello", f)
+  df <- data.table::data.table(path_left = f)
+
+  # Make destination read-only
+  Sys.chmod(dest_dir, mode = "0555")
+  on.exit(Sys.chmod(dest_dir, mode = "0755"), add = TRUE)
+
+  skip_if(.Platform$OS.type == "windows",
+          "chmod read-only not reliable on Windows — skipping VUL-27 write-perm test")
+
+  expect_error(
+    copy_files_to_right(src_dir, dest_dir, df),
+    regexp = "No write permission"
+  )
+  # No file should have been created in the destination
+  expect_equal(length(fs::dir_ls(dest_dir)), 0L)
+})
+
+test_that("copy_files_to_left() aborts before any copy when dest not writable (VUL-27)", {
+  src_dir  <- withr::local_tempdir()
+  dest_dir <- withr::local_tempdir()
+
+  f <- fs::path(src_dir, "file.txt")
+  writeLines("hello", f)
+  df <- data.table::data.table(path_right = f)
+
+  Sys.chmod(dest_dir, mode = "0555")
+  on.exit(Sys.chmod(dest_dir, mode = "0755"), add = TRUE)
+
+  skip_if(.Platform$OS.type == "windows",
+          "chmod read-only not reliable on Windows — skipping VUL-27 write-perm test")
+
+  expect_error(
+    copy_files_to_left(dest_dir, src_dir, df),
+    regexp = "No write permission"
+  )
+  expect_equal(length(fs::dir_ls(dest_dir)), 0L)
+})
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Tests for VUL-24 / VUL-26: per-file tryCatch — continue past failures
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+test_that("copy_files_to_right() continues past a missing source file and warns (VUL-24/26)", {
+  src_dir  <- withr::local_tempdir()
+  dest_dir <- withr::local_tempdir()
+
+  # Two source files: one exists, one does not
+  f_good    <- fs::path(src_dir, "good.txt")
+  f_missing <- fs::path(src_dir, "missing.txt")   # never created
+  writeLines("data", f_good)
+
+  df <- data.table::data.table(path_left = c(f_good, f_missing))
+
+  # Should warn (not abort) about the missing file
+  expect_warning(
+    copy_files_to_right(src_dir, dest_dir, df),
+    regexp = "Could not copy"
+  )
+
+  # The good file should have been copied despite the failure
+  expect_true(fs::file_exists(fs::path(dest_dir, "good.txt")))
+})
+
+test_that("copy_files_to_left() continues past a missing source file and warns (VUL-24/26)", {
+  src_dir  <- withr::local_tempdir()
+  dest_dir <- withr::local_tempdir()
+
+  f_good    <- fs::path(src_dir, "good.txt")
+  f_missing <- fs::path(src_dir, "missing.txt")
+  writeLines("data", f_good)
+
+  df <- data.table::data.table(path_right = c(f_good, f_missing))
+
+  expect_warning(
+    copy_files_to_left(dest_dir, src_dir, df),
+    regexp = "Could not copy"
+  )
+
+  expect_true(fs::file_exists(fs::path(dest_dir, "good.txt")))
+})
+
+test_that("copy_files_to_right() emits summary warning when multiple files fail (VUL-24/26)", {
+  src_dir  <- withr::local_tempdir()
+  dest_dir <- withr::local_tempdir()
+
+  # Three non-existent files
+  df <- data.table::data.table(
+    path_left = fs::path(src_dir, c("a.txt", "b.txt", "c.txt"))
+  )
+
+  # Expect at least one warning mentioning the count
+  warnings_caught <- character(0)
+  withCallingHandlers(
+    copy_files_to_right(src_dir, dest_dir, df),
+    warning = function(w) {
+      warnings_caught <<- c(warnings_caught, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    }
+  )
+
+  # At least one warning about the failure count
+  expect_true(any(grepl("could not be copied", warnings_caught, ignore.case = TRUE)))
+})
 
