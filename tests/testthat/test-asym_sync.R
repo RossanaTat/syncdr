@@ -87,7 +87,8 @@ right_files <- list.files(right,
 
 full_asym_sync_to_right(left_path  = left,
                         right_path = right,
-                        backup     = TRUE)
+                        backup     = TRUE) |>
+  suppressWarnings()  # VUL-20: expected tempdir warning in default backup
 
 
 
