@@ -22,7 +22,19 @@
 #' @param force Logical. If FALSE (default), displays a preview of actions and
 #'                       prompts the user for confirmation before proceeding.
 #'                       Synchronization is aborted if the user does not agree.
-#'                       If TRUE, directly performs synchronization without prompting.left and right paths
+#'                       If TRUE, directly performs synchronization without prompting.
+#' @param backup Logical. If TRUE, creates a backup of both directories before synchronization. The backup is stored in the location specified by `backup_dir`.
+#' @param backup_dir Path to the directory where the backup will be stored. If not specified, the backup is stored in a temporary directory (`tempdir`).
+#' @param overwrite Logical. If TRUE (default), existing files at the destination are overwritten. If FALSE, existing destination files are preserved and the copy is skipped.
+#' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
+#' @return Invisible TRUE indicating successful synchronization.
+#' @export
+#' @examples
+#' \donttest{
+#' e <- toy_dirs()
+#' left  <- e$left
+#' right <- e$right
+#' # Option 1: provide left and right paths
 #' full_symmetric_sync(
 #'   left_path  = left,
 #'   right_path = right,

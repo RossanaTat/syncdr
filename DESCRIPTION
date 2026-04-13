@@ -1,6 +1,6 @@
 Package: syncdr
 Title: Facilitate File Handling, Directory Comparison & Synchronization
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     c(
       person(
@@ -24,6 +24,7 @@ Authors@R:
 Description: Compare directories flexibly (by date, content, or both) and synchronize files efficiently, with asymmetric and symmetric modes, helper tools, and visualization support for file management.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 LazyData: true

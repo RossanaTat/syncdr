@@ -82,7 +82,7 @@ copy_files_to_right <- function(left_dir,
             cli::cli_warn(c(
               "Could not copy {.path {files_to_copy$path_from[i]}}.",
               "x" = conditionMessage(e),
-              "i" = "File skipped — all other files will still be processed."
+              "i" = "File skipped - all other files will still be processed."
             ))
           }
         )
@@ -187,7 +187,7 @@ copy_files_to_left <- function(left_dir,
             cli::cli_warn(c(
               "Could not copy {.path {files_to_copy$path_from[i]}}.",
               "x" = conditionMessage(e),
-              "i" = "File skipped — all other files will still be processed."
+              "i" = "File skipped - all other files will still be processed."
             ))
           }
         )

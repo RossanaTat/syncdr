@@ -51,7 +51,7 @@ perform_backup <- function(source_dir, backup_dir, label = "backup") {
   using_tempdir <- identical(as.character(backup_dir), "temp_dir")
   if (using_tempdir) {
     cli::cli_warn(c(
-      "Backup stored in {.fn tempdir} — this location is ephemeral.",
+      "Backup stored in {.fn tempdir} - this location is ephemeral.",
       "i" = "The backup will be lost when the R session ends.",
       "i" = "Supply a permanent {.arg backup_dir} to keep a persistent backup."
     ))
@@ -70,7 +70,7 @@ perform_backup <- function(source_dir, backup_dir, label = "backup") {
       cli::cli_abort(c(
         "Could not create backup directory {.path {target_dir}}.",
         "x" = "Check that {.path {backup_root}} is writable.",
-        "i" = "Sync aborted — no files have been modified."
+        "i" = "Sync aborted - no files have been modified."
       ))
     }
   }
@@ -84,7 +84,7 @@ perform_backup <- function(source_dir, backup_dir, label = "backup") {
     n_failed <- sum(!results)
     cli::cli_abort(c(
       "Backup of {.path {source_dir}} to {.path {target_dir}} failed for {n_failed} item(s).",
-      "x" = "Backup may be incomplete — aborting sync to protect your data.",
+      "x" = "Backup may be incomplete - aborting sync to protect your data.",
       "i" = "Check disk space and write permissions on {.path {backup_root}}."
     ))
   }

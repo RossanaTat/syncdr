@@ -10,3 +10,11 @@
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
 ^\.cg-docs$
+^compound-gpid\.md$
+^compound-gpid\.local\.md$
+^roadmap\.json$
+^run_check\.R$
+^run_tests\.R$
+^rcmdcheck_output\.txt$
+^test-results\.txt$
+^test_output\.txt$

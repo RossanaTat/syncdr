@@ -27,6 +27,7 @@
 #'                        synchronization without prompting.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
+#' @param overwrite Logical. If TRUE (default), existing files at the destination are overwritten. If FALSE, existing destination files are preserved and the copy is skipped.
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return Invisible TRUE indicating successful synchronization.
 #'
@@ -258,6 +259,12 @@ full_asym_sync_to_right <- function(left_path       = NULL,
 #'  If recurse is TRUE: when copying a file from source folder to destination folder, the file will be copied into the corresponding (sub)directory.
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
+#' @param force Logical. If FALSE (default), displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree. If TRUE, directly performs synchronization without prompting.
+#' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
+#' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
+#' @param overwrite Logical. If TRUE (default), existing files at the destination are overwritten. If FALSE, existing destination files are preserved and the copy is skipped.
+#' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
+#' @return Invisible TRUE indicating successful synchronization.
 #' @export
 #' @examples
 #' # Asymmetric synchronization of common files
@@ -450,6 +457,7 @@ common_files_asym_sync_to_right <- function(left_path   = NULL,
 #'                       If TRUE, directly performs synchronization without prompting.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
+#' @param overwrite Logical. If TRUE (default), existing files at the destination are overwritten. If FALSE, existing destination files are preserved and the copy is skipped.
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return Invisible TRUE indicating successful synchronization.
 #' @export
@@ -704,10 +712,11 @@ update_missing_files_asym_to_right <- function(left_path   = NULL,
 #'  If the sub(directory) where the file is located does not exist in destination folder (or you are not sure), set recurse to FALSE,
 #'  and the file will be copied at the top level
 #' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
-#' @param force Logical. If TRUE (by default), directly perform synchronization of the directories.
-#'                       If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.
+#' @param force Logical. If FALSE (default), displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree. If TRUE, directly performs synchronization without prompting.
 #' @param backup Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by `backup_dir`.
 #' @param backup_dir Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (`tempdir`).
+#' @param overwrite Logical. If TRUE (default), existing files at the destination are overwritten. If FALSE, existing destination files are preserved and the copy is skipped.
+#' @param verbose logical. If TRUE, display directory tree before and after synchronization. Default is FALSE
 #' @return Invisible TRUE indicating successful synchronization.
 #' @export
 #' @examples
