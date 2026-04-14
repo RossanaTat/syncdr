@@ -1,0 +1,4 @@
+FAIL: 0
+WARN: 8
+SKIP: 4
+PASS: 273

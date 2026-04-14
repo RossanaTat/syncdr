@@ -1,0 +1,1 @@
+﻿pkgload::load_all('.', quiet=TRUE); options(crayon.enabled=FALSE); res <- testthat::test_local('.', reporter='minimal'); df <- as.data.frame(res); message('FAIL:', sum(df[,'failed']), ' WARN:', sum(df[,'warning']), ' SKIP:', sum(df[,'skipped']), ' PASS:', sum(df[,'passed']))
