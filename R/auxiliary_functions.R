@@ -16,12 +16,6 @@
 #' @return A 'syncdr_status' object filtered according to the specified criteria.
 #' @keywords internal
 #'
-#' @examples
-#' \dontrun{
-#' # Assuming sync_status is a syncdr_status object
-#' filtered_status <- filter_sync_status(sync_status, by_date = TRUE, by_content = TRUE, dir = "left")
-#' }
-#'
 #' @seealso
 #' \code{\link{compare_directories}} for directory comparison and sync status creation.
 filter_common_files <- function(sync_status,
@@ -299,10 +293,12 @@ hash_files_in_dir <- function(dir_path) {
 #'
 #' @export
 #' @examples
-#' library(syncdr)
-#' e = toy_dirs()
-#' search_duplicates(dir_path = e$left)
+#' # Search for duplicate files in a directory
 #'
+#' \donttest{
+#' e <- toy_dirs()
+#' search_duplicates(dir_path = e$left)
+#' }
 search_duplicates <- function(dir_path,
                               verbose = TRUE) {
 
@@ -344,11 +340,11 @@ search_duplicates <- function(dir_path,
 #' @param dir_path path to directory
 #' @return the file is saved in a `_syncdr` subdirectory within the specified directory
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Set the directory path
 #' e = toy_dirs()
 #' left <- e$left
-#' # Save the sync status summary in the default format (or specified via options)
+#' 
 #' save_sync_status(dir_path = left)
 #' }
 #' @export

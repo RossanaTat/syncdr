@@ -4,23 +4,30 @@
 \name{syncdr-package}
 \alias{syncdr}
 \alias{syncdr-package}
-\title{syncdr: Tool for Facilitating Directory Comparison and Updating}
+\title{syncdr: Facilitate File Handling, Directory Comparison & Synchronization}
 \description{
-An R package for directory comparison and updates. It provides tools to facilitate file handling, comparison and synchronization of directories.
+Compare directories flexibly (by date, content, or both) and synchronize files efficiently, with asymmetric and symmetric modes, helper tools, and visualization support for file management.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://rossanatat.github.io/syncdr/}
+  \item \url{https://github.com/RossanaTat/syncdr}
+  \item Report bugs at \url{https://github.com/RossanaTat/syncdr/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: R.Andres Castaneda \email{acastanedaa@worldbank.org}
+\strong{Maintainer}: Rossana Tatulli \email{rtatulli@worldbank.org}
 
 Authors:
 \itemize{
-  \item Rossana Tatulli \email{rtatulli@worldbank.org}
+  \item R.Andres Castaneda \email{acastanedaa@worldbank.org}
+}
+
+Other contributors:
+\itemize{
+  \item Global Poverty and Inequality Data Team World Bank [copyright holder]
 }
 
 }

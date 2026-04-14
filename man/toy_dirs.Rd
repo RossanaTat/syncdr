@@ -4,10 +4,13 @@
 \alias{toy_dirs}
 \title{Create toy directories to test syncdr functions}
 \usage{
-toy_dirs(verbose = FALSE)
+toy_dirs(verbose = FALSE, fast = FALSE)
 }
 \arguments{
 \item{verbose}{logical: display information. Default is FALSE}
+
+\item{fast}{logical: if TRUE (default), create a minimal set of files quickly;
+if FALSE, run full implementation with multiple files and timestamps.}
 }
 \value{
 syncdr environment with toy directory paths, i.e., left and right paths
@@ -21,6 +24,8 @@ This function is a little slow because it must use \code{\link[=Sys.sleep]{Sys.s
 files with the same name but different time stamp.
 }
 \examples{
-
+# Create toy directories for testing / examples
+\donttest{
 toy_dirs(verbose = TRUE)
+}
 }

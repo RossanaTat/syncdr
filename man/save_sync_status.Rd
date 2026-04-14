@@ -16,11 +16,11 @@ the file is saved in a \verb{_syncdr} subdirectory within the specified director
 Save sync_status file
 }
 \examples{
-\dontrun{
+\donttest{
 # Set the directory path
 e = toy_dirs()
 left <- e$left
-# Save the sync status summary in the default format (or specified via options)
+
 save_sync_status(dir_path = left)
 }
 }

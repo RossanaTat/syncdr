@@ -63,21 +63,26 @@ it will be copied over to update the older version. If modification dates/conten
 }
 }
 \examples{
-# Create syncdr environment with toy directories
-e <- toy_dirs()
+# Create a temporary synchronization environment
 
-# Get left and right directories' paths
+\donttest{
+e <- toy_dirs()
 left  <- e$left
 right <- e$right
+# Symmetric synchronization by date and content
+# Option 1: provide left and right paths
+full_symmetric_sync(
+  left_path  = left,
+  right_path = right,
+  by_date    = TRUE,
+  by_content = TRUE
+)
 
-# Synchronize directories, e.g., by date and content
-# Option 1 - providing left and right paths
-full_symmetric_sync(left_path  = left,
-                    right_path = right,
-                    by_date    = TRUE,
-                    by_content = TRUE)
-# Option 2 - Providing sync_status object
-sync_status = compare_directories(left_path  = left,
-                                  right_path = right)
+# Option 2: provide a precomputed sync_status object
+sync_status <- compare_directories(
+  left_path  = left,
+  right_path = right
+)
 full_symmetric_sync(sync_status = sync_status)
+}
 }

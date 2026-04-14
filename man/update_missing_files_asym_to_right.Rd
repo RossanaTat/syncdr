@@ -12,6 +12,9 @@ update_missing_files_asym_to_right(
   force = TRUE,
   backup = FALSE,
   backup_dir = "temp_dir",
+  copy_to_right = TRUE,
+  delete_in_right = TRUE,
+  exclude_delete = NULL,
   verbose = getOption("syncdr.verbose")
 )
 }
@@ -34,6 +37,17 @@ If FALSE, Displays a preview of actions and prompts the user for confirmation be
 
 \item{backup_dir}{Path to the directory where the backup of the original right directory will be stored. If not specified, the backup is stored in temporary directory (\code{tempdir}).}
 
+\item{copy_to_right}{Logical, default is TRUE.
+If TRUE, files that exist only in the left directory are copied to the right directory.
+If FALSE, such files are not copied and remain absent from the right directory.}
+
+\item{delete_in_right}{Logical, default is TRUE.
+If TRUE, files that exist only in the right directory (i.e., not present in the left) are deleted.
+If FALSE, these right-only files are preserved.}
+
+\item{exclude_delete}{Character vector of file names or dir names to protect from deletion.
+These files will be kept in the right directory even if \code{delete = TRUE}.}
+
 \item{verbose}{logical. If TRUE, display directory tree before and after synchronization. Default is FALSE}
 }
 \value{
@@ -54,19 +68,24 @@ update non common files in right directory based on left one -i.e., the function
 }
 }
 \examples{
-# Compare directories with 'compare_directories()'
+# Create a temporary synchronization environment
+\donttest{
 e <- toy_dirs()
-
-# Get left and right directories' paths
 left  <- e$left
 right <- e$right
 
-# Option 1
-update_missing_files_asym_to_right(left_path  = left,
-                                   right_path = right)
-# Option 2
-sync_status = compare_directories(left,
-                                  right)
+# Update missing files asymmetrically (left → right)
+# Option 1: provide left and right paths
+update_missing_files_asym_to_right(
+  left_path  = left,
+  right_path = right
+)
 
+# Option 2: provide a precomputed sync_status object
+sync_status <- compare_directories(
+  left_path  = left,
+  right_path = right
+)
 update_missing_files_asym_to_right(sync_status = sync_status)
+}
 }

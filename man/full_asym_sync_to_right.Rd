@@ -12,6 +12,7 @@ full_asym_sync_to_right(
   by_content = FALSE,
   recurse = TRUE,
   force = TRUE,
+  delete_in_right = TRUE,
   backup = FALSE,
   backup_dir = "temp_dir",
   verbose = getOption("syncdr.verbose")
@@ -34,6 +35,11 @@ without creating subdirectories if they do not exist.}
 
 \item{force}{Logical. If TRUE (by default), directly perform synchronization of the directories.
 If FALSE, Displays a preview of actions and prompts the user for confirmation before proceeding. Synchronization is aborted if the user does not agree.}
+
+\item{delete_in_right}{Logical. If TRUE (default), files that exist only in the
+right directory (i.e., absent from the left directory) are deleted during
+synchronization. If FALSE, no files are removed from the right directory,
+even if they are exclusive to it.}
 
 \item{backup}{Logical. If TRUE, creates a backup of the right directory before synchronization. The backup is stored in the location specified by \code{backup_dir}.}
 
@@ -61,22 +67,17 @@ based on the left directory. It includes the following synchronization steps (se
 }
 }
 \examples{
-# Create syncdr environment with toy directories
-library(syncdr)
-e <- toy_dirs()
-
-# Get left and right directories' paths
+\donttest{
+e <- toy_dirs(fast = TRUE)
 left  <- e$left
 right <- e$right
-
-# Synchronize by date & content
-# Providing left and right paths to directories, as well as by_date and content
-full_asym_sync_to_right(left_path  = left,
-                        right_path = right,
-                        by_date    = FALSE,
-                        by_content = TRUE)
-# Providing sync_status object
-#sync_status = compare_directories(left_path = left,
-#                                   right_path = right)
-#full_asym_sync_to_right(sync_status = sync_status)
+full_asym_sync_to_right(
+  left_path  = left,
+  right_path = right,
+  by_date    = FALSE,
+  by_content = TRUE
+)
+sync_status <- compare_directories(left_path = left, right_path = right)
+full_asym_sync_to_right(sync_status = sync_status)
+}
 }

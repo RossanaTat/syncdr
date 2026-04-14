@@ -20,8 +20,10 @@ Duplicate files are identified by having either the same filename and same conte
 or different filenames but same content.
 }
 \examples{
-library(syncdr)
-e = toy_dirs()
-search_duplicates(dir_path = e$left)
+# Search for duplicate files in a directory
 
+\donttest{
+e <- toy_dirs()
+search_duplicates(dir_path = e$left)
+}
 }

@@ -36,13 +36,6 @@ Filtering Options:
 \item by_content_only: Filters files that are different between the two directories.
 }
 }
-\examples{
-\dontrun{
-# Assuming sync_status is a syncdr_status object
-filtered_status <- filter_sync_status(sync_status, by_date = TRUE, by_content = TRUE, dir = "left")
-}
-
-}
 \seealso{
 \code{\link{compare_directories}} for directory comparison and sync status creation.
 }

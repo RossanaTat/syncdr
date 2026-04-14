@@ -17,11 +17,11 @@ rs_theme <- function() {
     # newer RStudio version without `rstudioapi` support
     # If possible, use `rstudioapi` to get theme information (works only in certain versions)
 
-    if ("rstudioapi" %in% rownames(utils::installed.packages())) {
-      rstudio_theme <- tryCatch(rstudioapi::getThemeInfo(),
-                                error = \(e) template,
-                                silent = TRUE)
-    }
+    if (requireNamespace("rstudioapi", quietly = TRUE)) {
+  rstudio_theme <- tryCatch(rstudioapi::getThemeInfo(),
+                            error = \(e) template,
+                            silent = TRUE)
+}
   }
   # return
   invisible(rstudio_theme)

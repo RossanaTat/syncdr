@@ -20,16 +20,18 @@ directories tree
 Display tree structure of one (or two) directory
 }
 \examples{
-library(syncdr)
-e = toy_dirs()
-left = e$left
-right = e$right
-# Display dir tree of both directories
-display_dir_tree(path_left = left,
-                path_right = right)
+# Create a temporary directory structure
 
-# Display dir tree of one directory only
+\donttest{
+e <- toy_dirs()
+left  <- e$left
+right <- e$right
+
+display_dir_tree(
+  path_left  = left,
+  path_right = right
+)
+
 display_dir_tree(path_right = right)
-
-
+}
 }

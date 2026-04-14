@@ -31,17 +31,14 @@
 #'
 #' @export
 #' @examples
-#' # Compare directories with 'compare_directories()'
+#' \donttest{
 #' e <- toy_dirs()
-#'
-#' # Get left and right directories' paths
 #' left  <- e$left
 #' right <- e$right
 #' compare_directories(left, right)
-#' # Compare by date and content
 #' compare_directories(left, right, by_content = TRUE)
-#' # Compare by content only
 #' compare_directories(left, right, by_content = TRUE, by_date = FALSE)
+#' }
 compare_directories <- function(left_path,
                                 right_path,
                                 recurse     = TRUE,
@@ -63,15 +60,17 @@ compare_directories <- function(left_path,
   info_right <- directory_info(dir     = right_path,
                                recurse = recurse)
 
-  # Combine info with a full join to keep all information
-  join_info <- joyn::joyn(x                = info_left,
-                          y                = info_right,
-                          by               = "wo_root",
-                          keep_common_vars = TRUE,
-                          suffixes         = c("_left", "_right"),
-                          match_type       = "1:1",
-                          reportvar        = ".joyn",
-                          verbose          = FALSE)
+  join_info <-
+    joyn::joyn(
+      x                = info_left,
+      y                = info_right,
+      by               = "wo_root",
+      keep_common_vars = TRUE,
+      suffixes         = c("_left", "_right"),
+      match_type       = "1:1",
+      reportvar        = ".joyn",
+      verbose          = FALSE
+    )
 
   # Unique file status -? as data frame ?
   non_common_files <- join_info |>

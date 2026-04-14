@@ -17,8 +17,4 @@ The styled text is printed to the console.
 \description{
 This function applies a custom color and bold style to a given text string.
 }
-\examples{
-syncdr:::style_msgs("blue", "This is a styled message.")
-
-}
 \keyword{internal}
